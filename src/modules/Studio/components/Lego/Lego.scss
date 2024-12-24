@@ -1,0 +1,65 @@
+.lego {
+  position: relative;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  width: max-content;
+  height: 40px;
+
+  &_stud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    height: 46px;
+    width: 46px;
+
+    svg {
+      height: 46px;
+      width: 46px;
+
+      path {
+        fill: var(--background-color);
+        stroke: var(--border-color);
+        stroke-width: 1px;
+        stroke-opacity: 1;
+      }
+    }
+  }
+
+  &_icon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateX(calc((100% + 8px) * -1)) translateY(-50%);
+
+    svg {
+      height: 24px;
+      width: 24px;
+      fill: var(--background-color);
+      stroke: var(--border-color);
+
+      path {
+        fill: var(--background-color);
+        stroke: var(--border-color);
+        stroke-width: 1px;
+        stroke-opacity: 1;
+      }
+    }
+  }
+
+  &_content {
+    padding: 8px;
+  }
+
+  &_actions {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 28px;
+    padding: 0 12px;
+    position: absolute;
+    top: 50%;
+    right: -16px;
+    transform: translate(100%, -50%);
+  }
+}

@@ -1,9 +1,9 @@
 import { CSSProperties } from 'react';
 
-import { StudioCategory } from '../../../../Studio/types/category';
-import { adjustColorShade } from '../../../../Studio/utils/ui';
-import SvgInset from '../../../../../components/SvgInset';
 import './CategoryNavigation.scss';
+import { adjustColorShade } from '@/modules/Studio/utils/ui';
+import { StudioCategory } from '@/modules/Studio/types/category';
+import SvgInset from '@/components/SvgInset';
 
 type Props = StudioCategory;
 

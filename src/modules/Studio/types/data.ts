@@ -33,5 +33,3 @@
 //   placeableAmount: number; // -1 means unlimited
 //   fields: StudioField[];
 // };
-
-

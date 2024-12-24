@@ -1,6 +1,8 @@
 import { FunctionComponent, ReactNode } from 'react';
 
-export type CategoryKeyMapperType = string;
+import { NodeType } from '@/enums/node-type';
+
+export type CategoryKeyMapperType = NodeType | string;
 
 export type StudioCategoryItem = {
   id: string;

@@ -3,9 +3,11 @@ import { v4 } from 'uuid';
 import { StudioCategory } from '../types/category';
 import { LegoComponentIcon } from '../components/icons/lego';
 
+import { NodeType } from '@/enums/node-type';
+
 const PERSONALITY: StudioCategory = {
   id: v4(),
-  keyMapper: '',
+  keyMapper: NodeType.Entry,
   title: 'Personality',
   required: true,
   tooltip:
@@ -13,7 +15,7 @@ const PERSONALITY: StudioCategory = {
   options: [
     {
       id: v4(),
-      keyMapper: '',
+      keyMapper: NodeType.Piece,
       title: 'Import from NFT',
       value: 0,
       tooltip: '',
@@ -22,7 +24,7 @@ const PERSONALITY: StudioCategory = {
     },
     {
       id: v4(),
-      keyMapper: '',
+      keyMapper: NodeType.Piece,
       title: 'Import from Ordinals',
       value: 1,
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
@@ -30,7 +32,7 @@ const PERSONALITY: StudioCategory = {
     },
     {
       id: v4(),
-      keyMapper: '',
+      keyMapper: NodeType.Piece,
       title: 'Import from Token',
       value: 4,
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
@@ -38,7 +40,7 @@ const PERSONALITY: StudioCategory = {
     },
     {
       id: v4(),
-      keyMapper: '',
+      keyMapper: NodeType.Piece,
       title: 'New personality',
       value: 0,
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
@@ -52,7 +54,7 @@ const PERSONALITY: StudioCategory = {
 
 const NETWORK: StudioCategory = {
   id: v4(),
-  keyMapper: '',
+  keyMapper: NodeType.Entry,
   title: 'Network',
   required: true,
   tooltip:
@@ -60,7 +62,7 @@ const NETWORK: StudioCategory = {
   options: [
     {
       id: v4(),
-      keyMapper: '',
+      keyMapper: NodeType.Piece,
       title: 'Import from NFT',
       value: 0,
       tooltip: '',
@@ -69,7 +71,7 @@ const NETWORK: StudioCategory = {
     },
     {
       id: v4(),
-      keyMapper: '',
+      keyMapper: NodeType.Piece,
       title: 'Import from Ordinals',
       value: 1,
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
@@ -77,7 +79,7 @@ const NETWORK: StudioCategory = {
     },
     {
       id: v4(),
-      keyMapper: '',
+      keyMapper: NodeType.Piece,
       title: 'Import from Token',
       value: 4,
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
@@ -85,7 +87,7 @@ const NETWORK: StudioCategory = {
     },
     {
       id: v4(),
-      keyMapper: '',
+      keyMapper: NodeType.Piece,
       title: 'New personality',
       value: 0,
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',

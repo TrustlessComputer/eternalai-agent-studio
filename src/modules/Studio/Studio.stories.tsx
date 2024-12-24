@@ -15,7 +15,13 @@ export const Default: Story = {
   render: function useTabs() {
     return (
       <div style={{ border: '1px solid #000', width: 'calc(100vw - 3rem)', height: 'calc(100vh - 3rem)' }}>
-        <Studio categories={CREATE_MODEL_CATEGORIES} data={GRAPH_DATA} />
+        <Studio
+          categories={CREATE_MODEL_CATEGORIES}
+          data={GRAPH_DATA}
+          onChange={(data) => {
+            console.log('onChange', data);
+          }}
+        />
       </div>
     );
   },

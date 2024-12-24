@@ -1,8 +1,7 @@
 import './Sidebar.scss';
-import cs from 'clsx';
 
-function Sidebar() {
-  return <div className={cs('sidebar')} />;
-}
+const AgentStudioSidebar = () => {
+  return <div>AgentStudioSidebar</div>;
+};
 
-export default Sidebar;
+export default AgentStudioSidebar;

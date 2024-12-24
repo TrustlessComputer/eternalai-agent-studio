@@ -2,6 +2,7 @@ import { DndContext } from '@dnd-kit/core';
 import { ReactFlowProvider } from '@xyflow/react';
 import cx from 'clsx';
 import { useEffect } from 'react';
+
 import '../../styles/global.scss';
 import Board from './components/Board';
 import DataFlow from './components/DataFlow';

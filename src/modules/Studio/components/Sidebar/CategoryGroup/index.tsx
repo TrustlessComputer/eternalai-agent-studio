@@ -1,8 +1,10 @@
 import Draggable from '../../DnD/Draggable';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
+import TextRender from '../../Render/TextRender';
 
 import { StudioCategory } from '@/modules/Studio/types/category';
+
 import './CategoryGroup.scss';
 
 type Props = StudioCategory;
@@ -10,13 +12,17 @@ type Props = StudioCategory;
 const CategoryGroup = ({ title, color, options }: Props) => {
   return (
     <div className="category-group">
-      <h5 className="category-group_title">{title}</h5>
+      <h5 className="category-group_title">
+        <TextRender data={title} />
+      </h5>
       <div className="category-group_options">
         {options.map((option) => (
           <Draggable id={option.id} data={{}} key={option.id}>
             <Lego background={color}>
               <LegoContent>
-                <p>{option.title}</p>
+                <p>
+                  <TextRender data={option.title} />
+                </p>
               </LegoContent>
             </Lego>
           </Draggable>

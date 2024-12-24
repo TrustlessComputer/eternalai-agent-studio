@@ -1,7 +1,7 @@
 import { DndContext } from '@dnd-kit/core';
-import { ReactFlowProvider } from '@xyflow/react';
+import { NodeTypes, ReactFlowProvider } from '@xyflow/react';
 import cx from 'clsx';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import '../../styles/global.scss';
 import Board from './components/Board';
@@ -13,14 +13,16 @@ import useStudioDataStore from './stores/useStudioDataStore';
 import './Studio.scss';
 import { StudioCategory } from './types/category';
 import { StudioDataNode } from './types/graph';
+import { FLOW_NODE_TYPES } from './constants/keyMapper';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   categories: StudioCategory[];
   data: StudioDataNode[];
   onChange?: (data: StudioDataNode[]) => void;
+  nodeTypes?: NodeTypes;
 };
 
-export const Studio: React.FC<StudioProps> = ({ className, data, categories, onChange, ...rest }) => {
+export const Studio: React.FC<StudioProps> = ({ className, data, categories, onChange, nodeTypes, ...rest }) => {
   const { sensors, handleDragStart, handleDragEnd } = useStudioDnD();
 
   useEffect(() => {
@@ -30,6 +32,13 @@ export const Studio: React.FC<StudioProps> = ({ className, data, categories, onC
   useEffect(() => {
     useStudioDataStore.getState().setData(data);
   }, [data]);
+
+  const extendedNodeTypes = useMemo(() => {
+    return {
+      ...FLOW_NODE_TYPES,
+      ...nodeTypes,
+    };
+  }, [nodeTypes]);
 
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
@@ -42,7 +51,7 @@ export const Studio: React.FC<StudioProps> = ({ className, data, categories, onC
           </div>
 
           <div className="studio_right">
-            <Board />
+            <Board nodeTypes={extendedNodeTypes} />
           </div>
         </div>
       </ReactFlowProvider>

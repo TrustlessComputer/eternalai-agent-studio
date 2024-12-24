@@ -1,3 +1,4 @@
-const CATEGORY_KEY_MAPPER = {};
+import { NodeTypes } from '@xyflow/react';
 
-export default CATEGORY_KEY_MAPPER;
+export const CATEGORY_KEY_MAPPER = {};
+export const FLOW_NODE_TYPES: NodeTypes = {};

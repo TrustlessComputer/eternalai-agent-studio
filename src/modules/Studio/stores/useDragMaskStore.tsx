@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 
-import { AgentStudioNode } from '../types/flow';
+import { StudioNode } from '../types/graph';
 
 type State = {
-  draggingNode: AgentStudioNode | null;
-  dragNode: (node: AgentStudioNode) => void;
+  draggingNode: StudioNode | null;
+  dragNode: (node: StudioNode) => void;
   dropNode: () => void;
 };
 

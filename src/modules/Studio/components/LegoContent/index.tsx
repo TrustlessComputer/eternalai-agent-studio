@@ -1,12 +1,12 @@
-import cn from 'classnames';
+import cs from 'clsx';
 import { HTMLAttributes } from 'react';
-import styles from './styles.module.scss';
+import './styles.scss';
 
 type Props = HTMLAttributes<HTMLDivElement>;
 
 const AgentStudioLegoContent = ({ children, className, ...props }: Props) => {
   return (
-    <div className={cn(styles.content, className)} {...props}>
+    <div className={cs('lego-content', className)} {...props}>
       {children}
     </div>
   );

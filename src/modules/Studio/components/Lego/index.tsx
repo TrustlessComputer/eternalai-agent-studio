@@ -1,7 +1,7 @@
 import cs from 'clsx';
-import SvgInset from 'components/SvgInset';
-import { adjustColorShade } from 'modules/Studio/utils/ui';
 import { HTMLAttributes, memo, useMemo } from 'react';
+import SvgInset from 'src/components/SvgInset';
+import { adjustColorShade } from '../../utils/ui';
 import './Lego.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {

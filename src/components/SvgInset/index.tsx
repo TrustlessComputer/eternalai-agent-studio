@@ -1,6 +1,7 @@
 import { CSSProperties, FC } from 'react';
 import { ReactSVG } from 'react-svg';
-import px2rem from 'src/utils/px2rem';
+
+import px2rem from '../../utils/px2rem';
 
 type Props = {
   src: string;

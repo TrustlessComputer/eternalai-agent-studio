@@ -19,7 +19,7 @@ export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>
   onChange?: (data: StudioDataNode[]) => void;
 };
 
-export const Studio: FC<StudioProps> = ({ className, data, categories, onChange, ...rest }) => {
+export const Studio: React.FC<StudioProps> = ({ className, data, categories, onChange, ...rest }) => {
   const { sensors, handleDragStart, handleDragEnd } = useStudioDnD();
 
   useEffect(() => {

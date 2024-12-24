@@ -7,7 +7,7 @@
   align-items: center;
   gap: 4px;
   will-change: opacity;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.5s var(--easeOutQuart);
   padding: 4px;
 
   &:hover {

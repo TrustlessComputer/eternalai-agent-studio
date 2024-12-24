@@ -1,5 +1,6 @@
 import { memo } from 'react';
 
+import { INPUT_DROP_ID } from '../../constants/droppable-id';
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
 import Droppable from '../DnD/Droppable';
 import CategoryGroup from './CategoryGroup';
@@ -10,7 +11,7 @@ const Sidebar = () => {
   const categories = useStudioCategoryStore((state) => state.categories);
 
   return (
-    <Droppable id="input" data={{}} className="sidebar">
+    <Droppable id={INPUT_DROP_ID} data={{}} className="sidebar">
       <div className="sidebar_left">
         <div className="sidebar_left_inner">
           {categories.map((category) => (

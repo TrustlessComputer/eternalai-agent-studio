@@ -1,6 +1,7 @@
 import { Background, Controls, NodeTypes, ReactFlow } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
+import { OUTPUT_DROP_ID } from '../../constants/droppable-id';
 import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import Droppable from '../DnD/Droppable';
 import './Board.scss';
@@ -12,7 +13,7 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
   const onEdgesChange = useStudioFlowStore((state) => state.onEdgesChange);
 
   return (
-    <Droppable id="output" data={{}} className="board">
+    <Droppable id={OUTPUT_DROP_ID} data={{}} className="board">
       <ReactFlow
         fitView
         nodeTypes={nodeTypes}

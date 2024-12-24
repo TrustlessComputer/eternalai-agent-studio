@@ -22,6 +22,12 @@ type State = {
   setNodes: (nodes: StudioNode[]) => void;
   setEdges: (edges: Edge[]) => void;
 
+  addNode: (node: StudioNode) => void;
+  addNodes: (nodes: StudioNode[]) => void;
+
+  addEdge: (edge: Edge) => void;
+  addEdges: (edges: Edge[]) => void;
+
   getNode: (id: string) => StudioNode | undefined;
   getEdge: (id: string) => Edge | undefined;
 
@@ -72,6 +78,12 @@ const useStudioFlowStore = create<State>((set, get) => ({
   edgesMapped: {},
   setEdges: (edges) => set({ ...flatEdges(edges) }),
 
+  addNode: (node) => set({ ...flatNodes([...get().nodes, node]) }),
+  addNodes: (nodes) => set({ ...flatNodes([...get().nodes, ...nodes]) }),
+
+  addEdge: (edge) => set({ ...flatEdges([...get().edges, edge]) }),
+  addEdges: (edges) => set({ ...flatEdges([...get().edges, ...edges]) }),
+
   getNode: (id) => get().nodesMapped[id],
   getEdge: (id) => get().edgesMapped[id],
 
@@ -88,11 +100,15 @@ const useStudioFlowStore = create<State>((set, get) => ({
 
   removeNode: (id) => {
     const updatedNodes = get().nodes.filter((node) => node.id !== id);
-    set({ ...flatNodes(updatedNodes) });
+    const updatedEdges = get().edges.filter((edge) => edge.source !== id && edge.target !== id);
+
+    set({ ...flatNodes(updatedNodes), ...flatEdges(updatedEdges) });
   },
   removeNodes: (ids) => {
     const updatedNodes = get().nodes.filter((node) => !ids.includes(node.id));
-    set({ ...flatNodes(updatedNodes) });
+    const updatedEdges = get().edges.filter((edge) => !ids.includes(edge.source) && !ids.includes(edge.target));
+
+    set({ ...flatNodes(updatedNodes), ...flatEdges(updatedEdges) });
   },
 
   disabledZoom: false,

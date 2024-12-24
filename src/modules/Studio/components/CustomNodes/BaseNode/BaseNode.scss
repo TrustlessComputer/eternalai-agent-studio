@@ -1,0 +1,43 @@
+.node {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.node_drag-icon {
+  cursor: grab;
+  will-change: opacity;
+  transition: opacity 0.5s var(--easeOutQuart);
+  opacity: 0;
+
+  &:hover {
+    opacity: 0.5 !important;
+    cursor: grabbing;
+  }
+}
+
+.node_content {
+  flex: 1;
+}
+
+.node_actions {
+  position: relative;
+  cursor: pointer;
+  will-change: opacity;
+  transition: opacity 0.5s var(--easeOutQuart);
+  opacity: 0;
+
+  &:hover {
+    opacity: 0.5 !important;
+  }
+}
+
+.node:hover {
+  .node_drag-icon {
+    opacity: 1;
+  }
+
+  .node_actions {
+    opacity: 1;
+  }
+}

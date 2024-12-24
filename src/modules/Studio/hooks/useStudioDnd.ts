@@ -1,16 +1,46 @@
 import { DragEndEvent, DragStartEvent, MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { NodeType } from 'enums/node-type';
+import { v4 } from 'uuid';
+import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../constants/droppable-id';
+import useStudioFlowStore from '../stores/useStudioFlowStore';
 
 const useStudioDnD = () => {
+  const addNode = useStudioFlowStore((state) => state.addNode);
+  const removeNode = useStudioFlowStore((state) => state.removeNode);
+
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
   );
 
   const handleDragStart = (event: DragStartEvent) => {
-    console.log('[useStudioDnd] drag start', event);
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
     console.log('[useStudioDnd] drag end', event);
+
+    const { active, over } = event;
+
+    if (!active || !over) return;
+
+    const isDroppedOnInput = over.id === INPUT_DROP_ID;
+    const isDroppedOnOutput = over.id === OUTPUT_DROP_ID;
+
+    if (isDroppedOnInput) {
+    }
+
+    if (isDroppedOnOutput) {
+      addNode({
+        id: v4(),
+        type: active.data.current?.type || NodeType.Piece,
+        position: { x: 0, y: 0 },
+        data: {
+          title: active.data.current?.title || 'Output',
+          sourceHandles: [],
+          targetHandles: [],
+          metadata: active,
+        },
+      });
+    }
   };
 
   return { sensors, handleDragStart, handleDragEnd };

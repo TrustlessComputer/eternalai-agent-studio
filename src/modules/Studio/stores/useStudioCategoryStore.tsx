@@ -3,12 +3,15 @@ import { v4 } from 'uuid';
 
 import { StudioCategory } from '../types/category';
 
-type State = {
+interface State {
   categories: StudioCategory[];
   setCategories: (categories: StudioCategory[]) => void;
-};
 
-const useStudioCategoryStore = create<State>((set) => ({
+  filters: string[];
+  setFilters: (filter: string) => void;
+}
+
+const useStudioCategoryStore = create<State>((set, get) => ({
   categories: [],
   setCategories: (categories) => {
     const pipeData = (categories || [])
@@ -32,6 +35,17 @@ const useStudioCategoryStore = create<State>((set) => ({
     set({
       categories: pipeData,
     });
+  },
+
+  filters: [],
+  setFilters: (filter) => {
+    const filters = get().filters;
+    const matchedFilter = filters.find((item) => item === filter);
+    if (matchedFilter) {
+      set({ filters: filters.filter((item) => item !== filter) });
+    } else {
+      set({ filters: [...filters, filter] });
+    }
   },
 }));
 

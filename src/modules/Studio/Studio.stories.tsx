@@ -9,15 +9,18 @@ type Story = StoryObj<typeof Studio>;
 const meta: Meta<typeof Studio> = {
   title: 'Studio',
   component: Studio,
+  args: {
+    categories: MODEL_CATEGORIES,
+    data: GRAPH_DATA,
+  },
 };
 
 export const Default: Story = {
-  render: function useTabs() {
+  render: function useTabs(args) {
     return (
       <div style={{ width: 'calc(100vw - 3rem)', height: 'calc(100vh - 3rem)' }}>
         <Studio
-          categories={MODEL_CATEGORIES}
-          data={GRAPH_DATA}
+          {...args}
           onChange={(data) => {
             console.log('onChange', data);
           }}

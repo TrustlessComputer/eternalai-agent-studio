@@ -10,11 +10,13 @@ import { NodeProps } from '@xyflow/react';
 
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
+import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 
 type Props = NodeProps<StudioNode>;
 
 const BaseNode = ({ data }: Props) => {
-  console.log('___________data', { data });
+  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
+  console.log('___________data', { data, mapCategories });
 
   // if (customizeRenderOnBoard && typeof customizeRenderOnBoard === 'function') {
   //   return customizeRenderOnBoard({});

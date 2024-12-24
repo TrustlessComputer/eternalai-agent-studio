@@ -16,7 +16,7 @@ const Sidebar = () => {
       return categories;
     }
 
-    return categories.filter((item) => filters.includes(item.id));
+    return categories.filter((item) => filters.includes(item.keyMapper));
   }, [categories, filters]);
 
   return (

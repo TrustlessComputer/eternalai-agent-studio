@@ -1,16 +1,14 @@
-import { v4 } from 'uuid';
-
 import { LegoComponentIcon } from '../components/icons/lego';
 import { StudioCategory } from '../types/category';
 
 const AGENT: StudioCategory = {
-  id: v4(),
+  keyMapper: 'agent',
   title: 'Agent',
   required: true,
   color: '#12DAC2',
   options: [
     {
-      id: v4(),
+      keyMapper: 'agent-option',
       title: 'New Agent',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
@@ -28,33 +26,33 @@ const AGENT: StudioCategory = {
 };
 
 const PERSONALITY: StudioCategory = {
-  id: v4(),
+  keyMapper: 'personality',
   title: 'Personality',
   required: true,
   tooltip:
     'Create an agent for your NFT, Ordinals, token, —or start fresh with a new idea. This section defines your agent’s lore and backstory.',
   options: [
     {
-      id: v4(),
+      keyMapper: 'personality-option-1',
       title: 'Import from NFT',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
     },
     {
-      id: v4(),
+      keyMapper: 'personality-option-2',
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       order: 1,
     },
     {
-      id: v4(),
+      keyMapper: 'personality-option-3',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
       order: 2,
     },
     {
-      id: v4(),
+      keyMapper: 'personality-option-4',
       title: 'New personality',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
       order: 3,
@@ -65,33 +63,33 @@ const PERSONALITY: StudioCategory = {
 };
 
 const NETWORK: StudioCategory = {
-  id: v4(),
+  keyMapper: 'network',
   title: 'Network',
   required: true,
   tooltip:
     'Choose the blockchain where your agent will live. Each option comes with different deployment fees, performance levels, and ongoing costs. Pick the one that best suits your goals and budget.',
   options: [
     {
-      id: v4(),
+      keyMapper: 'network-option-1',
       title: 'Import from NFT',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
     },
     {
-      id: v4(),
+      keyMapper: 'network-option-2',
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       order: 1,
     },
     {
-      id: v4(),
+      keyMapper: 'network-option-3',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
       order: 2,
     },
     {
-      id: v4(),
+      keyMapper: 'network-option-4',
       title: 'New personality',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
       order: 3,

@@ -10,6 +10,7 @@ export type StudioNode = Node<{
 export type StudioDataKeyMapperType = string;
 export type StudioDataNode = {
   id: string;
+  keyMapper: string;
   title: React.ReactNode | FunctionComponent;
   children: StudioDataNode[];
   data?: Record<string, unknown>; // this field can be used to store additional data or form input data

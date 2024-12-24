@@ -12,12 +12,12 @@ import './CategoryNavigation.scss';
 
 type Props = StudioCategory;
 
-const CategoryNavigation = ({ id, icon, title, color, required, customizeRenderOnNavigation }: Props) => {
+const CategoryNavigation = ({ keyMapper, icon, title, color, required, customizeRenderOnNavigation }: Props) => {
   const { filters, setFilters } = useStudioCategoryStore();
 
   const isActive = useMemo(() => {
-    return filters.includes(id) || filters.length === 0;
-  }, [filters, id]);
+    return filters.includes(keyMapper) || filters.length === 0;
+  }, [filters, keyMapper]);
 
   if (customizeRenderOnNavigation && typeof customizeRenderOnNavigation === 'function') {
     return customizeRenderOnNavigation({});
@@ -26,7 +26,7 @@ const CategoryNavigation = ({ id, icon, title, color, required, customizeRenderO
   return (
     <div
       onClick={() => {
-        setFilters(id);
+        setFilters(keyMapper);
       }}
       className={cs('category-navigation', { 'category-navigation__active': isActive })}
       style={

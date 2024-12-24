@@ -1,32 +1,47 @@
 import { create } from 'zustand';
-import { v4 } from 'uuid';
 
 import { StudioCategory } from '../types/category';
 
 interface State {
   categories: StudioCategory[];
+  mapCategories: Record<string, StudioCategory>;
   setCategories: (categories: StudioCategory[]) => void;
 
   filters: string[];
   setFilters: (filter: string) => void;
 }
 
+const flatCategoriesByKeyMapper = (categories: StudioCategory[]) => {
+  let mapCategories: Record<string, StudioCategory> = {};
+  categories.forEach((item) => {
+    if (item?.options?.length) {
+      const subCategories = flatCategoriesByKeyMapper(item.options as StudioCategory[]);
+      mapCategories = {
+        ...mapCategories,
+        ...subCategories,
+      };
+    }
+    mapCategories[item.keyMapper] = item;
+  });
+
+  return mapCategories;
+};
+
 const useStudioCategoryStore = create<State>((set, get) => ({
   categories: [],
+  mapCategories: {},
   setCategories: (categories) => {
     const pipeData = (categories || [])
       .map((item) => {
         const options = item.options
           .map((option) => ({
             ...option,
-            id: option.id ?? v4(),
             order: option.order ?? Number.MAX_SAFE_INTEGER,
           }))
           .sort((a, b) => a.order - b.order);
 
         return {
           ...item,
-          id: item.id ?? v4(),
           options,
           order: item.order ?? Number.MAX_SAFE_INTEGER,
         };
@@ -34,6 +49,7 @@ const useStudioCategoryStore = create<State>((set, get) => ({
       .sort((a, b) => a.order - b.order);
     set({
       categories: pipeData,
+      ...flatCategoriesByKeyMapper(pipeData),
     });
   },
 

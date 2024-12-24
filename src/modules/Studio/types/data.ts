@@ -1,5 +1,5 @@
 // import { StudioFormType } from "../../../enums/form";
-// import { AgentStudioInputType } from "../../../enums/input";
+// import { InputType } from "../../../enums/input";
 
 // export type StudioForm = {
 //   id: string;
@@ -10,7 +10,7 @@
 // export type StudioField = {
 //   key: string;
 //   value: any;
-//   type: AgentStudioInputType;
+//   type: InputType;
 //   isNested: boolean;
 //   required: boolean;
 //   hidden: boolean;

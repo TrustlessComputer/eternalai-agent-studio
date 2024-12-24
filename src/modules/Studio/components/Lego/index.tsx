@@ -1,5 +1,5 @@
-import cs from 'clsx';
-import { HTMLAttributes, memo, useMemo } from 'react';
+import cx from 'clsx';
+import { CSSProperties, HTMLAttributes, memo, useMemo } from 'react';
 import SvgInset from 'src/components/SvgInset';
 import { adjustColorShade } from '../../utils/ui';
 import './Lego.scss';
@@ -18,14 +18,14 @@ const Lego = ({ background = '#A041FF', disabled = false, icon, actions, classNa
   return (
     <div
       {...props}
-      className={cs('lego', className, {
+      className={cx('lego', className, {
         'lego__disabled': disabled,
       })}
       style={
         {
           '--border-color': borderColor,
           '--background-color': background,
-        } as React.CSSProperties
+        } as CSSProperties
       }
     >
       <div className="lego_stud">

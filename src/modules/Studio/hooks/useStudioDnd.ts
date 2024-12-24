@@ -1,6 +1,6 @@
 import { DragEndEvent, DragStartEvent, MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
 
-const useDragHelper = () => {
+const useStudioDnD = () => {
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
   );
@@ -16,3 +16,5 @@ const useDragHelper = () => {
   return { sensors, handleDragStart, handleDragEnd };
 };
 
+
+export default useStudioDnD;

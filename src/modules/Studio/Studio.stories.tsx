@@ -14,7 +14,7 @@ const meta: Meta<typeof Studio> = {
 export const Default: Story = {
   render: function useTabs() {
     return (
-      <div style={{ border: '1px solid #000', width: 'calc(100vw - 3rem)', height: 'calc(100vh - 3rem)' }}>
+      <div style={{ width: 'calc(100vw - 3rem)', height: 'calc(100vh - 3rem)' }}>
         <Studio
           categories={MODEL_CATEGORIES}
           data={GRAPH_DATA}

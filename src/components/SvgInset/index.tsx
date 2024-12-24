@@ -1,17 +1,17 @@
-import React from 'react';
+import { CSSProperties, FC } from 'react';
 import { ReactSVG } from 'react-svg';
-import px2rem from 'utils/px2rem';
+import px2rem from 'src/utils/px2rem';
 
 type Props = {
   src: string;
   size?: number;
   height?: number;
   fullWidth?: boolean;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   className?: string;
 };
 
-const SvgInset: React.FC<Props> = ({ size, height, fullWidth = false, ...props }) => {
+const SvgInset: FC<Props> = ({ size, height, fullWidth = false, ...props }) => {
   return (
     <ReactSVG
       {...props}

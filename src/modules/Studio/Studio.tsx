@@ -6,6 +6,7 @@ import './Studio.scss';
 import Board from './components/Board';
 import DataFlow from './components/DataFlow';
 import Sidebar from './components/Sidebar';
+import useStudioDnD from './hooks/useStudioDnd';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataStore from './stores/useStudioDataStore';
 import { StudioCategory } from './types/category';
@@ -18,6 +19,8 @@ export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>
 };
 
 export const Studio: FC<StudioProps> = ({ className, data, categories, onChange, ...rest }) => {
+  const { sensors, handleDragStart, handleDragEnd } = useStudioDnD();
+
   useEffect(() => {
     useStudioCategoryStore.getState().setCategories(categories);
   }, [categories]);
@@ -27,13 +30,18 @@ export const Studio: FC<StudioProps> = ({ className, data, categories, onChange,
   }, [data]);
 
   return (
-    <DndContext>
+    <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <DataFlow onChange={onChange} />
 
       <ReactFlowProvider>
         <div className={cx('studio', className)} {...rest}>
-          <Sidebar />
-          <Board />
+          <div className="studio_left">
+            <Sidebar />
+          </div>
+
+          <div className="studio_right">
+            <Board />
+          </div>
         </div>
       </ReactFlowProvider>
     </DndContext>

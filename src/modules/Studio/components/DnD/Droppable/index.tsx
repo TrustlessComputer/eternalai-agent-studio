@@ -1,5 +1,5 @@
 import { useDroppable } from '@dnd-kit/core';
-import cs from 'clsx';
+import cx from 'clsx';
 import React, { memo } from 'react';
 import './Droppable.scss';
 
@@ -22,7 +22,7 @@ const Droppable = ({ id, data, disabled, children, className, ...props }: Props)
   return (
     <div
       id={id}
-      className={cs('droppable', className)}
+      className={cx('droppable', className)}
       ref={setNodeRef}
       style={{
         width: '100%',

@@ -1,6 +1,9 @@
+import { StudioCategory } from 'src/modules/Studio/types/category';
 import './CategoryGroup.scss';
 
-const CategoryGroup = () => {
+type Props = StudioCategory;
+
+const CategoryGroup = ({ title, color, options }: Props) => {
   return <div>CategoryGroup</div>;
 };
 

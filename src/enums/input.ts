@@ -1,4 +1,4 @@
-export enum AgentStudioInputType {
+export enum InputType {
   TEXT = 'text',
   DROPDOWN = 'dropdown',
   TEXTAREA = 'textarea',

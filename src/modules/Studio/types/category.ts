@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import { ReactNode } from 'react';
 
 export type StudioCategoryItem = {
   id: string;
   keyMapper: string;
-  title?: string | React.ReactNode | Component | React.FC;
+  title?: ReactNode;
   value: string | number;
   disabled?: boolean;
-  tooltip?: string | React.ReactNode | Component | React.FC;
+  tooltip?: ReactNode;
   icon: string;
   order: number;
 };
@@ -14,10 +14,11 @@ export type StudioCategoryItem = {
 export type StudioCategory = {
   id: string;
   keyMapper: string;
-  title?: string | React.ReactNode | Component | React.FC;
-  tooltip?: string | React.ReactNode | Component | React.FC;
-  required?: true;
+  title?: ReactNode;
+  tooltip?: ReactNode;
+  required?: boolean;
   disabled?: boolean;
+  hidden?: boolean;
   options: StudioCategoryItem[];
   color: string;
   multipleChoice: boolean;

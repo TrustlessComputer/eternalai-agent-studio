@@ -12,7 +12,7 @@ const useStudioCategoryStore = create<State>((set, get) => ({
   categories: [],
   setCategories: (categories) => {
     set({
-      categories: categories.sort(
+      categories: (categories || []).sort(
         (a, b) => (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER),
       ),
     });

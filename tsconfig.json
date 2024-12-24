@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "allowJs": true,
     "target": "ES2023",
     "module": "ESNext",
@@ -32,11 +32,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
   },
   "include": ["src", "*.tsx", "*.ts", "eslint.config.js"],
   "exclude": [

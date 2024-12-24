@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
-import { StudioDataNode } from '@/modules/Studio/types/graph';
+import useStudioDataStore from '../../stores/useStudioDataStore';
+import { StudioDataNode } from '../../types/graph';
 
 function DataFlow({ onChange }: { onChange?: (data: StudioDataNode[]) => void }) {
   const { data } = useStudioDataStore();

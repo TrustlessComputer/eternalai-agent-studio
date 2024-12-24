@@ -1,18 +1,18 @@
 import { create } from 'zustand';
 
-import { StudioNode } from '../types/graph';
+import { ReactNode } from 'react';
 
 type State = {
-  draggingNode: StudioNode | null;
-  dragNode: (node: StudioNode) => void;
-  dropNode: () => void;
+  draggingCategoryItem: ReactNode | null;
+  dragCategoryItem: (node: ReactNode) => void;
+  dropCategoryItem: () => void;
 };
 
 const useDragMaskStore = create<State>((set) => ({
-  draggingNode: null,
+  draggingCategoryItem: null,
 
-  dragNode: (node) => set({ draggingNode: node }),
-  dropNode: () => set({ draggingNode: null }),
+  dragCategoryItem: (node) => set({ draggingCategoryItem: node }),
+  dropCategoryItem: () => set({ draggingCategoryItem: null }),
 }));
 
 export default useDragMaskStore;

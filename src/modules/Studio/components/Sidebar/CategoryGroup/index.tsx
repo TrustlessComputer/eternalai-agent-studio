@@ -13,7 +13,7 @@ const CategoryGroup = ({ title, color, options }: Props) => {
       <h5 className="category-group_title">{title}</h5>
       <div className="category-group_options">
         {options.map((option) => (
-          <Draggable id={option.id} data={{}} key={option.id}>
+          <Draggable id={option.id} data={{ isRight: false }} key={option.id}>
             <Lego background={color}>
               <LegoContent>
                 <p>{option.title}</p>

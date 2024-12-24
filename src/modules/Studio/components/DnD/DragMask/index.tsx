@@ -1,19 +1,13 @@
+import useDragMaskStore from '@/modules/Studio/stores/useDragMaskStore';
 import { DragOverlay } from '@dnd-kit/core';
 import { memo } from 'react';
-import useDragMaskStore from 'modules/Studio/stores/useDragMaskStore';
-
-import Lego from '../../Lego';
 
 const DragMask = () => {
-  const draggingNode = useDragMaskStore((state) => state.draggingNode);
+  const draggingCategoryItem = useDragMaskStore((state) => state.draggingCategoryItem);
 
-  if (!draggingNode) return null;
+  if (!draggingCategoryItem) return null;
 
-  return (
-    <DragOverlay>
-      <Lego>{draggingNode.data.title}</Lego>
-    </DragOverlay>
-  );
+  return <DragOverlay>{draggingCategoryItem}</DragOverlay>;
 };
 
 export default memo(DragMask);

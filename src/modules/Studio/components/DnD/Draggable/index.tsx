@@ -1,6 +1,8 @@
+import useDragMaskStore from '@/modules/Studio/stores/useDragMaskStore';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
-import { HTMLAttributes, memo, useMemo } from 'react';
+import cx from 'clsx';
+import { HTMLAttributes, memo, useEffect, useMemo } from 'react';
 import './Draggable.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
@@ -9,28 +11,45 @@ type Props = HTMLAttributes<HTMLDivElement> & {
     isRight?: boolean;
     isParent?: boolean;
   };
-  useMask?: boolean;
   disabled?: boolean;
 };
 
-const Draggable = ({ id, data, useMask, disabled, children, ...props }: Props) => {
+const Draggable = ({ id, data, disabled, children, ...props }: Props) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id,
     disabled,
     data,
   });
 
+  const dragCategoryItem = useDragMaskStore((state) => state.dragCategoryItem);
+  const dropCategoryItem = useDragMaskStore((state) => state.dropCategoryItem);
+
   const style = useMemo(
     () => ({
       ...props.style,
       transform: CSS.Translate.toString(transform),
-      opacity: useMask && isDragging ? 0 : 1,
+      opacity: isDragging ? 0 : 1,
     }),
-    [transform, useMask, isDragging, props.style],
+    [transform, isDragging, props.style],
   );
 
+  useEffect(() => {
+    if (isDragging) {
+      dragCategoryItem(children);
+    } else {
+      dropCategoryItem();
+    }
+  }, [isDragging, children]);
+
   return (
-    <div ref={setNodeRef} style={style} {...props} {...listeners} {...attributes}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...props}
+      {...listeners}
+      {...attributes}
+      className={cx('draggable', { 'draggable__disabled': disabled })}
+    >
       {children}
     </div>
   );

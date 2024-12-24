@@ -6,11 +6,11 @@ const useStudioDnD = () => {
   );
 
   const handleDragStart = (event: DragStartEvent) => {
-    console.log('drag start', event);
+    console.log('[useStudioDnd] drag start', event);
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
-    console.log('drag end', event);
+    console.log('[useStudioDnd] drag end', event);
   };
 
   return { sensors, handleDragStart, handleDragEnd };

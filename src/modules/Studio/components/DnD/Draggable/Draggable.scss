@@ -1,2 +1,11 @@
 .draggable {
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.draggable__disabled {
+  cursor: not-allowed;
 }

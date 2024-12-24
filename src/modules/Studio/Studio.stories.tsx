@@ -22,7 +22,7 @@ export const Default: Story = {
         <Studio
           {...args}
           onChange={(data) => {
-            console.log('onChange', data);
+            console.log('[Studio] onChange', data);
           }}
         />
       </div>

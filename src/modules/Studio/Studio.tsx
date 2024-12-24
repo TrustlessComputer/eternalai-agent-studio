@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import '../../styles/global.scss';
 import Board from './components/Board';
 import DataFlow from './components/DataFlow';
+import DragMask from './components/DnD/DragMask';
 import Sidebar from './components/Sidebar';
 import useStudioDnD from './hooks/useStudioDnd';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
@@ -37,6 +38,8 @@ export const Studio: React.FC<StudioProps> = ({ className, data, categories, onC
 
       <ReactFlowProvider>
         <div className={cx('studio', className)} {...rest}>
+          <DragMask />
+
           <div className="studio_left">
             <Sidebar />
           </div>

@@ -1,7 +1,7 @@
 import { DndContext } from '@dnd-kit/core';
 import { NodeTypes } from '@xyflow/react';
 import cx from 'clsx';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import '../../styles/global.scss';
 import Board from './components/Board';
@@ -9,9 +9,11 @@ import DataFlow from './components/DataFlow';
 import DragMask from './components/DnD/DragMask';
 import Sidebar from './components/Sidebar';
 import { FLOW_NODE_TYPES } from './constants/keyMapper';
+import useContainerMouse from './hooks/useContainerMouse';
 import useStudioDnD from './hooks/useStudioDnd';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataStore from './stores/useStudioDataStore';
+import useStudioFlowViewStore from './stores/useStudioFlowViewStore';
 import './Studio.scss';
 import { StudioCategory } from './types/category';
 import { StudioDataNode } from './types/graph';
@@ -24,7 +26,34 @@ export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>
 };
 
 export const Studio: React.FC<StudioProps> = ({ className, data, categories, onChange, nodeTypes, ...rest }) => {
+  const rightContentRef = useRef<HTMLDivElement>(null);
+
   const { sensors, handleDragStart, handleDragEnd } = useStudioDnD();
+
+  const setMousePosition = useStudioFlowViewStore((state) => state.setMousePosition);
+
+  const handleOnTick = useCallback(
+    (
+      contentRect: DOMRect,
+      mousePosition: { x: number; y: number },
+      previousMousePosition: { x: number; y: number },
+    ) => {
+      setMousePosition(mousePosition);
+    },
+    [],
+  );
+
+  const { addListeners, removeListeners } = useContainerMouse({
+    ref: rightContentRef,
+    handleOnTick,
+  });
+
+  const extendedNodeTypes = useMemo(() => {
+    return {
+      ...FLOW_NODE_TYPES,
+      ...nodeTypes,
+    };
+  }, [nodeTypes]);
 
   useEffect(() => {
     useStudioCategoryStore.getState().setCategories(categories);
@@ -34,12 +63,13 @@ export const Studio: React.FC<StudioProps> = ({ className, data, categories, onC
     useStudioDataStore.getState().setData(data);
   }, [data]);
 
-  const extendedNodeTypes = useMemo(() => {
-    return {
-      ...FLOW_NODE_TYPES,
-      ...nodeTypes,
+  useEffect(() => {
+    addListeners();
+
+    return () => {
+      removeListeners();
     };
-  }, [nodeTypes]);
+  }, []);
 
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
@@ -52,7 +82,7 @@ export const Studio: React.FC<StudioProps> = ({ className, data, categories, onC
           <Sidebar />
         </div>
 
-        <div className="studio_right">
+        <div className="studio_right" ref={rightContentRef}>
           <Board nodeTypes={extendedNodeTypes} />
         </div>
       </div>

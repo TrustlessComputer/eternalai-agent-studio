@@ -1,10 +1,9 @@
 import { DragEndEvent, DragStartEvent, MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { v4 } from 'uuid';
 import { useStoreApi } from '@xyflow/react';
+import { v4 } from 'uuid';
 
 import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../constants/droppable-id';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
-import { AREA_CLASS_NAME } from '../constants/area-class-name';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
 
 import { NodeType } from '@/enums/node-type';
@@ -52,8 +51,8 @@ const useStudioDnD = () => {
           targetHandles: [],
           metadata: { ...active, nodeId },
         },
-        dragHandle: AREA_CLASS_NAME.dragHandle,
-        deletable: false,
+        // dragHandle: AREA_CLASS_NAME.dragHandle,
+        // deletable: false,
       });
 
       reloadFlow();

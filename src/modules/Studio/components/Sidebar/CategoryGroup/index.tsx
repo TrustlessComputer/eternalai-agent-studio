@@ -1,4 +1,4 @@
-import { StudioCategory } from 'src/modules/Studio/types/category';
+import { StudioCategory } from '@/modules/Studio/types/category';
 import './CategoryGroup.scss';
 
 type Props = StudioCategory;

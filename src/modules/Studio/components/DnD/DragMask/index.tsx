@@ -1,6 +1,7 @@
 import { DragOverlay } from '@dnd-kit/core';
 import { memo } from 'react';
-import useDragMaskStore from 'src/modules/Studio/stores/useDragMaskStore';
+import useDragMaskStore from 'modules/Studio/stores/useDragMaskStore';
+
 import Lego from '../../Lego';
 
 const DragMask = () => {

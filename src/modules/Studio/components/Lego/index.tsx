@@ -2,9 +2,9 @@ import cx from 'clsx';
 import { CSSProperties, HTMLAttributes, memo, useMemo } from 'react';
 
 import './Lego.scss';
-
-import SvgInset from '../../../../components/SvgInset';
 import { adjustColorShade } from '../../utils/ui';
+
+import SvgInset from '@/components/SvgInset';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   background?: string; // HEX color

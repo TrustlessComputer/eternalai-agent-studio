@@ -1,13 +1,10 @@
 import React from 'react';
+
 import { Position } from '../types/ui';
 
 type Props = {
   ref: React.RefObject<any | null>;
-  handleOnTick: (
-    contentRect: DOMRect,
-    mousePosition: Position,
-    previousMousePosition: Position,
-  ) => void;
+  handleOnTick: (contentRect: DOMRect, mousePosition: Position, previousMousePosition: Position) => void;
 };
 
 const useContainerMouse = ({ ref, handleOnTick }: Props) => {
@@ -26,17 +23,11 @@ const useContainerMouse = ({ ref, handleOnTick }: Props) => {
   };
 
   const tick = () => {
-    const deltaMouseX =
-      mousePositionRef.current.x - previousMousePositionRef.current.x;
-    const deltaMouseY =
-      mousePositionRef.current.y - previousMousePositionRef.current.y;
+    const deltaMouseX = mousePositionRef.current.x - previousMousePositionRef.current.x;
+    const deltaMouseY = mousePositionRef.current.y - previousMousePositionRef.current.y;
 
     const contentRect = document.documentElement.getBoundingClientRect();
-    handleOnTick(
-      contentRect,
-      mousePositionRef.current,
-      previousMousePositionRef.current,
-    );
+    handleOnTick(contentRect, mousePositionRef.current, previousMousePositionRef.current);
 
     previousMousePositionRef.current = {
       x: mousePositionRef.current.x,

@@ -1,8 +1,9 @@
-import useDragMaskStore from '@/modules/Studio/stores/useDragMaskStore';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import cx from 'clsx';
 import { HTMLAttributes, memo, useEffect, useMemo } from 'react';
+
+import useDragMaskStore from '@/modules/Studio/stores/useDragMaskStore';
 import './Draggable.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {

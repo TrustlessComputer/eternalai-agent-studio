@@ -12,31 +12,29 @@ import { create } from 'zustand';
 import { StudioNode } from '../types/graph';
 
 type State = {
+  reloadFlowCounter: number;
+  reloadFlow: () => void;
+
   nodes: StudioNode[];
   nodesMapped: Record<string, StudioNode>;
-  edges: Edge[];
-  edgesMapped: Record<string, Edge>;
-
-  disabledZoom: boolean;
-
   setNodes: (nodes: StudioNode[]) => void;
-  setEdges: (edges: Edge[]) => void;
-
   addNode: (node: StudioNode) => void;
   addNodes: (nodes: StudioNode[]) => void;
+  getNode: (id: string) => StudioNode | undefined;
+  getNodes: (ids: string[]) => StudioNode[];
 
+  edges: Edge[];
+  edgesMapped: Record<string, Edge>;
+  setEdges: (edges: Edge[]) => void;
   addEdge: (edge: Edge) => void;
   addEdges: (edges: Edge[]) => void;
-
-  getNode: (id: string) => StudioNode | undefined;
   getEdge: (id: string) => Edge | undefined;
-
-  getNodes: (ids: string[]) => StudioNode[];
   getEdges: (ids: string[]) => Edge[];
 
   removeNode: (id: string) => void;
   removeNodes: (ids: string[]) => void;
 
+  disabledZoom: boolean;
   disableZoom: () => void;
   enableZoom: () => void;
 
@@ -70,28 +68,29 @@ const flatEdges = (edges: Edge[]) => {
 };
 
 const useStudioFlowStore = create<State>((set, get) => ({
+  reloadFlowCounter: 0,
+  reloadFlow: () => {
+    set({ reloadFlowCounter: get().reloadFlowCounter + 1 });
+  },
+
   nodes: [],
   nodesMapped: {},
   setNodes: (nodes) => set({ ...flatNodes(nodes) }),
-
-  edges: [],
-  edgesMapped: {},
-  setEdges: (edges) => set({ ...flatEdges(edges) }),
-
   addNode: (node) => set({ ...flatNodes([...get().nodes, node]) }),
   addNodes: (nodes) => set({ ...flatNodes([...get().nodes, ...nodes]) }),
-
-  addEdge: (edge) => set({ ...flatEdges([...get().edges, edge]) }),
-  addEdges: (edges) => set({ ...flatEdges([...get().edges, ...edges]) }),
-
   getNode: (id) => get().nodesMapped[id],
-  getEdge: (id) => get().edgesMapped[id],
-
   getNodes: (ids) => {
     const nodesMapped = get().nodesMapped;
 
     return ids.map((id) => nodesMapped[id]);
   },
+
+  edges: [],
+  edgesMapped: {},
+  setEdges: (edges) => set({ ...flatEdges(edges) }),
+  addEdge: (edge) => set({ ...flatEdges([...get().edges, edge]) }),
+  addEdges: (edges) => set({ ...flatEdges([...get().edges, ...edges]) }),
+  getEdge: (id) => get().edgesMapped[id],
   getEdges: (ids) => {
     const edgesMapped = get().edgesMapped;
 

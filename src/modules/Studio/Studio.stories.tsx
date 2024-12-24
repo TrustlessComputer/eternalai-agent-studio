@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
 import { ReactFlowProvider } from '@xyflow/react';
+
 import { Studio, StudioProps } from './Studio';
 import { MODEL_CATEGORIES } from './constants/categories';
 import { GRAPH_DATA } from './constants/data';

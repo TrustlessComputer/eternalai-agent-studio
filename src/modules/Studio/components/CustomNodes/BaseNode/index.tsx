@@ -1,7 +1,9 @@
-import { AREA_CLASS_NAME } from '@/modules/Studio/constants/area-class-name';
 import cx from 'clsx';
 import { HTMLAttributes, memo, ReactNode } from 'react';
+
 import { DragIcon, EllipsisIcon } from '../../icons/common';
+
+import { AREA_CLASS_NAME } from '@/modules/Studio/constants/area-class-name';
 import './BaseNode.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {

@@ -9,6 +9,11 @@
   will-change: opacity;
   transition: opacity 0.2s ease-in-out;
   padding: 4px;
+  opacity: 0.5;
+
+  &.category-navigation__active {
+    opacity: 1;
+  }
 
   &:hover {
     opacity: 0.8;

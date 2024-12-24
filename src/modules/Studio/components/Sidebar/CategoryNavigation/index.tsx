@@ -1,24 +1,30 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useMemo } from 'react';
+import cs from 'clsx';
 
 import ImageRender from '../../Render/ImageRender';
 import TextRender from '../../Render/TextRender';
 
 import { StudioCategory } from '@/modules/Studio/types/category';
 import { adjustColorShade } from '@/modules/Studio/utils/ui';
+import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 
 import './CategoryNavigation.scss';
 
 type Props = StudioCategory;
 
-const CategoryNavigation = ({ icon, title, color, hidden, required }: Props) => {
-  if (hidden) return null;
+const CategoryNavigation = ({ id, icon, title, color, required }: Props) => {
+  const { filters, setFilters } = useStudioCategoryStore();
+
+  const isActive = useMemo(() => {
+    return filters.includes(id) || filters.length === 0;
+  }, [filters]);
 
   return (
     <div
       onClick={() => {
-        //
+        setFilters(id);
       }}
-      className="category-navigation"
+      className={cs('category-navigation', { 'category-navigation__active': isActive })}
       style={
         {
           '--color': color,

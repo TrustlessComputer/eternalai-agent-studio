@@ -47,7 +47,6 @@ const PERSONALITY: StudioCategory = {
   ],
   color: '#12DAC2',
   multipleChoice: false,
-  order: 0,
   icon: <LegoComponentIcon />,
 };
 
@@ -95,7 +94,7 @@ const NETWORK: StudioCategory = {
   ],
   color: '#12DAC2',
   multipleChoice: false,
-  order: 1,
+  order: 0,
   icon: <LegoComponentIcon />,
 };
 

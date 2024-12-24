@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
 import Droppable from '../DnD/Droppable';
@@ -8,6 +8,15 @@ import './Sidebar.scss';
 
 const Sidebar = () => {
   const categories = useStudioCategoryStore((state) => state.categories);
+  const filters = useStudioCategoryStore((state) => state.filters);
+
+  const renderCategories = useMemo(() => {
+    if (!filters.length) {
+      return categories;
+    }
+
+    return categories.filter((item) => filters.includes(item.id));
+  }, [categories, filters]);
 
   return (
     <Droppable id="input" data={{}} className="sidebar">
@@ -21,7 +30,7 @@ const Sidebar = () => {
 
       <div className="sidebar_right">
         <div className="sidebar_right_inner">
-          {categories.map((category) => (
+          {renderCategories.map((category) => (
             <CategoryGroup {...category} />
           ))}
         </div>

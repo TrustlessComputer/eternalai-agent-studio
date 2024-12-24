@@ -6,9 +6,10 @@ export type StudioCategoryItem = {
   id: string;
   keyMapper: CategoryKeyMapperType;
   title?: React.ReactNode | FunctionComponent;
-  value: string | number;
-  disabled?: boolean;
   tooltip?: ReactNode;
+  required?: boolean;
+  disabled?: boolean;
+  value: string | number;
   icon?: React.ReactNode | FunctionComponent;
   order: number;
 };
@@ -20,7 +21,6 @@ export type StudioCategory = {
   tooltip?: ReactNode;
   required?: boolean;
   disabled?: boolean;
-  hidden?: boolean;
   options: StudioCategoryItem[];
   color: string;
   multipleChoice: boolean;

@@ -4,7 +4,6 @@ import { FunctionComponent } from 'react';
 import { NodeType } from '@/enums/node-type';
 
 export type StudioNode = Node<{
-  title: string;
   sourceHandles: string[];
   targetHandles: string[];
   metadata: unknown | Record<string, unknown>;

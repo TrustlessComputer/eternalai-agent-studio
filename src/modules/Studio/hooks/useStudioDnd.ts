@@ -5,11 +5,15 @@ import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../constants/droppable-id';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 
 import { NodeType } from '@/enums/node-type';
+import { useStoreApi } from '@xyflow/react';
 import { AREA_CLASS_NAME } from '../constants/area-class-name';
+import useStudioBoardMouse from '../stores/useStudioBoardMouse';
 
 const useStudioDnD = () => {
   const addNode = useStudioFlowStore((state) => state.addNode);
   const removeNode = useStudioFlowStore((state) => state.removeNode);
+
+  const flowStore = useStoreApi();
 
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }));
 
@@ -30,15 +34,20 @@ const useStudioDnD = () => {
     }
 
     if (isDroppedOnOutput) {
+      const { transform: [transformX, transformY, zoomLevel] } = flowStore.getState();
+      const mousePosition = useStudioBoardMouse.getState().mousePosition;
+      const transformedX = (mousePosition.x - transformX) / zoomLevel;
+      const transformedY = (mousePosition.y - transformY) / zoomLevel;
+      const nodeId = v4();
+
       addNode({
-        id: v4(),
+        id: nodeId,
         type: active.data.current?.nodeType || NodeType.Piece,
-        position: { x: 0, y: 0 },
+        position: { x: transformedX, y: transformedY },
         data: {
-          title: active.data.current?.title || 'Output',
           sourceHandles: [],
           targetHandles: [],
-          metadata: active,
+          metadata: { ...active, nodeId },
         },
         dragHandle: AREA_CLASS_NAME.dragHandle,
         deletable: false,

@@ -49,7 +49,7 @@ const useStudioCategoryStore = create<State>((set, get) => ({
       .sort((a, b) => a.order - b.order);
     set({
       categories: pipeData,
-      ...flatCategoriesByKeyMapper(pipeData),
+      mapCategories: flatCategoriesByKeyMapper(pipeData),
     });
   },
 

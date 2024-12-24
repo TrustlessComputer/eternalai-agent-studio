@@ -1,8 +1,10 @@
 import { FunctionComponent, ReactNode } from 'react';
 
+export type CategoryKeyMapperType = string;
+
 export type StudioCategoryItem = {
   id: string;
-  keyMapper: string;
+  keyMapper: CategoryKeyMapperType;
   title?: React.ReactNode | FunctionComponent;
   value: string | number;
   disabled?: boolean;
@@ -13,7 +15,7 @@ export type StudioCategoryItem = {
 
 export type StudioCategory = {
   id: string;
-  keyMapper: string;
+  keyMapper: CategoryKeyMapperType;
   title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;
   required?: boolean;

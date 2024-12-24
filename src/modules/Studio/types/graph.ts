@@ -16,10 +16,10 @@ export type StudioNode = Node<{
  * Form => this is the form node
  */
 export type NodeVisualType = 'Baseplate' | 'Slot' | 'Form';
-
+export type StudioDataKeyMapperType = string;
 export type StudioDataNode = {
   id: string;
-  keyMapper: string;
+  keyMapper: StudioDataKeyMapperType;
   title: React.ReactNode | FunctionComponent;
   children: StudioDataNode[];
   nodeVisualType: NodeVisualType;

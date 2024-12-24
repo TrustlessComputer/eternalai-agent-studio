@@ -5,6 +5,10 @@ type Props = {
 };
 
 function ImageRender({ data }: Props) {
+  if (!data) {
+    return <></>;
+  }
+
   if (typeof data === 'string') {
     return <img src={data} alt="Image" />;
   }

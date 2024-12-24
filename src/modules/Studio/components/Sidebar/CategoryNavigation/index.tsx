@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-import { LegoComponentIcon } from '../../icons/lego';
+import ImageRender from '../../Render/ImageRender';
 import TextRender from '../../Render/TextRender';
 
 import { StudioCategory } from '@/modules/Studio/types/category';
@@ -10,7 +10,7 @@ import './CategoryNavigation.scss';
 
 type Props = StudioCategory;
 
-const CategoryNavigation = ({ id, title, color, hidden, required }: Props) => {
+const CategoryNavigation = ({ icon, title, color, hidden, required }: Props) => {
   if (hidden) return null;
 
   return (
@@ -26,7 +26,7 @@ const CategoryNavigation = ({ id, title, color, hidden, required }: Props) => {
         } as CSSProperties
       }
     >
-      <LegoComponentIcon />
+      <ImageRender data={icon} />
       <span className="category-navigation_title">
         <TextRender data={title} /> {required ? <span className="category-navigation_required">*</span> : ''}
       </span>

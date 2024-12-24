@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 
 import { StudioCategory } from '../types/category';
+import { LegoComponentIcon } from '../components/icons/lego';
 
 export const PERSONALITY: StudioCategory = {
   id: v4(),
@@ -47,6 +48,7 @@ export const PERSONALITY: StudioCategory = {
   color: '#12DAC2',
   multipleChoice: false,
   order: 0,
+  icon: <LegoComponentIcon />,
 };
 
 export const MODEL_CATEGORIES: StudioCategory[] = [PERSONALITY];

@@ -5,6 +5,10 @@ type Props = {
 };
 
 function TextRender({ data }: Props) {
+  if (!data) {
+    return <></>;
+  }
+
   if (typeof data === 'function') {
     return data({});
   }

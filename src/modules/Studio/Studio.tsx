@@ -1,24 +1,23 @@
-import { FC, useEffect } from 'react';
-import cx from 'clsx';
 import { DndContext } from '@dnd-kit/core';
 import { ReactFlowProvider } from '@xyflow/react';
-
+import cx from 'clsx';
+import { FC, useEffect } from 'react';
 import './Studio.scss';
-import Sidebar from './components/Sidebar';
 import Board from './components/Board';
-import { StudioDataNode } from './types/graph';
-import { StudioCategory } from './types/category';
+import DataFlow from './components/DataFlow';
+import Sidebar from './components/Sidebar';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataStore from './stores/useStudioDataStore';
-import DataFlow from './components/DataFlow';
+import { StudioCategory } from './types/category';
+import { StudioDataNode } from './types/graph';
 
-export type IStudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
+export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   categories: StudioCategory[];
   data: StudioDataNode[];
   onChange?: (data: StudioDataNode[]) => void;
 };
 
-export const Studio: FC<IStudioProps> = ({ className, data, categories, onChange, ...rest }) => {
+export const Studio: FC<StudioProps> = ({ className, data, categories, onChange, ...rest }) => {
   useEffect(() => {
     useStudioCategoryStore.getState().setCategories(categories);
   }, [categories]);
@@ -30,6 +29,7 @@ export const Studio: FC<IStudioProps> = ({ className, data, categories, onChange
   return (
     <DndContext>
       <DataFlow onChange={onChange} />
+
       <ReactFlowProvider>
         <div className={cx('studio', className)} {...rest}>
           <Sidebar />

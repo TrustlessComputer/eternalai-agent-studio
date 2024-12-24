@@ -36,6 +36,7 @@
       "@/components/*": ["components/*"],
       "@/modules/*": ["modules/*"],
       "@/enums/*": ["enums/*"],
+      "@/hooks/*": ["hooks/*"],
     },
   },
   "include": ["src", "*.tsx", "*.ts", "eslint.config.js"],

@@ -6,20 +6,20 @@ import { ReactFlowProvider } from '@xyflow/react';
 import './Studio.scss';
 import Sidebar from './components/Sidebar';
 import Board from './components/Board';
+import { StudioDataNode } from './types/graph';
 
-export type IStudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>;
+export type IStudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
+  data: StudioDataNode[];
+  onChange?: (data: StudioDataNode[]) => void;
+};
 
-export const Studio: FC<IStudioProps> = ({ className, ...rest }) => {
+export const Studio: FC<IStudioProps> = ({ className, data, onChange, ...rest }) => {
   return (
     <DndContext>
       <ReactFlowProvider>
         <div className={cx('studio', className)} {...rest}>
-          <div className={cx('sidebar')}>
-            <Sidebar />
-          </div>
-          <div className={cx('board')}>
-            <Board />
-          </div>
+          <Sidebar />
+          <Board />
         </div>
       </ReactFlowProvider>
     </DndContext>

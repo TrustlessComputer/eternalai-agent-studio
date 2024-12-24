@@ -9,6 +9,7 @@ export const adjustColorShade = (hexColor: string, percent: number): string => {
 
   const getNewColorValue = (color: number): number => {
     const newValue = color + amount;
+
     return Math.min(255, Math.max(0, newValue));
   };
 
@@ -18,6 +19,7 @@ export const adjustColorShade = (hexColor: string, percent: number): string => {
 
   const toHex = (n: number): string => {
     const hex = n.toString(16);
+
     return hex.length === 1 ? '0' + hex : hex;
   };
 

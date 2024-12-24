@@ -1,4 +1,5 @@
 import { memo } from 'react';
+
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
 import Droppable from '../DnD/Droppable';
 import CategoryGroup from './CategoryGroup';

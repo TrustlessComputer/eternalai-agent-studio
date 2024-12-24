@@ -1,8 +1,9 @@
 import { DndContext } from '@dnd-kit/core';
 import { ReactFlowProvider } from '@xyflow/react';
 import cx from 'clsx';
-import { FC, useEffect } from 'react';
 import './Studio.scss';
+import { useEffect } from 'react';
+
 import Board from './components/Board';
 import DataFlow from './components/DataFlow';
 import Sidebar from './components/Sidebar';
@@ -17,7 +18,7 @@ export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>
   onChange?: (data: StudioDataNode[]) => void;
 };
 
-export const Studio: FC<StudioProps> = ({ className, data, categories, onChange, ...rest }) => {
+export const Studio = ({ className, data, categories, onChange, ...rest }: StudioProps) => {
   useEffect(() => {
     useStudioCategoryStore.getState().setCategories(categories);
   }, [categories]);

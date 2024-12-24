@@ -1,4 +1,5 @@
 import { memo } from 'react';
+
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
 import CategoryGroup from './CategoryGroup';
 import CategoryNavigation from './CategoryNavigation';

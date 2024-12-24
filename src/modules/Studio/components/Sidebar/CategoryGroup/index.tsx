@@ -1,7 +1,8 @@
-import { StudioCategory } from '@/modules/Studio/types/category';
 import Draggable from '../../DnD/Draggable';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
+
+import { StudioCategory } from '@/modules/Studio/types/category';
 import './CategoryGroup.scss';
 
 type Props = StudioCategory;

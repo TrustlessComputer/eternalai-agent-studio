@@ -1,10 +1,12 @@
-.node {
+.base-node {
   display: flex;
   align-items: center;
   gap: 10px;
+  position: relative;
+  z-index: 1;
 }
 
-.node_drag-icon {
+.base-node_drag-icon {
   cursor: grab;
   will-change: opacity;
   transition: opacity 0.5s var(--easeOutQuart);
@@ -16,11 +18,11 @@
   }
 }
 
-.node_content {
+.base-node_content {
   flex: 1;
 }
 
-.node_actions {
+.base-node_actions {
   position: relative;
   cursor: pointer;
   will-change: opacity;
@@ -32,12 +34,12 @@
   }
 }
 
-.node:hover {
-  .node_drag-icon {
+.base-node:hover {
+  .base-node_drag-icon {
     opacity: 1;
   }
 
-  .node_actions {
+  .base-node_actions {
     opacity: 1;
   }
 }

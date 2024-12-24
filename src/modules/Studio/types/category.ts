@@ -6,7 +6,7 @@ export type CategoryKeyMapperType = NodeType | string;
 
 export type StudioCategoryItem = {
   id: string;
-  keyMapper: CategoryKeyMapperType;
+  nodeType: CategoryKeyMapperType;
   title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;
   required?: boolean;
@@ -18,7 +18,7 @@ export type StudioCategoryItem = {
 
 export type StudioCategory = {
   id: string;
-  keyMapper: CategoryKeyMapperType;
+  nodeType: CategoryKeyMapperType;
   title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;
   required?: boolean;

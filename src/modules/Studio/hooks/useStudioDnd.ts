@@ -5,6 +5,7 @@ import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../constants/droppable-id';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 
 import { NodeType } from '@/enums/node-type';
+import { AREA_CLASS_NAME } from '../constants/area-class-name';
 
 const useStudioDnD = () => {
   const addNode = useStudioFlowStore((state) => state.addNode);
@@ -12,7 +13,7 @@ const useStudioDnD = () => {
 
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }));
 
-  const handleDragStart = (event: DragStartEvent) => {};
+  const handleDragStart = (event: DragStartEvent) => { };
 
   const handleDragEnd = (event: DragEndEvent) => {
     console.log('[useStudioDnd] drag end', event);
@@ -31,7 +32,7 @@ const useStudioDnD = () => {
     if (isDroppedOnOutput) {
       addNode({
         id: v4(),
-        type: active.data.current?.type || NodeType.Piece,
+        type: active.data.current?.nodeType || NodeType.Piece,
         position: { x: 0, y: 0 },
         data: {
           title: active.data.current?.title || 'Output',
@@ -39,6 +40,8 @@ const useStudioDnD = () => {
           targetHandles: [],
           metadata: active,
         },
+        dragHandle: AREA_CLASS_NAME.dragHandle,
+        deletable: false,
       });
     }
   };

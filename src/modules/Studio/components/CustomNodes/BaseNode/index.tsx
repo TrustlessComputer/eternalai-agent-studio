@@ -1,5 +1,8 @@
+import { AREA_CLASS_NAME } from '@/modules/Studio/constants/area-class-name';
+import cx from 'clsx';
 import { HTMLAttributes, memo, ReactNode } from 'react';
 import { DragIcon, EllipsisIcon } from '../../icons/common';
+import './BaseNode.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   actions: {
@@ -10,15 +13,15 @@ type Props = HTMLAttributes<HTMLDivElement> & {
 
 const BaseNode = ({ actions, children, ...rest }: Props) => {
   return (
-    <div className="node" {...rest}>
-      <div className="node_drag-icon drag-handle-area">
+    <div className="base-node" {...rest}>
+      <div className={cx('base-node_drag-icon', AREA_CLASS_NAME.dragHandle)}>
         <DragIcon />
       </div>
 
-      <div className="node_content">{children}</div>
+      <div className="base-node_content">{children}</div>
 
       {actions.length > 0 && (
-        <div className="node_actions">
+        <div className="base-node_actions">
           <EllipsisIcon />
 
           {/* {actions.map((action, index) => (

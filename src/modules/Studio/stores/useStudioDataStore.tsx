@@ -13,7 +13,7 @@ const useStudioDataStore = create<State>((set, get) => ({
   data: [],
   setData: (data) => {
     const latestData = get().data;
-    const processingData = data
+    const processingData = (data || [])
       .map((item) => {
         if (item.id) {
           return item;

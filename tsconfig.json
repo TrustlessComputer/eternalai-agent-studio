@@ -1,11 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
-    "paths": {
-      "*": [
-        "*",
-      ]
-    },
+    "baseUrl": ".",
     "allowJs": true,
     "target": "ES2023",
     "module": "ESNext",

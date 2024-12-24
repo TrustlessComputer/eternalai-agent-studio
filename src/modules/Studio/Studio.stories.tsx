@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Studio } from './Studio';
-import { CREATE_MODEL_CATEGORIES } from './constants/categories';
+import { MODEL_CATEGORIES } from './constants/categories';
 import { GRAPH_DATA } from './constants/data';
 
 type Story = StoryObj<typeof Studio>;
@@ -16,7 +16,7 @@ export const Default: Story = {
     return (
       <div style={{ border: '1px solid #000', width: 'calc(100vw - 3rem)', height: 'calc(100vh - 3rem)' }}>
         <Studio
-          categories={CREATE_MODEL_CATEGORIES}
+          categories={MODEL_CATEGORIES}
           data={GRAPH_DATA}
           onChange={(data) => {
             console.log('onChange', data);

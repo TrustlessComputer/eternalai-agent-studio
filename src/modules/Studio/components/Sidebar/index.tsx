@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import './Sidebar.scss';
 
-const AgentStudioSidebar = () => {
-  return <div>AgentStudioSidebar</div>;
+const Sidebar = () => {
+  return <div>Sidebar</div>;
 };
 
-export default AgentStudioSidebar;
+export default memo(Sidebar);

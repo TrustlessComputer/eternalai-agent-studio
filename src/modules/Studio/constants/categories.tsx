@@ -49,4 +49,4 @@ export const PERSONALITY: StudioCategory = {
   order: 0,
 };
 
-export const CREATE_MODEL_CATEGORIES: StudioCategory[] = [PERSONALITY];
+export const MODEL_CATEGORIES: StudioCategory[] = [PERSONALITY];

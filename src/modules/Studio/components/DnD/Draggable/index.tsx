@@ -1,44 +1,39 @@
-import React, { useMemo } from 'react';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
-import cs from 'clsx';
+import { HTMLAttributes, memo, useMemo } from 'react';
 import './Draggable.scss';
 
-type Props = React.HTMLAttributes<HTMLDivElement> & {
+type Props = HTMLAttributes<HTMLDivElement> & {
   id: string;
+  data: {
+    isRight?: boolean;
+    isParent?: boolean;
+  };
+  useMask?: boolean;
+  disabled?: boolean;
 };
 
-function Draggable(props: Props) {
-  const { id, style, className, children, ...rest } = props;
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+const Draggable = ({ id, data, useMask, disabled, children, ...props }: Props) => {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id,
+    disabled,
+    data,
   });
-  const draggedStyle = useMemo(() => {
-    if (transform) {
-      return {
-        transform: CSS.Translate.toString(transform),
-      };
-    }
 
-    return {};
-  }, [transform]);
+  const style = useMemo(
+    () => ({
+      ...props.style,
+      transform: CSS.Translate.toString(transform),
+      opacity: useMask && isDragging ? 0 : 1,
+    }),
+    [transform, useMask, isDragging, props.style],
+  );
 
   return (
-    <div
-      {...rest}
-      {...listeners}
-      {...attributes}
-      id={id}
-      style={{
-        ...style,
-        ...draggedStyle,
-      }}
-      className={cs('draggable', className)}
-      ref={setNodeRef}
-    >
+    <div ref={setNodeRef} style={style} {...props} {...listeners} {...attributes}>
       {children}
     </div>
   );
-}
+};
 
-export default Draggable;
+export default memo(Draggable);

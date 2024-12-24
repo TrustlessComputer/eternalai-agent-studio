@@ -1,11 +1,12 @@
 import { FunctionComponent, ReactNode } from 'react';
 
+type DataSchemaField = string;
 type DataSchemaValue = {
   type: 'string' | 'number' | 'boolean';
   value: string | number | boolean;
 };
 
-type DataSchema = Record<string, DataSchemaValue>;
+type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
 type BaseCategory = {
   id: string;

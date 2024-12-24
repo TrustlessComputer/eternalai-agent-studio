@@ -2,14 +2,14 @@ import { DndContext } from '@dnd-kit/core';
 import { ReactFlowProvider } from '@xyflow/react';
 import cx from 'clsx';
 import { useEffect } from 'react';
-import './Studio.scss';
-
+import '../../styles/global.scss';
 import Board from './components/Board';
 import DataFlow from './components/DataFlow';
 import Sidebar from './components/Sidebar';
 import useStudioDnD from './hooks/useStudioDnd';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataStore from './stores/useStudioDataStore';
+import './Studio.scss';
 import { StudioCategory } from './types/category';
 import { StudioDataNode } from './types/graph';
 

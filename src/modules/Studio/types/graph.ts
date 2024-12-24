@@ -23,6 +23,5 @@ export type StudioDataNode = {
   title: string | React.ReactNode | Component;
   children: StudioDataNode[];
   nodeVisualType: NodeVisualType;
-  order?: number;
   data?: Record<string, unknown>; // this field can be used to store additional data or form input data
 };

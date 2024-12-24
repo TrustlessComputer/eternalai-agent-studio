@@ -12,28 +12,16 @@ type State = {
 const useStudioDataStore = create<State>((set, get) => ({
   data: [],
   setData: (data) => {
-    const latestData = get().data;
-    const processingData = (data || [])
-      .map((item) => {
-        if (item.id) {
-          return item;
-        }
-        const existingItem = latestData.find((latestItem) => latestItem.id === item.id);
-        if (existingItem) {
-          return {
-            ...item,
-            id: existingItem.id,
-            order: item.order ?? Number.MAX_SAFE_INTEGER,
-          };
-        }
+    const processingData = (data || []).map((item) => {
+      if (item.id) {
+        return item;
+      }
 
-        return {
-          ...item,
-          id: v4(),
-          order: item.order ?? Number.MAX_SAFE_INTEGER,
-        };
-      })
-      .sort((a, b) => (a.order || Number.MAX_SAFE_INTEGER) - (b.order || Number.MAX_SAFE_INTEGER));
+      return {
+        ...item,
+        id: v4(),
+      };
+    });
     set({ data: processingData });
   },
   getDataById: (id) => get().data.find((item) => item.id === id),

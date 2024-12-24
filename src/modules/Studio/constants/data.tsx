@@ -12,7 +12,6 @@ export const GRAPH_DATA: StudioDataNode[] = [
         id: v4(),
         keyMapper: '',
         title: 'Import from NFT',
-        order: 0,
         nodeVisualType: 'Slot',
         children: [],
       },

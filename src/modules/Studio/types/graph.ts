@@ -1,5 +1,5 @@
 import { Node } from '@xyflow/react';
-import { Component } from 'react';
+import { FunctionComponent } from 'react';
 
 export type StudioNode = Node<{
   title: string;
@@ -20,7 +20,7 @@ export type NodeVisualType = 'Baseplate' | 'Slot' | 'Form';
 export type StudioDataNode = {
   id: string;
   keyMapper: string;
-  title: string | React.ReactNode | Component;
+  title: React.ReactNode | FunctionComponent;
   children: StudioDataNode[];
   nodeVisualType: NodeVisualType;
   data?: Record<string, unknown>; // this field can be used to store additional data or form input data

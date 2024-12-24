@@ -1,20 +1,20 @@
-import { ReactNode } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 
 export type StudioCategoryItem = {
   id: string;
   keyMapper: string;
-  title?: ReactNode;
+  title?: React.ReactNode | FunctionComponent;
   value: string | number;
   disabled?: boolean;
   tooltip?: ReactNode;
-  icon: string;
+  icon?: React.ReactNode | FunctionComponent;
   order: number;
 };
 
 export type StudioCategory = {
   id: string;
   keyMapper: string;
-  title?: ReactNode;
+  title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;
   required?: boolean;
   disabled?: boolean;
@@ -22,5 +22,6 @@ export type StudioCategory = {
   options: StudioCategoryItem[];
   color: string;
   multipleChoice: boolean;
+  icon?: React.ReactNode | FunctionComponent;
   order?: number;
 };

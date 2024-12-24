@@ -35,6 +35,7 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/modules/*": ["modules/*"],
+      "@/enums/*": ["enums/*"],
     },
   },
   "include": ["src", "*.tsx", "*.ts", "eslint.config.js"],

@@ -1,12 +1,13 @@
 import { Node } from '@xyflow/react';
-import { NodeType } from 'enums/node-type';
 import { FunctionComponent } from 'react';
+
+import { NodeType } from '@/enums/node-type';
 
 export type StudioNode = Node<{
   title: string;
   sourceHandles: string[];
   targetHandles: string[];
-  metadata: any | Record<string, unknown>;
+  metadata: unknown | Record<string, unknown>;
 }>;
 
 /**

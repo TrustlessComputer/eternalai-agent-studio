@@ -1,31 +1,29 @@
 import { FunctionComponent, ReactNode } from 'react';
 
-import { NodeType } from '@/enums/node-type';
-
-export type CategoryKeyMapperType = NodeType | string;
-
-export type StudioCategoryItem = {
-  id: string;
-  nodeType: CategoryKeyMapperType;
-  title?: React.ReactNode | FunctionComponent;
-  tooltip?: ReactNode;
-  required?: boolean;
-  disabled?: boolean;
-  value: string | number;
-  icon?: React.ReactNode | FunctionComponent;
-  order: number;
+type DataSchemaValue = {
+  type: 'string' | 'number' | 'boolean';
+  value: string | number | boolean;
 };
 
-export type StudioCategory = {
+type DataSchema = Record<string, DataSchemaValue>;
+
+type BaseCategory = {
   id: string;
-  nodeType: CategoryKeyMapperType;
   title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;
   required?: boolean;
   disabled?: boolean;
-  options: StudioCategoryItem[];
-  color: string;
-  multipleChoice: boolean;
   icon?: React.ReactNode | FunctionComponent;
   order?: number;
+  customizeRenderOnNavigation?: FunctionComponent;
+  customizeRenderOnSideBar?: FunctionComponent;
+  customizeRenderOnBoard?: FunctionComponent;
+  data?: DataSchema;
+};
+
+export type StudioCategoryItem = BaseCategory;
+
+export type StudioCategory = Omit<BaseCategory, 'value' | 'data'> & {
+  options: StudioCategoryItem[];
+  color: string;
 };

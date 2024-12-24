@@ -3,13 +3,12 @@ import { ReactFlowProvider } from '@xyflow/react';
 
 import { Studio, StudioProps } from './Studio';
 import { MODEL_CATEGORIES } from './constants/categories';
-import { GRAPH_DATA } from './constants/data';
 
 type Story = StoryObj<typeof Studio>;
 
 const args = {
   categories: MODEL_CATEGORIES,
-  data: GRAPH_DATA,
+  data: [],
 } satisfies StudioProps;
 
 const meta: Meta<typeof Studio> = {

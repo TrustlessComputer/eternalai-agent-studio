@@ -3,11 +3,32 @@ import { v4 } from 'uuid';
 import { LegoComponentIcon } from '../components/icons/lego';
 import { StudioCategory } from '../types/category';
 
-import { NodeType } from '@/enums/node-type';
+const AGENT: StudioCategory = {
+  id: v4(),
+  title: 'Agent',
+  required: true,
+  color: '#12DAC2',
+  options: [
+    {
+      id: v4(),
+      title: 'New Agent',
+      tooltip: '',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      order: 0,
+      data: {
+        agentName: {
+          type: 'string',
+          value: '',
+        },
+      },
+    },
+  ],
+  icon: <LegoComponentIcon />,
+  order: -1,
+};
 
 const PERSONALITY: StudioCategory = {
   id: v4(),
-  nodeType: NodeType.Entry,
   title: 'Personality',
   required: true,
   tooltip:
@@ -15,46 +36,36 @@ const PERSONALITY: StudioCategory = {
   options: [
     {
       id: v4(),
-      nodeType: NodeType.Piece,
       title: 'Import from NFT',
-      value: 0,
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
     },
     {
       id: v4(),
-      nodeType: NodeType.Piece,
       title: 'Import from Ordinals',
-      value: 1,
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       order: 1,
     },
     {
       id: v4(),
-      nodeType: NodeType.Piece,
       title: 'Import from Token',
-      value: 4,
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
       order: 2,
     },
     {
       id: v4(),
-      nodeType: NodeType.Piece,
       title: 'New personality',
-      value: 0,
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
       order: 3,
     },
   ],
   color: '#12DAC2',
-  multipleChoice: false,
   icon: <LegoComponentIcon />,
 };
 
 const NETWORK: StudioCategory = {
   id: v4(),
-  nodeType: NodeType.Entry,
   title: 'Network',
   required: true,
   tooltip:
@@ -62,42 +73,33 @@ const NETWORK: StudioCategory = {
   options: [
     {
       id: v4(),
-      nodeType: NodeType.Piece,
       title: 'Import from NFT',
-      value: 0,
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
     },
     {
       id: v4(),
-      nodeType: NodeType.Piece,
       title: 'Import from Ordinals',
-      value: 1,
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       order: 1,
     },
     {
       id: v4(),
-      nodeType: NodeType.Piece,
       title: 'Import from Token',
-      value: 4,
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
       order: 2,
     },
     {
       id: v4(),
-      nodeType: NodeType.Piece,
       title: 'New personality',
-      value: 0,
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
       order: 3,
     },
   ],
   color: '#12DAC2',
-  multipleChoice: false,
   order: 0,
   icon: <LegoComponentIcon />,
 };
 
-export const MODEL_CATEGORIES: StudioCategory[] = [PERSONALITY, NETWORK];
+export const MODEL_CATEGORIES: StudioCategory[] = [AGENT, PERSONALITY, NETWORK];

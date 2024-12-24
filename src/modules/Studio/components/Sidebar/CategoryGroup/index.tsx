@@ -9,7 +9,11 @@ import './CategoryGroup.scss';
 
 type Props = StudioCategory;
 
-const CategoryGroup = ({ title, color, options }: Props) => {
+const CategoryGroup = ({ title, color, options, customizeRenderOnSideBar }: Props) => {
+  if (customizeRenderOnSideBar && typeof customizeRenderOnSideBar === 'function') {
+    return customizeRenderOnSideBar({});
+  }
+
   return (
     <div className="category-group">
       <h5 className="category-group_title">

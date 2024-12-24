@@ -1,5 +1,4 @@
 import { Background, ConnectionMode, Controls, NodeTypes, ReactFlow } from '@xyflow/react';
-
 import '@xyflow/react/dist/style.css';
 import { useEffect, useState } from 'react';
 
@@ -8,6 +7,7 @@ import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
 import { FlowView } from '../../types/ui';
 import Droppable from '../DnD/Droppable';
+
 import './Board.scss';
 
 function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {

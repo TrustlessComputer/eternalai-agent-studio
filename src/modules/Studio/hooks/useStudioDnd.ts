@@ -5,7 +5,6 @@ import { v4 } from 'uuid';
 import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../constants/droppable-id';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
-
 import { NodeType } from '@/enums/node-type';
 
 const useStudioDnD = () => {
@@ -44,7 +43,8 @@ const useStudioDnD = () => {
 
       addNode({
         id: nodeId,
-        type: active.data.current?.nodeType || NodeType.Piece,
+        // type: active.data.current?.nodeType,
+        type: NodeType.BASE_NODE,
         position: { x: transformedX, y: transformedY },
         data: {
           sourceHandles: [],

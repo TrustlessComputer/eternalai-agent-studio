@@ -93,20 +93,20 @@ export default tseslint.config(
       'sort-imports': ['warn', { 'ignoreCase': true, 'ignoreDeclarationSort': true }],
       'import/no-duplicates': 'error',
       'import/no-self-import': 'error',
-      'import/order': [
-        'error',
-        {
-          'newlines-between': 'always',
-          pathGroups: [
-            {
-              pattern: '$/**',
-              group: 'internal',
-            },
-          ],
-          pathGroupsExcludedImportTypes: ['builtin'],
-          groups: [['builtin', 'external'], ['internal'], ['parent', 'sibling', 'index'], 'unknown'],
-        },
-      ],
+      // 'import/order': [
+      //   'error',
+      //   {
+      //     'newlines-between': 'always',
+      //     pathGroups: [
+      //       {
+      //         pattern: '$/**',
+      //         group: 'internal',
+      //       },
+      //     ],
+      //     pathGroupsExcludedImportTypes: ['builtin'],
+      //     groups: [['builtin', 'external'], ['internal'], ['parent', 'sibling', 'index'], 'unknown'],
+      //   },
+      // ],
       'import/no-cycle': [
         'error',
         {

@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
+import Droppable from '../DnD/Droppable';
 import CategoryGroup from './CategoryGroup';
 import CategoryNavigation from './CategoryNavigation';
 import './Sidebar.scss';
@@ -8,7 +9,7 @@ const Sidebar = () => {
   const categories = useStudioCategoryStore((state) => state.categories);
 
   return (
-    <div className="sidebar">
+    <Droppable id="input" data={{}} className="sidebar">
       <div className="sidebar_left">
         <div className="sidebar_left_inner">
           {categories.map((category) => (
@@ -24,7 +25,7 @@ const Sidebar = () => {
           ))}
         </div>
       </div>
-    </div>
+    </Droppable>
   );
 };
 

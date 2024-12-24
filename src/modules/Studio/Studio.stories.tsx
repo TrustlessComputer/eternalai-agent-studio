@@ -1,18 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Studio } from './Studio';
+import { Studio, StudioProps } from './Studio';
 import { MODEL_CATEGORIES } from './constants/categories';
 import { GRAPH_DATA } from './constants/data';
 
 type Story = StoryObj<typeof Studio>;
 
+const args = {
+  categories: MODEL_CATEGORIES,
+  data: GRAPH_DATA,
+} satisfies StudioProps;
+
 const meta: Meta<typeof Studio> = {
   title: 'Studio',
   component: Studio,
-  args: {
-    categories: MODEL_CATEGORIES,
-    data: GRAPH_DATA,
-  },
+  args,
 };
 
 export const Default: Story = {

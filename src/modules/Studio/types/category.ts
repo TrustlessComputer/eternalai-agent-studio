@@ -21,5 +21,5 @@ export type StudioCategory = {
   options: StudioCategoryItem[];
   color: string;
   multipleChoice: boolean;
-  order: number;
+  order?: number;
 };

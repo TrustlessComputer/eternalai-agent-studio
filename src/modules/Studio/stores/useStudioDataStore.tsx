@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 import { v4 } from 'uuid';
 
-import { StudioCategory } from '../types/category';
+import { StudioDataNode } from '../types/graph';
 
 type State = {
-  data: StudioCategory[];
-  setData: (data: StudioCategory[]) => void;
-  getDataById: (id: string) => StudioCategory | undefined;
+  data: StudioDataNode[];
+  setData: (data: StudioDataNode[]) => void;
+  getDataById: (id: string) => StudioDataNode | undefined;
 };
 
 const useStudioDataStore = create<State>((set, get) => ({
@@ -23,15 +23,17 @@ const useStudioDataStore = create<State>((set, get) => ({
           return {
             ...item,
             id: existingItem.id,
+            order: item.order ?? Number.MAX_SAFE_INTEGER,
           };
         }
 
         return {
           ...item,
           id: v4(),
+          order: item.order ?? Number.MAX_SAFE_INTEGER,
         };
       })
-      .sort((a, b) => a.order - b.order);
+      .sort((a, b) => (a.order || Number.MAX_SAFE_INTEGER) - (b.order || Number.MAX_SAFE_INTEGER));
     set({ data: processingData });
   },
   getDataById: (id) => get().data.find((item) => item.id === id),

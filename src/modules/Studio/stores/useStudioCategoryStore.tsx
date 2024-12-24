@@ -11,7 +11,11 @@ type State = {
 const useStudioCategoryStore = create<State>((set, get) => ({
   categories: [],
   setCategories: (categories) => {
-    set({ categories: categories.sort((a, b) => a.order - b.order) });
+    set({
+      categories: categories.sort(
+        (a, b) => (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER),
+      ),
+    });
   },
   getCategoryById: (id) => get().categories.find((category) => category.id === id),
 }));

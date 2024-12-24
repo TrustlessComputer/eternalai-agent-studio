@@ -1,8 +1,9 @@
 import { DndContext } from '@dnd-kit/core';
 import { ReactFlowProvider } from '@xyflow/react';
 import cx from 'clsx';
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import './Studio.scss';
+
 import Board from './components/Board';
 import DataFlow from './components/DataFlow';
 import Sidebar from './components/Sidebar';

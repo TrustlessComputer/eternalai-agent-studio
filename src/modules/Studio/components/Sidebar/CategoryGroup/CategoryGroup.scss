@@ -1,0 +1,16 @@
+.category-group {
+  width: 100%;
+}
+
+.category-group_title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.category-group_options {
+  display: flex;
+  gap: 12px 4px;
+  flex-wrap: wrap;
+  max-width: 100%;
+}

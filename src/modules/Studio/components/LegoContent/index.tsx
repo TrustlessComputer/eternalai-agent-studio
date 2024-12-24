@@ -1,6 +1,6 @@
 import cx from 'clsx';
 import { HTMLAttributes } from 'react';
-import './styles.scss';
+import './LegoContent.scss';
 
 type Props = HTMLAttributes<HTMLDivElement>;
 

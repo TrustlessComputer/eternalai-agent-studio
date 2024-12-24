@@ -7,11 +7,11 @@
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.1);
 
-  &_left {
-    width: 15%;
+  .studio_left {
+    width: 25%;
   }
 
-  &_right {
-    width: 85%;
+  .studio_right {
+    width: 75%;
   }
 }

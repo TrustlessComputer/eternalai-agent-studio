@@ -1,10 +1,10 @@
 import cx from 'clsx';
 import { CSSProperties, HTMLAttributes, memo, useMemo } from 'react';
 
-import './Lego.scss';
 import { adjustColorShade } from '../../utils/ui';
+import './Lego.scss';
 
-import SvgInset from '@/components/SvgInset';
+import { StudIcon } from '../icons/lego';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   background?: string; // HEX color
@@ -31,7 +31,7 @@ const Lego = ({ background = '#A041FF', disabled = false, icon, actions, classNa
       }
     >
       <div className="lego_stud">
-        <SvgInset src="/svgs/stud.svg" />
+        <StudIcon />
       </div>
 
       <div className="lego_icon">{icon}</div>

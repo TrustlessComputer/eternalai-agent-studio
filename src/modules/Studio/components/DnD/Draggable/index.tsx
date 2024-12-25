@@ -12,9 +12,11 @@ type Props = HTMLAttributes<HTMLDivElement> & {
   data?: {
     isRight?: boolean;
     isParent?: boolean;
+    belongsTo?: string;
+
+    data?: DataSchema;
     category: StudioCategory;
     option: StudioCategoryOption;
-    data?: DataSchema;
   };
   disabled?: boolean;
 };

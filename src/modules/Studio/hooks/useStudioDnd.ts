@@ -10,8 +10,8 @@ import { createNewBaseNode } from '../utils/node';
 
 const useStudioDnD = () => {
   const addNode = useStudioFlowStore((state) => state.addNode);
+  const removeNode = useStudioFlowStore((state) => state.removeNode);
   const reloadFlow = useStudioFlowStore((state) => state.reloadFlow);
-
   const flowStore = useStoreApi();
 
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }));
@@ -23,16 +23,34 @@ const useStudioDnD = () => {
 
     if (!active || !over) return;
 
+    const newNodes = useStudioFlowStore.getState().nodes;
+
     const isActiveFromRight = active.data.current?.isRight;
+    const isActiveParent = active.data.current?.isParent;
+    const activeBelongsTo = active.data.current?.belongsTo;
+    const activeNode = newNodes.find((node) => node.id === activeBelongsTo);
 
-    const isDroppedOnInput = over.id === INPUT_DROP_ID;
-    const isDroppedOnOutput = over.id === OUTPUT_DROP_ID;
+    const droppedOnInput = over.id === INPUT_DROP_ID;
+    const droppedOnOutput = over.id === OUTPUT_DROP_ID;
 
-    if (isDroppedOnInput && isActiveFromRight) {
+    if (!activeNode) return;
+
+    if (droppedOnInput && isActiveFromRight) {
+      const isEmptyChildren = activeNode.data.metadata.children.length === 0;
+
+      if (isEmptyChildren) {
+        removeNode(activeNode.id);
+      } else if (isActiveParent) {
+      } else {
+        // const newChildren = removeItemFromArray(activeNode.data.metadata.children, active.data.current?.);
+      }
+
       reloadFlow();
+
+      return;
     }
 
-    if (isDroppedOnOutput && !isActiveFromRight) {
+    if (droppedOnOutput && !isActiveFromRight) {
       const {
         transform: [transformX, transformY, zoomLevel],
       } = flowStore.getState();
@@ -59,6 +77,8 @@ const useStudioDnD = () => {
       );
 
       reloadFlow();
+
+      return;
     }
   }, []);
 

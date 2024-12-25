@@ -1,11 +1,11 @@
 import { NodeType } from '@/enums/node-type';
-import { XYPosition } from '@xyflow/react';
-import { AreaClassName } from '../constants/area-class-name';
-import { StudioDataNode, StudioNode, StudioNodeMetadata } from '../types/graph';
-import useStudioCategoryStore from '../stores/useStudioCategoryStore';
-import { StudioCategory, StudioCategoryMap, StudioCategoryOption } from '../types/category';
 import { Active, DataRef } from '@dnd-kit/core';
+import { XYPosition } from '@xyflow/react';
 import { MutableRefObject } from 'react';
+import { AreaClassName } from '../constants/area-class-name';
+import useStudioCategoryStore from '../stores/useStudioCategoryStore';
+import { StudioCategoryMap } from '../types/category';
+import { StudioDataNode, StudioNode, StudioNodeMetadata } from '../types/graph';
 
 export const createNewBaseNode = (id: string, position: XYPosition, metadata: StudioNodeMetadata) => {
   return {
@@ -51,6 +51,7 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
         option,
         children: [],
       } satisfies StudioNodeMetadata;
+
       nodes.push(createNewBaseNode(item.id, position, metadata));
       if (item.children.length) {
         nodes.push(...transformDataToNodes(item.children));

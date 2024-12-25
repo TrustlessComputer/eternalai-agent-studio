@@ -1,6 +1,7 @@
 import { DataSchema } from '@/modules/Studio/types/category';
 import { useMemo } from 'react';
 import Textbox from '../Textbox';
+import TextArea from '../TextArea';
 
 type Props = {
   id: string;
@@ -17,6 +18,8 @@ function FormRender({ id, schemaData }: Props) {
       const fieldData = schemaData[field];
       if (fieldData.type === 'text') {
         return <Textbox formId={id} name={field} placeholder={fieldData.placeholder} />;
+      } else if (fieldData.type === 'textarea') {
+        return <TextArea formId={id} name={field} placeholder={fieldData.placeholder} />;
       }
     } else {
       // render multiple files

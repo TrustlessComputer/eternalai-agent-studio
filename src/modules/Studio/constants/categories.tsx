@@ -6,7 +6,7 @@ const AGENT: StudioCategory = {
   keyMapper: 'agent',
   title: 'Agent',
   required: true,
-  color: '#12DAC2',
+  color: '#FF0000',
   options: [
     {
       key: 'agent-option-1',

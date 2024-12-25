@@ -28,7 +28,7 @@ const CategoryNavigation = ({ keyMapper, icon, title, color, customizeRenderOnNa
       onClick={() => {
         setFilters(keyMapper);
       }}
-      className={cx('category-navigation', { 'category-navigation__active': isActive })}
+      className={cx('category-navigation', { 'category-navigation--active': isActive })}
       style={
         {
           '--color': color,

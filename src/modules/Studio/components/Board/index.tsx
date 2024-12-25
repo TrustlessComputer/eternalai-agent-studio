@@ -17,6 +17,7 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
   const nodes = useStudioFlowStore((state) => state.nodes);
   const edges = useStudioFlowStore((state) => state.edges);
   const setNodes = useStudioFlowStore((state) => state.setNodes);
+  const setEdges = useStudioFlowStore((state) => state.setEdges);
   const onNodesChange = useStudioFlowStore((state) => state.onNodesChange);
   const onEdgesChange = useStudioFlowStore((state) => state.onEdgesChange);
 
@@ -30,18 +31,45 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
   });
 
   const onNodeDrag: OnNodeDrag<StudioNode> = useCallback((event, node) => {
+    const nodes = useStudioFlowStore.getState().nodes;
     const intersections = getIntersectingNodes(node).map((n) => n.id);
 
-    // setNodes((nodes) =>
-    //   nodes.map((n) => ({
-    //     ...n,
-    //     className: intersections.includes(n.id) ? 'highlight' : '',
-    //   })),
-    // );
+    // console.log('[Board] onNodeDrag', node, intersections);
+
+    setNodes(
+      nodes.map((n) => ({
+        ...n,
+        className: intersections.includes(n.id) ? 'node-base--highlight' : '',
+      })),
+    );
+  }, []);
+
+  const onNodeDragStop: OnNodeDrag<StudioNode> = useCallback((event, node) => {
+    const nodes = useStudioFlowStore.getState().nodes;
+    const intersection = getIntersectingNodes(node)[0];
+
+    if (intersection) {
+      const newNodes = nodes.filter((n) => n.id !== node.id);
+      const newEdges = edges.filter((e) => e.source !== node.id && e.target !== node.id);
+
+      const intersectionNode = newNodes.find((n) => n.id === intersection.id);
+
+      if (intersectionNode) {
+        intersectionNode.data.metadata.children = [
+          ...(intersectionNode.data.metadata.children || []),
+          node.data.metadata.option,
+          ...(node.data.metadata.children || []),
+        ];
+
+        console.log('[Board] onNodeDragStop', newNodes);
+
+        setNodes(newNodes);
+        setEdges(newEdges);
+      }
+    }
   }, []);
 
   useEffect(() => {
-    console.log('[Board] useEffect[reloadFlowCounter]', useStudioFlowViewStore.getState().view);
     setCurrentView(useStudioFlowViewStore.getState().view);
   }, [reloadFlowCounter]);
 
@@ -62,6 +90,7 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
         zoomOnDoubleClick={false}
         selectNodesOnDrag={false}
         onNodeDrag={onNodeDrag}
+        onNodeDragStop={onNodeDragStop}
       >
         <Controls />
         <Background />

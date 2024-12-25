@@ -25,7 +25,7 @@ export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>
   nodeTypes?: NodeTypes;
 };
 
-export const Studio: React.FC<StudioProps> = ({ className, data, categories, onChange, nodeTypes, ...rest }) => {
+export const Studio = ({ data, className, categories, onChange, nodeTypes, ...rest }: StudioProps) => {
   const { sensors, handleDragStart, handleDragEnd } = useStudioDnD();
 
   const extendedNodeTypes = useMemo(() => {

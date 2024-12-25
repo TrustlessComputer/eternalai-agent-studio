@@ -19,8 +19,6 @@ const useStudioDnD = () => {
   const handleDragStart = (event: DragStartEvent) => {};
 
   const handleDragEnd = (event: DragEndEvent) => {
-    console.log('[useStudioDnd] drag end', event);
-
     const { active, over } = event;
 
     if (!active || !over) return;
@@ -49,7 +47,10 @@ const useStudioDnD = () => {
         data: {
           sourceHandles: [],
           targetHandles: [],
-          metadata: { ...active, nodeId },
+          metadata: {
+            ...active,
+            nodeId,
+          },
         },
         // dragHandle: AREA_CLASS_NAME.dragHandle,
         // deletable: false,

@@ -6,7 +6,7 @@ type DataSchemaValue = {
   value: string | number | boolean;
 };
 
-type DataSchema = Record<DataSchemaField, DataSchemaValue>;
+export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
 type BaseCategory = {
   keyMapper: string;

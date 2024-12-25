@@ -1,10 +1,19 @@
 import { Node } from '@xyflow/react';
 import { FunctionComponent } from 'react';
+import { DataSchema } from './category';
+
+type Metadata = Record<string, unknown> & {
+  data?: Record<string, unknown> & {
+    current?: Record<string, unknown> & {
+      data?: DataSchema;
+    };
+  };
+};
 
 export type StudioNode = Node<{
   sourceHandles: string[];
   targetHandles: string[];
-  metadata: unknown | Record<string, unknown>;
+  metadata: Metadata;
 }>;
 
 export type StudioDataKeyMapperType = string;

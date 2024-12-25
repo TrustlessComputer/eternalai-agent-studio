@@ -5,12 +5,14 @@ import { HTMLAttributes, memo, useEffect, useMemo } from 'react';
 
 import useDragMaskStore from '@/modules/Studio/stores/useDragMaskStore';
 import './Draggable.scss';
+import { DataSchema } from '@/modules/Studio/types/category';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   id: string;
   data: {
     isRight?: boolean;
     isParent?: boolean;
+    data?: DataSchema;
   };
   disabled?: boolean;
 };

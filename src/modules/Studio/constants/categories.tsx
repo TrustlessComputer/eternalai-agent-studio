@@ -109,6 +109,12 @@ const NETWORK: StudioCategory = {
           placeholder: 'Network',
           defaultValue: 'Solana',
         },
+        // token: {
+        //   type: 'text',
+        //   label: 'Network',
+        //   placeholder: 'Network',
+        //   defaultValue: 'Solana',
+        // },
       },
     },
     {

@@ -37,8 +37,9 @@ const LegoRender = ({
   return (
     <Lego background={background} icon={icon}>
       <LegoContent>
-        <TextRender data={title} />
-        <FormRender categoryId={categoryId} id={id} schemaData={schemaData} />
+        <FormRender categoryId={categoryId} id={id} schemaData={schemaData}>
+          <TextRender data={title} />
+        </FormRender>
       </LegoContent>
     </Lego>
   );

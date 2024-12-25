@@ -5,6 +5,7 @@ type State = {
   draggingCategoryItem: ReactNode | null;
   dragCategoryItem: (node: ReactNode) => void;
   dropCategoryItem: () => void;
+  clear: () => void;
 };
 
 const useDragMaskStore = create<State>((set) => ({
@@ -12,6 +13,10 @@ const useDragMaskStore = create<State>((set) => ({
 
   dragCategoryItem: (node) => set({ draggingCategoryItem: node }),
   dropCategoryItem: () => set({ draggingCategoryItem: null }),
+
+  clear: () => {
+    set({ draggingCategoryItem: null });
+  },
 }));
 
 export default useDragMaskStore;

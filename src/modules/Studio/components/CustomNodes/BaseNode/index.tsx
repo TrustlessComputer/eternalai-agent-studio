@@ -9,15 +9,38 @@ import './BaseNode.scss';
 import { NodeProps } from '@xyflow/react';
 
 import { mergeIds } from '@/utils/flow';
-import { useMemo } from 'react';
+import { FunctionComponent, useMemo } from 'react';
 import FormRender from '../../DataFields/FormRender';
 import Draggable from '../../DnD/Draggable';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
 import TextRender from '../../Render/TextRender';
+import { DataSchema } from '@/modules/Studio/types/category';
 
 type Props = NodeProps<StudioNode>;
 
+const LegoRender = ({
+  background,
+  icon,
+  id,
+  schemaData,
+  title,
+}: {
+  background?: string;
+  icon: React.ReactNode | FunctionComponent;
+  id: string;
+  schemaData?: DataSchema;
+  title: React.ReactNode | FunctionComponent;
+}) => {
+  return (
+    <Lego background={background} icon={icon}>
+      <LegoContent>
+        <TextRender data={title} />
+        <FormRender id={id} schemaData={schemaData} />
+      </LegoContent>
+    </Lego>
+  );
+};
 const BaseNode = ({ data }: Props) => {
   const schemaData = useMemo(() => {
     return data?.metadata?.data?.current?.data;
@@ -50,12 +73,13 @@ const BaseNode = ({ data }: Props) => {
             belongsTo: nodeId,
           }}
         >
-          <Lego background={data.metadata.option.color} icon={data.metadata.option.icon}>
-            <LegoContent>
-              <TextRender data={data.metadata.option.title} />
-              <FormRender id={nodeId} schemaData={schemaData} />
-            </LegoContent>
-          </Lego>
+          <LegoRender
+            background={data.metadata.option.color}
+            icon={data.metadata.option.icon}
+            title={data.metadata.option.title}
+            id={nodeId}
+            schemaData={schemaData}
+          />
         </Draggable>
 
         {children?.map((item, index) => {
@@ -69,12 +93,13 @@ const BaseNode = ({ data }: Props) => {
               key={draggableId}
               data={{ isRight: true, category, option, data: schemaData, belongsTo: nodeId }}
             >
-              <Lego background={option.color} icon={option.icon}>
-                <LegoContent>
-                  <TextRender data={option.title} />
-                  <FormRender id={nodeId} schemaData={option.data} />
-                </LegoContent>
-              </Lego>
+              <LegoRender
+                background={option.color}
+                icon={option.icon}
+                title={option.title}
+                id={nodeId}
+                schemaData={option.data}
+              />
             </Draggable>
           );
         })}

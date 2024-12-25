@@ -8,6 +8,7 @@ type State = {
   setFormFields: (id: string, fields: Record<string, unknown>) => void;
   removeForm: (id: string) => void;
   getFormById: (id: string) => FormDataType;
+  clear: () => void;
 };
 
 const useStudioFormStore = create<State>((set, get) => ({
@@ -48,6 +49,9 @@ const useStudioFormStore = create<State>((set, get) => ({
     });
   },
   getFormById: (id) => get().dataForms[id],
+  clear: () => {
+    set({ dataForms: {} });
+  },
 }));
 
 export default useStudioFormStore;

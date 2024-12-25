@@ -44,18 +44,20 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
         }>,
       } as Active;
 
+      const childrenNode: StudioNode[] = [];
+      if (item.children.length) {
+        childrenNode.push(...transformDataToNodes(item.children));
+      }
+
       const metadata = {
         ...active,
         nodeId: item.id,
         category,
         option,
-        children: [],
+        children: childrenNode,
       } satisfies StudioNodeMetadata;
 
       nodes.push(createNewBaseNode(item.id, position, metadata));
-      if (item.children.length) {
-        nodes.push(...transformDataToNodes(item.children));
-      }
     }
   });
 

@@ -7,17 +7,18 @@ import useDragMaskStore from '@/modules/Studio/stores/useDragMaskStore';
 import { DataSchema, StudioCategory, StudioCategoryOption } from '@/modules/Studio/types/category';
 import './Draggable.scss';
 
+export type DraggableDataType = {
+  isRight?: boolean;
+  isParent?: boolean;
+  category: StudioCategory;
+  option: StudioCategoryOption;
+  belongsTo?: string;
+  data?: DataSchema;
+};
 type Props = HTMLAttributes<HTMLDivElement> & {
   id: string;
-  data?: {
-    isRight?: boolean;
-    isParent?: boolean;
-    belongsTo?: string;
+  data?: DraggableDataType;
 
-    data?: DataSchema;
-    category: StudioCategory;
-    option: StudioCategoryOption;
-  };
   disabled?: boolean;
 };
 

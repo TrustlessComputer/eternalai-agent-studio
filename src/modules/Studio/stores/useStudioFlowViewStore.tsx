@@ -9,6 +9,8 @@ type State = {
 
   view: FlowView;
   setView: (view: FlowView) => void;
+
+  clear: () => void;
 };
 
 const useStudioFlowViewStore = create<State>((set) => ({
@@ -17,6 +19,10 @@ const useStudioFlowViewStore = create<State>((set) => ({
 
   view: { x: 0, y: 0, zoom: 1 },
   setView: (view) => set({ view }),
+
+  clear: () => {
+    set({ mousePosition: { x: 0, y: 0 }, view: { x: 0, y: 0, zoom: 1 } });
+  },
 }));
 
 export default useStudioFlowViewStore;

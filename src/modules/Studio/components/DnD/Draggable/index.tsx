@@ -5,6 +5,7 @@ import { HTMLAttributes, memo, useEffect, useMemo } from 'react';
 
 import useDragMaskStore from '@/modules/Studio/stores/useDragMaskStore';
 import { DataSchema, StudioCategory, StudioCategoryOption } from '@/modules/Studio/types/category';
+import { StudioNode } from '@/modules/Studio/types/graph';
 import './Draggable.scss';
 
 export type DraggableDataType = {
@@ -12,13 +13,14 @@ export type DraggableDataType = {
   isParent?: boolean;
   category: StudioCategory;
   option: StudioCategoryOption;
-  belongsTo?: string;
   data?: DataSchema;
+  belongsTo?: string; // belongs to node id
+  metadata?: StudioNode;
 };
+
 type Props = HTMLAttributes<HTMLDivElement> & {
   id: string;
   data?: DraggableDataType;
-
   disabled?: boolean;
 };
 

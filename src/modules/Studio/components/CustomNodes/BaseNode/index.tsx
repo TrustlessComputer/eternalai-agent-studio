@@ -8,6 +8,7 @@ import './BaseNode.scss';
 
 import { NodeProps } from '@xyflow/react';
 
+import { DataSchema } from '@/modules/Studio/types/category';
 import { mergeIds } from '@/utils/flow';
 import { FunctionComponent, useMemo } from 'react';
 import FormRender from '../../DataFields/FormRender';
@@ -15,7 +16,6 @@ import Draggable from '../../DnD/Draggable';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
 import TextRender from '../../Render/TextRender';
-import { DataSchema } from '@/modules/Studio/types/category';
 
 type Props = NodeProps<StudioNode>;
 
@@ -65,6 +65,7 @@ const BaseNode = ({ data }: Props) => {
       <div className="base-node_content">
         <Draggable
           id={draggableId}
+          disabled={children?.length > 0}
           data={{
             isRight: true,
             category: data.metadata.category,
@@ -91,7 +92,7 @@ const BaseNode = ({ data }: Props) => {
             <Draggable
               id={draggableId}
               key={draggableId}
-              data={{ isRight: true, category, option, data: schemaData, belongsTo: nodeId }}
+              data={{ isRight: true, category, option, data: schemaData, belongsTo: nodeId, metadata: item }}
             >
               <LegoRender
                 background={option.color}

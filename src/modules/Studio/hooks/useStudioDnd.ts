@@ -6,11 +6,13 @@ import { useCallback } from 'react';
 import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../constants/droppable-id';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
+import { removeItemFromArray } from '../utils/array';
 import { createNewBaseNode } from '../utils/node';
 
 const useStudioDnD = () => {
   const addNode = useStudioFlowStore((state) => state.addNode);
   const removeNode = useStudioFlowStore((state) => state.removeNode);
+  const setNodes = useStudioFlowStore((state) => state.setNodes);
   const reloadFlow = useStudioFlowStore((state) => state.reloadFlow);
   const flowStore = useStoreApi();
 
@@ -18,6 +20,7 @@ const useStudioDnD = () => {
 
   const handleDragStart = useCallback((event: DragStartEvent) => {}, []);
 
+  // TODO: Process data after reload
   const handleDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event;
 
@@ -35,14 +38,21 @@ const useStudioDnD = () => {
 
     if (!activeNode) return;
 
+    // From output to input
     if (droppedOnInput && isActiveFromRight) {
       const isEmptyChildren = activeNode.data.metadata.children.length === 0;
 
-      if (isEmptyChildren) {
+      // Remove the node if it has no children
+      if (isActiveParent && isEmptyChildren) {
         removeNode(activeNode.id);
-      } else if (isActiveParent) {
-      } else {
-        // const newChildren = removeItemFromArray(activeNode.data.metadata.children, active.data.current?.);
+      }
+      // Remove the child
+      else {
+        const newChildren = removeItemFromArray(activeNode.data.metadata.children, active.data.current?.metadata);
+
+        activeNode.data.metadata.children = newChildren;
+
+        setNodes(newNodes.map((n) => ({ ...n, data: { ...n.data, className: '' } })));
       }
 
       reloadFlow();
@@ -50,6 +60,12 @@ const useStudioDnD = () => {
       return;
     }
 
+    // Drag out the node
+    if (isActiveFromRight && droppedOnOutput && !isActiveParent) {
+      return;
+    }
+
+    // From input to output
     if (droppedOnOutput && !isActiveFromRight) {
       const {
         transform: [transformX, transformY, zoomLevel],

@@ -61,7 +61,7 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
       if (intersectionNode) {
         intersectionNode.data.metadata.children = [
           // take all children from intersection node
-          ...(intersectionNode.data.metadata.children || []),
+          ...intersectionNode.data.metadata.children,
 
           // current node
           node,

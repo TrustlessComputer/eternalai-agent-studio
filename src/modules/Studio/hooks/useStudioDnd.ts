@@ -2,10 +2,11 @@ import { DragEndEvent, DragStartEvent, MouseSensor, useSensor, useSensors } from
 import { useStoreApi } from '@xyflow/react';
 import { v4 } from 'uuid';
 
+import { NodeType } from '@/enums/node-type';
+import { AreaClassName } from '../constants/area-class-name';
 import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../constants/droppable-id';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
-import { NodeType } from '@/enums/node-type';
 
 const useStudioDnD = () => {
   const addNode = useStudioFlowStore((state) => state.addNode);
@@ -49,9 +50,12 @@ const useStudioDnD = () => {
         data: {
           sourceHandles: [],
           targetHandles: [],
-          metadata: { ...active, nodeId },
+          metadata: {
+            nodeId,
+            option: active.data.current?.option,
+          },
         },
-        // dragHandle: AREA_CLASS_NAME.dragHandle,
+        dragHandle: `.${AreaClassName.DRAG_HANDLE}`,
         // deletable: false,
       });
 

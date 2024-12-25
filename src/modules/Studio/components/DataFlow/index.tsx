@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
 import useStudioDataStore from '../../stores/useStudioDataStore';
-import { StudioDataNode } from '../../types/graph';
 import useStudioFlowStore from '../../stores/useStudioFlowStore';
+import { StudioDataNode } from '../../types/graph';
 
 import { useThrottleValue } from '@/hooks/useThrottleValue';
 
@@ -14,7 +14,7 @@ function DataFlow({ onChange }: { onChange?: (data: StudioDataNode[]) => void })
 
   useEffect(() => {
     // sync nodes with data
-    console.log('throttleNodes', throttleNodes);
+    // console.log('throttleNodes', throttleNodes);
   }, [throttleNodes]);
 
   useEffect(() => {

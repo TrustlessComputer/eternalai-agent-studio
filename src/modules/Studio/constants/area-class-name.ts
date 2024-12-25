@@ -1,3 +1,3 @@
-export const AREA_CLASS_NAME = {
-  dragHandle: 'drag-handle-area',
+export const AreaClassName = {
+  DRAG_HANDLE: 'drag-handle-area',
 };

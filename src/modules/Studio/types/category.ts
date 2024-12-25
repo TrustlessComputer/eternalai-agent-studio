@@ -9,6 +9,7 @@ type DataSchemaValue = {
 type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
 type BaseCategory = {
+  key: string;
   keyMapper: string;
   title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;

@@ -1,10 +1,14 @@
 import { Node } from '@xyflow/react';
 import { FunctionComponent } from 'react';
+import { StudioCategoryItem } from './category';
 
 export type StudioNode = Node<{
   sourceHandles: string[];
   targetHandles: string[];
-  metadata: unknown | Record<string, unknown>;
+  metadata: {
+    option: StudioCategoryItem;
+    nodeId: string;
+  };
 }>;
 
 export type StudioDataKeyMapperType = string;

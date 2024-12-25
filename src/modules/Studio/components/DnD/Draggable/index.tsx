@@ -4,18 +4,20 @@ import cx from 'clsx';
 import { HTMLAttributes, memo, useEffect, useMemo } from 'react';
 
 import useDragMaskStore from '@/modules/Studio/stores/useDragMaskStore';
+import { StudioCategoryItem } from '@/modules/Studio/types/category';
 import './Draggable.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   id: string;
-  data: {
+  data?: {
     isRight?: boolean;
     isParent?: boolean;
+    option: StudioCategoryItem;
   };
   disabled?: boolean;
 };
 
-const Draggable = ({ id, data, disabled, children, ...props }: Props) => {
+const Draggable = ({ id, data, disabled = false, children, ...props }: Props) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id,
     disabled,

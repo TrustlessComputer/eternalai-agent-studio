@@ -26,19 +26,20 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
   });
 
   useEffect(() => {
+    console.log('[Board] reloadFlowCounter', useStudioFlowViewStore.getState().view);
     setCurrentView(useStudioFlowViewStore.getState().view);
   }, [reloadFlowCounter]);
 
   return (
     <Droppable id={OUTPUT_DROP_ID} data={{}} className="board">
       <ReactFlow
+        key={reloadFlowCounter.toString()}
         nodes={nodes}
         nodeTypes={nodeTypes}
         onNodesChange={onNodesChange}
         edges={edges}
         onEdgesChange={onEdgesChange}
         edgesFocusable={false}
-        fitView
         fitViewOptions={{ padding: 1 }}
         deleteKeyCode=""
         defaultViewport={currentView}

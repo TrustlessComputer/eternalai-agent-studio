@@ -14,13 +14,14 @@ import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataStore from './stores/useStudioDataStore';
 import './Studio.scss';
 import { StudioCategory } from './types/category';
-import { StudioDataNode, StudioNode } from './types/graph';
+import { StudioDataNode } from './types/graph';
 import EventHandler from './components/EventHandler';
 import useStudioDnD from './hooks/useStudioDnd';
 import useStudioFlowStore from './stores/useStudioFlowStore';
-import { NodeType } from '@/enums/node-type';
-import { AreaClassName } from './constants/area-class-name';
 import { transformDataToNodes } from './utils/node';
+import useStudioFormStore from './stores/useStudioFormStore';
+import useStudioFlowViewStore from './stores/useStudioFlowViewStore';
+import useDragMaskStore from './stores/useDragMaskStore';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   categories: StudioCategory[];
@@ -71,15 +72,24 @@ export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioPro
     () => ({
       setData: (data: StudioDataNode[]) => {
         console.log('studio init data', data);
-        // generate nodes/edges from data
         // clear current nodes/edges
         useStudioFlowStore.getState().clear();
+        useStudioFormStore.getState().clear();
+        useStudioDataStore.getState().clear();
+        useStudioFlowViewStore.getState().clear();
+        useDragMaskStore.getState().clear();
 
+        // generate nodes/edges from data
         useStudioDataStore.getState().setData(data);
 
         const initNodes = transformDataToNodes(data);
         console.log('studio init nodes', initNodes);
         useStudioFlowStore.getState().addNodes(initNodes);
+
+        console.log('studio init form datas', initNodes);
+        data.forEach((item) => {
+          useStudioFormStore.getState().addForm(item.id, item.data || {});
+        });
       },
     }),
     [],

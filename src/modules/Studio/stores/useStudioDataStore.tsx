@@ -6,6 +6,7 @@ import { StudioDataNode } from '../types/graph';
 type State = {
   data: StudioDataNode[];
   setData: (data: StudioDataNode[]) => void;
+  clear: () => void;
 };
 
 const useStudioDataStore = create<State>((set, get) => ({
@@ -22,6 +23,9 @@ const useStudioDataStore = create<State>((set, get) => ({
       };
     });
     set({ data: processingData });
+  },
+  clear: () => {
+    set({ data: [] });
   },
 }));
 

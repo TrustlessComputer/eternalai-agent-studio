@@ -31,10 +31,18 @@ function Select({ formId, className, name, categoryId, placeholder = 'Select', .
       {...rest}
       onChange={handleOnChange}
       name={name}
-      className={cs('studio-field-select', className)}
+      className={cs(
+        'studio-field-select',
+        {
+          ['studio-field-select__empty']: !value,
+        },
+        className,
+      )}
       value={value as string}
     >
-      <option>{placeholder}</option>
+      <option value="" className="studio-field-select__placeholder">
+        {placeholder}
+      </option>
       {options.map((op) => (
         <option key={`form-render-select-${formId}-${op.value}`} value={op.value}>
           {op.label}

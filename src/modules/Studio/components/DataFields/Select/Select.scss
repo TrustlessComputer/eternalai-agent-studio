@@ -7,4 +7,12 @@
   &:focus {
     border: 1px solid #4a90e2;
   }
+
+  &.studio-field-select__empty {
+    color: #999;
+  }
+
+  .studio-field-select__placeholder {
+    opacity: 0.6;
+  }
 }

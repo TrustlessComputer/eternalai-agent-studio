@@ -59,7 +59,9 @@ const BaseNode = ({ data }: Props) => {
   return (
     <div className={cx('base-node', data.className)} id={nodeId}>
       <div className={cx('base-node_drag-icon', AreaClassName.DRAG_HANDLE)}>
-        <DragIcon />
+        <span>
+          <DragIcon />
+        </span>
       </div>
 
       <div className="base-node_content">

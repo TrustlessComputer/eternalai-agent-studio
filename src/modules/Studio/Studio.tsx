@@ -79,7 +79,7 @@ export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioPro
 
         const initNodes = transformDataToNodes(data);
         console.log('studio init nodes', initNodes);
-        // useStudioFlowStore.getState().addNodes(initNodes);
+        useStudioFlowStore.getState().addNodes(initNodes);
       },
     }),
     [],

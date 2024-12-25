@@ -34,3 +34,8 @@ export type StudioCategory = Omit<BaseCategoryOption, 'value' | 'data' | 'color'
   options: StudioCategoryOption[];
   color: string;
 };
+
+export type StudioCategoryMap = StudioCategory &
+  StudioCategoryOption & {
+    parent: StudioCategory;
+  };

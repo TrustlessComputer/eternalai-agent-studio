@@ -10,7 +10,7 @@ export const GRAPH_DATA: StudioDataNode[] = [
     'rect': {
       'position': {
         'x': 409.5,
-        'y': 243,
+        'y': 500,
       },
     },
   },

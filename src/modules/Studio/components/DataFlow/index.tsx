@@ -35,7 +35,7 @@ function Listen() {
         });
       }
     });
-    console.log('___________sync nodes with data', newData);
+    console.log('___________sync nodes with data', { newData, throttleNodes });
     useStudioDataStore.getState().setData(newData);
   }, [throttleNodes, throttleDataForms]);
 

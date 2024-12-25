@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Studio, StudioProps, StudioRef } from './Studio';
 import { MODEL_CATEGORIES } from './constants/categories';
 import { useEffect, useRef } from 'react';
+import { GRAPH_DATA } from './constants/data';
 
 type Story = StoryObj<typeof Studio>;
 
@@ -22,7 +23,7 @@ export const Default: Story = {
 
     useEffect(() => {
       if (ref.current) {
-        ref.current.setData([]);
+        ref.current.setData(GRAPH_DATA);
       }
     }, []);
 

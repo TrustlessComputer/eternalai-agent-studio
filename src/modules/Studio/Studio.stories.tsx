@@ -3,11 +3,14 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useRef } from 'react';
 import { Studio, StudioProps, StudioRef } from './Studio';
 import { MODEL_CATEGORIES } from './constants/categories';
+import { GRAPH_DATA_TEMPLATE_2 } from './constants/data';
+import { DATA_SOURCE } from './constants/dataSource';
 
 type Story = StoryObj<typeof Studio>;
 
 const args = {
   categories: MODEL_CATEGORIES,
+  dataSource: DATA_SOURCE,
 } satisfies StudioProps;
 
 const meta: Meta<typeof Studio> = {
@@ -22,7 +25,7 @@ export const Default: Story = {
 
     useEffect(() => {
       if (ref.current) {
-        // ref.current.setData(GRAPH_DATA_TEMPLATE_2);
+        ref.current.setData(GRAPH_DATA_TEMPLATE_2);
       }
     }, []);
 

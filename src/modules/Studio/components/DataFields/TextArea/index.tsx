@@ -1,5 +1,5 @@
 import cs from 'clsx';
-import './Textbox.scss';
+import './TextArea.scss';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 
 type Props = Omit<React.ComponentPropsWithoutRef<'textarea'>, 'defaultValue'> & {

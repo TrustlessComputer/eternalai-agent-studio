@@ -108,7 +108,7 @@ export const GRAPH_DATA_TEMPLATE_2: StudioDataNode[] = [
     'title': 'New personality',
     'children': [],
     'data': {
-      personality: 'template 2',
+      network: 'base',
     },
     'rect': {
       'position': {

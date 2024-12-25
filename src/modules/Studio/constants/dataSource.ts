@@ -1,0 +1,18 @@
+import { DataSourceType } from '../types/dataSource';
+
+export const DATA_SOURCE: Record<string, DataSourceType[]> = {
+  'network-option-4': [
+    {
+      value: 'base',
+      label: 'Base',
+    },
+    {
+      value: 'solana',
+      label: 'Solana',
+    },
+    {
+      value: 'bnb',
+      label: 'BNB',
+    },
+  ],
+};

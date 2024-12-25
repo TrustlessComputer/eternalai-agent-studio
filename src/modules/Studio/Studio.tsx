@@ -1,5 +1,5 @@
 import { DndContext } from '@dnd-kit/core';
-import { NodeTypes, ReactFlowProvider, XYPosition } from '@xyflow/react';
+import { NodeTypes, ReactFlowProvider } from '@xyflow/react';
 import cx from 'clsx';
 import React, { useEffect, useImperativeHandle, useMemo } from 'react';
 
@@ -23,18 +23,21 @@ import useStudioFormStore from './stores/useStudioFormStore';
 import useStudioFlowViewStore from './stores/useStudioFlowViewStore';
 import useDragMaskStore from './stores/useDragMaskStore';
 import { getFieldDataFromRawData } from './utils/data';
+import { DataSourceType } from './types/dataSource';
+import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   categories: StudioCategory[];
   onChange?: (data: StudioDataNode[]) => void;
   nodeTypes?: NodeTypes;
+  dataSource?: Record<string, DataSourceType[]>;
 };
 
 export type StudioRef = {
   setData: (data: StudioDataNode[]) => void;
 };
 
-const StudioComponent = ({ className, categories, onChange, nodeTypes, ...rest }: StudioProps) => {
+const StudioComponent = ({ className, categories, onChange, nodeTypes, dataSource, ...rest }: StudioProps) => {
   const { sensors, handleDragStart, handleDragEnd } = useStudioDnD();
 
   const extendedNodeTypes = useMemo(() => {
@@ -47,6 +50,12 @@ const StudioComponent = ({ className, categories, onChange, nodeTypes, ...rest }
   useEffect(() => {
     useStudioCategoryStore.getState().setCategories(categories);
   }, [categories]);
+
+  useEffect(() => {
+    if (dataSource) {
+      useStudioDataSourceStore.getState().setDataSource(dataSource);
+    }
+  }, [dataSource]);
 
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>

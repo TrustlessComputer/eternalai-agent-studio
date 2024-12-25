@@ -25,18 +25,20 @@ const LegoRender = ({
   id,
   schemaData,
   title,
+  categoryId,
 }: {
   background?: string;
   icon: React.ReactNode | FunctionComponent;
   id: string;
   schemaData?: DataSchema;
   title: React.ReactNode | FunctionComponent;
+  categoryId: string;
 }) => {
   return (
     <Lego background={background} icon={icon}>
       <LegoContent>
         <TextRender data={title} />
-        <FormRender id={id} schemaData={schemaData} />
+        <FormRender categoryId={categoryId} id={id} schemaData={schemaData} />
       </LegoContent>
     </Lego>
   );
@@ -82,6 +84,7 @@ const BaseNode = ({ data }: Props) => {
             title={data.metadata.option.title}
             id={nodeId}
             schemaData={schemaData}
+            categoryId={data.metadata.option.keyMapper}
           />
         </Draggable>
 
@@ -102,6 +105,7 @@ const BaseNode = ({ data }: Props) => {
                 title={option.title}
                 id={item.id}
                 schemaData={option.data}
+                categoryId={option.keyMapper}
               />
             </Draggable>
           );

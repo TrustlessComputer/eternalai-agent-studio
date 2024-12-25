@@ -3,7 +3,7 @@ import { KeyMapperType } from './base';
 
 type DataSchemaField = string;
 type DataSchemaValue = {
-  type: 'text' | 'textarea' | 'checkbox';
+  type: 'text' | 'textarea' | 'checkbox' | 'select';
   label?: string;
   placeholder?: string;
   defaultValue?: string | number | boolean;

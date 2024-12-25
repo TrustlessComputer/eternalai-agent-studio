@@ -125,8 +125,8 @@ const NETWORK: StudioCategory = {
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
       order: 3,
       data: {
-        personality: {
-          type: 'textarea',
+        network: {
+          type: 'select',
           label: 'Network',
           placeholder: 'Network',
           defaultValue: 'Solana',

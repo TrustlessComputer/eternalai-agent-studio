@@ -2,13 +2,15 @@ import { DataSchema } from '@/modules/Studio/types/category';
 import { useMemo } from 'react';
 import Textbox from '../Textbox';
 import TextArea from '../TextArea';
+import Select from '../Select';
 
 type Props = {
   id: string;
   schemaData?: DataSchema;
+  categoryId: string;
 };
 
-function FormRender({ id, schemaData }: Props) {
+function FormRender({ id, categoryId, schemaData }: Props) {
   const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
 
   if (fields.length && schemaData) {
@@ -20,6 +22,8 @@ function FormRender({ id, schemaData }: Props) {
         return <Textbox formId={id} name={field} placeholder={fieldData.placeholder} />;
       } else if (fieldData.type === 'textarea') {
         return <TextArea formId={id} name={field} placeholder={fieldData.placeholder} />;
+      } else if (fieldData.type === 'select') {
+        return <Select categoryId={categoryId} formId={id} name={field} placeholder={fieldData.placeholder} />;
       }
     } else {
       // render multiple files

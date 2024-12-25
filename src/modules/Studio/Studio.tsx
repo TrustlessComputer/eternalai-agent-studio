@@ -1,5 +1,5 @@
 import { DndContext } from '@dnd-kit/core';
-import { NodeTypes, ReactFlowProvider } from '@xyflow/react';
+import { NodeTypes, ReactFlowProvider, XYPosition } from '@xyflow/react';
 import cx from 'clsx';
 import React, { useEffect, useImperativeHandle, useMemo } from 'react';
 
@@ -14,9 +14,12 @@ import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataStore from './stores/useStudioDataStore';
 import './Studio.scss';
 import { StudioCategory } from './types/category';
-import { StudioDataNode } from './types/graph';
+import { StudioDataNode, StudioNode } from './types/graph';
 import EventHandler from './components/EventHandler';
 import useStudioDnD from './hooks/useStudioDnd';
+import useStudioFlowStore from './stores/useStudioFlowStore';
+import { NodeType } from '@/enums/node-type';
+import { AreaClassName } from './constants/area-class-name';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   categories: StudioCategory[];
@@ -69,6 +72,47 @@ export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioPro
         console.log('studio init data', data);
         // generate nodes/edges from data
         useStudioDataStore.getState().setData(data);
+
+        const newNodes: StudioNode[] = [];
+        // data.forEach((item) => {
+        //   const position = (item.rect?.position || {}) as XYPosition;
+        //   newNodes.push({
+        //     id: item.id,
+        //     type: NodeType.BASE_NODE,
+        //     position,
+        //     data: {
+        //       sourceHandles: [],
+        //       targetHandles: [],
+        //       metadata: {
+        //         // ...active,
+        //         nodeId: item.id,
+        //         // category: thisCategory,
+        //         // option: thisOption,
+        //         children: [],
+        //       },
+        //     },
+        //     dragHandle: `.${AreaClassName.DRAG_HANDLE}`,
+        //   });
+        // });
+        // useStudioFlowStore.getState().addNode({
+        //   id: nodeId,
+        //   // type: active.data.current?.nodeType,
+        //   type: NodeType.BASE_NODE,
+        //   position: { x: transformedX, y: transformedY },
+        //   data: {
+        //     sourceHandles: [],
+        //     targetHandles: [],
+        //     metadata: {
+        //       ...active,
+        //       nodeId,
+        //       category: thisCategory,
+        //       option: thisOption,
+        //       children: [],
+        //     },
+        //   },
+        //   dragHandle: `.${AreaClassName.DRAG_HANDLE}`,
+        //   // deletable: false,
+        // });
       },
     }),
     [],

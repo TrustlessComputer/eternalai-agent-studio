@@ -2,15 +2,13 @@ import { DragEndEvent, DragStartEvent, MouseSensor, useSensor, useSensors } from
 import { useStoreApi } from '@xyflow/react';
 import { v4 } from 'uuid';
 
-import { NodeType } from '@/enums/node-type';
-import { AreaClassName } from '../constants/area-class-name';
 import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../constants/droppable-id';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
+import { createNewBaseNode } from '../utils/node';
 
 const useStudioDnD = () => {
   const addNode = useStudioFlowStore((state) => state.addNode);
-  const removeNode = useStudioFlowStore((state) => state.removeNode);
   const reloadFlow = useStudioFlowStore((state) => state.reloadFlow);
 
   const flowStore = useStoreApi();
@@ -43,25 +41,19 @@ const useStudioDnD = () => {
       const thisCategory = active.data.current?.category;
       const thisOption = active.data.current?.option;
 
-      addNode({
-        id: nodeId,
-        // type: active.data.current?.nodeType,
-        type: NodeType.BASE_NODE,
-        position: { x: transformedX, y: transformedY },
-        data: {
-          sourceHandles: [],
-          targetHandles: [],
-          metadata: {
+      addNode(
+        createNewBaseNode(
+          nodeId,
+          { x: transformedX, y: transformedY },
+          {
             ...active,
             nodeId,
             category: thisCategory,
             option: thisOption,
             children: [],
           },
-        },
-        dragHandle: `.${AreaClassName.DRAG_HANDLE}`,
-        // deletable: false,
-      });
+        ),
+      );
 
       reloadFlow();
     }

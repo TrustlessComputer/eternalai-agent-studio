@@ -2,32 +2,32 @@ import cs from 'clsx';
 import './Textbox.scss';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 
-type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
+type Props = Omit<React.ComponentPropsWithoutRef<'textarea'>, 'defaultValue'> & {
   formId: string;
   name: string;
 };
 
-function Textbox({ formId, placeholder, className, name, ...rest }: Props) {
+function TextArea({ formId, placeholder, className, name, ...rest }: Props) {
   const { dataForms, setFormFields } = useStudioFormStore();
 
   const value = dataForms[formId]?.[name] || '';
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormFields(formId, {
       [name]: e.target.value,
     });
   };
 
   return (
-    <input
+    <textarea
       {...rest}
       onChange={handleOnChange}
-      type="text"
       placeholder={placeholder}
       name={name}
-      className={cs('studio-field-input', className)}
+      className={cs('studio-field-text-area', className)}
       value={value as string}
+      rows={4}
     />
   );
 }
 
-export default Textbox;
+export default TextArea;

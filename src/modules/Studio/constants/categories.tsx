@@ -44,6 +44,7 @@ const PERSONALITY: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
+      data: {},
     },
     {
       key: 'personality-option-2',
@@ -86,6 +87,14 @@ const NETWORK: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
+      data: {
+        network: {
+          type: 'text',
+          label: 'Network',
+          placeholder: 'Network',
+          defaultValue: 'Base',
+        },
+      },
     },
     {
       key: 'network-option-2',
@@ -93,6 +102,14 @@ const NETWORK: StudioCategory = {
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       order: 1,
+      data: {
+        network: {
+          type: 'text',
+          label: 'Network',
+          placeholder: 'Network',
+          defaultValue: 'Solana',
+        },
+      },
     },
     {
       key: 'network-option-3',
@@ -107,6 +124,14 @@ const NETWORK: StudioCategory = {
       title: 'New personality',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
       order: 3,
+      data: {
+        personality: {
+          type: 'textarea',
+          label: 'Network',
+          placeholder: 'Network',
+          defaultValue: 'Solana',
+        },
+      },
     },
   ],
   color: '#12DAC2',

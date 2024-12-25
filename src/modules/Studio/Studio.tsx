@@ -22,6 +22,7 @@ import { transformDataToNodes } from './utils/node';
 import useStudioFormStore from './stores/useStudioFormStore';
 import useStudioFlowViewStore from './stores/useStudioFlowViewStore';
 import useDragMaskStore from './stores/useDragMaskStore';
+import { getFieldDataFromRawData } from './utils/data';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   categories: StudioCategory[];
@@ -86,10 +87,9 @@ export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioPro
         console.log('studio init nodes', initNodes);
         useStudioFlowStore.getState().addNodes(initNodes);
 
-        console.log('studio init form datas', initNodes);
-        data.forEach((item) => {
-          useStudioFormStore.getState().addForm(item.id, item.data || {});
-        });
+        const formData = getFieldDataFromRawData(data);
+        console.log('studio init form datas', formData);
+        useStudioFormStore.getState().initDataForms(formData);
       },
     }),
     [],

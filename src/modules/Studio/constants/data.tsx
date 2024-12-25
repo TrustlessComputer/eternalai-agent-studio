@@ -68,7 +68,9 @@ export const GRAPH_DATA_TEMPLATE_2: StudioDataNode[] = [
         'keyMapper': 'network-option-2',
         'title': 'Import from Ordinals',
         'children': [],
-        'data': {},
+        'data': {
+          network: 'BNB',
+        },
         'rect': {
           'position': {
             'x': 484.5,
@@ -105,7 +107,9 @@ export const GRAPH_DATA_TEMPLATE_2: StudioDataNode[] = [
     'keyMapper': 'network-option-4',
     'title': 'New personality',
     'children': [],
-    'data': {},
+    'data': {
+      personality: 'template 2',
+    },
     'rect': {
       'position': {
         'x': 869.5,

@@ -1,13 +1,13 @@
 import { create } from 'zustand';
+import { FormDataType } from '../types/base';
 
-export type FormData = Record<string, unknown>;
 type State = {
-  dataForms: Record<string, FormData>;
-  addForm: (id: string, data: FormData) => void;
-  editForm: (id: string, data: FormData) => void;
+  dataForms: Record<string, FormDataType>;
+  addForm: (id: string, data: FormDataType) => void;
+  editForm: (id: string, data: FormDataType) => void;
   setFormFields: (id: string, fields: Record<string, unknown>) => void;
   removeForm: (id: string) => void;
-  getFormById: (id: string) => FormData;
+  getFormById: (id: string) => FormDataType;
 };
 
 const useStudioFormStore = create<State>((set, get) => ({

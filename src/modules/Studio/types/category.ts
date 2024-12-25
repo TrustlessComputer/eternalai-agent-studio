@@ -1,4 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react';
+import { KeyMapperType } from './base';
 
 type DataSchemaField = string;
 type DataSchemaValue = {
@@ -6,14 +7,14 @@ type DataSchemaValue = {
   label?: string;
   placeholder?: string;
   defaultValue?: string | number | boolean;
-  // onValidate?: (value: unknown, dataFormNode: FormData) => boolean;
+  // onValidate?: (value: unknown, dataFormNode: FormDataType) => boolean;
 };
 
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
 type BaseCategoryOption = {
   key: string;
-  keyMapper: string;
+  keyMapper: KeyMapperType;
   title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;
   required?: boolean;

@@ -40,7 +40,7 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
         ...n,
         data: {
           ...n.data,
-          className: intersections.includes(n.id) ? 'node-base__highlight' : '',
+          className: intersections.includes(n.id) ? 'base-node__highlight' : '',
         },
       })),
     );
@@ -70,9 +70,11 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
 
         console.log('[Board] onNodeDragStop', newNodes);
 
-        setNodes(newNodes);
+        setNodes(newNodes.map((n) => ({ ...n, data: { ...n.data, className: '' } })));
         setEdges(newEdges);
         reloadFlow();
+
+        return;
       }
     }
   }, []);

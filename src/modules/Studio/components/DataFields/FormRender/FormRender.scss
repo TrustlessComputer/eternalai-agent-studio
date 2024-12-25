@@ -8,4 +8,21 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  width: 100%;
+
+  .studio-form-multiple-field-heading {
+  }
+
+  .studio-form-multiple-field-table {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .studio-form-multiple-field-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+  }
 }

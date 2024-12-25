@@ -104,17 +104,19 @@ const NETWORK: StudioCategory = {
       order: 1,
       data: {
         network: {
-          type: 'text',
+          type: 'select',
           label: 'Network',
           placeholder: 'Network',
           defaultValue: 'Solana',
+          dataSourceKey: 'network-data-source',
         },
-        // token: {
-        //   type: 'text',
-        //   label: 'Network',
-        //   placeholder: 'Network',
-        //   defaultValue: 'Solana',
-        // },
+        token: {
+          type: 'select',
+          label: 'Token',
+          placeholder: 'Network',
+          defaultValue: 'Solana',
+          dataSourceKey: 'token-data-source',
+        },
       },
     },
     {
@@ -136,6 +138,7 @@ const NETWORK: StudioCategory = {
           label: 'Network',
           placeholder: 'Network',
           defaultValue: 'Solana',
+          dataSourceKey: 'network-data-source',
         },
       },
     },

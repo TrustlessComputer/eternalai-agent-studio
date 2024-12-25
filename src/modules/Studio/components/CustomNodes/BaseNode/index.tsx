@@ -34,8 +34,11 @@ const LegoRender = ({
   title: React.ReactNode | FunctionComponent;
   categoryId: string;
 }) => {
+  const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
+  const isDynamicHeight = useMemo(() => fields.length > 1, [fields]);
+
   return (
-    <Lego background={background} icon={icon}>
+    <Lego background={background} icon={icon} fixedHeight={!isDynamicHeight}>
       <LegoContent>
         <FormRender categoryId={categoryId} id={id} schemaData={schemaData}>
           <TextRender data={title} />

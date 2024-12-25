@@ -7,6 +7,7 @@ type DataSchemaValue = {
   label?: string;
   placeholder?: string;
   defaultValue?: string | number | boolean;
+  dataSourceKey?: string;
   // onValidate?: (value: unknown, dataFormNode: FormDataType) => boolean;
 };
 

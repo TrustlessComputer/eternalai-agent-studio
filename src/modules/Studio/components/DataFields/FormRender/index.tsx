@@ -32,34 +32,46 @@ function FormRender({ id, categoryId, schemaData, children }: Props) {
       } else if (fieldData.type === 'textarea') {
         return <TextArea formId={id} name={field} placeholder={fieldData.placeholder} />;
       } else if (fieldData.type === 'select') {
-        return <Select categoryId={categoryId} formId={id} name={field} placeholder={fieldData.placeholder} />;
+        return (
+          <Select
+            formId={id}
+            name={field}
+            placeholder={fieldData.placeholder}
+            dataSourceKey={schemaData[field].dataSourceKey}
+          />
+        );
       }
     } else {
       // render multiple files
       return (
         <div className="studio-form-multiple-field">
-          <div className="studio-form-multiple-field-row">{children}</div>
+          <div className="studio-form-multiple-field-heading">{children}</div>
 
-          {fields.map((field) => {
-            return (
-              <div className="studio-form-multiple-field-row" key={`studio-form-multiple-field-row${id}-${field}`}>
-                {schemaData[field].type === 'text' && (
-                  <Textbox formId={id} name={field} placeholder={schemaData[field].placeholder} />
-                )}
-                {schemaData[field].type === 'textarea' && (
-                  <TextArea formId={id} name={field} placeholder={schemaData[field].placeholder} />
-                )}
-                {schemaData[field].type === 'select' && (
-                  <Select
-                    categoryId={categoryId}
-                    formId={id}
-                    name={field}
-                    placeholder={schemaData[field].placeholder}
-                  />
-                )}
-              </div>
-            );
-          })}
+          <div className="studio-form-multiple-field-table">
+            {fields.map((field) => {
+              return (
+                <div className="studio-form-multiple-field-row" key={`studio-form-multiple-field-row${id}-${field}`}>
+                  <span>{schemaData[field].label}</span>
+                  <div>
+                    {schemaData[field].type === 'text' && (
+                      <Textbox formId={id} name={field} placeholder={schemaData[field].placeholder} />
+                    )}
+                    {schemaData[field].type === 'textarea' && (
+                      <TextArea formId={id} name={field} placeholder={schemaData[field].placeholder} />
+                    )}
+                    {schemaData[field].type === 'select' && (
+                      <Select
+                        formId={id}
+                        name={field}
+                        placeholder={schemaData[field].placeholder}
+                        dataSourceKey={schemaData[field].dataSourceKey}
+                      />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       );
     }

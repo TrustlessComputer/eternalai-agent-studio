@@ -66,22 +66,67 @@
     z-index: 1;
   }
 
-  &_actions {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 28px;
-    padding: 0 12px;
-    position: absolute;
-    top: 50%;
-    right: -16px;
-    transform: translate(100%, -50%);
-  }
-
   .lego_body {
     display: flex;
     align-items: center;
     gap: 12px;
     height: 100%;
-    padding: 4px 12px;
+    padding: 6px 12px;
+  }
+}
+
+.studio-lego-dynamic {
+  position: relative;
+  padding-top: 24px;
+  padding-bottom: 24px;
+
+  .studio-lego-dynamic__top {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: calc(100% - 1px);
+
+    > div {
+      width: 100%;
+    }
+  }
+
+  .studio-lego-dynamic__bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    width: calc(100% - 1px);
+
+    > div {
+      width: 100%;
+    }
+  }
+
+  .studio-lego-dynamic__body {
+    min-height: 42px;
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-bottom: none;
+    background-color: var(--background-color);
+    z-index: 2;
+    position: relative;
+
+    display: flex;
+    gap: 4px;
+    padding-right: 32px;
+    padding-left: 8px;
+
+    > div {
+      &:nth-child(1) {
+        transform: translateY(-4px);
+      }
+
+      &:nth-child(2) {
+        width: 100%;
+        > div {
+          width: 100%;
+        }
+      }
+    }
   }
 }

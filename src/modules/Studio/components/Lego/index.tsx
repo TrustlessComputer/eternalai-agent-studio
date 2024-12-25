@@ -6,6 +6,7 @@ import './Lego.scss';
 
 import { StudIcon } from '../icons/lego';
 import ImageRender from '../Render/ImageRender';
+import TextRender from '../Render/TextRender';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   background?: string; // HEX color
@@ -13,11 +14,23 @@ type Props = HTMLAttributes<HTMLDivElement> & {
 
   icon?: React.ReactNode | FunctionComponent;
   actions?: React.ReactNode;
+
+  fixedHeight?: boolean;
+
+  title?: React.ReactNode | FunctionComponent;
 };
 
-const Lego = ({ background = '#A041FF', disabled = false, icon, actions, className, children, ...props }: Props) => {
-  const borderColor = useMemo(() => adjustColorShade(background, -20), [background]);
-
+const FixedLego = ({
+  background = '#A041FF',
+  disabled = false,
+  icon,
+  className,
+  children,
+  borderColor,
+  ...props
+}: Omit<Props, 'fixedHeight'> & {
+  borderColor: string;
+}) => {
   return (
     <div
       {...props}
@@ -42,10 +55,52 @@ const Lego = ({ background = '#A041FF', disabled = false, icon, actions, classNa
 
         <div className="lego_content">{children}</div>
       </div>
-
-      <div className="lego_actions">{actions}</div>
     </div>
   );
+};
+
+const DynamicLego = ({
+  children,
+  icon,
+  background,
+  borderColor,
+  ...props
+}: Omit<Props, 'fixedHeight'> & {
+  borderColor: string;
+}) => {
+  return (
+    <div
+      className="studio-lego-dynamic"
+      style={
+        {
+          '--border-color': borderColor,
+          '--background-color': background,
+        } as CSSProperties
+      }
+    >
+      <div className="studio-lego-dynamic__top">
+        <FixedLego {...props} icon={null} background={background} borderColor={borderColor} />
+      </div>
+      <div className="studio-lego-dynamic__body">
+        <div>
+          <ImageRender data={icon} />
+        </div>
+        <div>{children}</div>
+      </div>
+      <div className="studio-lego-dynamic__bottom">
+        <FixedLego {...props} icon={null} background={background} borderColor={borderColor} />
+      </div>
+    </div>
+  );
+};
+
+const Lego = ({ fixedHeight = true, background = '#A041FF', ...props }: Props) => {
+  const borderColor = useMemo(() => adjustColorShade(background, -20), [background]);
+  if (fixedHeight) {
+    return <FixedLego background={background} borderColor={borderColor} {...props} />;
+  }
+
+  return <DynamicLego background={background} borderColor={borderColor} {...props} />;
 };
 
 export default memo(Lego);

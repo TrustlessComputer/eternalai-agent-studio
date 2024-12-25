@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type FormData = Record<string, unknown>;
+export type FormData = Record<string, unknown>;
 type State = {
   dataForms: Record<string, FormData>;
   addForm: (id: string, data: FormData) => void;

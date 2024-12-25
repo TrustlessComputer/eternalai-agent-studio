@@ -6,6 +6,7 @@ type DataSchemaValue = {
   label?: string;
   placeholder?: string;
   defaultValue?: string | number | boolean;
+  // onValidate?: (value: unknown, dataFormNode: FormData) => boolean;
 };
 
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;

@@ -2,15 +2,25 @@ import React, { FunctionComponent } from 'react';
 
 type Props = {
   data: React.ReactNode | FunctionComponent;
+  size?: number;
 };
 
-function ImageRender({ data }: Props) {
+function ImageRender({ data, size = 24 }: Props) {
   if (!data) {
     return <></>;
   }
 
   if (typeof data === 'string') {
-    return <img src={data} alt="Image" />;
+    return (
+      <img
+        src={data}
+        alt="Image"
+        style={{
+          width: `${size}px`,
+          height: `${size}px`,
+        }}
+      />
+    );
   }
 
   if (typeof data === 'function') {

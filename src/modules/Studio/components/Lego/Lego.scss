@@ -37,11 +37,11 @@
     }
   }
 
-  &_icon {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateX(calc((100% + 8px) * -1)) translateY(-50%);
+  .lego_icon {
+    position: relative;
+    margin-top: 8px;
+    min-width: 24px;
+    min-height: 24px;
 
     svg {
       height: 24px;
@@ -76,5 +76,13 @@
     top: 50%;
     right: -16px;
     transform: translate(100%, -50%);
+  }
+
+  .lego_body {
+    display: flex;
+    height: 100%;
+    padding-left: 12px;
+    align-items: center;
+    gap: 4px;
   }
 }

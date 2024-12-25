@@ -12,7 +12,7 @@ import './CategoryGroup.scss';
 type Props = StudioCategory;
 
 const CategoryGroup = (category: Props) => {
-  const { key, title, color, options, customizeRenderOnSideBar } = useMemo(() => category, [category]);
+  const { key, title, color, options, customizeRenderOnSideBar, required } = useMemo(() => category, [category]);
 
   if (customizeRenderOnSideBar && typeof customizeRenderOnSideBar === 'function') {
     return customizeRenderOnSideBar({});
@@ -21,7 +21,7 @@ const CategoryGroup = (category: Props) => {
   return (
     <div className="category-group">
       <h5 className="category-group_title">
-        <TextRender data={title} />
+        <TextRender data={title} /> {required ? <span className="category-navigation_required">*</span> : ''}
       </h5>
       <div className="category-group_options">
         {options.map((option) => (
@@ -30,11 +30,9 @@ const CategoryGroup = (category: Props) => {
             data={{ isRight: false, category, option, data: option.data }}
             key={mergeIds([key, option.key])}
           >
-            <Lego background={color}>
+            <Lego background={color} icon={option.icon}>
               <LegoContent>
-                <p>
-                  <TextRender data={option.title} />
-                </p>
+                <TextRender data={option.title} />
               </LegoContent>
             </Lego>
           </Draggable>

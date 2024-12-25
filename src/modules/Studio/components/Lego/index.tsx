@@ -1,16 +1,17 @@
 import cx from 'clsx';
-import { CSSProperties, HTMLAttributes, memo, useMemo } from 'react';
+import { CSSProperties, FunctionComponent, HTMLAttributes, memo, useMemo } from 'react';
 
 import { adjustColorShade } from '../../utils/ui';
 import './Lego.scss';
 
 import { StudIcon } from '../icons/lego';
+import ImageRender from '../Render/ImageRender';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   background?: string; // HEX color
   disabled?: boolean;
 
-  icon?: React.ReactNode;
+  icon?: React.ReactNode | FunctionComponent;
   actions?: React.ReactNode;
 };
 
@@ -34,9 +35,13 @@ const Lego = ({ background = '#A041FF', disabled = false, icon, actions, classNa
         <StudIcon />
       </div>
 
-      <div className="lego_icon">{icon}</div>
+      <div className="lego_body">
+        <div className="lego_icon">
+          <ImageRender data={icon} />
+        </div>
 
-      <div className="lego_content">{children}</div>
+        <div className="lego_content">{children}</div>
+      </div>
 
       <div className="lego_actions">{actions}</div>
     </div>

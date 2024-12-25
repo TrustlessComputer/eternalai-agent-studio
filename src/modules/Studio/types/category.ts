@@ -24,11 +24,12 @@ type BaseCategoryOption = {
   customizeRenderOnSideBar?: FunctionComponent;
   customizeRenderOnBoard?: FunctionComponent;
   data?: DataSchema;
+  color?: string;
 };
 
 export type StudioCategoryOption = BaseCategoryOption;
 
-export type StudioCategory = Omit<BaseCategoryOption, 'value' | 'data'> & {
+export type StudioCategory = Omit<BaseCategoryOption, 'value' | 'data' | 'color'> & {
   options: StudioCategoryOption[];
   color: string;
 };

@@ -33,14 +33,14 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
 
   const onNodeDrag: OnNodeDrag<StudioNode> = useCallback((event, node) => {
     const nodes = useStudioFlowStore.getState().nodes;
-    const intersections = getIntersectingNodes(node).map((n) => n.id);
+    const intersection = getIntersectingNodes(node)[0];
 
     setNodes(
       nodes.map((n) => ({
         ...n,
         data: {
           ...n.data,
-          className: intersections.includes(n.id) ? 'base-node__highlight' : '',
+          className: intersection?.id === n.id ? 'base-node__highlight' : '',
         },
       })),
     );

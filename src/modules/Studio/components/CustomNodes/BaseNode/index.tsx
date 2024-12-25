@@ -30,7 +30,7 @@ const BaseNode = ({ data }: Props) => {
   const nodeId = useMemo(() => data.metadata.nodeId, [data.metadata.nodeId]);
 
   return (
-    <div className={cx('js-base-node', 'base-node', data.className)} id={nodeId}>
+    <div className={cx('base-node', data.className)} id={nodeId}>
       <div className={cx('base-node_drag-icon', AreaClassName.DRAG_HANDLE)}>
         <DragIcon />
       </div>
@@ -38,7 +38,6 @@ const BaseNode = ({ data }: Props) => {
       <div className="base-node_content">
         <Draggable
           id={mergeIds([data.metadata.category.key, data.metadata.option.key, nodeId])}
-          disabled
           data={{ isRight: true, category: data.metadata.category, option: data.metadata.option, data: schemaData }}
         >
           <Lego background={data.metadata.option.color} icon={data.metadata.option.icon}>
@@ -49,12 +48,11 @@ const BaseNode = ({ data }: Props) => {
           </Lego>
         </Draggable>
 
-        {children?.map(({ category, option }) => (
+        {children?.map(({ category, option }, index) => (
           <Draggable
-            id={mergeIds([category.key, option.key, nodeId])}
-            disabled
+            id={mergeIds([category.key, option.key, nodeId, index.toString()])}
             data={{ isRight: true, category, option, data: schemaData }}
-            key={mergeIds([category.key, option.key])}
+            key={mergeIds([category.key, option.key, index.toString()])}
           >
             <Lego background={option.color} icon={option.icon}>
               <LegoContent>

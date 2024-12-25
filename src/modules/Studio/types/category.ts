@@ -2,11 +2,13 @@ import { FunctionComponent, ReactNode } from 'react';
 
 type DataSchemaField = string;
 type DataSchemaValue = {
-  type: 'string' | 'number' | 'boolean';
-  value: string | number | boolean;
+  type: 'text' | 'textarea' | 'checkbox';
+  label?: string;
+  placeholder?: string;
+  defaultValue?: string | number | boolean;
 };
 
-type DataSchema = Record<DataSchemaField, DataSchemaValue>;
+export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
 type BaseCategory = {
   key: string;

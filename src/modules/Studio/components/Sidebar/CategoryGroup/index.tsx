@@ -21,7 +21,7 @@ const CategoryGroup = ({ title, color, options, customizeRenderOnSideBar }: Prop
       </h5>
       <div className="category-group_options">
         {options.map((option) => (
-          <Draggable id={option.key} data={{ isRight: false, option }} key={option.key}>
+          <Draggable id={option.key} data={{ isRight: false, option, data: option.data }} key={option.key}>
             <Lego background={color}>
               <LegoContent>
                 <p>

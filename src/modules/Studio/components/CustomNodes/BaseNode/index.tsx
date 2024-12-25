@@ -8,7 +8,8 @@ import './BaseNode.scss';
 
 import { NodeProps } from '@xyflow/react';
 
-import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
+import { useMemo } from 'react';
+import FormRender from '../../DataFields/FormRender';
 import Draggable from '../../DnD/Draggable';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
@@ -16,11 +17,11 @@ import LegoContent from '../../LegoContent';
 type Props = NodeProps<StudioNode>;
 
 const BaseNode = ({ data }: Props) => {
-  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
+  const schemaData = useMemo(() => {
+    return data?.metadata?.data?.current?.data;
+  }, [data?.metadata?.data]);
 
-  // if (customizeRenderOnBoard && typeof customizeRenderOnBoard === 'function') {
-  //   return customizeRenderOnBoard({});
-  // }
+  const nodeId = data.metadata.nodeId;
 
   return (
     <div className="base-node">
@@ -32,7 +33,8 @@ const BaseNode = ({ data }: Props) => {
         <Draggable id={data.metadata.option.key} data={{ isRight: false, option: data.metadata.option }}>
           <Lego>
             <LegoContent>
-              <p>Lego</p>
+              <span>Lego</span>
+              <FormRender id={nodeId} schemaData={schemaData} />
             </LegoContent>
           </Lego>
         </Draggable>

@@ -1,14 +1,22 @@
+import { Active, DataRef } from '@dnd-kit/core';
 import { Node } from '@xyflow/react';
 import { FunctionComponent } from 'react';
-import { StudioCategoryItem } from './category';
+import { DataSchema } from './category';
+
+type Metadata = Record<string, unknown> &
+  Active & {
+    nodeId: string;
+    data: DataRef & {
+      current?: Record<string, unknown> & {
+        data?: DataSchema;
+      };
+    };
+  };
 
 export type StudioNode = Node<{
   sourceHandles: string[];
   targetHandles: string[];
-  metadata: {
-    option: StudioCategoryItem;
-    nodeId: string;
-  };
+  metadata: Metadata;
 }>;
 
 export type StudioDataKeyMapperType = string;

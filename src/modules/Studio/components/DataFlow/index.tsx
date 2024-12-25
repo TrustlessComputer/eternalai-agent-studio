@@ -6,8 +6,7 @@ import { StudioDataNode } from '../../types/graph';
 
 import { useThrottleValue } from '@/hooks/useThrottleValue';
 
-function DataFlow({ onChange }: { onChange?: (data: StudioDataNode[]) => void }) {
-  const { data } = useStudioDataStore();
+function Listen() {
   const nodes = useStudioFlowStore((state) => state.nodes);
 
   const throttleNodes = useThrottleValue(nodes, 1000);
@@ -15,7 +14,14 @@ function DataFlow({ onChange }: { onChange?: (data: StudioDataNode[]) => void })
   useEffect(() => {
     // sync nodes with data
     console.log('throttleNodes', throttleNodes);
+    // const currentData = useStudioDataStore.getState().data;
   }, [throttleNodes]);
+
+  return <></>;
+}
+
+function Publish({ onChange }: { onChange?: (data: StudioDataNode[]) => void }) {
+  const { data } = useStudioDataStore();
 
   useEffect(() => {
     if (onChange) {
@@ -24,6 +30,15 @@ function DataFlow({ onChange }: { onChange?: (data: StudioDataNode[]) => void })
   }, [data, onChange]);
 
   return <></>;
+}
+
+function DataFlow({ onChange }: { onChange?: (data: StudioDataNode[]) => void }) {
+  return (
+    <>
+      <Listen />
+      <Publish onChange={onChange} />
+    </>
+  );
 }
 
 export default DataFlow;

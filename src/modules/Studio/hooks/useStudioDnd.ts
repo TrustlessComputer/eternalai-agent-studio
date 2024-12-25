@@ -7,6 +7,7 @@ import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../constants/droppable-id';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
 import { removeItemFromArray } from '../utils/array';
+import { cloneData } from '../utils/data';
 import { createNewBaseNode } from '../utils/node';
 
 const useStudioDnD = () => {
@@ -22,37 +23,41 @@ const useStudioDnD = () => {
 
   // TODO: Process data after reload
   const handleDragEnd = useCallback((event: DragEndEvent) => {
-    const { active, over } = event;
+    const { active: lego, over } = event;
 
-    if (!active || !over) return;
+    if (!lego || !over) return;
 
-    const newNodes = useStudioFlowStore.getState().nodes;
+    const newNodes = cloneData(useStudioFlowStore.getState().nodes);
 
-    const isActiveFromRight = active.data.current?.isRight;
-    const isActiveParent = active.data.current?.isParent;
-    const activeBelongsTo = active.data.current?.belongsTo;
-    const activeNode = newNodes.find((node) => node.id === activeBelongsTo);
+    const isLegoFromRight = lego.data.current?.isRight;
+    const isLegoParent = lego.data.current?.isParent;
+    const legoBelongsTo = lego.data.current?.belongsTo;
+    const thisNode = newNodes.find((node) => node.id === legoBelongsTo);
 
     const droppedOnInput = over.id === INPUT_DROP_ID;
     const droppedOnOutput = over.id === OUTPUT_DROP_ID;
 
-    if (!activeNode) return;
+    const {
+      transform: [transformX, transformY, zoomLevel],
+    } = flowStore.getState();
+    const mousePosition = useStudioFlowViewStore.getState().mousePosition;
+    const transformedX = (mousePosition.x - transformX) / zoomLevel;
+    const transformedY = (mousePosition.y - transformY) / zoomLevel;
 
     // From output to input
-    if (droppedOnInput && isActiveFromRight) {
-      const isEmptyChildren = activeNode.data.metadata.children.length === 0;
+    if (droppedOnInput && isLegoFromRight && thisNode) {
+      const isEmptyChildren = thisNode.data.metadata.children.length === 0;
 
       // Remove the node if it has no children
-      if (isActiveParent && isEmptyChildren) {
-        removeNode(activeNode.id);
+      if (isLegoParent && isEmptyChildren) {
+        removeNode(thisNode.id);
       }
       // Remove the child
       else {
-        const newChildren = removeItemFromArray(activeNode.data.metadata.children, active.data.current?.metadata);
+        const newChildren = removeItemFromArray(thisNode.data.metadata.children, lego.data.current?.metadata);
+        thisNode.data.metadata.children = newChildren;
 
-        activeNode.data.metadata.children = newChildren;
-
-        setNodes(newNodes.map((n) => ({ ...n, data: { ...n.data, className: '' } })));
+        setNodes(newNodes);
       }
 
       reloadFlow();
@@ -61,29 +66,43 @@ const useStudioDnD = () => {
     }
 
     // Drag out the node
-    if (isActiveFromRight && droppedOnOutput && !isActiveParent) {
+    if (isLegoFromRight && droppedOnOutput && !isLegoParent && thisNode) {
+      console.log('[useStudioDnd] drag out the node start', {
+        newNodes: JSON.parse(JSON.stringify(newNodes)),
+      });
+
+      const newChildren = removeItemFromArray(thisNode.data.metadata.children, lego.data.current?.metadata);
+      thisNode.data.metadata.children = newChildren;
+
+      const prevNode = lego.data.current?.metadata;
+      prevNode.children = [];
+      prevNode.position = { x: transformedX, y: transformedY };
+
+      newNodes.push(prevNode);
+
+      console.log('[useStudioDnd] drag out the node end', {
+        newNodes: JSON.parse(JSON.stringify(newNodes)),
+      });
+
+      setNodes(newNodes);
+      reloadFlow();
+
       return;
     }
 
     // From input to output
-    if (droppedOnOutput && !isActiveFromRight) {
-      const {
-        transform: [transformX, transformY, zoomLevel],
-      } = flowStore.getState();
-      const mousePosition = useStudioFlowViewStore.getState().mousePosition;
-      const transformedX = (mousePosition.x - transformX) / zoomLevel;
-      const transformedY = (mousePosition.y - transformY) / zoomLevel;
+    if (droppedOnOutput && !isLegoFromRight) {
       const nodeId = v4();
 
-      const thisCategory = active.data.current?.category;
-      const thisOption = active.data.current?.option;
+      const thisCategory = lego.data.current?.category;
+      const thisOption = lego.data.current?.option;
 
       addNode(
         createNewBaseNode(
           nodeId,
           { x: transformedX, y: transformedY },
           {
-            ...active,
+            ...lego,
             nodeId,
             category: thisCategory,
             option: thisOption,

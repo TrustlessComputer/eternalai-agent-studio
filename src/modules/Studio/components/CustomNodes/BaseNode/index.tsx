@@ -8,7 +8,7 @@ import './BaseNode.scss';
 
 import { NodeProps } from '@xyflow/react';
 
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import FormRender from '../../DataFields/FormRender';
 import Draggable from '../../DnD/Draggable';
 import Lego from '../../Lego';
@@ -30,7 +30,7 @@ const BaseNode = ({ data }: Props) => {
       </div>
 
       <div className="base-node_content">
-        <Draggable id={data.metadata.option.key} data={{ isRight: false, option: data.metadata.option }}>
+        <Draggable id={data.metadata.option.key} data={{ isRight: true, option: data.metadata.option }}>
           <Lego>
             <LegoContent>
               <span>Lego</span>
@@ -43,4 +43,4 @@ const BaseNode = ({ data }: Props) => {
   );
 };
 
-export default BaseNode;
+export default memo(BaseNode);

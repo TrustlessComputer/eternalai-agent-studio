@@ -12,13 +12,13 @@ type Metadata = Record<string, unknown> &
         data?: DataSchema;
       };
     };
+    children: StudioCategoryOption[];
   };
 
 export type StudioNode = Node<{
   sourceHandles: string[];
   targetHandles: string[];
   metadata: Metadata;
-  children: StudioCategoryOption[];
 }>;
 
 export type StudioDataKeyMapperType = string;

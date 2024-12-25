@@ -1,7 +1,7 @@
 .base-node {
   display: flex;
   align-items: center;
-  gap: 10px;
+  // gap: 10px;
   position: relative;
   z-index: 1;
   padding: 20px;
@@ -17,16 +17,25 @@
   cursor: grab;
   will-change: opacity;
   transition: opacity 0.5s var(--easeOutQuart);
-  width: 12px;
-  height: 12px;
+  min-width: 32px;
+  min-height: 32px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  padding-right: 8px;
 
   &:hover {
     opacity: 0.5;
     cursor: grabbing;
   }
+}
+
+.base-node_drag-icon span {
+  display: inline-flex;
+  // width: 16px;
+  height: 16px;
 }
 
 .base-node_content {

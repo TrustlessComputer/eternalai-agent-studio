@@ -1,5 +1,5 @@
 import { DndContext } from '@dnd-kit/core';
-import { NodeTypes, ReactFlowProvider } from '@xyflow/react';
+import { NodeTypes, ReactFlowProvider, XYPosition } from '@xyflow/react';
 import cx from 'clsx';
 import React, { useEffect, useImperativeHandle, useMemo } from 'react';
 
@@ -14,9 +14,13 @@ import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataStore from './stores/useStudioDataStore';
 import './Studio.scss';
 import { StudioCategory } from './types/category';
-import { StudioDataNode } from './types/graph';
+import { StudioDataNode, StudioNode } from './types/graph';
 import EventHandler from './components/EventHandler';
 import useStudioDnD from './hooks/useStudioDnd';
+import useStudioFlowStore from './stores/useStudioFlowStore';
+import { NodeType } from '@/enums/node-type';
+import { AreaClassName } from './constants/area-class-name';
+import { transformDataToNodes } from './utils/node';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   categories: StudioCategory[];
@@ -68,7 +72,14 @@ export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioPro
       setData: (data: StudioDataNode[]) => {
         console.log('studio init data', data);
         // generate nodes/edges from data
+        // clear current nodes/edges
+        useStudioFlowStore.getState().clear();
+
         useStudioDataStore.getState().setData(data);
+
+        const initNodes = transformDataToNodes(data);
+        console.log('studio init nodes', initNodes);
+        // useStudioFlowStore.getState().addNodes(initNodes);
       },
     }),
     [],

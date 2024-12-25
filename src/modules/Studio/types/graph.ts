@@ -1,10 +1,10 @@
 import { Active, DataRef } from '@dnd-kit/core';
-import { Node, Position } from '@xyflow/react';
+import { Node, XYPosition } from '@xyflow/react';
 import { FunctionComponent } from 'react';
 import { FormDataType, KeyMapperType } from './base';
 import { DataSchema, StudioCategory, StudioCategoryOption } from './category';
 
-type Metadata = Record<string, unknown> &
+export type StudioNodeMetadata = Record<string, unknown> &
   Active & {
     nodeId: string;
     category: StudioCategory;
@@ -23,7 +23,7 @@ type Metadata = Record<string, unknown> &
 export type StudioNode = Node<{
   sourceHandles: string[];
   targetHandles: string[];
-  metadata: Metadata;
+  metadata: StudioNodeMetadata;
   className?: string;
 }>;
 
@@ -35,6 +35,6 @@ export type StudioDataNode = {
   children: StudioDataNode[];
   data?: FormDataType; // this field can be used to store additional data or form input data
   rect?: {
-    position: Position;
+    position: XYPosition;
   };
 };

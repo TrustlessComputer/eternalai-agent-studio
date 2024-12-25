@@ -41,28 +41,30 @@ type State = {
   onNodesChange: OnNodesChange<StudioNode>;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
+
+  clear: () => void;
 };
 
 const flatNodes = (nodes: StudioNode[]) => {
-  // const nodesMapped: Record<string, StudioNode> = {};
-  // nodes.forEach((node) => {
-  //   nodesMapped[node.id] = node;
-  // });
+  const nodesMapped: Record<string, StudioNode> = {};
+  nodes.forEach((node) => {
+    nodesMapped[node.id] = node;
+  });
 
   return {
-    // nodesMapped,
+    nodesMapped,
     nodes,
   };
 };
 
 const flatEdges = (edges: Edge[]) => {
-  // const edgesMapped: Record<string, Edge> = {};
-  // edges.forEach((edge) => {
-  //   edgesMapped[edge.id] = edge;
-  // });
+  const edgesMapped: Record<string, Edge> = {};
+  edges.forEach((edge) => {
+    edgesMapped[edge.id] = edge;
+  });
 
   return {
-    // edgesMapped,
+    edgesMapped,
     edges,
   };
 };
@@ -128,6 +130,10 @@ const useStudioFlowStore = create<State>((set, get) => ({
     set({
       ...flatEdges(addEdge(connection, get().edges)),
     });
+  },
+
+  clear: () => {
+    set({ reloadFlowCounter: 0, nodes: [], nodesMapped: {}, edges: [], edgesMapped: {} });
   },
 }));
 

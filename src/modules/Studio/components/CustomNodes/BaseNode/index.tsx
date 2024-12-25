@@ -43,6 +43,7 @@ const LegoRender = ({
     </Lego>
   );
 };
+
 const BaseNode = ({ data }: Props) => {
   const schemaData = useMemo(() => {
     return data?.metadata?.data?.current?.data;
@@ -72,6 +73,7 @@ const BaseNode = ({ data }: Props) => {
           disabled={children?.length > 0}
           data={{
             isRight: true,
+            isParent: true,
             category: data.metadata.category,
             option: data.metadata.option,
             data: schemaData,
@@ -97,7 +99,15 @@ const BaseNode = ({ data }: Props) => {
             <Draggable
               id={draggableId}
               key={draggableId}
-              data={{ isRight: true, category, option, data: schemaData, belongsTo: nodeId, metadata: item }}
+              data={{
+                isRight: true,
+                isParent: false,
+                category,
+                option,
+                data: schemaData,
+                belongsTo: nodeId,
+                metadata: item,
+              }}
             >
               <LegoRender
                 background={option.color}

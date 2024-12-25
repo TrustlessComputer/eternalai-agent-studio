@@ -6,10 +6,10 @@ import { useCallback } from 'react';
 import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../constants/droppable-id';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
+import useStudioFormStore from '../stores/useStudioFormStore';
 import { removeItemFromArray } from '../utils/array';
 import { cloneData, getFormDataFromCategory } from '../utils/data';
 import { createNewBaseNode } from '../utils/node';
-import useStudioFormStore from '../stores/useStudioFormStore';
 
 const useStudioDnD = () => {
   const addNode = useStudioFlowStore((state) => state.addNode);
@@ -49,8 +49,13 @@ const useStudioDnD = () => {
     if (droppedOnInput && isLegoFromRight && thisNode) {
       const isEmptyChildren = thisNode.data.metadata.children.length === 0;
 
+      console.log('[useStudioDnd] isLegoParent', {
+        isLegoParent,
+        isEmptyChildren,
+      });
       // Remove the node if it has no children
       if (isLegoParent && isEmptyChildren) {
+        console.log('[useStudioDnd] remove the node if it has no children');
         removeNode(thisNode.id);
       }
       // Remove the child

@@ -1,7 +1,7 @@
 import { DndContext } from '@dnd-kit/core';
-import { NodeTypes } from '@xyflow/react';
+import { NodeTypes, ReactFlowProvider } from '@xyflow/react';
 import cx from 'clsx';
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useImperativeHandle, useMemo } from 'react';
 
 import '../../styles/global.scss';
 import Board from './components/Board';
@@ -20,12 +20,15 @@ import useStudioDnD from './hooks/useStudioDnd';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   categories: StudioCategory[];
-  data: StudioDataNode[];
   onChange?: (data: StudioDataNode[]) => void;
   nodeTypes?: NodeTypes;
 };
 
-export const Studio = ({ data, className, categories, onChange, nodeTypes, ...rest }: StudioProps) => {
+export type StudioRef = {
+  setData: (data: StudioDataNode[]) => void;
+};
+
+const StudioComponent = ({ className, categories, onChange, nodeTypes, ...rest }: StudioProps) => {
   const { sensors, handleDragStart, handleDragEnd } = useStudioDnD();
 
   const extendedNodeTypes = useMemo(() => {
@@ -38,10 +41,6 @@ export const Studio = ({ data, className, categories, onChange, nodeTypes, ...re
   useEffect(() => {
     useStudioCategoryStore.getState().setCategories(categories);
   }, [categories]);
-
-  useEffect(() => {
-    useStudioDataStore.getState().setData(data);
-  }, [data]);
 
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
@@ -61,3 +60,23 @@ export const Studio = ({ data, className, categories, onChange, nodeTypes, ...re
     </DndContext>
   );
 };
+
+export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioProps, ref) => {
+  useImperativeHandle(
+    ref,
+    () => ({
+      setData: (data: StudioDataNode[]) => {
+        console.log('studio init data', data);
+        // generate nodes/edges from data
+        useStudioDataStore.getState().setData(data);
+      },
+    }),
+    [],
+  );
+
+  return (
+    <ReactFlowProvider>
+      <StudioComponent {...props} />
+    </ReactFlowProvider>
+  );
+});

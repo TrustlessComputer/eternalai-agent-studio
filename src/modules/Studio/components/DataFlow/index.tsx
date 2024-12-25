@@ -18,12 +18,6 @@ function DataFlow({ onChange }: { onChange?: (data: StudioDataNode[]) => void })
   }, [throttleNodes]);
 
   useEffect(() => {
-    if (data) {
-      // generate nodes/edges from data
-    }
-  }, [data]);
-
-  useEffect(() => {
     if (onChange) {
       onChange(data);
     }

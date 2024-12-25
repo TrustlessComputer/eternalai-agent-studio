@@ -53,7 +53,7 @@ const Draggable = ({ id, data, disabled = false, children, ...props }: Props) =>
       {...props}
       {...listeners}
       {...attributes}
-      className={cx('draggable', { 'draggable--disabled': disabled })}
+      className={cx('draggable', { 'draggable__disabled': disabled })}
     >
       {children}
     </div>

@@ -22,6 +22,7 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
   const onEdgesChange = useStudioFlowStore((state) => state.onEdgesChange);
 
   const reloadFlowCounter = useStudioFlowStore((state) => state.reloadFlowCounter);
+  const reloadFlow = useStudioFlowStore((state) => state.reloadFlow);
   const setView = useStudioFlowViewStore((state) => state.setView);
 
   const [currentView, setCurrentView] = useState<FlowView>({
@@ -34,14 +35,17 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
     const nodes = useStudioFlowStore.getState().nodes;
     const intersections = getIntersectingNodes(node).map((n) => n.id);
 
-    // console.log('[Board] onNodeDrag', node, intersections);
-
     setNodes(
       nodes.map((n) => ({
         ...n,
-        className: intersections.includes(n.id) ? 'node-base--highlight' : '',
+        data: {
+          ...n.data,
+          className: intersections.includes(n.id) ? 'node-base__highlight' : '',
+        },
       })),
     );
+
+    reloadFlow();
   }, []);
 
   const onNodeDragStop: OnNodeDrag<StudioNode> = useCallback((event, node) => {
@@ -57,7 +61,10 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
       if (intersectionNode) {
         intersectionNode.data.metadata.children = [
           ...(intersectionNode.data.metadata.children || []),
-          node.data.metadata.option,
+          {
+            category: node.data.metadata.category,
+            option: node.data.metadata.option,
+          },
           ...(node.data.metadata.children || []),
         ];
 
@@ -65,6 +72,7 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
 
         setNodes(newNodes);
         setEdges(newEdges);
+        reloadFlow();
       }
     }
   }, []);

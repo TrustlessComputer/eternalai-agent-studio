@@ -9,7 +9,7 @@ import './BaseNode.scss';
 import { NodeProps } from '@xyflow/react';
 
 import { mergeIds } from '@/utils/flow';
-import { memo, useMemo } from 'react';
+import { useMemo } from 'react';
 import FormRender from '../../DataFields/FormRender';
 import Draggable from '../../DnD/Draggable';
 import Lego from '../../Lego';
@@ -22,14 +22,15 @@ const BaseNode = ({ data }: Props) => {
   const schemaData = useMemo(() => {
     return data?.metadata?.data?.current?.data;
   }, [data?.metadata?.data]);
+
   const children = useMemo(() => {
     return data?.metadata?.children;
   }, [data?.metadata?.children]);
 
-  const nodeId = data.metadata.nodeId;
+  const nodeId = useMemo(() => data.metadata.nodeId, [data.metadata.nodeId]);
 
   return (
-    <div className="base-node">
+    <div className={cx('js-base-node', 'base-node', data.className)} id={nodeId}>
       <div className={cx('base-node_drag-icon', AreaClassName.DRAG_HANDLE)}>
         <DragIcon />
       </div>
@@ -47,9 +48,25 @@ const BaseNode = ({ data }: Props) => {
             </LegoContent>
           </Lego>
         </Draggable>
+
+        {children?.map(({ category, option }) => (
+          <Draggable
+            id={mergeIds([category.key, option.key, nodeId])}
+            disabled
+            data={{ isRight: true, category, option, data: schemaData }}
+            key={mergeIds([category.key, option.key])}
+          >
+            <Lego background={option.color} icon={option.icon}>
+              <LegoContent>
+                <TextRender data={option.title} />
+                <FormRender id={nodeId} schemaData={option.data} />
+              </LegoContent>
+            </Lego>
+          </Draggable>
+        ))}
       </div>
     </div>
   );
 };
 
-export default memo(BaseNode);
+export default BaseNode;

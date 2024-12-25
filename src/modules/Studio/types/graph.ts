@@ -1,8 +1,8 @@
 import { Active, DataRef } from '@dnd-kit/core';
 import { Node, Position } from '@xyflow/react';
 import { FunctionComponent } from 'react';
-import { DataSchema, StudioCategory, StudioCategoryOption } from './category';
 import { FormDataType, KeyMapperType } from './base';
+import { DataSchema, StudioCategory, StudioCategoryOption } from './category';
 
 type Metadata = Record<string, unknown> &
   Active & {
@@ -14,13 +14,17 @@ type Metadata = Record<string, unknown> &
         data?: DataSchema;
       };
     };
-    children: StudioCategoryOption[];
+    children: {
+      category: StudioCategory;
+      option: StudioCategoryOption;
+    }[];
   };
 
 export type StudioNode = Node<{
   sourceHandles: string[];
   targetHandles: string[];
   metadata: Metadata;
+  className?: string;
 }>;
 
 export type StudioDataKeyMapperType = string;

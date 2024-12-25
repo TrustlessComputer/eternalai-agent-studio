@@ -1,5 +1,5 @@
-import { ButtonHTMLAttributes, FC, ReactNode } from 'react';
 import cx from 'clsx';
+import { ButtonHTMLAttributes, FC, ReactNode } from 'react';
 
 import './Button.scss';
 
@@ -10,7 +10,7 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button: FC<IButtonProps> = ({ onClick, disabled, className, children, ...rest }) => (
   <button
     type="button"
-    className={cx('button', className, { 'button--dsiabled': disabled })}
+    className={cx('button', className, { 'button__disabled': disabled })}
     onClick={onClick}
     disabled={disabled}
     {...rest}

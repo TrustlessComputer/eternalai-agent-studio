@@ -8,14 +8,14 @@
   border-radius: 10px;
 }
 
-.base-node--highlight {
+.base-node__highlight {
   border: 1px solid #e0e0e0;
 }
 
 .base-node_drag-icon {
   cursor: grab;
   will-change: opacity;
-  transition: opacity 0.5s var(--easeOutQuart);
+  transition: opacity 0.5s var(__easeOutQuart);
   width: 12px;
   height: 12px;
   display: flex;
@@ -38,7 +38,7 @@
   position: relative;
   cursor: pointer;
   will-change: opacity;
-  transition: opacity 0.5s var(--easeOutQuart);
+  transition: opacity 0.5s var(__easeOutQuart);
 
   &:hover {
     opacity: 0.5;

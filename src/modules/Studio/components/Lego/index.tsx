@@ -22,7 +22,7 @@ const Lego = ({ background = '#A041FF', disabled = false, icon, actions, classNa
     <div
       {...props}
       className={cx('lego', className, {
-        'lego--disabled': disabled,
+        'lego__disabled': disabled,
       })}
       style={
         {

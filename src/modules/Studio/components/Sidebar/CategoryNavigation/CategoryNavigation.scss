@@ -7,11 +7,11 @@
   align-items: center;
   gap: 4px;
   will-change: opacity;
-  transition: opacity 0.5s var(--easeOutQuart);
+  transition: opacity 0.5s var(__easeOutQuart);
   padding: 4px;
   opacity: 0.5;
 
-  &.category-navigation--active {
+  &.category-navigation__active {
     opacity: 1;
   }
 

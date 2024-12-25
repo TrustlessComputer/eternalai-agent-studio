@@ -14,10 +14,7 @@ export type StudioNodeMetadata = Record<string, unknown> &
         data?: DataSchema;
       };
     };
-    children: {
-      category: StudioCategory;
-      option: StudioCategoryOption;
-    }[];
+    children: StudioNode[];
   };
 
 export type StudioNode = Node<{

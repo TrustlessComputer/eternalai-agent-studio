@@ -48,20 +48,24 @@ const BaseNode = ({ data }: Props) => {
           </Lego>
         </Draggable>
 
-        {children?.map(({ category, option }, index) => (
-          <Draggable
-            id={mergeIds([category.key, option.key, nodeId, index.toString()])}
-            data={{ isRight: true, category, option, data: schemaData }}
-            key={mergeIds([category.key, option.key, index.toString()])}
-          >
-            <Lego background={option.color} icon={option.icon}>
-              <LegoContent>
-                <TextRender data={option.title} />
-                <FormRender id={nodeId} schemaData={option.data} />
-              </LegoContent>
-            </Lego>
-          </Draggable>
-        ))}
+        {children?.map((item, index) => {
+          const { category, option } = item.data.metadata;
+
+          return (
+            <Draggable
+              id={mergeIds([category.key, option.key, nodeId, index.toString()])}
+              data={{ isRight: true, category, option, data: schemaData }}
+              key={mergeIds([category.key, option.key, index.toString()])}
+            >
+              <Lego background={option.color} icon={option.icon}>
+                <LegoContent>
+                  <TextRender data={option.title} />
+                  <FormRender id={nodeId} schemaData={option.data} />
+                </LegoContent>
+              </Lego>
+            </Draggable>
+          );
+        })}
       </div>
     </div>
   );

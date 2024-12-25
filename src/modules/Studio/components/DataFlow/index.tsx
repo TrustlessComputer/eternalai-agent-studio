@@ -16,10 +16,28 @@ function Listen() {
 
   useEffect(() => {
     // sync nodes with data
+    // const getChildrenDataFromChildren = (children: StudioNodeMetadataChildren[]) => {
+    //   return children.map((child) => {
+    //     return {
+    //       id: child.id,
+    //       keyMapper: metadata.option.keyMapper,
+    //       title: metadata.option.title || 'Untitled',
+    //       children,
+    //       data: {
+    //         ...formValue,
+    //       },
+    //       rect: {
+    //         position: node.position,
+    //       },
+    //     };
+    //   });
+    // };
+
     const newData: StudioDataNode[] = [];
     throttleNodes.forEach((node) => {
       const metadata = node.data.metadata;
       if (metadata) {
+        // const children = getChildrenDataFromChildren(metadata?.children);
         const formValue = throttleDataForms[metadata.nodeId] || {};
         newData.push({
           id: metadata.nodeId,

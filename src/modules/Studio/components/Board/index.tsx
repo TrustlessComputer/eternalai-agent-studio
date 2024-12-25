@@ -59,7 +59,16 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
       const intersectionNode = newNodes.find((n) => n.id === intersection.id);
 
       if (intersectionNode) {
-        intersectionNode.data.metadata.children = [...(intersectionNode.data.metadata.children || []), node];
+        intersectionNode.data.metadata.children = [
+          // take all children from intersection node
+          ...(intersectionNode.data.metadata.children || []),
+
+          // current node
+          node,
+
+          // flatten all children from current node
+          ...node.data.metadata.children,
+        ];
 
         console.log('[Board] onNodeDragStop', newNodes);
 

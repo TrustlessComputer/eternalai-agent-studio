@@ -6,7 +6,9 @@ export const GRAPH_DATA_TEMPLATE_1: StudioDataNode[] = [
     'keyMapper': 'agent-option-1',
     'title': 'New Agent',
     'children': [],
-    'data': {},
+    'data': {
+      agentName: 'template 1',
+    },
     'rect': {
       'position': {
         'x': 409.5,
@@ -88,7 +90,9 @@ export const GRAPH_DATA_TEMPLATE_2: StudioDataNode[] = [
         },
       },
     ],
-    'data': {},
+    'data': {
+      agentName: 'template 2',
+    },
     'rect': {
       'position': {
         'x': 409.5,

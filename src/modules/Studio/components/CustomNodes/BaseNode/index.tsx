@@ -11,6 +11,7 @@ import { NodeProps } from '@xyflow/react';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
 import { useMemo } from 'react';
+import FormRender from '../../DataFields/FormRender';
 
 type Props = NodeProps<StudioNode>;
 
@@ -18,6 +19,8 @@ const BaseNode = ({ data }: Props) => {
   const schemaData = useMemo(() => {
     return data?.metadata?.data?.current?.data;
   }, [data?.metadata?.data]);
+
+  const nodeId = data.metadata.nodeId;
 
   return (
     <div className="base-node">
@@ -28,7 +31,8 @@ const BaseNode = ({ data }: Props) => {
       <div className="base-node_content">
         <Lego>
           <LegoContent>
-            <p>Lego</p>
+            <span>Lego</span>
+            <FormRender id={nodeId} schemaData={schemaData} />
           </LegoContent>
         </Lego>
       </div>

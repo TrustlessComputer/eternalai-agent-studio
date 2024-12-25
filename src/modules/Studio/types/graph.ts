@@ -1,14 +1,17 @@
 import { Node } from '@xyflow/react';
 import { FunctionComponent } from 'react';
 import { DataSchema } from './category';
+import { Active, DataRef } from '@dnd-kit/core';
 
-type Metadata = Record<string, unknown> & {
-  data?: Record<string, unknown> & {
-    current?: Record<string, unknown> & {
-      data?: DataSchema;
+type Metadata = Record<string, unknown> &
+  Active & {
+    nodeId: string;
+    data: DataRef & {
+      current?: Record<string, unknown> & {
+        data?: DataSchema;
+      };
     };
   };
-};
 
 export type StudioNode = Node<{
   sourceHandles: string[];

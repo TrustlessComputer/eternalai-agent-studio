@@ -15,8 +15,10 @@ const AGENT: StudioCategory = {
       order: 0,
       data: {
         agentName: {
-          type: 'string',
-          value: '',
+          type: 'text',
+          label: 'Agent Name',
+          placeholder: 'Agent Name',
+          defaultValue: '',
         },
       },
     },

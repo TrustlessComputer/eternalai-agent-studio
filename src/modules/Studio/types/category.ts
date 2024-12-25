@@ -2,8 +2,10 @@ import { FunctionComponent, ReactNode } from 'react';
 
 type DataSchemaField = string;
 type DataSchemaValue = {
-  type: 'string' | 'number' | 'boolean';
-  value: string | number | boolean;
+  type: 'text' | 'textarea' | 'checkbox';
+  label?: string;
+  placeholder?: string;
+  defaultValue?: string | number | boolean;
 };
 
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;

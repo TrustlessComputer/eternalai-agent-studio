@@ -11,7 +11,6 @@ function Textbox({ formId, placeholder, className, name, ...rest }: Props) {
   const { dataForms, setFormFields } = useStudioFormStore();
 
   const value = dataForms[formId]?.[name] || '';
-  console.log('_______________', formId, name, value);
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormFields(formId, {
       [name]: e.target.value,

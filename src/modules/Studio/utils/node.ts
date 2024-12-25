@@ -3,7 +3,7 @@ import { XYPosition } from '@xyflow/react';
 import { AreaClassName } from '../constants/area-class-name';
 import { StudioDataNode, StudioNode, StudioNodeMetadata } from '../types/graph';
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
-import { StudioCategory, StudioCategoryOption } from '../types/category';
+import { StudioCategory, StudioCategoryMap, StudioCategoryOption } from '../types/category';
 import { Active, DataRef } from '@dnd-kit/core';
 import { MutableRefObject } from 'react';
 
@@ -27,8 +27,9 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
 
   data.forEach((item) => {
     if (item.keyMapper) {
-      const category = mapCategories['agent'] as StudioCategory;
-      const option = mapCategories[item.keyMapper] as StudioCategoryOption;
+      const option = mapCategories[item.keyMapper] as StudioCategoryMap;
+      const category = option.parent;
+
       const position = item.rect?.position || { x: 0, y: 0 };
 
       const active = {

@@ -1,27 +1,34 @@
 import { create } from 'zustand';
 
-import { StudioCategory, StudioCategoryOption } from '../types/category';
+import { StudioCategory, StudioCategoryMap } from '../types/category';
 
 interface State {
   categories: StudioCategory[];
-  mapCategories: Record<string, StudioCategory | StudioCategoryOption>;
+  mapCategories: Record<string, StudioCategoryMap>;
   setCategories: (categories: StudioCategory[]) => void;
 
   filters: string[];
   setFilters: (filter: string) => void;
 }
 
-const flatCategoriesByKeyMapper = (categories: StudioCategory[]) => {
-  let mapCategories: Record<string, StudioCategory> = {};
+const flatCategoriesByKeyMapper = (categories: StudioCategory[], parent?: StudioCategory) => {
+  let mapCategories: Record<string, StudioCategoryMap> = {};
   categories.forEach((item) => {
     if (item?.options?.length) {
-      const subCategories = flatCategoriesByKeyMapper(item.options as StudioCategory[]);
+      const subCategories = flatCategoriesByKeyMapper(item.options as StudioCategory[], item);
       mapCategories = {
         ...mapCategories,
         ...subCategories,
       };
     }
-    mapCategories[item.keyMapper] = item;
+    if (parent) {
+      mapCategories[item.keyMapper] = {
+        ...item,
+        parent,
+      };
+    } else {
+      mapCategories[item.keyMapper] = item as StudioCategoryMap;
+    }
   });
 
   return mapCategories;

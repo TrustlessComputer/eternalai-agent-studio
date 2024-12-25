@@ -37,13 +37,9 @@
       "@/modules/*": ["modules/*"],
       "@/enums/*": ["enums/*"],
       "@/hooks/*": ["hooks/*"],
-    },
+      "@/utils/*": ["utils/*"]
+    }
   },
   "include": ["src", "*.tsx", "*.ts", "eslint.config.js"],
-  "exclude": [
-    "coverage",
-    "config",
-    "dist",
-    "node_modules/**"
-  ]
+  "exclude": ["coverage", "config", "dist", "node_modules/**"]
 }

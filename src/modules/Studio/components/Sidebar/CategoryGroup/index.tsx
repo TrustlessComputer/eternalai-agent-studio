@@ -5,11 +5,15 @@ import TextRender from '../../Render/TextRender';
 
 import { StudioCategory } from '@/modules/Studio/types/category';
 
+import { mergeIds } from '@/utils/flow';
+import { useMemo } from 'react';
 import './CategoryGroup.scss';
 
 type Props = StudioCategory;
 
-const CategoryGroup = ({ title, color, options, customizeRenderOnSideBar }: Props) => {
+const CategoryGroup = (category: Props) => {
+  const { key, title, color, options, customizeRenderOnSideBar } = useMemo(() => category, [category]);
+
   if (customizeRenderOnSideBar && typeof customizeRenderOnSideBar === 'function') {
     return customizeRenderOnSideBar({});
   }
@@ -21,7 +25,11 @@ const CategoryGroup = ({ title, color, options, customizeRenderOnSideBar }: Prop
       </h5>
       <div className="category-group_options">
         {options.map((option) => (
-          <Draggable id={option.key} data={{ isRight: false, option, data: option.data }} key={option.key}>
+          <Draggable
+            id={mergeIds([key, option.key])}
+            data={{ isRight: false, category, option, data: option.data }}
+            key={mergeIds([key, option.key])}
+          >
             <Lego background={color}>
               <LegoContent>
                 <p>

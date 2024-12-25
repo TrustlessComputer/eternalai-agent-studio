@@ -39,6 +39,8 @@ const useStudioDnD = () => {
       const transformedX = (mousePosition.x - transformX) / zoomLevel;
       const transformedY = (mousePosition.y - transformY) / zoomLevel;
       const nodeId = v4();
+
+      const thisCategory = active.data.current?.category;
       const thisOption = active.data.current?.option;
 
       addNode({
@@ -52,8 +54,9 @@ const useStudioDnD = () => {
           metadata: {
             ...active,
             nodeId,
+            category: thisCategory,
             option: thisOption,
-            children: [thisOption],
+            children: [],
           },
         },
         dragHandle: `.${AreaClassName.DRAG_HANDLE}`,

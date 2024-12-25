@@ -1,11 +1,12 @@
 import { Active, DataRef } from '@dnd-kit/core';
 import { Node } from '@xyflow/react';
 import { FunctionComponent } from 'react';
-import { DataSchema, StudioCategoryOption } from './category';
+import { DataSchema, StudioCategory, StudioCategoryOption } from './category';
 
 type Metadata = Record<string, unknown> &
   Active & {
     nodeId: string;
+    category: StudioCategory;
     option: StudioCategoryOption;
     data: DataRef & {
       current?: Record<string, unknown> & {

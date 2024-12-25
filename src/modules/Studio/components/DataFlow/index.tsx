@@ -14,7 +14,7 @@ function DataFlow({ onChange }: { onChange?: (data: StudioDataNode[]) => void })
 
   useEffect(() => {
     // sync nodes with data
-    // console.log('throttleNodes', throttleNodes);
+    console.log('throttleNodes', throttleNodes);
   }, [throttleNodes]);
 
   useEffect(() => {

@@ -36,6 +36,7 @@ const useStudioCategoryStore = create<State>((set, get) => ({
         const options = item.options
           .map((option) => ({
             ...option,
+            color: option.color || item.color,
             order: option.order ?? Number.MAX_SAFE_INTEGER,
           }))
           .sort((a, b) => a.order - b.order);

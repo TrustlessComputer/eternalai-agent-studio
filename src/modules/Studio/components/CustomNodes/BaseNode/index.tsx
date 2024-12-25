@@ -13,6 +13,7 @@ import FormRender from '../../DataFields/FormRender';
 import Draggable from '../../DnD/Draggable';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
+import TextRender from '../../Render/TextRender';
 
 type Props = NodeProps<StudioNode>;
 
@@ -31,9 +32,9 @@ const BaseNode = ({ data }: Props) => {
 
       <div className="base-node_content">
         <Draggable id={data.metadata.option.key} data={{ isRight: true, option: data.metadata.option }}>
-          <Lego>
+          <Lego background={data.metadata.option.color} icon={data.metadata.option.icon}>
             <LegoContent>
-              <span>Lego</span>
+              <TextRender data={data.metadata.option.title} />
               <FormRender id={nodeId} schemaData={schemaData} />
             </LegoContent>
           </Lego>

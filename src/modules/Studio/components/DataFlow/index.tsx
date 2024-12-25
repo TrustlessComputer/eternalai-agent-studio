@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import useStudioDataStore from '../../stores/useStudioDataStore';
 import useStudioFlowStore from '../../stores/useStudioFlowStore';
-import { StudioDataNode } from '../../types/graph';
+import { StudioDataNode, StudioNode } from '../../types/graph';
 
 import { useThrottleValue } from '@/hooks/useThrottleValue';
 import useStudioFormStore from '../../stores/useStudioFormStore';
@@ -16,34 +16,43 @@ function Listen() {
 
   useEffect(() => {
     // sync nodes with data
-    // const getChildrenDataFromChildren = (children: StudioNodeMetadataChildren[]) => {
-    //   return children.map((child) => {
-    //     return {
-    //       id: child.id,
-    //       keyMapper: metadata.option.keyMapper,
-    //       title: metadata.option.title || 'Untitled',
-    //       children,
-    //       data: {
-    //         ...formValue,
-    //       },
-    //       rect: {
-    //         position: node.position,
-    //       },
-    //     };
-    //   });
-    // };
+    const getChildrenDataFromChildren = (children: StudioNode[]) => {
+      return children
+        .map((child) => {
+          const metadata = child.data.metadata;
+          if (metadata) {
+            const formValue = throttleDataForms[metadata.nodeId] || {};
+
+            return {
+              id: metadata.nodeId,
+              keyMapper: metadata.option.keyMapper,
+              title: metadata.option.title || 'Untitled',
+              children: [],
+              data: {
+                ...formValue,
+              },
+              rect: {
+                position: child.position,
+              },
+            };
+          }
+
+          return null;
+        })
+        .filter((item) => !!item) as StudioDataNode[];
+    };
 
     const newData: StudioDataNode[] = [];
     throttleNodes.forEach((node) => {
       const metadata = node.data.metadata;
       if (metadata) {
-        // const children = getChildrenDataFromChildren(metadata?.children);
+        const children = getChildrenDataFromChildren(metadata?.children);
         const formValue = throttleDataForms[metadata.nodeId] || {};
         newData.push({
           id: metadata.nodeId,
           keyMapper: metadata.option.keyMapper,
           title: metadata.option.title || 'Untitled',
-          children: [],
+          children,
           data: {
             ...formValue,
           },

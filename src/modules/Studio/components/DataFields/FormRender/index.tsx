@@ -16,14 +16,7 @@ function FormRender({ id, schemaData }: Props) {
       const field = fields[0];
       const fieldData = schemaData[field];
       if (fieldData.type === 'text') {
-        return (
-          <Textbox
-            formId={id}
-            name={field}
-            defaultValue={fieldData.defaultValue as string}
-            placeholder={fieldData.placeholder}
-          />
-        );
+        return <Textbox formId={id} name={field} placeholder={fieldData.placeholder} />;
       }
     } else {
       // render multiple files

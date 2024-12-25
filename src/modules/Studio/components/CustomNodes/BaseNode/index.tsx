@@ -100,7 +100,7 @@ const BaseNode = ({ data }: Props) => {
                 background={option.color}
                 icon={option.icon}
                 title={option.title}
-                id={nodeId}
+                id={item.id}
                 schemaData={option.data}
               />
             </Draggable>

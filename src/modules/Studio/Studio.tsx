@@ -54,7 +54,7 @@ export const Studio: React.FC<StudioProps> = ({ className, data, categories, onC
           <Sidebar />
         </div>
 
-        <EventHandler>
+        <EventHandler className="studio_right">
           <Board nodeTypes={extendedNodeTypes} />
         </EventHandler>
       </div>

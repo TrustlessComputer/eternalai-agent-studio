@@ -12,7 +12,7 @@ import './CategoryNavigation.scss';
 
 type Props = StudioCategory;
 
-const CategoryNavigation = ({ keyMapper, icon, title, color, required, customizeRenderOnNavigation }: Props) => {
+const CategoryNavigation = ({ keyMapper, icon, title, color, customizeRenderOnNavigation }: Props) => {
   const { filters, setFilters } = useStudioCategoryStore();
 
   const isActive = useMemo(() => {
@@ -38,7 +38,7 @@ const CategoryNavigation = ({ keyMapper, icon, title, color, required, customize
     >
       <ImageRender data={icon} />
       <span className="category-navigation_title">
-        <TextRender data={title} /> {required ? <span className="category-navigation_required">*</span> : ''}
+        <TextRender data={title} />
       </span>
     </div>
   );

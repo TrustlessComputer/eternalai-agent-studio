@@ -9,7 +9,7 @@ import './CategoryGroup.scss';
 
 type Props = StudioCategory;
 
-const CategoryGroup = ({ title, color, options, customizeRenderOnSideBar }: Props) => {
+const CategoryGroup = ({ title, color, options, customizeRenderOnSideBar, required }: Props) => {
   if (customizeRenderOnSideBar && typeof customizeRenderOnSideBar === 'function') {
     return customizeRenderOnSideBar({});
   }
@@ -17,7 +17,7 @@ const CategoryGroup = ({ title, color, options, customizeRenderOnSideBar }: Prop
   return (
     <div className="category-group">
       <h5 className="category-group_title">
-        <TextRender data={title} />
+        <TextRender data={title} /> {required ? <span className="category-navigation_required">*</span> : ''}
       </h5>
       <div className="category-group_options">
         {options.map((option) => (

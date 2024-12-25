@@ -28,4 +28,14 @@ export type StudioDataNode = {
   title: React.ReactNode | FunctionComponent;
   children: StudioDataNode[];
   data?: Record<string, unknown>; // this field can be used to store additional data or form input data
+  rect?: {
+    position: {
+      x: number;
+      y: number;
+    };
+    // measured: {
+    //   height: number;
+    //   width: number;
+    // };
+  };
 };

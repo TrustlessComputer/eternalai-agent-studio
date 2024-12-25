@@ -6,7 +6,6 @@ import { StudioDataNode } from '../types/graph';
 type State = {
   data: StudioDataNode[];
   setData: (data: StudioDataNode[]) => void;
-  getDataById: (id: string) => StudioDataNode | undefined;
 };
 
 const useStudioDataStore = create<State>((set, get) => ({
@@ -24,7 +23,6 @@ const useStudioDataStore = create<State>((set, get) => ({
     });
     set({ data: processingData });
   },
-  getDataById: (id) => get().data.find((item) => item.id === id),
 }));
 
 export default useStudioDataStore;

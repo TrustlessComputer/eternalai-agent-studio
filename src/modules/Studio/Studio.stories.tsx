@@ -1,14 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ReactFlowProvider } from '@xyflow/react';
 
-import { Studio, StudioProps } from './Studio';
+import { Studio, StudioProps, StudioRef } from './Studio';
 import { MODEL_CATEGORIES } from './constants/categories';
+import { useEffect, useRef } from 'react';
 
 type Story = StoryObj<typeof Studio>;
 
 const args = {
   categories: MODEL_CATEGORIES,
-  data: [],
 } satisfies StudioProps;
 
 const meta: Meta<typeof Studio> = {
@@ -19,16 +18,23 @@ const meta: Meta<typeof Studio> = {
 
 export const Default: Story = {
   render: function useTabs(args) {
+    const ref = useRef<StudioRef>(null);
+
+    useEffect(() => {
+      if (ref.current) {
+        ref.current.setData([]);
+      }
+    }, []);
+
     return (
       <div style={{ width: 'calc(100vw - 3rem)', height: 'calc(100vh - 3rem)' }}>
-        <ReactFlowProvider>
-          <Studio
-            {...args}
-            onChange={(data) => {
-              console.log('[Studio] onChange', data);
-            }}
-          />
-        </ReactFlowProvider>
+        <Studio
+          {...args}
+          ref={ref}
+          onChange={(data) => {
+            console.log('[Studio] onChange', data);
+          }}
+        />
       </div>
     );
   },

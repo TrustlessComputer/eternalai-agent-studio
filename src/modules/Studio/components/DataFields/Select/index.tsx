@@ -17,7 +17,7 @@ function Select({ formId, className, name, placeholder = 'Select', dataSourceKey
 
   const options = useMemo(() => {
     if (dataSourceKey) {
-      return dataSource[dataSourceKey];
+      return dataSource[dataSourceKey] || [];
     }
 
     return [];

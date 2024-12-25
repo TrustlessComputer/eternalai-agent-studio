@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 
-import { StudioCategory } from '../types/category';
+import { StudioCategory, StudioCategoryOption } from '../types/category';
 
 interface State {
   categories: StudioCategory[];
-  mapCategories: Record<string, StudioCategory>;
+  mapCategories: Record<string, StudioCategory | StudioCategoryOption>;
   setCategories: (categories: StudioCategory[]) => void;
 
   filters: string[];

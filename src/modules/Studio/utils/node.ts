@@ -2,6 +2,10 @@ import { NodeType } from '@/enums/node-type';
 import { XYPosition } from '@xyflow/react';
 import { AreaClassName } from '../constants/area-class-name';
 import { StudioDataNode, StudioNode, StudioNodeMetadata } from '../types/graph';
+import useStudioCategoryStore from '../stores/useStudioCategoryStore';
+import { StudioCategory, StudioCategoryOption } from '../types/category';
+import { Active, DataRef } from '@dnd-kit/core';
+import { MutableRefObject } from 'react';
 
 export const createNewBaseNode = (id: string, position: XYPosition, metadata: StudioNodeMetadata) => {
   return {
@@ -19,10 +23,37 @@ export const createNewBaseNode = (id: string, position: XYPosition, metadata: St
 
 export const transformDataToNodes = (data: StudioDataNode[]) => {
   const nodes: StudioNode[] = [];
+  const mapCategories = useStudioCategoryStore.getState().mapCategories;
+
   data.forEach((item) => {
-    nodes.push(createNewBaseNode(item.id, item.rect?.position || { x: 0, y: 0 }, {} as StudioNodeMetadata));
-    if (item.children.length) {
-      nodes.push(...transformDataToNodes(item.children));
+    if (item.keyMapper) {
+      const category = mapCategories['agent'] as StudioCategory;
+      const option = mapCategories[item.keyMapper] as StudioCategoryOption;
+      const position = item.rect?.position || { x: 0, y: 0 };
+
+      const active = {
+        data: {
+          current: {
+            data: option.data,
+          },
+        } as DataRef,
+        rect: {} as MutableRefObject<{
+          initial: ClientRect | null;
+          translated: ClientRect | null;
+        }>,
+      } as Active;
+
+      const metadata = {
+        ...active,
+        nodeId: item.id,
+        category,
+        option,
+        children: [],
+      } satisfies StudioNodeMetadata;
+      nodes.push(createNewBaseNode(item.id, position, metadata));
+      if (item.children.length) {
+        nodes.push(...transformDataToNodes(item.children));
+      }
     }
   });
 

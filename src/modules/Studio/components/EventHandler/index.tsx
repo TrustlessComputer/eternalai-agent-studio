@@ -1,6 +1,7 @@
+import { XYPosition } from '@xyflow/react';
 import { useCallback, useEffect, useRef } from 'react';
-import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
 import useContainerMouse from '../../hooks/useContainerMouse';
+import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
 
 type Props = React.ComponentPropsWithoutRef<'div'>;
 
@@ -10,11 +11,7 @@ function EventHandler({ children, ...rest }: Props) {
   const setMousePosition = useStudioFlowViewStore((state) => state.setMousePosition);
 
   const handleOnTick = useCallback(
-    (
-      contentRect: DOMRect,
-      mousePosition: { x: number; y: number },
-      previousMousePosition: { x: number; y: number },
-    ) => {
+    (contentRect: DOMRect, mousePosition: XYPosition, previousMousePosition: XYPosition) => {
       setMousePosition(mousePosition);
     },
     [],

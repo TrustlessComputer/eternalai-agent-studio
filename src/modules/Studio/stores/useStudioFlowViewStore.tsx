@@ -1,10 +1,11 @@
 import { create } from 'zustand';
 
-import { FlowView, Position } from '../types/ui';
+import { XYPosition } from '@xyflow/react';
+import { FlowView } from '../types/ui';
 
 type State = {
-  mousePosition: Position;
-  setMousePosition: (position: Position) => void;
+  mousePosition: XYPosition;
+  setMousePosition: (position: XYPosition) => void;
 
   view: FlowView;
   setView: (view: FlowView) => void;

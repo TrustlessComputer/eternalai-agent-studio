@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Position } from '../types/ui';
+import { XYPosition } from '@xyflow/react';
 
 type Props = {
   ref: React.RefObject<any | null>;
-  handleOnTick: (contentRect: DOMRect, mousePosition: Position, previousMousePosition: Position) => void;
+  handleOnTick: (contentRect: DOMRect, mousePosition: XYPosition, previousMousePosition: XYPosition) => void;
 };
 
 const useContainerMouse = ({ ref, handleOnTick }: Props) => {

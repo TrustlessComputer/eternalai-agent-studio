@@ -41,6 +41,8 @@ type State = {
   onNodesChange: OnNodesChange<StudioNode>;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
+
+  clear: () => void;
 };
 
 const flatNodes = (nodes: StudioNode[]) => {
@@ -128,6 +130,10 @@ const useStudioFlowStore = create<State>((set, get) => ({
     set({
       ...flatEdges(addEdge(connection, get().edges)),
     });
+  },
+
+  clear: () => {
+    set({ reloadFlowCounter: 0, nodes: [], nodesMapped: {}, edges: [], edgesMapped: {} });
   },
 }));
 

@@ -20,6 +20,7 @@ import useStudioDnD from './hooks/useStudioDnd';
 import useStudioFlowStore from './stores/useStudioFlowStore';
 import { NodeType } from '@/enums/node-type';
 import { AreaClassName } from './constants/area-class-name';
+import { transformDataToNodes } from './utils/node';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   categories: StudioCategory[];
@@ -71,48 +72,14 @@ export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioPro
       setData: (data: StudioDataNode[]) => {
         console.log('studio init data', data);
         // generate nodes/edges from data
+        // clear current nodes/edges
+        useStudioFlowStore.getState().clear();
+
         useStudioDataStore.getState().setData(data);
 
-        const newNodes: StudioNode[] = [];
-        // data.forEach((item) => {
-        //   const position = (item.rect?.position || {}) as XYPosition;
-        //   newNodes.push({
-        //     id: item.id,
-        //     type: NodeType.BASE_NODE,
-        //     position,
-        //     data: {
-        //       sourceHandles: [],
-        //       targetHandles: [],
-        //       metadata: {
-        //         // ...active,
-        //         nodeId: item.id,
-        //         // category: thisCategory,
-        //         // option: thisOption,
-        //         children: [],
-        //       },
-        //     },
-        //     dragHandle: `.${AreaClassName.DRAG_HANDLE}`,
-        //   });
-        // });
-        // useStudioFlowStore.getState().addNode({
-        //   id: nodeId,
-        //   // type: active.data.current?.nodeType,
-        //   type: NodeType.BASE_NODE,
-        //   position: { x: transformedX, y: transformedY },
-        //   data: {
-        //     sourceHandles: [],
-        //     targetHandles: [],
-        //     metadata: {
-        //       ...active,
-        //       nodeId,
-        //       category: thisCategory,
-        //       option: thisOption,
-        //       children: [],
-        //     },
-        //   },
-        //   dragHandle: `.${AreaClassName.DRAG_HANDLE}`,
-        //   // deletable: false,
-        // });
+        const initNodes = transformDataToNodes(data);
+        console.log('studio init nodes', initNodes);
+        // useStudioFlowStore.getState().addNodes(initNodes);
       },
     }),
     [],

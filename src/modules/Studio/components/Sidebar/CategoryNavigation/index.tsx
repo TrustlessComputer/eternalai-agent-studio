@@ -1,12 +1,12 @@
+import cx from 'clsx';
 import { CSSProperties, useMemo } from 'react';
-import cs from 'clsx';
 
 import ImageRender from '../../Render/ImageRender';
 import TextRender from '../../Render/TextRender';
 
+import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { StudioCategory } from '@/modules/Studio/types/category';
 import { adjustColorShade } from '@/modules/Studio/utils/ui';
-import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 
 import './CategoryNavigation.scss';
 
@@ -28,7 +28,7 @@ const CategoryNavigation = ({ keyMapper, icon, title, color, required, customize
       onClick={() => {
         setFilters(keyMapper);
       }}
-      className={cs('category-navigation', { 'category-navigation__active': isActive })}
+      className={cx('category-navigation', { 'category-navigation__active': isActive })}
       style={
         {
           '--color': color,

@@ -11,7 +11,7 @@ type DataSchemaValue = {
 
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
-type BaseCategory = {
+type BaseCategoryOption = {
   key: string;
   keyMapper: string;
   title?: React.ReactNode | FunctionComponent;
@@ -26,9 +26,9 @@ type BaseCategory = {
   data?: DataSchema;
 };
 
-export type StudioCategoryItem = BaseCategory;
+export type StudioCategoryOption = BaseCategoryOption;
 
-export type StudioCategory = Omit<BaseCategory, 'value' | 'data'> & {
-  options: StudioCategoryItem[];
+export type StudioCategory = Omit<BaseCategoryOption, 'value' | 'data'> & {
+  options: StudioCategoryOption[];
   color: string;
 };

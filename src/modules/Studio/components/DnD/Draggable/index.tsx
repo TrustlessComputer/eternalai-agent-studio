@@ -4,7 +4,7 @@ import cx from 'clsx';
 import { HTMLAttributes, memo, useEffect, useMemo } from 'react';
 
 import useDragMaskStore from '@/modules/Studio/stores/useDragMaskStore';
-import { DataSchema, StudioCategoryItem } from '@/modules/Studio/types/category';
+import { DataSchema, StudioCategoryOption } from '@/modules/Studio/types/category';
 import './Draggable.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
@@ -12,7 +12,7 @@ type Props = HTMLAttributes<HTMLDivElement> & {
   data?: {
     isRight?: boolean;
     isParent?: boolean;
-    option: StudioCategoryItem;
+    option: StudioCategoryOption;
     data?: DataSchema;
   };
   disabled?: boolean;

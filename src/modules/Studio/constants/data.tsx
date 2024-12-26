@@ -16,19 +16,19 @@ export const GRAPH_DATA_TEMPLATE_1: StudioDataNode[] = [
       },
     },
   },
-  // {
-  //   'id': '14c03648-b7e3-4488-9d5e-2d751ad7bb09',
-  //   'keyMapper': 'network-option-2',
-  //   'title': 'Import from Ordinals',
-  //   'children': [],
-  //   'data': {},
-  //   'rect': {
-  //     'position': {
-  //       'x': 474.5,
-  //       'y': 507,
-  //     },
-  //   },
-  // },
+  {
+    'id': '14c03648-b7e3-4488-9d5e-2d751ad7bb09',
+    'keyMapper': 'network-option-2',
+    'title': 'Import from Ordinals',
+    'children': [],
+    'data': {},
+    'rect': {
+      'position': {
+        'x': 474.5,
+        'y': 507,
+      },
+    },
+  },
   {
     'id': 'dda87254-ebae-46c9-9528-b9f609172aa8',
     'keyMapper': 'network-option-4',

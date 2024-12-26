@@ -24,7 +24,7 @@ export const Default: Story = {
 
     useEffect(() => {
       if (ref.current) {
-        ref.current.setData(GRAPH_DATA_TEMPLATE_1);
+        ref.current.setData(GRAPH_DATA_TEMPLATE_2);
       }
     }, []);
 

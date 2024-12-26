@@ -99,7 +99,7 @@ const BaseNode = ({ data }: Props) => {
           />
         </Draggable>
 
-        {/* {children?.map((item, index) => {
+        {children?.map((item, index) => {
           const { category, option } = item.data.metadata;
           const draggableId = mergeIds([category.key, option.key, item.id, index.toString()]);
 
@@ -127,7 +127,7 @@ const BaseNode = ({ data }: Props) => {
               />
             </Draggable>
           );
-        })} */}
+        })}
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import { memo } from 'react';
 const DragMask = () => {
   const draggingElement = useDragMaskStore((state) => state.draggingElement);
 
-  // if (!draggingElement) return null;
+  if (!draggingElement) return null;
 
   return <DragOverlay zIndex={10000}>{draggingElement}</DragOverlay>;
 };

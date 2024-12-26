@@ -15,6 +15,7 @@ import { FunctionComponent, useMemo } from 'react';
 import { NodeType } from '@/modules/Studio/enums/node-type';
 import { AreaClassName } from '@/modules/Studio/constants/area-class-name';
 import { DragIcon } from '@/modules/Studio/components/icons/common';
+import useDragMaskStore from '@/modules/Studio/stores/useDragMaskStore';
 
 type Props = NodeProps<StudioNode>;
 
@@ -48,6 +49,7 @@ const LegoRender = ({
 };
 
 const BaseNode = ({ data }: Props) => {
+  const highlightingNode = useDragMaskStore((state) => state.highlightingNode);
   const { schemaData, children, nodeId, draggableId } = useMemo(() => {
     const schemaData = data.type === NodeType.BASE ? data.metadata.data.current?.data : {};
     const children = data.type === NodeType.BASE ? data.metadata.children : [];
@@ -59,7 +61,16 @@ const BaseNode = ({ data }: Props) => {
   }, [data]);
 
   return (
-    <div className={cx('base-node', data.className)} id={nodeId}>
+    <div
+      className={cx(
+        'base-node',
+        {
+          'base-node--highlight': highlightingNode?.id === nodeId,
+        },
+        data.className,
+      )}
+      id={nodeId}
+    >
       {/* <div className={cx('base-node__drag-icon', AreaClassName.DRAG_HANDLE)}>
         <span>
           <DragIcon />

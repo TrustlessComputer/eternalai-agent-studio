@@ -10,7 +10,6 @@ import './Draggable.scss';
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import { applyNodeChanges, Node, useReactFlow } from '@xyflow/react';
 import { NodeType } from '@/modules/Studio/enums/node-type';
-import DragMask from '../DragMask';
 
 export type DraggableDataType = {
   isRight?: boolean;
@@ -75,8 +74,10 @@ const Draggable = ({ id, data, disabled = false, children, ...props }: Props) =>
         refIntersectingNode.current = intersection;
         if (intersection) {
           // highlight intersection node
+          useDragMaskStore.getState().setHighlightingNode(intersection);
         } else {
           // remove highlight
+          useDragMaskStore.getState().setHighlightingNode(null);
         }
       } else {
         refMovingNode.current = null;
@@ -112,6 +113,7 @@ const Draggable = ({ id, data, disabled = false, children, ...props }: Props) =>
       }
       refMovingNode.current = null;
       refIntersectingNode.current = null;
+      useDragMaskStore.getState().setHighlightingNode(null);
     }
   }, [draggingData?.belongsTo, getIntersectingNodes, transform]);
 

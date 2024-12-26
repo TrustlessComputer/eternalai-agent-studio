@@ -3,26 +3,28 @@ import { NodeTypes, ReactFlowProvider } from '@xyflow/react';
 import cx from 'clsx';
 import React, { useEffect, useImperativeHandle, useMemo } from 'react';
 
-import '../../styles/global.scss';
-import Board from './components/Board';
-import DataFlow from './components/DataFlow';
-import { FLOW_NODE_TYPES } from './constants/keyMapper';
+import '@/styles/global.scss';
+import DataFlow from '../components/DataFlow';
+import DragMask from '../components/DnD/DragMask';
+import { FLOW_NODE_TYPES } from '../constants/keyMapper';
 
-import EventHandler from './components/EventHandler';
+import EventHandler from '../components/EventHandler';
+import useDragMaskStore from '../stores/useDragMaskStore';
+import useStudioCategoryStore from '../stores/useStudioCategoryStore';
+import useStudioDataSourceStore from '../stores/useStudioDataSourceStore';
+import useStudioDataStore from '../stores/useStudioDataStore';
+import useStudioFlowStore from '../stores/useStudioFlowStore';
+import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
+import useStudioFormStore from '../stores/useStudioFormStore';
+import { StudioCategory } from '../types/category';
+import { DataSourceType } from '../types/dataSource';
+import { StudioDataNode } from '../types/graph';
+import { getFieldDataFromRawData } from '../utils/data';
+import { transformDataToNodes } from '../utils/node';
+import Board from './Board';
 import useStudioDnD from './hooks/useStudioDnd';
-import useDragMaskStore from './stores/useDragMaskStore';
-import useStudioCategoryStore from './stores/useStudioCategoryStore';
-import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
-import useStudioDataStore from './stores/useStudioDataStore';
-import useStudioFlowStore from './stores/useStudioFlowStore';
-import useStudioFlowViewStore from './stores/useStudioFlowViewStore';
-import useStudioFormStore from './stores/useStudioFormStore';
+import Sidebar from './Sidebar';
 import './Studio.scss';
-import { StudioCategory } from './types/category';
-import { DataSourceType } from './types/dataSource';
-import { StudioDataNode } from './types/graph';
-import { getFieldDataFromRawData } from './utils/data';
-import { transformDataToNodes } from './utils/node';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   categories: StudioCategory[];
@@ -60,11 +62,11 @@ const StudioComponent = ({ className, categories, onChange, nodeTypes, dataSourc
       <DataFlow onChange={onChange} />
 
       <div className={cx('studio', className)} {...rest}>
-        {/* <DragMask />
+        <DragMask />
 
         <div className="studio__left">
           <Sidebar />
-        </div> */}
+        </div>
 
         <EventHandler className="studio__right">
           <Board nodeTypes={extendedNodeTypes} />

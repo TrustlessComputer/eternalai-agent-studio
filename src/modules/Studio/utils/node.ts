@@ -7,12 +7,13 @@ import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 import { StudioCategoryMap } from '../types/category';
 import { StudioDataNode, StudioNode, StudioNodeMetadata } from '../types/graph';
 
-export const createNewBaseNode = (id: string, position: XYPosition, metadata: StudioNodeMetadata) => {
+export const createNewPieceNode = (id: string, position: XYPosition, metadata: StudioNodeMetadata) => {
   return {
     id,
-    type: NodeType.BASE_NODE,
+    type: NodeType.BASE,
     position,
     data: {
+      type: NodeType.BASE,
       sourceHandles: [],
       targetHandles: [],
       metadata,
@@ -57,7 +58,7 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
         children: childrenNode,
       } satisfies StudioNodeMetadata;
 
-      nodes.push(createNewBaseNode(item.id, position, metadata));
+      nodes.push(createNewPieceNode(item.id, position, metadata));
     }
   });
 

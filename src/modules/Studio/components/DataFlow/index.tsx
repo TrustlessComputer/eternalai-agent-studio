@@ -5,6 +5,7 @@ import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import { StudioDataNode, StudioNode } from '../../types/graph';
 
 import { useThrottleValue } from '@/hooks/useThrottleValue';
+import { NodeType } from '../../enums/node-type';
 import useStudioFormStore from '../../stores/useStudioFormStore';
 
 function Listen() {
@@ -19,6 +20,8 @@ function Listen() {
     const getChildrenDataFromChildren = (children: StudioNode[]) => {
       return children
         .map((child) => {
+          if (child.data.type !== NodeType.BASE) return;
+
           const metadata = child.data.metadata;
           if (metadata) {
             const formValue = throttleDataForms[metadata.nodeId] || {};
@@ -44,6 +47,8 @@ function Listen() {
 
     const newData: StudioDataNode[] = [];
     throttleNodes.forEach((node) => {
+      if (node.data.type !== NodeType.BASE) return;
+
       const metadata = node.data.metadata;
       if (metadata) {
         const children = getChildrenDataFromChildren(metadata?.children);

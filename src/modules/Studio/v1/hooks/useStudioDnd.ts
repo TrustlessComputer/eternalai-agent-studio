@@ -3,13 +3,14 @@ import { useStoreApi } from '@xyflow/react';
 import { v4 } from 'uuid';
 
 import { useCallback } from 'react';
-import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../constants/droppable-id';
-import useStudioFlowStore from '../stores/useStudioFlowStore';
-import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
-import useStudioFormStore from '../stores/useStudioFormStore';
-import { removeItemFromArray } from '../utils/array';
-import { cloneData, getFormDataFromCategory } from '../utils/data';
-import { createNewBaseNode } from '../utils/node';
+import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../../constants/droppable-id';
+import { NodeType } from '../../enums/node-type';
+import useStudioFlowStore from '../../stores/useStudioFlowStore';
+import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
+import useStudioFormStore from '../../stores/useStudioFormStore';
+import { removeItemFromArray } from '../../utils/array';
+import { cloneData, getFormDataFromCategory } from '../../utils/data';
+import { createNewPieceNode } from '../../utils/node';
 
 const useStudioDnD = () => {
   const addNode = useStudioFlowStore((state) => state.addNode);
@@ -44,6 +45,10 @@ const useStudioDnD = () => {
     const mousePosition = useStudioFlowViewStore.getState().mousePosition;
     const transformedX = (mousePosition.x - transformX) / zoomLevel;
     const transformedY = (mousePosition.y - transformY) / zoomLevel;
+
+    if (thisNode?.data.type !== NodeType.BASE) {
+      return;
+    }
 
     // From output to input
     if (droppedOnInput && isLegoFromRight && thisNode) {
@@ -91,7 +96,7 @@ const useStudioDnD = () => {
       const thisOption = lego.data.current?.option;
 
       addNode(
-        createNewBaseNode(
+        createNewPieceNode(
           nodeId,
           { x: transformedX, y: transformedY },
           {

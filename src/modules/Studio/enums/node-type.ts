@@ -1,3 +1,9 @@
 export enum NodeType {
-  BASE_NODE = 'BaseNode',
+  // V1
+  BASE = 'Base',
+
+  // V2
+  ENTRY = 'Entry',
+  INPUT = 'Input',
+  OUTPUT = 'Output',
 }

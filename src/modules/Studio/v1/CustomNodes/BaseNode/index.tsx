@@ -1,21 +1,21 @@
 import cx from 'clsx';
 
-import { DragIcon } from '../../icons/common';
-
 import { AreaClassName } from '@/modules/Studio/constants/area-class-name';
 import { StudioNode } from '@/modules/Studio/types/graph';
 import './BaseNode.scss';
 
 import { NodeProps } from '@xyflow/react';
 
+import FormRender from '@/modules/Studio/components/DataFields/FormRender';
+import Draggable from '@/modules/Studio/components/DnD/Draggable';
+import { DragIcon } from '@/modules/Studio/components/icons/common';
+import Lego from '@/modules/Studio/components/Lego';
+import LegoContent from '@/modules/Studio/components/LegoContent';
+import TextRender from '@/modules/Studio/components/Render/TextRender';
+import { NodeType } from '@/modules/Studio/enums/node-type';
 import { DataSchema } from '@/modules/Studio/types/category';
 import { mergeIds } from '@/utils/flow';
 import { FunctionComponent, useMemo } from 'react';
-import FormRender from '../../DataFields/FormRender';
-import Draggable from '../../DnD/Draggable';
-import Lego from '../../Lego';
-import LegoContent from '../../LegoContent';
-import TextRender from '../../Render/TextRender';
 
 type Props = NodeProps<StudioNode>;
 
@@ -49,13 +49,17 @@ const LegoRender = ({
 };
 
 const BaseNode = ({ data }: Props) => {
+  if (data.type !== NodeType.BASE) {
+    return <></>;
+  }
+
   const schemaData = useMemo(() => {
-    return data?.metadata?.data?.current?.data;
-  }, [data?.metadata?.data]);
+    return data.metadata.data.current?.data;
+  }, [data.metadata.data]);
 
   const children = useMemo(() => {
-    return data?.metadata?.children;
-  }, [data?.metadata?.children]);
+    return data.metadata.children;
+  }, [data.metadata.children]);
 
   const nodeId = useMemo(() => data.metadata.nodeId, [data.metadata.nodeId]);
   const draggableId = useMemo(
@@ -95,6 +99,10 @@ const BaseNode = ({ data }: Props) => {
         </Draggable>
 
         {children?.map((item, index) => {
+          if (item.data.type !== NodeType.BASE) {
+            return null;
+          }
+
           const { id: prevNodeId } = item;
           const { category, option } = item.data.metadata;
           const draggableId = mergeIds([category.key, option.key, prevNodeId, index.toString()]);

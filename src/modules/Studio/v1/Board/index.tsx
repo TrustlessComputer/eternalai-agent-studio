@@ -2,13 +2,13 @@ import { Background, ConnectionMode, Controls, NodeTypes, OnNodeDrag, ReactFlow,
 import '@xyflow/react/dist/style.css';
 import { useCallback, useEffect, useState } from 'react';
 
+import Droppable from '@/modules/Studio/components/DnD/Droppable';
 import { OUTPUT_DROP_ID } from '../../constants/droppable-id';
+import { NodeType } from '../../enums/node-type';
 import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
-import { FlowView } from '../../types/ui';
-import Droppable from '../DnD/Droppable';
-
 import { StudioNode } from '../../types/graph';
+import { FlowView } from '../../types/ui';
 import './Board.scss';
 
 function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
@@ -49,34 +49,36 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
   }, []);
 
   const onNodeDragStop: OnNodeDrag<StudioNode> = useCallback((event, node) => {
-    const nodes = useStudioFlowStore.getState().nodes;
-    const intersection = getIntersectingNodes(node)[0];
+    if (node.data.type === NodeType.BASE) {
+      const nodes = useStudioFlowStore.getState().nodes;
+      const intersection = getIntersectingNodes(node)[0];
 
-    if (intersection) {
-      const newNodes = nodes.filter((n) => n.id !== node.id);
-      const newEdges = edges.filter((e) => e.source !== node.id && e.target !== node.id);
+      if (intersection) {
+        const newNodes = nodes.filter((n) => n.id !== node.id);
+        const newEdges = edges.filter((e) => e.source !== node.id && e.target !== node.id);
 
-      const intersectionNode = newNodes.find((n) => n.id === intersection.id);
+        const intersectionNode = newNodes.find((n) => n.id === intersection.id);
 
-      if (intersectionNode) {
-        intersectionNode.data.metadata.children = [
-          // take all children from intersection node
-          ...intersectionNode.data.metadata.children,
+        if (intersectionNode && intersectionNode.data.type === NodeType.BASE) {
+          intersectionNode.data.metadata.children = [
+            // take all children from intersection node
+            ...intersectionNode.data.metadata.children,
 
-          // current node
-          node,
+            // current node
+            node,
 
-          // flatten all children from current node
-          ...node.data.metadata.children,
-        ];
+            // flatten all children from current node
+            ...node.data.metadata.children,
+          ];
 
-        console.log('[Board] onNodeDragStop', newNodes);
+          console.log('[Board] onNodeDragStop', newNodes);
 
-        setNodes(newNodes.map((n) => ({ ...n, data: { ...n.data, className: '' } })));
-        setEdges(newEdges);
-        reloadFlow();
+          setNodes(newNodes.map((n) => ({ ...n, data: { ...n.data, className: '' } })));
+          setEdges(newEdges);
+          reloadFlow();
 
-        return;
+          return;
+        }
       }
     }
   }, []);

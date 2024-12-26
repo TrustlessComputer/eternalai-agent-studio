@@ -1,10 +1,9 @@
-import Draggable from '../../DnD/Draggable';
-import Lego from '../../Lego';
-import LegoContent from '../../LegoContent';
-import TextRender from '../../Render/TextRender';
-
 import { StudioCategory } from '@/modules/Studio/types/category';
 
+import Draggable from '@/modules/Studio/components/DnD/Draggable';
+import Lego from '@/modules/Studio/components/Lego';
+import LegoContent from '@/modules/Studio/components/LegoContent';
+import TextRender from '@/modules/Studio/components/Render/TextRender';
 import { mergeIds } from '@/utils/flow';
 import { useMemo } from 'react';
 import './CategoryGroup.scss';

@@ -10,6 +10,8 @@ import { NodeType } from '../../enums/node-type';
 import { StudioNode } from '../../types/graph';
 import { FlowView } from '../../types/ui';
 import './Board.scss';
+import BoardOverlay from './BoardOverlay';
+// import useDragMaskStore from '../../stores/useDragMaskStore';
 
 function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
   const { getIntersectingNodes } = useReactFlow();
@@ -31,65 +33,13 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
     zoom: 1,
   });
 
-  const onNodeDrag: OnNodeDrag<StudioNode> = useCallback((event, node) => {
-    const nodes = useStudioFlowStore.getState().nodes;
-    const intersection = getIntersectingNodes(node)[0];
-
-    setNodes(
-      nodes.map((n) => ({
-        ...n,
-        data: {
-          ...n.data,
-          className: intersection?.id === n.id ? 'base-node--highlight' : '',
-        },
-      })),
-    );
-
-    reloadFlow();
-  }, []);
-
-  const onNodeDragStop: OnNodeDrag<StudioNode> = useCallback((event, node) => {
-    if (node.data.type === NodeType.BASE) {
-      const nodes = useStudioFlowStore.getState().nodes;
-      const intersection = getIntersectingNodes(node)[0];
-
-      if (intersection) {
-        const newNodes = nodes.filter((n) => n.id !== node.id);
-        const newEdges = edges.filter((e) => e.source !== node.id && e.target !== node.id);
-
-        const intersectionNode = newNodes.find((n) => n.id === intersection.id);
-
-        if (intersectionNode && intersectionNode.data.type === NodeType.BASE) {
-          intersectionNode.data.metadata.children = [
-            // take all children from intersection node
-            ...intersectionNode.data.metadata.children,
-
-            // current node
-            node,
-
-            // flatten all children from current node
-            ...node.data.metadata.children,
-          ];
-
-          console.log('[Board] onNodeDragStop', newNodes);
-
-          setNodes(newNodes.map((n) => ({ ...n, data: { ...n.data, className: '' } })));
-          setEdges(newEdges);
-          reloadFlow();
-
-          return;
-        }
-      }
-    }
-  }, []);
-
   useEffect(() => {
     setCurrentView(useStudioFlowViewStore.getState().view);
   }, [reloadFlowCounter]);
 
   return (
     <Droppable id={OUTPUT_DROP_ID} data={{}} className="board">
-      {/* <BoardOverlay /> */}
+      <BoardOverlay />
 
       <ReactFlow
         nodes={nodes}
@@ -98,15 +48,15 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
         edges={edges}
         onEdgesChange={onEdgesChange}
         edgesFocusable={false}
-        // fitViewOptions={{ padding: 1 }}
         deleteKeyCode=""
         defaultViewport={currentView}
         onViewportChange={setView}
         connectionMode={ConnectionMode.Loose}
         zoomOnDoubleClick={false}
         selectNodesOnDrag={false}
-        onNodeDrag={onNodeDrag}
-        onNodeDragStop={onNodeDragStop}
+        // nodesDraggable={false}
+        // onNodeDrag={onNodeDrag}
+        // onNodeDragStop={onNodeDragStop}
       >
         <Controls />
         <Background />

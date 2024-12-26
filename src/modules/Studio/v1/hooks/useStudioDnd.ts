@@ -25,6 +25,7 @@ const useStudioDnD = () => {
 
   // TODO: Process data after reload
   const handleDragEnd = useCallback((event: DragEndEvent) => {
+    console.log('___________________handle drag end');
     const { active: lego, over } = event;
 
     if (!lego || !over) return;

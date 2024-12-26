@@ -12,7 +12,11 @@ import './CategoryGroup.scss';
 type Props = StudioCategory;
 
 const CategoryGroup = (category: Props) => {
-  const { key, title, color, options, customizeRenderOnSideBar, required } = useMemo(() => category, [category]);
+  const { key, title, color, options, customizeRenderOnSideBar, required, disabled } = category;
+
+  const renderOptions = useMemo(() => {
+    return options.filter((item) => !item.hidden);
+  }, [options]);
 
   if (customizeRenderOnSideBar && typeof customizeRenderOnSideBar === 'function') {
     return customizeRenderOnSideBar({});
@@ -24,19 +28,31 @@ const CategoryGroup = (category: Props) => {
         <TextRender data={title} /> {required ? <span className="category-navigation__required">*</span> : ''}
       </h5>
       <div className="category-group__options">
-        {options.map((option) => (
-          <Draggable
-            id={mergeIds([key, option.key])}
-            data={{ isRight: false, category, option, data: option.data }}
-            key={mergeIds([key, option.key])}
-          >
-            <Lego background={color} icon={option.icon}>
-              <LegoContent>
-                <TextRender data={option.title} />
-              </LegoContent>
-            </Lego>
-          </Draggable>
-        ))}
+        {renderOptions.map((option) => {
+          if (option.disabled || disabled) {
+            return (
+              <Lego disabled key={mergeIds([key, option.key])} background={color} icon={option.icon}>
+                <LegoContent>
+                  <TextRender data={option.title} />
+                </LegoContent>
+              </Lego>
+            );
+          }
+
+          return (
+            <Draggable
+              id={mergeIds([key, option.key])}
+              data={{ isRight: false, category, option, data: option.data }}
+              key={mergeIds([key, option.key])}
+            >
+              <Lego background={color} icon={option.icon}>
+                <LegoContent>
+                  <TextRender data={option.title} />
+                </LegoContent>
+              </Lego>
+            </Draggable>
+          );
+        })}
       </div>
     </div>
   );

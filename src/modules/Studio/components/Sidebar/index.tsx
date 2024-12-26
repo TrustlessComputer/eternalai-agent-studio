@@ -11,19 +11,23 @@ const Sidebar = () => {
   const categories = useStudioCategoryStore((state) => state.categories);
   const filters = useStudioCategoryStore((state) => state.filters);
 
-  const renderCategories = useMemo(() => {
+  const renderNavigationCategories = useMemo(() => {
+    return categories.filter((item) => !item.hidden);
+  }, [categories]);
+
+  const renderGroupCategories = useMemo(() => {
     if (!filters.length) {
-      return categories;
+      return renderNavigationCategories;
     }
 
-    return categories.filter((item) => filters.includes(item.keyMapper));
-  }, [categories, filters]);
+    return renderNavigationCategories.filter((item) => filters.includes(item.keyMapper));
+  }, [renderNavigationCategories, filters]);
 
   return (
     <Droppable id={INPUT_DROP_ID} data={{}} className="sidebar">
       <div className="sidebar__left">
         <div className="sidebar__left__inner">
-          {categories.map((category) => (
+          {renderNavigationCategories.map((category) => (
             <CategoryNavigation {...category} />
           ))}
         </div>
@@ -33,7 +37,7 @@ const Sidebar = () => {
         {/* <SidebarOverlay /> */}
 
         <div className="sidebar__right__inner">
-          {renderCategories.map((category) => (
+          {renderGroupCategories.map((category) => (
             <CategoryGroup {...category} />
           ))}
         </div>

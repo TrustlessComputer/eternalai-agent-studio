@@ -24,6 +24,40 @@ const AGENT: StudioCategory = {
         },
       },
     },
+    {
+      key: 'agent-option-2',
+      keyMapper: 'agent-option-2',
+      title: 'Hidden New Agent',
+      tooltip: '',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      order: 0,
+      hidden: true,
+      data: {
+        agentName: {
+          type: 'text',
+          label: 'Agent Name',
+          placeholder: 'Agent Name',
+          defaultValue: '',
+        },
+      },
+    },
+    {
+      key: 'agent-option-3',
+      keyMapper: 'agent-option-3',
+      title: 'Disabled New Agent',
+      tooltip: '',
+      disabled: true,
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      order: 0,
+      data: {
+        agentName: {
+          type: 'text',
+          label: 'Agent Name',
+          placeholder: 'Agent Name',
+          defaultValue: '',
+        },
+      },
+    },
   ],
   icon: <LegoComponentIcon />,
   order: -1,
@@ -148,4 +182,99 @@ const NETWORK: StudioCategory = {
   icon: <LegoComponentIcon />,
 };
 
-export const MODEL_CATEGORIES: StudioCategory[] = [AGENT, PERSONALITY, NETWORK];
+const HIDDEN_CATEGORY: StudioCategory = {
+  key: 'hidden-category',
+  keyMapper: 'hidden-category',
+  title: 'Hidden Category',
+  required: true,
+  color: '#00FF00',
+  hidden: true,
+  options: [
+    {
+      key: 'hidden-category-option-1',
+      keyMapper: 'hidden-category-option-1',
+      title: 'Hidden Category option',
+      tooltip: '',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      order: 0,
+      data: {
+        agentName: {
+          type: 'text',
+          label: 'Agent Name',
+          placeholder: 'Agent Name',
+          defaultValue: '',
+        },
+      },
+    },
+  ],
+  icon: <LegoComponentIcon />,
+  order: 3,
+};
+
+const DISABLED_CATEGORY: StudioCategory = {
+  key: 'disabled-category',
+  keyMapper: 'disabled-category',
+  title: 'Disabled Category',
+  required: true,
+  color: '#FF00FF',
+  disabled: true,
+  options: [
+    {
+      key: 'disabled-category-option-1',
+      keyMapper: 'disabled-category-option-1',
+      title: 'Disabled Category option',
+      tooltip: '',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      order: 0,
+      data: {
+        agentName: {
+          type: 'text',
+          label: 'Agent Name',
+          placeholder: 'Agent Name',
+          defaultValue: '',
+        },
+      },
+    },
+  ],
+  icon: <LegoComponentIcon />,
+  order: 4,
+};
+
+const DISABLED_OPTION_IN_CATEGORY: StudioCategory = {
+  key: 'disabled-option-in-category',
+  keyMapper: 'disabled-option-in-category',
+  title: 'Disabled Option in Category',
+  required: true,
+  color: '#FF00FF',
+
+  options: [
+    {
+      key: 'disabled-option-in-category-option-1',
+      keyMapper: 'disabled-option-in-category-option-1',
+      title: 'Disabled Option Category option',
+      tooltip: '',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      order: 0,
+      disabled: true,
+      data: {
+        agentName: {
+          type: 'text',
+          label: 'Agent Name',
+          placeholder: 'Agent Name',
+          defaultValue: '',
+        },
+      },
+    },
+  ],
+  icon: <LegoComponentIcon />,
+  order: 4,
+};
+
+export const MODEL_CATEGORIES: StudioCategory[] = [
+  AGENT,
+  PERSONALITY,
+  NETWORK,
+  HIDDEN_CATEGORY,
+  DISABLED_CATEGORY,
+  DISABLED_OPTION_IN_CATEGORY,
+];

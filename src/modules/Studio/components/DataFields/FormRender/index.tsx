@@ -30,15 +30,27 @@ function FormRender({ id, schemaData, children }: Props) {
           </div>
         );
       } else if (fieldData.type === 'textarea') {
-        return <TextArea formId={id} name={field} placeholder={fieldData.placeholder} />;
+        return (
+          <div className="studio-form-single-field">
+            <div className="studio-form-single-field-row">{children}</div>
+            <div className="studio-form-single-field-row">
+              <TextArea formId={id} name={field} placeholder={fieldData.placeholder} />
+            </div>
+          </div>
+        );
       } else if (fieldData.type === 'select') {
         return (
-          <Select
-            formId={id}
-            name={field}
-            placeholder={fieldData.placeholder}
-            dataSourceKey={schemaData[field].dataSourceKey}
-          />
+          <div className="studio-form-single-field">
+            <div className="studio-form-single-field-row">{children}</div>
+            <div className="studio-form-single-field-row">
+              <Select
+                formId={id}
+                name={field}
+                placeholder={fieldData.placeholder}
+                dataSourceKey={schemaData[field].dataSourceKey}
+              />
+            </div>
+          </div>
         );
       }
     } else {

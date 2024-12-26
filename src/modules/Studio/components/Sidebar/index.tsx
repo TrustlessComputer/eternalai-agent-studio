@@ -6,6 +6,7 @@ import Droppable from '../DnD/Droppable';
 import CategoryGroup from './CategoryGroup';
 import CategoryNavigation from './CategoryNavigation';
 import './Sidebar.scss';
+import SidebarOverlay from './SidebarOverlay';
 
 const Sidebar = () => {
   const categories = useStudioCategoryStore((state) => state.categories);
@@ -30,6 +31,8 @@ const Sidebar = () => {
       </div>
 
       <div className="sidebar__right">
+        <SidebarOverlay />
+
         <div className="sidebar__right__inner">
           {renderCategories.map((category) => (
             <CategoryGroup {...category} />

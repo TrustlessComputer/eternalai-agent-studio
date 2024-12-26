@@ -1,0 +1,17 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  inset: 0;
+  border-radius: inherit;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out-quart);
+  pointer-events: none;
+
+  &__active {
+    opacity: 0.5;
+    pointer-events: auto;
+  }
+}

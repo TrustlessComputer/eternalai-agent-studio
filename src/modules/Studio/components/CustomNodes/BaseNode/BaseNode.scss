@@ -16,7 +16,7 @@
 .base-node__drag-icon {
   cursor: grab;
   will-change: opacity;
-  transition: opacity 0.5s var(--easeOutQuart);
+  transition: opacity 0.5s var(--ease-out-quart);
   min-width: 32px;
   min-height: 32px;
   width: 24px;
@@ -48,7 +48,7 @@
   position: relative;
   cursor: pointer;
   will-change: opacity;
-  transition: opacity 0.5s var(--easeOutQuart);
+  transition: opacity 0.5s var(--ease-out-quart);
 
   &:hover {
     opacity: 0.5;

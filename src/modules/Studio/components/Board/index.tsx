@@ -10,6 +10,7 @@ import Droppable from '../DnD/Droppable';
 
 import { StudioNode } from '../../types/graph';
 import './Board.scss';
+import BoardOverlay from './BoardOverlay';
 
 function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
   const { getIntersectingNodes } = useReactFlow();
@@ -87,6 +88,8 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
 
   return (
     <Droppable id={OUTPUT_DROP_ID} data={{}} className="board">
+      <BoardOverlay />
+
       <ReactFlow
         nodes={nodes}
         nodeTypes={nodeTypes}

@@ -4,11 +4,11 @@ import { memo } from 'react';
 import useDragMaskStore from '@/modules/Studio/stores/useDragMaskStore';
 
 const DragMask = () => {
-  const draggingCategoryItem = useDragMaskStore((state) => state.draggingCategoryItem);
+  const draggingElement = useDragMaskStore((state) => state.draggingElement);
 
-  if (!draggingCategoryItem) return null;
+  if (!draggingElement) return null;
 
-  return <DragOverlay>{draggingCategoryItem}</DragOverlay>;
+  return <DragOverlay zIndex={10000}>{draggingElement}</DragOverlay>;
 };
 
 export default memo(DragMask);

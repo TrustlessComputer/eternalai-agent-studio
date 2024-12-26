@@ -31,8 +31,8 @@ const Draggable = ({ id, data, disabled = false, children, ...props }: Props) =>
     data,
   });
 
-  const dragCategoryItem = useDragMaskStore((state) => state.dragCategoryItem);
-  const dropCategoryItem = useDragMaskStore((state) => state.dropCategoryItem);
+  const drag = useDragMaskStore((state) => state.drag);
+  const drop = useDragMaskStore((state) => state.drop);
 
   const style = useMemo(
     () => ({
@@ -44,12 +44,14 @@ const Draggable = ({ id, data, disabled = false, children, ...props }: Props) =>
   );
 
   useEffect(() => {
+    if (!data) return;
+
     if (isDragging) {
-      dragCategoryItem(children);
+      drag(children, data);
     } else {
-      dropCategoryItem();
+      drop();
     }
-  }, [isDragging, children]);
+  }, [isDragging, children, data]);
 
   return (
     <div

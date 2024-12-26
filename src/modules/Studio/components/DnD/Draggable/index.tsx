@@ -73,6 +73,11 @@ const Draggable = ({ id, data, disabled = false, children, ...props }: Props) =>
 
         useStudioFlowStore.getState().updateNode(updatedNode[0]);
         refIntersectingNode.current = intersection;
+        if (intersection) {
+          // highlight intersection node
+        } else {
+          // remove highlight
+        }
       } else {
         refMovingNode.current = null;
         refIntersectingNode.current = null;

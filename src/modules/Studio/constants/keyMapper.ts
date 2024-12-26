@@ -2,7 +2,7 @@ import { NodeTypes } from '@xyflow/react';
 
 import BaseNode from '../components/CustomNodes/BaseNode';
 
-import { NodeType } from '@/enums/node-type';
+import { NodeType } from '@/modules/Studio/enums/node-type';
 
 export const CATEGORY_KEY_MAPPER = {};
 

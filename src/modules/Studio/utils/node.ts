@@ -1,4 +1,4 @@
-import { NodeType } from '@/enums/node-type';
+import { NodeType } from '@/modules/Studio/enums/node-type';
 import { Active, DataRef } from '@dnd-kit/core';
 import { XYPosition } from '@xyflow/react';
 import { RefObject } from 'react';

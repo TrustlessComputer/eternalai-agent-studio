@@ -1,3 +1,11 @@
+import { v4 } from 'uuid';
+
+export const createNewNotification = (notification: Notification) => {
+  const id = v4();
+
+  return { id, duration: 5_000, ...notification };
+};
+
 export const adjustColorShade = (hexColor: string, percent: number): string => {
   const hex = hexColor.replace('#', '');
 

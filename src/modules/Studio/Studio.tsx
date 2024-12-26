@@ -6,8 +6,6 @@ import React, { useEffect, useImperativeHandle, useMemo } from 'react';
 import '../../styles/global.scss';
 import Board from './components/Board';
 import DataFlow from './components/DataFlow';
-import DragMask from './components/DnD/DragMask';
-import Sidebar from './components/Sidebar';
 import { FLOW_NODE_TYPES } from './constants/keyMapper';
 
 import EventHandler from './components/EventHandler';
@@ -62,11 +60,11 @@ const StudioComponent = ({ className, categories, onChange, nodeTypes, dataSourc
       <DataFlow onChange={onChange} />
 
       <div className={cx('studio', className)} {...rest}>
-        <DragMask />
+        {/* <DragMask />
 
         <div className="studio__left">
           <Sidebar />
-        </div>
+        </div> */}
 
         <EventHandler className="studio__right">
           <Board nodeTypes={extendedNodeTypes} />

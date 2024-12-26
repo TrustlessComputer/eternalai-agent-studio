@@ -3,10 +3,10 @@ import '@xyflow/react/dist/style.css';
 import { useCallback, useEffect, useState } from 'react';
 
 import Droppable from '@/modules/Studio/components/DnD/Droppable';
+import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
+import useStudioFlowViewStore from '@/modules/Studio/stores/useStudioFlowViewStore';
 import { OUTPUT_DROP_ID } from '../../constants/droppable-id';
 import { NodeType } from '../../enums/node-type';
-import useStudioFlowStore from '../../stores/useStudioFlowStore';
-import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
 import { StudioNode } from '../../types/graph';
 import { FlowView } from '../../types/ui';
 import './Board.scss';

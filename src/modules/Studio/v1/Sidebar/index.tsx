@@ -1,8 +1,8 @@
 import { memo, useMemo } from 'react';
 
 import Droppable from '@/modules/Studio/components/DnD/Droppable';
+import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { INPUT_DROP_ID } from '../../constants/droppable-id';
-import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
 import CategoryGroup from './CategoryGroup';
 import CategoryNavigation from './CategoryNavigation';
 import './Sidebar.scss';

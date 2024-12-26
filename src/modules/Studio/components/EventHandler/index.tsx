@@ -6,7 +6,7 @@ import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
 type Props = React.ComponentPropsWithoutRef<'div'>;
 
 function EventHandler({ children, ...rest }: Props) {
-  const rightContentRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const setMousePosition = useStudioFlowViewStore((state) => state.setMousePosition);
 
@@ -18,7 +18,7 @@ function EventHandler({ children, ...rest }: Props) {
   );
 
   const { addListeners, removeListeners } = useContainerMouse({
-    ref: rightContentRef,
+    ref: contentRef,
     handleOnTick,
   });
 
@@ -31,7 +31,7 @@ function EventHandler({ children, ...rest }: Props) {
   }, []);
 
   return (
-    <div {...rest} ref={rightContentRef}>
+    <div {...rest} ref={contentRef}>
       {children}
     </div>
   );

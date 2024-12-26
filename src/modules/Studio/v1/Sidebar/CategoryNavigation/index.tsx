@@ -1,12 +1,12 @@
 import cx from 'clsx';
 import { CSSProperties, useMemo } from 'react';
 
-import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { StudioCategory } from '@/modules/Studio/types/category';
 import { adjustColorShade } from '@/modules/Studio/utils/ui';
 
 import ImageRender from '@/modules/Studio/components/Render/ImageRender';
 import TextRender from '@/modules/Studio/components/Render/TextRender';
+import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import './CategoryNavigation.scss';
 
 type Props = StudioCategory;

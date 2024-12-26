@@ -49,23 +49,19 @@ const LegoRender = ({
 };
 
 const BaseNode = ({ data }: Props) => {
+  const { schemaData, children, nodeId, draggableId } = useMemo(() => {
+    const schemaData = data.type === NodeType.BASE ? data.metadata.data.current?.data : {};
+    const children = data.type === NodeType.BASE ? data.metadata.children : [];
+    const nodeId = data.type === NodeType.BASE ? data.metadata.nodeId : '';
+    const draggableId =
+      data.type === NodeType.BASE ? mergeIds([data.metadata.category.key, data.metadata.option.key, nodeId]) : '';
+
+    return { schemaData, children, nodeId, draggableId };
+  }, [data]);
+
   if (data.type !== NodeType.BASE) {
     return <></>;
   }
-
-  const schemaData = useMemo(() => {
-    return data.metadata.data.current?.data;
-  }, [data.metadata.data]);
-
-  const children = useMemo(() => {
-    return data.metadata.children;
-  }, [data.metadata.children]);
-
-  const nodeId = useMemo(() => data.metadata.nodeId, [data.metadata.nodeId]);
-  const draggableId = useMemo(
-    () => mergeIds([data.metadata.category.key, data.metadata.option.key, nodeId]),
-    [data.metadata.category.key, data.metadata.option.key, nodeId],
-  );
 
   return (
     <div className={cx('base-node', data.className)} id={nodeId}>

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { Notification } from '@/modules/Studio/types/ui';
+import { Notification } from '../types/ui';
 
 type State = {
   notifications: Notification[];

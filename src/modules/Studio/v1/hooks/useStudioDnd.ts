@@ -2,12 +2,12 @@ import { DragEndEvent, DragStartEvent, MouseSensor, useSensor, useSensors } from
 import { useStoreApi } from '@xyflow/react';
 import { v4 } from 'uuid';
 
+import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
+import useStudioFlowViewStore from '@/modules/Studio/stores/useStudioFlowViewStore';
+import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { useCallback } from 'react';
 import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../../constants/droppable-id';
 import { NodeType } from '../../enums/node-type';
-import useStudioFlowStore from '../../stores/useStudioFlowStore';
-import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
-import useStudioFormStore from '../../stores/useStudioFormStore';
 import { removeItemFromArray } from '../../utils/array';
 import { cloneData, getFormDataFromCategory } from '../../utils/data';
 import { createNewPieceNode } from '../../utils/node';

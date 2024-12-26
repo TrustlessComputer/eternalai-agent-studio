@@ -2,22 +2,22 @@ import { NodeTypes, ReactFlowProvider } from '@xyflow/react';
 import cx from 'clsx';
 import React, { useEffect, useImperativeHandle, useMemo } from 'react';
 
+import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
+import useStudioDataSourceStore from '@/modules/Studio/stores/useStudioDataSourceStore';
+import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
+import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
+import useStudioFlowViewStore from '@/modules/Studio/stores/useStudioFlowViewStore';
+import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
+import { StudioCategory } from '@/modules/Studio/types/category';
 import '@/styles/global.scss';
 import DataFlow from '../components/DataFlow';
 import { FLOW_NODE_TYPES } from '../constants/keyMapper';
-
 import useDragMaskStore from '../stores/useDragMaskStore';
-import useStudioCategoryStore from '../stores/useStudioCategoryStore';
-import useStudioDataSourceStore from '../stores/useStudioDataSourceStore';
-import useStudioDataStore from '../stores/useStudioDataStore';
-import useStudioFlowStore from '../stores/useStudioFlowStore';
-import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
-import useStudioFormStore from '../stores/useStudioFormStore';
-import { StudioCategory } from '../types/category';
 import { DataSourceType } from '../types/dataSource';
 import { StudioDataNode } from '../types/graph';
 import { getFieldDataFromRawData } from '../utils/data';
 import { transformDataToNodes } from '../utils/node';
+import Board from './Board';
 import './StudioV2.scss';
 
 export type StudioV2Props = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
@@ -53,7 +53,9 @@ const StudioComponent = ({ className, categories, onChange, nodeTypes, dataSourc
     <>
       <DataFlow onChange={onChange} />
 
-      <div className={cx('studio', className)} {...rest} />
+      <div className={cx('studio', className)} {...rest}>
+        <Board />
+      </div>
     </>
   );
 };

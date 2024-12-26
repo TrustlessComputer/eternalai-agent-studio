@@ -1,5 +1,5 @@
-import { create } from 'zustand';
 import { v4 } from 'uuid';
+import { create } from 'zustand';
 
 import { StudioDataNode } from '../types/graph';
 
@@ -9,7 +9,7 @@ type State = {
   clear: () => void;
 };
 
-const useStudioDataStore = create<State>((set, get) => ({
+const useStudioDataStore = create<State>((set) => ({
   data: [],
   setData: (data) => {
     const processingData = (data || []).map((item) => {

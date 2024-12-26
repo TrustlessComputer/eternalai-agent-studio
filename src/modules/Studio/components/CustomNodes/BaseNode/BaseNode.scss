@@ -9,11 +9,11 @@
   border: 1px solid transparent;
 }
 
-.base-node__highlight {
+.base-node--highlight {
   border: 1px solid #cccccc;
 }
 
-.base-node_drag-icon {
+.base-node__drag-icon {
   cursor: grab;
   will-change: opacity;
   transition: opacity 0.5s var(--easeOutQuart);
@@ -32,17 +32,17 @@
   }
 }
 
-.base-node_drag-icon span {
+.base-node__drag-icon span {
   display: inline-flex;
   // width: 16px;
   height: 16px;
 }
 
-.base-node_content {
+.base-node__content {
   // flex: 1;
 }
 
-.base-node_actions {
+.base-node__actions {
   width: 32px;
   height: 32px;
   position: relative;

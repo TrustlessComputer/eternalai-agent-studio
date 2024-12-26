@@ -11,10 +11,6 @@
   padding: 4px;
   opacity: 0.5;
 
-  &.category-navigation__active {
-    opacity: 1;
-  }
-
   &:hover {
     opacity: 0.8;
   }
@@ -35,11 +31,15 @@
   }
 }
 
-.category-navigation_title {
+.category-navigation--active {
+  opacity: 1;
+}
+
+.category-navigation__title {
   font-size: 12px;
   font-weight: 500;
 }
-.category-navigation_required {
+.category-navigation__required {
   color: red;
   font-size: 18px;
   line-height: 0;

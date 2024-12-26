@@ -21,16 +21,16 @@ const Sidebar = () => {
 
   return (
     <Droppable id={INPUT_DROP_ID} data={{}} className="sidebar">
-      <div className="sidebar_left">
-        <div className="sidebar_left_inner">
+      <div className="sidebar__left">
+        <div className="sidebar__left__inner">
           {categories.map((category) => (
             <CategoryNavigation {...category} />
           ))}
         </div>
       </div>
 
-      <div className="sidebar_right">
-        <div className="sidebar_right_inner">
+      <div className="sidebar__right">
+        <div className="sidebar__right__inner">
           {renderCategories.map((category) => (
             <CategoryGroup {...category} />
           ))}

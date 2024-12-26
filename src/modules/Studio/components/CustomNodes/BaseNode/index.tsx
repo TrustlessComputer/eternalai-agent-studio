@@ -65,13 +65,13 @@ const BaseNode = ({ data }: Props) => {
 
   return (
     <div className={cx('base-node', data.className)} id={nodeId}>
-      <div className={cx('base-node_drag-icon', AreaClassName.DRAG_HANDLE)}>
+      <div className={cx('base-node__drag-icon', AreaClassName.DRAG_HANDLE)}>
         <span>
           <DragIcon />
         </span>
       </div>
 
-      <div className="base-node_content">
+      <div className="base-node__content">
         <Draggable
           id={draggableId}
           disabled={children?.length > 0}

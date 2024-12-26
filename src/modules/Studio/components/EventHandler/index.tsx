@@ -11,7 +11,7 @@ function EventHandler({ children, ...rest }: Props) {
   const setMousePosition = useStudioFlowViewStore((state) => state.setMousePosition);
 
   const handleOnTick = useCallback(
-    (contentRect: DOMRect, mousePosition: XYPosition, previousMousePosition: XYPosition) => {
+    (_contentRect: DOMRect, mousePosition: XYPosition, _previousMousePosition: XYPosition) => {
       setMousePosition(mousePosition);
     },
     [],

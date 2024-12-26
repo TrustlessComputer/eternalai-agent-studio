@@ -3,7 +3,7 @@ import React from 'react';
 import { XYPosition } from '@xyflow/react';
 
 type Props = {
-  ref: React.RefObject<any | null>;
+  ref: React.RefObject<HTMLElement | null>;
   handleOnTick: (contentRect: DOMRect, mousePosition: XYPosition, previousMousePosition: XYPosition) => void;
 };
 
@@ -23,8 +23,8 @@ const useContainerMouse = ({ ref, handleOnTick }: Props) => {
   };
 
   const tick = () => {
-    const deltaMouseX = mousePositionRef.current.x - previousMousePositionRef.current.x;
-    const deltaMouseY = mousePositionRef.current.y - previousMousePositionRef.current.y;
+    // const deltaMouseX = mousePositionRef.current.x - previousMousePositionRef.current.x;
+    // const deltaMouseY = mousePositionRef.current.y - previousMousePositionRef.current.y;
 
     const contentRect = document.documentElement.getBoundingClientRect();
     handleOnTick(contentRect, mousePositionRef.current, previousMousePositionRef.current);
@@ -39,7 +39,7 @@ const useContainerMouse = ({ ref, handleOnTick }: Props) => {
 
   const addListeners = () => {
     window.removeEventListener('mousemove', handleMouseMove);
-    frameRef.current && window.cancelAnimationFrame(frameRef.current);
+    if (frameRef.current) window.cancelAnimationFrame(frameRef.current);
 
     window.addEventListener('mousemove', handleMouseMove);
     tick();
@@ -47,7 +47,7 @@ const useContainerMouse = ({ ref, handleOnTick }: Props) => {
 
   const removeListeners = () => {
     window.removeEventListener('mousemove', handleMouseMove);
-    frameRef.current && window.cancelAnimationFrame(frameRef.current);
+    if (frameRef.current) window.cancelAnimationFrame(frameRef.current);
 
     mousePositionRef.current = { x: 0, y: 0 };
     previousMousePositionRef.current = { x: 0, y: 0 };

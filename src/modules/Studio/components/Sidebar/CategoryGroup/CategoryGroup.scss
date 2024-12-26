@@ -1,20 +1,21 @@
 .category-group {
   width: 100%;
+  height: max-content;
   max-width: 100%;
-  overflow: hidden;
   padding: 16px;
 }
 
-.category-group_title {
+.category-group__title {
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 8px;
   user-select: none;
 }
 
-.category-group_options {
+.category-group__options {
   display: flex;
   gap: 12px 4px;
   flex-wrap: wrap;
   max-width: 100%;
+  height: max-content;
 }

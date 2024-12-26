@@ -6,7 +6,6 @@ import './Lego.scss';
 
 import { StudIcon } from '../icons/lego';
 import ImageRender from '../Render/ImageRender';
-import TextRender from '../Render/TextRender';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   background?: string; // HEX color
@@ -44,16 +43,16 @@ const FixedLego = ({
         } as CSSProperties
       }
     >
-      <div className="lego_stud">
+      <div className="lego__stud">
         <StudIcon />
       </div>
 
-      <div className="lego_body">
-        <div className="lego_icon">
+      <div className="lego__body">
+        <div className="lego__icon">
           <ImageRender data={icon} />
         </div>
 
-        <div className="lego_content">{children}</div>
+        <div className="lego__content">{children}</div>
       </div>
     </div>
   );

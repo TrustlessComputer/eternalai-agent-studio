@@ -40,7 +40,7 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
         ...n,
         data: {
           ...n.data,
-          className: intersection?.id === n.id ? 'base-node__highlight' : '',
+          className: intersection?.id === n.id ? 'base-node--highlight' : '',
         },
       })),
     );

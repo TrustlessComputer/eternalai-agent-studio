@@ -1,8 +1,8 @@
 import { DataSchema } from '@/modules/Studio/types/category';
 import { useMemo } from 'react';
-import Textbox from '../Textbox';
-import TextArea from '../TextArea';
 import Select from '../Select';
+import TextArea from '../TextArea';
+import Textbox from '../Textbox';
 
 import './FormRender.scss';
 
@@ -12,7 +12,7 @@ type Props = React.PropsWithChildren & {
   categoryId: string;
 };
 
-function FormRender({ id, categoryId, schemaData, children }: Props) {
+function FormRender({ id, schemaData, children }: Props) {
   const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
 
   if (fields.length && schemaData) {
@@ -42,7 +42,7 @@ function FormRender({ id, categoryId, schemaData, children }: Props) {
         );
       }
     } else {
-      // render multiple files
+      // render multiple fields
       return (
         <div className="studio-form-multiple-field">
           <div className="studio-form-multiple-field-heading">{children}</div>

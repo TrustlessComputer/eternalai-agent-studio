@@ -1,7 +1,7 @@
 import { NodeType } from '@/enums/node-type';
 import { Active, DataRef } from '@dnd-kit/core';
 import { XYPosition } from '@xyflow/react';
-import { MutableRefObject } from 'react';
+import { RefObject } from 'react';
 import { AreaClassName } from '../constants/area-class-name';
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 import { StudioCategoryMap } from '../types/category';
@@ -38,7 +38,7 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
             data: option.data,
           },
         } as DataRef,
-        rect: {} as MutableRefObject<{
+        rect: {} as RefObject<{
           initial: ClientRect | null;
           translated: ClientRect | null;
         }>,

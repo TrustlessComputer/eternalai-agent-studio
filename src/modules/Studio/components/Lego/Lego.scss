@@ -3,7 +3,7 @@
   width: max-content;
   height: 41.5px;
 
-  &::before {
+  &:before {
     content: '';
     position: absolute;
     top: -0.7px;
@@ -18,23 +18,7 @@
     pointer-events: none;
   }
 
-  &_stud {
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    pointer-events: none;
-
-    svg {
-      path {
-        fill: var(--background-color);
-        stroke: var(--border-color);
-        stroke-width: 1px;
-        stroke-opacity: 1;
-      }
-    }
-  }
-
-  .lego_icon {
+  .lego__icon {
     position: relative;
     width: 16px;
     height: 16px;
@@ -57,7 +41,7 @@
     }
   }
 
-  &_content {
+  .lego__content {
     // padding: 8px;
     height: 100%;
     position: relative;
@@ -66,7 +50,7 @@
     z-index: 1;
   }
 
-  .lego_body {
+  .lego__body {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -83,7 +67,7 @@
   .studio-lego-dynamic__top {
     position: absolute;
     top: 0;
-    left: 0px;
+    left: 0;
     width: calc(100% - 1px);
 
     > div {
@@ -94,7 +78,7 @@
   .studio-lego-dynamic__bottom {
     position: absolute;
     bottom: 0;
-    left: 0px;
+    left: 0;
     width: calc(100% - 1px);
 
     > div {
@@ -127,6 +111,22 @@
           width: 100%;
         }
       }
+    }
+  }
+}
+
+.lego__stud {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  pointer-events: none;
+
+  svg {
+    path {
+      fill: var(--background-color);
+      stroke: var(--border-color);
+      stroke-width: 1px;
+      stroke-opacity: 1;
     }
   }
 }

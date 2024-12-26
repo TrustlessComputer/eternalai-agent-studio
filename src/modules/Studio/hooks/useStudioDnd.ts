@@ -20,7 +20,7 @@ const useStudioDnD = () => {
 
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }));
 
-  const handleDragStart = useCallback((event: DragStartEvent) => {}, []);
+  const handleDragStart = useCallback((_event: DragStartEvent) => {}, []);
 
   // TODO: Process data after reload
   const handleDragEnd = useCallback((event: DragEndEvent) => {
@@ -49,13 +49,8 @@ const useStudioDnD = () => {
     if (droppedOnInput && isLegoFromRight && thisNode) {
       const isEmptyChildren = thisNode.data.metadata.children.length === 0;
 
-      console.log('[useStudioDnd] isLegoParent', {
-        isLegoParent,
-        isEmptyChildren,
-      });
       // Remove the node if it has no children
       if (isLegoParent && isEmptyChildren) {
-        console.log('[useStudioDnd] remove the node if it has no children');
         removeNode(thisNode.id);
       }
       // Remove the child
@@ -73,10 +68,6 @@ const useStudioDnD = () => {
 
     // Drag out the node
     if (isLegoFromRight && droppedOnOutput && !isLegoParent && thisNode) {
-      console.log('[useStudioDnd] drag out the node start', {
-        newNodes: JSON.parse(JSON.stringify(newNodes)),
-      });
-
       const newChildren = removeItemFromArray(thisNode.data.metadata.children, lego.data.current?.metadata);
       thisNode.data.metadata.children = newChildren;
 
@@ -85,10 +76,6 @@ const useStudioDnD = () => {
       prevNode.position = { x: transformedX, y: transformedY };
 
       newNodes.push(prevNode);
-
-      console.log('[useStudioDnd] drag out the node end', {
-        newNodes: JSON.parse(JSON.stringify(newNodes)),
-      });
 
       setNodes(newNodes);
       reloadFlow();

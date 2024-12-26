@@ -10,21 +10,21 @@ import DragMask from './components/DnD/DragMask';
 import Sidebar from './components/Sidebar';
 import { FLOW_NODE_TYPES } from './constants/keyMapper';
 
-import useStudioCategoryStore from './stores/useStudioCategoryStore';
-import useStudioDataStore from './stores/useStudioDataStore';
-import './Studio.scss';
-import { StudioCategory } from './types/category';
-import { StudioDataNode } from './types/graph';
 import EventHandler from './components/EventHandler';
 import useStudioDnD from './hooks/useStudioDnd';
-import useStudioFlowStore from './stores/useStudioFlowStore';
-import { transformDataToNodes } from './utils/node';
-import useStudioFormStore from './stores/useStudioFormStore';
-import useStudioFlowViewStore from './stores/useStudioFlowViewStore';
 import useDragMaskStore from './stores/useDragMaskStore';
-import { getFieldDataFromRawData } from './utils/data';
-import { DataSourceType } from './types/dataSource';
+import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
+import useStudioDataStore from './stores/useStudioDataStore';
+import useStudioFlowStore from './stores/useStudioFlowStore';
+import useStudioFlowViewStore from './stores/useStudioFlowViewStore';
+import useStudioFormStore from './stores/useStudioFormStore';
+import './Studio.scss';
+import { StudioCategory } from './types/category';
+import { DataSourceType } from './types/dataSource';
+import { StudioDataNode } from './types/graph';
+import { getFieldDataFromRawData } from './utils/data';
+import { transformDataToNodes } from './utils/node';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   categories: StudioCategory[];
@@ -64,11 +64,11 @@ const StudioComponent = ({ className, categories, onChange, nodeTypes, dataSourc
       <div className={cx('studio', className)} {...rest}>
         <DragMask />
 
-        <div className="studio_left">
+        <div className="studio__left">
           <Sidebar />
         </div>
 
-        <EventHandler className="studio_right">
+        <EventHandler className="studio__right">
           <Board nodeTypes={extendedNodeTypes} />
         </EventHandler>
       </div>

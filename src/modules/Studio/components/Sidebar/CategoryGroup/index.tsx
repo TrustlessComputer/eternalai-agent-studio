@@ -20,10 +20,10 @@ const CategoryGroup = (category: Props) => {
 
   return (
     <div className="category-group">
-      <h5 className="category-group_title">
-        <TextRender data={title} /> {required ? <span className="category-navigation_required">*</span> : ''}
+      <h5 className="category-group__title">
+        <TextRender data={title} /> {required ? <span className="category-navigation__required">*</span> : ''}
       </h5>
-      <div className="category-group_options">
+      <div className="category-group__options">
         {options.map((option) => (
           <Draggable
             id={mergeIds([key, option.key])}

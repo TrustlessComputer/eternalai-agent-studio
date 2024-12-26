@@ -5,9 +5,9 @@ import { RefObject } from 'react';
 import { AreaClassName } from '../constants/area-class-name';
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 import { StudioCategoryMap } from '../types/category';
-import { StudioDataNode, StudioNode, StudioNodeMetadata } from '../types/graph';
+import { BaseNodeMetadata, StudioDataNode, StudioNode } from '../types/graph';
 
-export const createNewPieceNode = (id: string, position: XYPosition, metadata: StudioNodeMetadata) => {
+export const createNewPieceNode = (id: string, position: XYPosition, metadata: BaseNodeMetadata) => {
   return {
     id,
     type: NodeType.BASE,
@@ -56,7 +56,7 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
         category,
         option,
         children: childrenNode,
-      } satisfies StudioNodeMetadata;
+      } satisfies BaseNodeMetadata;
 
       nodes.push(createNewPieceNode(item.id, position, metadata));
     }

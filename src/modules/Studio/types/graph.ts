@@ -5,7 +5,7 @@ import { NodeType } from '../enums/node-type';
 import { FormDataType, KeyMapperType } from './base';
 import { DataSchema, StudioCategory, StudioCategoryOption } from './category';
 
-export type StudioNodeMetadata = Record<string, unknown> &
+export type BaseNodeMetadata = Record<string, unknown> &
   Active & {
     nodeId: string;
     category: StudioCategory;
@@ -20,15 +20,15 @@ export type StudioNodeMetadata = Record<string, unknown> &
 
 export type BaseNode = {
   type: NodeType.BASE;
-  metadata: StudioNodeMetadata;
+  metadata: BaseNodeMetadata;
 };
 
-export type EntryNode = {
-  type: NodeType.ENTRY;
+export type FactoryNode = {
+  type: NodeType.FACTORY;
 };
 
-export type CreationNode = {
-  type: NodeType.INPUT;
+export type ProductNode = {
+  type: NodeType.PRODUCT;
 };
 
 export type StudioNode = Node<
@@ -36,7 +36,7 @@ export type StudioNode = Node<
     sourceHandles: string[];
     targetHandles: string[];
     className?: string;
-  } & (BaseNode | EntryNode | CreationNode)
+  } & (BaseNode | FactoryNode | ProductNode)
 >;
 
 export type StudioDataKeyMapperType = string;

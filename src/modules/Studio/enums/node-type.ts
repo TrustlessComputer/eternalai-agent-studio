@@ -3,7 +3,6 @@ export enum NodeType {
   BASE = 'Base',
 
   // V2
-  ENTRY = 'Entry',
-  INPUT = 'Input',
-  OUTPUT = 'Output',
+  FACTORY = 'Factory',
+  PRODUCT = 'Product',
 }

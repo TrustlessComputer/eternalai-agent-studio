@@ -2,7 +2,7 @@ import { NodeTypes, ReactFlowProvider } from '@xyflow/react';
 import cx from 'clsx';
 import React, { useEffect, useImperativeHandle, useMemo } from 'react';
 
-import '../../styles/global.scss';
+import '@/styles/global.scss';
 import DataFlow from '../components/DataFlow';
 import { FLOW_NODE_TYPES } from '../constants/keyMapper';
 
@@ -63,7 +63,6 @@ export const StudioV2 = React.forwardRef<StudioV2Ref, StudioV2Props>((props: Stu
     ref,
     () => ({
       setData: (data: StudioDataNode[]) => {
-        console.log('studio init data', data);
         // clear current nodes/edges
         useStudioFlowStore.getState().clear();
         useStudioFormStore.getState().clear();
@@ -75,11 +74,9 @@ export const StudioV2 = React.forwardRef<StudioV2Ref, StudioV2Props>((props: Stu
         useStudioDataStore.getState().setData(data);
 
         const initNodes = transformDataToNodes(data);
-        console.log('studio init nodes', initNodes);
         useStudioFlowStore.getState().addNodes(initNodes);
 
         const formData = getFieldDataFromRawData(data);
-        console.log('studio init form datas', formData);
         useStudioFormStore.getState().initDataForms(formData);
       },
     }),

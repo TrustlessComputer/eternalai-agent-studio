@@ -98,7 +98,7 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
         edges={edges}
         onEdgesChange={onEdgesChange}
         edgesFocusable={false}
-        fitViewOptions={{ padding: 1 }}
+        // fitViewOptions={{ padding: 1 }}
         deleteKeyCode=""
         defaultViewport={currentView}
         onViewportChange={setView}

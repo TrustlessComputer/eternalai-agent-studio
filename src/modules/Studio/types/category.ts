@@ -20,6 +20,7 @@ type BaseCategoryOption = {
   tooltip?: ReactNode;
   required?: boolean;
   disabled?: boolean;
+  hidden?: boolean;
   icon?: React.ReactNode | FunctionComponent;
   order?: number;
   customizeRenderOnNavigation?: FunctionComponent;

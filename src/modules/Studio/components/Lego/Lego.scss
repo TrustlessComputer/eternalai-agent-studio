@@ -18,6 +18,10 @@
     pointer-events: none;
   }
 
+  &.lego__disabled {
+    opacity: 0.6;
+  }
+
   .lego__icon {
     position: relative;
     width: 16px;

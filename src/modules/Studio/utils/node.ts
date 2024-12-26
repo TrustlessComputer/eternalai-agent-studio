@@ -1,11 +1,11 @@
 import { NodeType } from '@/modules/Studio/enums/node-type';
+import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
+import { StudioCategoryMap } from '@/modules/Studio/types/category';
+import { BaseNodeMetadata, StudioDataNode, StudioNode } from '@/modules/Studio/types/graph';
 import { Active, DataRef } from '@dnd-kit/core';
 import { XYPosition } from '@xyflow/react';
 import { RefObject } from 'react';
 import { AreaClassName } from '../constants/area-class-name';
-import useStudioCategoryStore from '../stores/useStudioCategoryStore';
-import { StudioCategoryMap } from '../types/category';
-import { BaseNodeMetadata, StudioDataNode, StudioNode } from '../types/graph';
 
 export const createNewPieceNode = (id: string, position: XYPosition, metadata: BaseNodeMetadata) => {
   return {

@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 
-import useStudioDataStore from '../../stores/useStudioDataStore';
-import useStudioFlowStore from '../../stores/useStudioFlowStore';
-import { StudioDataNode, StudioNode } from '../../types/graph';
+import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
+import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
+import { StudioDataNode, StudioNode } from '@/modules/Studio/types/graph';
 
 import { useThrottleValue } from '@/hooks/useThrottleValue';
-import { NodeType } from '../../enums/node-type';
-import useStudioFormStore from '../../stores/useStudioFormStore';
+import { NodeType } from '@/modules/Studio/enums/node-type';
+import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 
 function Listen() {
   const nodes = useStudioFlowStore((state) => state.nodes);

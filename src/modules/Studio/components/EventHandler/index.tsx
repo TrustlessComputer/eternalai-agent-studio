@@ -1,7 +1,7 @@
 import useContainerMouse from '@/hooks/useContainerMouse';
+import useStudioFlowViewStore from '@/modules/Studio/stores/useStudioFlowViewStore';
 import { XYPosition } from '@xyflow/react';
 import { useCallback, useEffect, useRef } from 'react';
-import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
 
 type Props = React.ComponentPropsWithoutRef<'div'>;
 

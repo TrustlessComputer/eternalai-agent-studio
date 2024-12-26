@@ -1,7 +1,7 @@
 import { NodeType } from '@/modules/Studio/enums/node-type';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { StudioCategoryMap } from '@/modules/Studio/types/category';
-import { BaseNodeMetadata, ProductNodeMetadata, StudioDataNode, StudioNode } from '@/modules/Studio/types/graph';
+import { BaseNodeMetadata, StudioDataNode, StudioNode } from '@/modules/Studio/types/graph';
 import { Active, DataRef } from '@dnd-kit/core';
 import { XYPosition } from '@xyflow/react';
 import { RefObject } from 'react';
@@ -22,20 +22,20 @@ export const createNewBaseNode = (id: string, position: XYPosition, metadata: Ba
   } satisfies StudioNode;
 };
 
-export const createNewProductNode = (id: string, position: XYPosition, metadata?: ProductNodeMetadata) => {
-  return {
-    id,
-    type: NodeType.PRODUCT,
-    position,
-    data: {
-      type: NodeType.PRODUCT,
-      sourceHandles: [],
-      targetHandles: [],
-      metadata,
-    },
-    dragHandle: `.${AreaClassName.DRAG_HANDLE}`,
-  } satisfies StudioNode;
-};
+// export const createNewProductNode = (id: string, position: XYPosition, metadata?: ProductNodeMetadata) => {
+//   return {
+//     id,
+//     type: NodeType.PRODUCT,
+//     position,
+//     data: {
+//       type: NodeType.PRODUCT,
+//       sourceHandles: [],
+//       targetHandles: [],
+//       metadata,
+//     },
+//     dragHandle: `.${AreaClassName.DRAG_HANDLE}`,
+//   } satisfies StudioNode;
+// };
 
 export const transformDataToBaseNodes = (data: StudioDataNode[]) => {
   const nodes: StudioNode[] = [];
@@ -80,31 +80,31 @@ export const transformDataToBaseNodes = (data: StudioDataNode[]) => {
   return nodes;
 };
 
-export const transformDataToProductNodes = (data: StudioDataNode[]) => {
-  const nodes: StudioNode[] = [];
+// export const transformDataToProductNodes = (data: StudioDataNode[]) => {
+//   const nodes: StudioNode[] = [];
 
-  data.forEach((item) => {
-    const position = item.rect?.position || { x: 0, y: 0 };
+//   data.forEach((item) => {
+//     const position = item.rect?.position || { x: 0, y: 0 };
 
-    const active = {
-      data: {
-        current: {
-          data: item.data,
-        },
-      } as DataRef,
-      rect: {} as RefObject<{
-        initial: ClientRect | null;
-        translated: ClientRect | null;
-      }>,
-    } as Active;
+//     const active = {
+//       data: {
+//         current: {
+//           data: item.data,
+//         },
+//       } as DataRef,
+//       rect: {} as RefObject<{
+//         initial: ClientRect | null;
+//         translated: ClientRect | null;
+//       }>,
+//     } as Active;
 
-    const metadata = {
-      ...active,
-      nodeId: item.id,
-    } satisfies ProductNodeMetadata;
+//     const metadata = {
+//       ...active,
+//       nodeId: item.id,
+//     } satisfies ProductNodeMetadata;
 
-    nodes.push(createNewProductNode(item.id, position, metadata));
-  });
+//     nodes.push(createNewProductNode(item.id, position, metadata));
+//   });
 
-  return nodes;
-};
+//   return nodes;
+// };

@@ -13,14 +13,13 @@ import '@/styles/global.scss';
 import { DndContext } from '@dnd-kit/core';
 import DataFlow from '../components/DataFlow';
 import DragMask from '../components/DnD/DragMask';
-import { AreaClassName } from '../constants/area-class-name';
 import { FLOW_NODE_TYPES } from '../constants/keyMapper';
-import { NodeType } from '../enums/node-type';
 import useDragMaskStore from '../stores/useDragMaskStore';
 import { DataSourceType } from '../types/dataSource';
 import { StudioDataNode } from '../types/graph';
 import { getFieldDataFromRawData } from '../utils/data';
-import { transformDataToProductNodes } from '../utils/node';
+// import { transformDataToProductNodes } from '../utils/node';
+import { transformDataToBaseNodes } from '../utils/node';
 import Board from './components/Board';
 import useStudioDnD from './hooks/useStudioDnd';
 import './StudioV2.scss';
@@ -88,20 +87,21 @@ export const StudioV2 = React.forwardRef<StudioV2Ref, StudioV2Props>((props: Stu
         // generate nodes/edges from data
         useStudioDataStore.getState().setData(data);
 
-        const initialNodes = transformDataToProductNodes(data);
+        // const initialNodes = transformDataToProductNodes(data);
+        const initialNodes = transformDataToBaseNodes(data);
         useStudioFlowStore.getState().addNodes([
-          {
-            id: 'root',
-            type: NodeType.FACTORY,
-            position: { x: 0, y: 0 },
-            data: {
-              type: NodeType.FACTORY,
-              sourceHandles: [],
-              targetHandles: [],
-            },
-            dragHandle: `.${AreaClassName.DRAG_HANDLE}`,
-            draggable: false,
-          },
+          // {
+          //   id: 'root',
+          //   type: NodeType.FACTORY,
+          //   position: { x: 0, y: 0 },
+          //   data: {
+          //     type: NodeType.FACTORY,
+          //     sourceHandles: [],
+          //     targetHandles: [],
+          //   },
+          //   dragHandle: `.${AreaClassName.DRAG_HANDLE}`,
+          //   draggable: false,
+          // },
           ...initialNodes,
         ]);
 

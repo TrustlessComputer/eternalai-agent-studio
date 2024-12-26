@@ -24,7 +24,8 @@ export type ProductNodeMetadata = Record<string, unknown> &
   };
 
 export type BaseNode = {
-  type: NodeType.BASE;
+  // type: NodeType.BASE;
+  type: NodeType;
   metadata: BaseNodeMetadata;
 };
 
@@ -42,7 +43,7 @@ export type StudioNode = Node<
     sourceHandles: string[];
     targetHandles: string[];
     className?: string;
-  } & (BaseNode | FactoryNode | ProductNode)
+  } & BaseNode
 >;
 
 export type StudioDataKeyMapperType = string;

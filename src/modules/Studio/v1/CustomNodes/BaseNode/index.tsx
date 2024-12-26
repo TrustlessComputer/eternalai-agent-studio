@@ -1,21 +1,20 @@
 import cx from 'clsx';
 
-import { AreaClassName } from '@/modules/Studio/constants/area-class-name';
 import { StudioNode } from '@/modules/Studio/types/graph';
 import './BaseNode.scss';
 
 import { NodeProps } from '@xyflow/react';
-
-import FormRender from '@/modules/Studio/components/DataFields/FormRender';
 import Draggable from '@/modules/Studio/components/DnD/Draggable';
-import { DragIcon } from '@/modules/Studio/components/icons/common';
+import FormRender from '@/modules/Studio/components/DataFields/FormRender';
 import Lego from '@/modules/Studio/components/Lego';
 import LegoContent from '@/modules/Studio/components/LegoContent';
 import TextRender from '@/modules/Studio/components/Render/TextRender';
-import { NodeType } from '@/modules/Studio/enums/node-type';
 import { DataSchema } from '@/modules/Studio/types/category';
 import { mergeIds } from '@/utils/flow';
 import { FunctionComponent, useMemo } from 'react';
+import { NodeType } from '@/modules/Studio/enums/node-type';
+import { AreaClassName } from '@/modules/Studio/constants/area-class-name';
+import { DragIcon } from '@/modules/Studio/components/icons/common';
 
 type Props = NodeProps<StudioNode>;
 
@@ -59,22 +58,17 @@ const BaseNode = ({ data }: Props) => {
     return { schemaData, children, nodeId, draggableId };
   }, [data]);
 
-  if (data.type !== NodeType.BASE) {
-    return <></>;
-  }
-
   return (
     <div className={cx('base-node', data.className)} id={nodeId}>
-      <div className={cx('base-node__drag-icon', AreaClassName.DRAG_HANDLE)}>
+      {/* <div className={cx('base-node__drag-icon', AreaClassName.DRAG_HANDLE)}>
         <span>
           <DragIcon />
         </span>
-      </div>
-
+      </div> */}
       <div className="base-node__content">
         <Draggable
           id={draggableId}
-          disabled={children?.length > 0}
+          // disabled={children?.length > 0}
           data={{
             isRight: true,
             isParent: true,
@@ -94,14 +88,9 @@ const BaseNode = ({ data }: Props) => {
           />
         </Draggable>
 
-        {children?.map((item, index) => {
-          if (item.data.type !== NodeType.BASE) {
-            return null;
-          }
-
-          const { id: prevNodeId } = item;
+        {/* {children?.map((item, index) => {
           const { category, option } = item.data.metadata;
-          const draggableId = mergeIds([category.key, option.key, prevNodeId, index.toString()]);
+          const draggableId = mergeIds([category.key, option.key, item.id, index.toString()]);
 
           return (
             <Draggable
@@ -113,7 +102,7 @@ const BaseNode = ({ data }: Props) => {
                 category,
                 option,
                 data: schemaData,
-                belongsTo: nodeId,
+                belongsTo: item.id,
                 metadata: item,
               }}
             >
@@ -127,7 +116,7 @@ const BaseNode = ({ data }: Props) => {
               />
             </Draggable>
           );
-        })}
+        })} */}
       </div>
     </div>
   );

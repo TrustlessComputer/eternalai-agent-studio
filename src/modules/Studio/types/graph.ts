@@ -18,6 +18,11 @@ export type BaseNodeMetadata = Record<string, unknown> &
     children: StudioNode[];
   };
 
+export type ProductNodeMetadata = Record<string, unknown> &
+  Active & {
+    nodeId: string;
+  };
+
 export type BaseNode = {
   type: NodeType.BASE;
   metadata: BaseNodeMetadata;
@@ -29,6 +34,7 @@ export type FactoryNode = {
 
 export type ProductNode = {
   type: NodeType.PRODUCT;
+  metadata?: ProductNodeMetadata;
 };
 
 export type StudioNode = Node<

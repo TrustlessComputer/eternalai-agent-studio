@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef } from 'react';
 
 type Props = React.ComponentPropsWithoutRef<'div'>;
 
-function EventHandler({ children, ...rest }: Props) {
+function MouseTracker({ children, ...rest }: Props) {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const setMousePosition = useStudioFlowViewStore((state) => state.setMousePosition);
@@ -37,4 +37,4 @@ function EventHandler({ children, ...rest }: Props) {
   );
 }
 
-export default EventHandler;
+export default MouseTracker;

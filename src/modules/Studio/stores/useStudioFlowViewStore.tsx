@@ -3,6 +3,13 @@ import { create } from 'zustand';
 import { XYPosition } from '@xyflow/react';
 import { FlowView } from '../types/ui';
 
+const DEFAULT_VALUE = {
+  mousePosition: { x: 0, y: 0 },
+  view: { x: 0, y: 0, zoom: 1 },
+  disabledZoom: false,
+  panOnDrag: true,
+};
+
 type State = {
   mousePosition: XYPosition;
   setMousePosition: (position: XYPosition) => void;
@@ -10,18 +17,32 @@ type State = {
   view: FlowView;
   setView: (view: FlowView) => void;
 
+  disabledZoom: boolean;
+  disableZoom: () => void;
+  enableZoom: () => void;
+
+  panOnDrag: boolean;
+  disablePanOnDrag: () => void;
+  enablePanOnDrag: () => void;
+
   clear: () => void;
 };
 
 const useStudioFlowViewStore = create<State>((set) => ({
-  mousePosition: { x: 0, y: 0 },
+  ...DEFAULT_VALUE,
+
   setMousePosition: (position) => set({ mousePosition: position }),
 
-  view: { x: 0, y: 0, zoom: 1 },
   setView: (view) => set({ view }),
 
+  disableZoom: () => set({ disabledZoom: true }),
+  enableZoom: () => set({ disabledZoom: false }),
+
+  disablePanOnDrag: () => set({ panOnDrag: false }),
+  enablePanOnDrag: () => set({ panOnDrag: true }),
+
   clear: () => {
-    set({ mousePosition: { x: 0, y: 0 }, view: { x: 0, y: 0, zoom: 1 } });
+    set(DEFAULT_VALUE);
   },
 }));
 

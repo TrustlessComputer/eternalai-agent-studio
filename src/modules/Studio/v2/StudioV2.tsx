@@ -10,14 +10,19 @@ import useStudioFlowViewStore from '@/modules/Studio/stores/useStudioFlowViewSto
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { StudioCategory } from '@/modules/Studio/types/category';
 import '@/styles/global.scss';
+import { DndContext } from '@dnd-kit/core';
 import DataFlow from '../components/DataFlow';
+import DragMask from '../components/DnD/DragMask';
+import { AreaClassName } from '../constants/area-class-name';
 import { FLOW_NODE_TYPES } from '../constants/keyMapper';
+import { NodeType } from '../enums/node-type';
 import useDragMaskStore from '../stores/useDragMaskStore';
 import { DataSourceType } from '../types/dataSource';
 import { StudioDataNode } from '../types/graph';
 import { getFieldDataFromRawData } from '../utils/data';
-import { transformDataToNodes } from '../utils/node';
-import Board from './Board';
+import { transformDataToProductNodes } from '../utils/node';
+import Board from './components/Board';
+import useStudioDnD from './hooks/useStudioDnd';
 import './StudioV2.scss';
 
 export type StudioV2Props = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
@@ -32,6 +37,8 @@ export type StudioV2Ref = {
 };
 
 const StudioComponent = ({ className, categories, onChange, nodeTypes, dataSource, ...rest }: StudioV2Props) => {
+  const { sensors, handleDragStart, handleDragEnd } = useStudioDnD();
+
   const extendedNodeTypes = useMemo(() => {
     return {
       ...FLOW_NODE_TYPES,
@@ -49,14 +56,20 @@ const StudioComponent = ({ className, categories, onChange, nodeTypes, dataSourc
     }
   }, [dataSource]);
 
+  console.log('[StudioV2]', {
+    extendedNodeTypes,
+  });
+
   return (
-    <>
+    <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <DataFlow onChange={onChange} />
 
+      <DragMask />
+
       <div className={cx('studio', className)} {...rest}>
-        <Board />
+        <Board nodeTypes={extendedNodeTypes} />
       </div>
-    </>
+    </DndContext>
   );
 };
 
@@ -75,11 +88,25 @@ export const StudioV2 = React.forwardRef<StudioV2Ref, StudioV2Props>((props: Stu
         // generate nodes/edges from data
         useStudioDataStore.getState().setData(data);
 
-        const initNodes = transformDataToNodes(data);
-        useStudioFlowStore.getState().addNodes(initNodes);
+        const initialNodes = transformDataToProductNodes(data);
+        useStudioFlowStore.getState().addNodes([
+          {
+            id: 'root',
+            type: NodeType.FACTORY,
+            position: { x: 0, y: 0 },
+            data: {
+              type: NodeType.FACTORY,
+              sourceHandles: [],
+              targetHandles: [],
+            },
+            dragHandle: `.${AreaClassName.DRAG_HANDLE}`,
+            draggable: false,
+          },
+          ...initialNodes,
+        ]);
 
-        const formData = getFieldDataFromRawData(data);
-        useStudioFormStore.getState().initDataForms(formData);
+        const initialFormData = getFieldDataFromRawData(data);
+        useStudioFormStore.getState().initDataForms(initialFormData);
       },
     }),
     [],

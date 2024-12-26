@@ -34,10 +34,6 @@ type State = {
   removeNode: (id: string) => void;
   removeNodes: (ids: string[]) => void;
 
-  disabledZoom: boolean;
-  disableZoom: () => void;
-  enableZoom: () => void;
-
   onNodesChange: OnNodesChange<StudioNode>;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
@@ -111,10 +107,6 @@ const useStudioFlowStore = create<State>((set, get) => ({
 
     set({ ...flatNodes(updatedNodes), ...flatEdges(updatedEdges) });
   },
-
-  disabledZoom: false,
-  disableZoom: () => set({ disabledZoom: true }),
-  enableZoom: () => set({ disabledZoom: false }),
 
   onNodesChange: (changes) => {
     set({

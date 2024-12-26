@@ -29,6 +29,7 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
 
   const reloadFlowCounter = useStudioFlowStore((state) => state.reloadFlowCounter);
   const reloadFlow = useStudioFlowStore((state) => state.reloadFlow);
+  const panOnDrag = useStudioFlowViewStore((state) => state.panOnDrag);
   const setView = useStudioFlowViewStore((state) => state.setView);
 
   const [currentView, setCurrentView] = useState<FlowView>({
@@ -65,6 +66,8 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
         selectNodesOnDrag={false}
         onNodeDrag={onNodeDrag}
         onNodeDragStop={onNodeDragStop}
+        fitView
+        panOnDrag={panOnDrag}
       >
         <Controls />
         <Background />

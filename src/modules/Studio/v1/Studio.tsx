@@ -15,12 +15,12 @@ import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import useStudioFlowViewStore from '@/modules/Studio/stores/useStudioFlowViewStore';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
-import EventHandler from '../components/EventHandler';
+import MouseTracker from '../components/MouseTracker';
 import { StudioCategory } from '../types/category';
 import { DataSourceType } from '../types/dataSource';
 import { StudioDataNode } from '../types/graph';
 import { getFieldDataFromRawData } from '../utils/data';
-import { transformDataToNodes } from '../utils/node';
+import { transformDataToBaseNodes } from '../utils/node';
 import Board from './Board';
 import useStudioDnD from './hooks/useStudioDnd';
 import Sidebar from './Sidebar';
@@ -68,9 +68,9 @@ const StudioComponent = ({ className, categories, onChange, nodeTypes, dataSourc
           <Sidebar />
         </div>
 
-        <EventHandler className="studio__right">
+        <MouseTracker className="studio__right">
           <Board nodeTypes={extendedNodeTypes} />
-        </EventHandler>
+        </MouseTracker>
       </div>
     </DndContext>
   );
@@ -92,7 +92,7 @@ export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioPro
         // generate nodes/edges from data
         useStudioDataStore.getState().setData(data);
 
-        const initNodes = transformDataToNodes(data);
+        const initNodes = transformDataToBaseNodes(data);
         console.log('studio init nodes', initNodes);
         useStudioFlowStore.getState().addNodes(initNodes);
 

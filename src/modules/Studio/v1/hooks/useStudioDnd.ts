@@ -10,7 +10,7 @@ import { INPUT_DROP_ID, OUTPUT_DROP_ID } from '../../constants/droppable-id';
 import { NodeType } from '../../enums/node-type';
 import { removeItemFromArray } from '../../utils/array';
 import { cloneData, getFormDataFromCategory } from '../../utils/data';
-import { createNewPieceNode } from '../../utils/node';
+import { createNewBaseNode } from '../../utils/node';
 
 const useStudioDnD = () => {
   const addNode = useStudioFlowStore((state) => state.addNode);
@@ -96,7 +96,7 @@ const useStudioDnD = () => {
       const thisOption = lego.data.current?.option;
 
       addNode(
-        createNewPieceNode(
+        createNewBaseNode(
           nodeId,
           { x: transformedX, y: transformedY },
           {

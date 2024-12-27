@@ -54,15 +54,19 @@ const ChildBaseNode = ({ data }: { data: StudioNode }) => {
 
   const id = data.id;
 
+  const productData = useMemo(() => ({ optionId: option.key, nodeId: id }), [id, option.key]);
+
   return (
-    <LegoRender
-      background={option.color}
-      icon={option.icon}
-      title={option.title}
-      id={id}
-      schemaData={option.data}
-      categoryId={option.keyMapper}
-    />
+    <Product id={id} data={productData}>
+      <LegoRender
+        background={option.color}
+        icon={option.icon}
+        title={option.title}
+        id={id}
+        schemaData={option.data}
+        categoryId={option.keyMapper}
+      />
+    </Product>
   );
 };
 const BaseNode = ({ data }: Props) => {
@@ -75,6 +79,8 @@ const BaseNode = ({ data }: Props) => {
 
   const id = data.id;
 
+  const productData = useMemo(() => ({ optionId: option.key, nodeId: id }), [id, option.key]);
+
   return (
     <div
       className="base-node-wrapper"
@@ -82,22 +88,17 @@ const BaseNode = ({ data }: Props) => {
         position: 'relative',
       }}
     >
-      <Product id={id} data={{ optionId: option.key, nodeId: id }}>
-        <div className={cx('base-node')} id={id}>
-          <div className="base-node_content">
-            <LegoRender
-              background={option.color}
-              icon={option.icon}
-              title={option.title}
-              id={id}
-              schemaData={schemaData}
-              categoryId={option.keyMapper}
-            />
-
-            {children?.map((item) => <ChildBaseNode key={`base-node-child-${item.id}`} data={item} />)}
-          </div>
-        </div>
+      <Product id={id} data={productData}>
+        <LegoRender
+          background={option.color}
+          icon={option.icon}
+          title={option.title}
+          id={id}
+          schemaData={schemaData}
+          categoryId={option.keyMapper}
+        />
       </Product>
+      {children?.map((item) => <ChildBaseNode key={`base-node-child-${item.id}`} data={item} />)}
 
       <Package id={id} data={{ nodeId: id }} />
     </div>

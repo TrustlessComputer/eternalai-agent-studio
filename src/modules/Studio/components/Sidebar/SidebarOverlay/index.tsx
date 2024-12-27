@@ -8,7 +8,7 @@ const SidebarOverlay = () => {
 
   return (
     <Overlay active={!!draggingData && draggingData.type === DndType.PRODUCT && !!draggingElement}>
-      <span>Drop here to remove</span>
+      <></>
     </Overlay>
   );
 };

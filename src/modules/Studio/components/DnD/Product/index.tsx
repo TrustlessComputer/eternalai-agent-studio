@@ -19,7 +19,7 @@ const Product = ({ id, data, disabled = false, children, ...props }: Props) => {
       ...data,
       type: DndType.PRODUCT,
     } satisfies DraggableDataType;
-  }, [data, id]);
+  }, [data]);
 
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id,

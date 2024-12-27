@@ -8,6 +8,7 @@ import { FlowView } from '../../types/ui';
 
 import Distribution from '../DnD/Distribution';
 import './Board.scss';
+import BoardOverlay from './BoardOverlay';
 
 function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
   const nodes = useStudioFlowStore((state) => state.nodes);
@@ -31,7 +32,7 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
 
   return (
     <Distribution className="board">
-      {/* <BoardOverlay /> */}
+      <BoardOverlay />
       <ReactFlow
         nodes={nodes}
         nodeTypes={nodeTypes}

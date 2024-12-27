@@ -60,7 +60,7 @@ export const GRAPH_DATA_TEMPLATE_1: StudioDataNode[] = [
 
 export const GRAPH_DATA_TEMPLATE_2: StudioDataNode[] = [
   {
-    'id': v4(),
+    'id': `red-alert-${v4()}`,
     'keyMapper': 'agent-option-1',
     'title': 'New Agent',
     'children': [

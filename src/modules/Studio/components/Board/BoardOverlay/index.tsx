@@ -8,7 +8,7 @@ const BoardOverlay = () => {
 
   return (
     <Overlay active={!!draggingData && draggingData.type === DndType.SOURCE && !!draggingElement}>
-      <span>Drop here to add</span>
+      <></>
     </Overlay>
   );
 };

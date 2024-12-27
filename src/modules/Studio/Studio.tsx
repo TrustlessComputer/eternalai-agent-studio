@@ -28,7 +28,6 @@ import { transformDataToNodes } from './utils/node';
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   categories: StudioCategory[];
   onChange?: (data: StudioDataNode[]) => void;
-  nodeTypes?: NodeTypes;
   dataSource?: Record<string, DataSourceType[]>;
 };
 
@@ -36,13 +35,12 @@ export type StudioRef = {
   setData: (data: StudioDataNode[]) => void;
 };
 
-const StudioComponent = ({ className, categories, onChange, nodeTypes, dataSource, ...rest }: StudioProps) => {
+const StudioComponent = ({ className, categories, onChange, dataSource, ...rest }: StudioProps) => {
   const extendedNodeTypes = useMemo(() => {
     return {
       ...FLOW_NODE_TYPES,
-      ...nodeTypes,
     };
-  }, [nodeTypes]);
+  }, []);
 
   useEffect(() => {
     useStudioCategoryStore.getState().setCategories(categories);

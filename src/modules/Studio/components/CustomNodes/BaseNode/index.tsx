@@ -1,5 +1,3 @@
-import cx from 'clsx';
-
 import { StudioNode } from '@/modules/Studio/types/graph';
 import './BaseNode.scss';
 
@@ -54,15 +52,19 @@ const BaseNodeChild = ({ data }: { data: StudioNode }) => {
 
   const id = data.id;
 
+  const productData = useMemo(() => ({ optionId: option.key, nodeId: id }), [id, option.key]);
+
   return (
-    <LegoRender
-      background={option.color}
-      icon={option.icon}
-      title={option.title}
-      id={id}
-      schemaData={option.data}
-      categoryId={option.keyMapper}
-    />
+    <Product id={id} data={productData}>
+      <LegoRender
+        background={option.color}
+        icon={option.icon}
+        title={option.title}
+        id={id}
+        schemaData={option.data}
+        categoryId={option.keyMapper}
+      />
+    </Product>
   );
 };
 
@@ -123,6 +125,8 @@ const BaseNode = ({ data }: Props) => {
 
   const id = data.id;
 
+  const productData = useMemo(() => ({ optionId: option.key, nodeId: id }), [id, option.key]);
+
   return (
     <div
       className="base-node"
@@ -130,22 +134,17 @@ const BaseNode = ({ data }: Props) => {
         position: 'relative',
       }}
     >
-      <Product id={id} data={{ optionId: option.key, nodeId: id }}>
-        <div className={cx('base-node__inner')} id={id}>
-          <div className="base-node__inner__content">
-            <LegoRender
-              background={option.color}
-              icon={option.icon}
-              title={option.title}
-              id={id}
-              schemaData={schemaData}
-              categoryId={option.keyMapper}
-            />
-
-            {children?.map((item) => <BaseNodeChild key={item.id} data={item} />)}
-          </div>
-        </div>
+      <Product id={id} data={productData}>
+        <LegoRender
+          background={option.color}
+          icon={option.icon}
+          title={option.title}
+          id={id}
+          schemaData={schemaData}
+          categoryId={option.keyMapper}
+        />
       </Product>
+      {children?.map((item) => <BaseNodeChild key={`base-node-child-${item.id}`} data={item} />)}
 
       <Package id={id} data={{ nodeId: id }} />
 

@@ -104,19 +104,19 @@ const NETWORK: StudioCategory = {
       order: 1,
       data: {
         network: {
-          type: 'select',
+          type: 'textarea',
           label: 'Network',
           placeholder: 'Network',
           defaultValue: 'Solana',
           dataSourceKey: 'network-data-source',
         },
-        // token: {
-        //   type: 'select',
-        //   label: 'Token',
-        //   placeholder: 'Network',
-        //   defaultValue: 'Solana',
-        //   dataSourceKey: 'token-data-source',
-        // },
+        token: {
+          type: 'select',
+          label: 'Token',
+          placeholder: 'Network',
+          defaultValue: 'Solana',
+          dataSourceKey: 'token-data-source',
+        },
       },
     },
     {

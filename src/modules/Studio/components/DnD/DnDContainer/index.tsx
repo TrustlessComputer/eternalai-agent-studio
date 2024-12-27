@@ -2,10 +2,12 @@ import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategorySto
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import useStudioFlowViewStore from '@/modules/Studio/stores/useStudioFlowViewStore';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
+import { StudioCategoryMap } from '@/modules/Studio/types/category';
 import { DndType, DraggableDataType } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
 import { cloneData, getFormDataFromCategory } from '@/modules/Studio/utils/data';
 import { createNewBaseNode } from '@/modules/Studio/utils/node';
+import { isNil } from '@/utils/data';
 import {
   DndContext,
   DragAbortEvent,
@@ -28,7 +30,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
   const flowStore = useStoreApi();
   const movingNodeRef = useRef<StudioNode>(null);
 
-  const getNewNode = (keyMapper: string, existedId?: string) => {
+  const getNewNode = (keyMapper: string, option: StudioCategoryMap, existedId?: string) => {
     const {
       transform: [transformX, transformY, zoomLevel],
     } = flowStore.getState();
@@ -42,10 +44,19 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       y: transformedY,
     };
 
-    return createNewBaseNode(id, position, {
+    const newNode = createNewBaseNode(id, position, {
       children: [],
       keyMapper,
     });
+
+    if (!existedId) {
+      const defaultValues = getFormDataFromCategory(option || {});
+      useStudioFormStore.getState().addForm(newNode.id, {
+        ...defaultValues,
+      });
+    }
+
+    return newNode;
   };
 
   const handleDragStart = useCallback((event: DragStartEvent) => {
@@ -83,14 +94,10 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       // Accept new node - from sidebar
       // Create new, dragged from sidebar
       if (from === DndType.SOURCE && fromData?.optionId) {
-        const newNode = getNewNode(fromData.optionId);
+        const newNode = getNewNode(fromData.optionId, fromOption);
 
         useStudioFlowStore.getState().addNode(newNode);
 
-        const defaultValues = getFormDataFromCategory(fromOption || {});
-        useStudioFormStore.getState().addForm(newNode.id, {
-          ...defaultValues,
-        });
         console.log('[DndContainer] handleDragEnd case: Dropped on distribution from source', {
           newNode,
         });
@@ -106,10 +113,14 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.belongsTo);
         if (!fromNode) return;
 
-        const newNode = getNewNode(fromData.optionId);
+        const childData = !isNil(fromData.childIndex)
+          ? fromNode.data.metadata.children[fromData.childIndex as number]
+          : null;
+
+        const newNode = getNewNode(fromData.optionId, fromOption, childData?.id);
         newNode.data.metadata.children = cloneData(fromNode.data.metadata.children)
           .filter((_, index) => index > (fromData?.childIndex || 0))
-          .map((child) => getNewNode(child.data.metadata.keyMapper));
+          .map((child) => getNewNode(child.data.metadata.keyMapper, fromOption));
 
         fromNode.data.metadata.children = fromNode.data.metadata.children.filter(
           (_, index) => index < (fromData?.childIndex || 0),
@@ -156,7 +167,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         });
 
         // Create new, dragged from sidebar
-        const newNode = getNewNode(fromData.optionId);
+        const newNode = getNewNode(fromData.optionId, fromOption);
 
         toNode.data.metadata.children = [...toNode.data.metadata.children, newNode];
 
@@ -173,11 +184,6 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
           [toNode],
         );
         useStudioFlowStore.getState().updateNode(updatedNodes[0]);
-
-        const defaultValues = getFormDataFromCategory(fromOption || {});
-        useStudioFormStore.getState().addForm(newNode.id, {
-          ...defaultValues,
-        });
       }
 
       if (

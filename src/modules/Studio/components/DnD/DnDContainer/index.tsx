@@ -30,7 +30,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
   const flowStore = useStoreApi();
   const movingNodeRef = useRef<StudioNode>(null);
 
-  const getNewNode = (keyMapper: string, option: StudioCategoryMap, existedId?: string) => {
+  const getNewNode = (keyMapper: string, option: StudioCategoryMap, existedId: string | undefined) => {
     const {
       transform: [transformX, transformY, zoomLevel],
     } = flowStore.getState();
@@ -94,7 +94,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       // Accept new node - from sidebar
       // Create new, dragged from sidebar
       if (from === DndType.SOURCE && fromData?.optionId) {
-        const newNode = getNewNode(fromData.optionId, fromOption);
+        const newNode = getNewNode(fromData.optionId, fromOption, undefined);
 
         useStudioFlowStore.getState().addNode(newNode);
 
@@ -167,7 +167,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         });
 
         // Create new, dragged from sidebar
-        const newNode = getNewNode(fromData.optionId, fromOption);
+        const newNode = getNewNode(fromData.optionId, fromOption, undefined);
 
         toNode.data.metadata.children = [...toNode.data.metadata.children, newNode];
 

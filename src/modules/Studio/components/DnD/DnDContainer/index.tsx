@@ -82,12 +82,39 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       // Accept new node - from sidebar
       // Create new, dragged from sidebar
       if (from === DndType.SOURCE && fromData?.optionId) {
-        console.log('_______________handle new node');
-        const newProduct = getNewNode(fromData.optionId);
+        const newNode = getNewNode(fromData.optionId);
 
-        useStudioFlowStore.getState().addNode(newProduct);
-      } else {
-        // Check if draggable node is child of another node => decouple that to standalone node
+        useStudioFlowStore.getState().addNode(newNode);
+
+        console.log('[DndContainer] handleDragEnd case: Dropped on distribution from source', {
+          newNode,
+        });
+      }
+
+      // Check if draggable node is child of another node => decouple that to standalone node
+      if (
+        from === DndType.PRODUCT &&
+        !fromData.isOriginal &&
+        fromData?.nodeId &&
+        fromData?.optionId &&
+        fromData?.nodeId !== toData?.nodeId
+      ) {
+        console.log('[DndContainer] handleDragEnd case: Dropped on distribution from product', {
+          fromData,
+          toData,
+        });
+
+        const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.nodeId);
+        if (!fromNode) return;
+
+        fromNode.data.metadata.children = fromNode.data.metadata.children.filter(
+          (child) => child.id !== fromData?.nodeId,
+        );
+
+        const newNode = getNewNode(fromData.optionId);
+
+        useStudioFlowStore.getState().addNode(newNode);
+        useStudioFlowStore.getState().updateNode(fromNode);
       }
     }
 
@@ -98,6 +125,11 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       // Accept snap item
       // Create new, dragged from node
       if (from === DndType.PRODUCT) {
+        console.log('[DndContainer] handleDragEnd case: Dropped on package from product', {
+          fromData,
+          toData,
+        });
+
         const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.nodeId);
         if (!fromNode) return;
 
@@ -116,11 +148,15 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       }
 
       if (from === DndType.SOURCE && fromData?.optionId) {
-        // Create new, dragged from sidebar
-        console.log('_______________handle create new and snap then ');
-        const newProduct = getNewNode(fromData.optionId);
+        console.log('[DndContainer] handleDragEnd case: Dropped on package from source', {
+          fromData,
+          toData,
+        });
 
-        toNode.data.metadata.children = [...toNode.data.metadata.children, newProduct];
+        // Create new, dragged from sidebar
+        const newNode = getNewNode(fromData.optionId);
+
+        toNode.data.metadata.children = [...toNode.data.metadata.children, newNode];
 
         const updatedNode = applyNodeChanges(
           [
@@ -142,7 +178,11 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       // Accept exist node - from board
       // Remove node from board
       if (from === DndType.PRODUCT && fromData?.nodeId) {
-        console.log('_______________handle remove exist ');
+        console.log('[DndContainer] handleDragEnd case: Dropped on factory from product', {
+          fromData,
+          toData,
+        });
+
         useStudioFlowStore.getState().removeNode(fromData?.nodeId);
       }
     }

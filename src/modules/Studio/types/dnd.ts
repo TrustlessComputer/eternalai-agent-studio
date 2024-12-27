@@ -3,6 +3,7 @@ export type DraggableDataType = {
   categoryId?: string;
   optionId?: string;
   nodeId?: string;
+  isOriginal?: boolean;
 };
 
 export enum DndType {

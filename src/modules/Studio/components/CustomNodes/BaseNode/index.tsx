@@ -5,6 +5,7 @@ import { Handle, NodeProps, Position } from '@xyflow/react';
 
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { DataSchema, StudioCategoryMap } from '@/modules/Studio/types/category';
+import { mergeIds } from '@/utils/flow';
 import { FunctionComponent, useMemo } from 'react';
 import FormRender from '../../DataFields/FormRender';
 import Package from '../../DnD/Package';
@@ -44,23 +45,21 @@ const LegoRender = ({
   );
 };
 
-const BaseNodeChild = ({ data }: { data: StudioNode }) => {
+const BaseNodeChild = ({ data, nodeId }: { data: StudioNode; nodeId: string }) => {
   const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
 
   const keyMapper = data.data.metadata.keyMapper;
   const option = mapCategories[keyMapper] as StudioCategoryMap;
 
-  const id = data.id;
-
-  const productData = useMemo(() => ({ optionId: option.key, nodeId: id }), [id, option.key]);
+  const productData = useMemo(() => ({ optionId: option.key, nodeId: nodeId }), [nodeId, option.key]);
 
   return (
-    <Product id={id} data={productData}>
+    <Product id={mergeIds(['child', nodeId, data.id])} data={productData}>
       <LegoRender
         background={option.color}
         icon={option.icon}
         title={option.title}
-        id={id}
+        id={nodeId}
         schemaData={option.data}
         categoryId={option.keyMapper}
       />
@@ -123,9 +122,9 @@ const BaseNode = ({ data }: Props) => {
   const option = mapCategories[keyMapper] as StudioCategoryMap;
   const schemaData = option.data;
 
-  const id = data.id;
+  const nodeId = data.id;
 
-  const productData = useMemo(() => ({ optionId: option.key, nodeId: id }), [id, option.key]);
+  const productData = useMemo(() => ({ optionId: option.key, nodeId: nodeId }), [nodeId, option.key]);
 
   return (
     <div
@@ -134,20 +133,20 @@ const BaseNode = ({ data }: Props) => {
         position: 'relative',
       }}
     >
-      <Product id={id} data={productData}>
+      <Product id={mergeIds(['original', nodeId])} data={{ ...productData, isOriginal: true }}>
         <LegoRender
           background={option.color}
           icon={option.icon}
           title={option.title}
-          id={id}
+          id={nodeId}
           schemaData={schemaData}
           categoryId={option.keyMapper}
         />
       </Product>
 
-      {children?.map((item) => <BaseNodeChild key={`base-node-child-${item.id}`} data={item} />)}
+      {children?.map((item) => <BaseNodeChild key={`base-node-child-${item.id}`} data={item} nodeId={nodeId} />)}
 
-      <Package id={id} data={{ nodeId: id }} />
+      <Package id={nodeId} data={{ nodeId }} />
 
       <BaseNodeConnection data={data} />
     </div>

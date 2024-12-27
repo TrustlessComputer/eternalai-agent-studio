@@ -17,7 +17,7 @@ function Listen() {
   const throttleDataForms = useThrottleValue(dataForms, 500);
 
   useEffect(() => {
-    // console.log('___________throttleNodes', throttleNodes);
+    console.log('___________throttleNodes', throttleNodes);
     // sync nodes with data
 
     const mapCategories = useStudioCategoryStore.getState().mapCategories;

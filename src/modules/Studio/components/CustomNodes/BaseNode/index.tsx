@@ -211,7 +211,7 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
 
   const childIndexMoving = useMemo(
     () => children.findIndex((item) => data.id === draggingData?.belongsTo),
-    [children, draggingData?.belongsTo],
+    [children, data.id, draggingData?.belongsTo],
   );
 
   const renderChildren = useMemo(() => {
@@ -221,6 +221,8 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
 
     return children;
   }, [childIndexMoving, children]);
+
+  const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
     <div
@@ -261,7 +263,7 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
         />
       ))}
 
-      <Package id={data.id} data={{ belongsTo: data.id }} />
+      <Package id={data.id} data={packageData} />
       <BaseNodeConnection data={data} />
     </div>
   );
@@ -278,6 +280,8 @@ const BaseNodeSingleItem = ({ data }: Props) => {
     () => ({ optionId: option.key, belongsTo: data.id }),
     [data.id, option.key],
   );
+
+  const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
     <div
@@ -297,7 +301,7 @@ const BaseNodeSingleItem = ({ data }: Props) => {
         />
       </Product>
 
-      <Package id={data.id} data={{ belongsTo: data.id }} />
+      <Package id={data.id} data={packageData} />
       <BaseNodeConnection data={data} />
     </div>
   );

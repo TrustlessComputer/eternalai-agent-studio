@@ -93,25 +93,22 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
 
       // Check if draggable node is child of another node => decouple that to standalone node
       if (
-        from === DndType.PRODUCT &&
-        !fromData.isOriginal &&
-        fromData?.nodeId &&
+        from === DndType.PRODUCT_ADDON &&
+        fromData?.belongsTo &&
         fromData?.optionId &&
-        fromData?.nodeId !== toData?.nodeId
+        fromData?.belongsTo !== toData?.belongsTo
       ) {
-        console.log('[DndContainer] handleDragEnd case: Dropped on distribution from product', {
-          fromData,
-          toData,
-        });
-
-        const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.nodeId);
+        const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.belongsTo);
         if (!fromNode) return;
 
-        fromNode.data.metadata.children = fromNode.data.metadata.children.filter(
-          (child) => child.id !== fromData?.nodeId,
-        );
-
         const newNode = getNewNode(fromData.optionId);
+        newNode.data.metadata.children = cloneData(fromNode.data.metadata.children)
+          .filter((_, index) => index > (fromData?.childIndex || 0))
+          .map((child) => getNewNode(child.data.metadata.keyMapper));
+
+        fromNode.data.metadata.children = fromNode.data.metadata.children.filter(
+          (_, index) => index < (fromData?.childIndex || 0),
+        );
 
         useStudioFlowStore.getState().addNode(newNode);
         useStudioFlowStore.getState().updateNode(fromNode);
@@ -119,7 +116,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
     }
 
     if (to === DndType.PACKAGE) {
-      const toNode = useStudioFlowStore.getState().nodes.find((node) => node.id === toData?.nodeId);
+      const toNode = useStudioFlowStore.getState().nodes.find((node) => node.id === toData?.belongsTo);
       if (!toNode) return;
 
       // Accept snap item
@@ -130,7 +127,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
           toData,
         });
 
-        const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.nodeId);
+        const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.belongsTo);
         if (!fromNode) return;
 
         if (fromNode.id === toNode.id) return;
@@ -177,13 +174,13 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
     if (to === DndType.FACTORY) {
       // Accept exist node - from board
       // Remove node from board
-      if (from === DndType.PRODUCT && fromData?.nodeId) {
+      if (from === DndType.PRODUCT && fromData?.belongsTo) {
         console.log('[DndContainer] handleDragEnd case: Dropped on factory from product', {
           fromData,
           toData,
         });
 
-        useStudioFlowStore.getState().removeNode(fromData?.nodeId);
+        useStudioFlowStore.getState().removeNode(fromData?.belongsTo);
       }
     }
 

@@ -6,10 +6,12 @@ import { Handle, NodeProps, Position } from '@xyflow/react';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { DataSchema, StudioCategoryMap } from '@/modules/Studio/types/category';
+import { DraggableDataType } from '@/modules/Studio/types/dnd';
 import { FunctionComponent, useMemo } from 'react';
 import FormRender from '../../DataFields/FormRender';
 import Package from '../../DnD/Package';
 import Product from '../../DnD/Product';
+import ProductAddon from '../../DnD/ProductAddon';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
 import TextRender from '../../Render/TextRender';
@@ -66,18 +68,31 @@ const DraggingFloating = ({ data }: { data: StudioNode }) => {
   );
 };
 
-const ChildBaseNode = ({ data, items, index }: { data: StudioNode; items: StudioNode[]; index: number }) => {
+const ChildBaseNode = ({
+  data,
+  items,
+  index,
+  belongsTo,
+}: {
+  data: StudioNode;
+  items: StudioNode[];
+  index: number;
+  belongsTo: string;
+}) => {
   const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
 
   const keyMapper = data.data.metadata.keyMapper;
   const option = mapCategories[keyMapper] as StudioCategoryMap;
 
-  const productData = useMemo(() => ({ optionId: option.key, nodeId: data.id }), [data.id, option.key]);
+  const productData: Omit<DraggableDataType, 'type'> = useMemo(
+    () => ({ optionId: option.key, belongsTo, childIndex: index }),
+    [belongsTo, index, option.key],
+  );
 
   const floatingItems = useMemo(() => items.slice(index), [items, index]);
 
   return (
-    <Product
+    <ProductAddon
       id={data.id}
       data={productData}
       draggingFloating={
@@ -96,7 +111,7 @@ const ChildBaseNode = ({ data, items, index }: { data: StudioNode; items: Studio
         schemaData={option.data}
         categoryId={option.keyMapper}
       />
-    </Product>
+    </ProductAddon>
   );
 };
 
@@ -176,14 +191,14 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
   const option = mapCategories[keyMapper] as StudioCategoryMap;
   const schemaData = option.data;
 
-  const productData = useMemo(
-    () => ({ optionId: option.key, nodeId: data.id, isOriginal: true }),
+  const productData: Omit<DraggableDataType, 'type'> = useMemo(
+    () => ({ optionId: option.key, belongsTo: data.id }),
     [data.id, option.key],
   );
 
   const childIndexMoving = useMemo(
-    () => children.findIndex((item) => item.id === draggingData?.nodeId),
-    [children, draggingData?.nodeId],
+    () => children.findIndex((item) => data.id === draggingData?.belongsTo),
+    [children, draggingData?.belongsTo],
   );
 
   const renderChildren = useMemo(() => {
@@ -222,10 +237,18 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
           categoryId={option.keyMapper}
         />
       </Product>
+
       {renderChildren?.map((item, index) => (
-        <ChildBaseNode index={index} key={`base-node-child-${item.id}`} data={item} items={children} />
+        <ChildBaseNode
+          index={index}
+          key={`base-node-child-${item.id}`}
+          data={item}
+          items={children}
+          belongsTo={data.id}
+        />
       ))}
-      <Package id={data.id} data={{ nodeId: data.id }} />
+
+      <Package id={data.id} data={{ belongsTo: data.id }} />
       <BaseNodeConnection data={data} />
     </div>
   );
@@ -238,8 +261,8 @@ const BaseNodeSingleItem = ({ data }: Props) => {
   const option = mapCategories[keyMapper] as StudioCategoryMap;
   const schemaData = option.data;
 
-  const productData = useMemo(
-    () => ({ optionId: option.key, nodeId: data.id, isOriginal: true }),
+  const productData: Omit<DraggableDataType, 'type'> = useMemo(
+    () => ({ optionId: option.key, belongsTo: data.id }),
     [data.id, option.key],
   );
 
@@ -261,7 +284,7 @@ const BaseNodeSingleItem = ({ data }: Props) => {
         />
       </Product>
 
-      <Package id={data.id} data={{ nodeId: data.id }} />
+      <Package id={data.id} data={{ belongsTo: data.id }} />
       <BaseNodeConnection data={data} />
     </div>
   );

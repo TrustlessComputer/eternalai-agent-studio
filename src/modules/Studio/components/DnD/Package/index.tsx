@@ -21,7 +21,7 @@ const Package = ({ id, data, disabled, className, children, ...props }: Props) =
       ...data,
       type: DndType.PACKAGE,
     } satisfies DraggableDataType;
-  }, [data, id]);
+  }, [data]);
 
   const { setNodeRef, isOver, active } = useDroppable({
     id,

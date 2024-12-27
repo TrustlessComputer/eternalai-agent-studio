@@ -21,7 +21,6 @@ type State = {
   addNodes: (nodes: StudioNode[]) => void;
 
   updateNode: (node: StudioNode) => void;
-  // updateNodes: (node: StudioNode) => void;
 
   edges: Edge[];
   setEdges: (edges: Edge[]) => void;
@@ -36,24 +35,9 @@ type State = {
   onConnect: OnConnect;
 
   clear: () => void;
-};
 
-const flatNodes = (nodes: StudioNode[]) => {
-  return {
-    nodes,
-  };
-};
-
-const flatEdges = (edges: Edge[]) => {
-  const edgesMapped: Record<string, Edge> = {};
-  edges.forEach((edge) => {
-    edgesMapped[edge.id] = edge;
-  });
-
-  return {
-    edgesMapped,
-    edges,
-  };
+  hiddenNodes: StudioNode[];
+  setHiddenNodes: (nodes: StudioNode[]) => void;
 };
 
 const useStudioFlowStore = create<State>((set, get) => ({
@@ -64,62 +48,55 @@ const useStudioFlowStore = create<State>((set, get) => ({
 
   nodes: [],
   nodesMapped: {},
-  setNodes: (nodes) => set({ ...flatNodes(nodes) }),
-  addNode: (node) => set({ ...flatNodes([...get().nodes, node]) }),
-  addNodes: (nodes) => set({ ...flatNodes([...get().nodes, ...nodes]) }),
+  setNodes: (nodes) => set({ nodes }),
+  addNode: (node) => set({ nodes: [...get().nodes, node] }),
+  addNodes: (nodes) => set({ nodes: [...get().nodes, ...nodes] }),
 
   updateNode: (node) => {
     const updatedNodes = get().nodes.map((n) => (n.id === node.id ? node : n));
-    set({ ...flatNodes(updatedNodes) });
+    set({ nodes: updatedNodes });
   },
-  // updateNodes: (nodes) => {
-  //   const updatedNodes = get().nodes.map((n) => {
-  //     const found = nodes.find((node) => node.id === n.id);
-
-  //     return found ? found : n;
-  //   });
-
-  //   set({ ...flatNodes(updatedNodes) });
-  // },
-
   edges: [],
   edgesMapped: {},
-  setEdges: (edges) => set({ ...flatEdges(edges) }),
-  addEdge: (edge) => set({ ...flatEdges([...get().edges, edge]) }),
-  addEdges: (edges) => set({ ...flatEdges([...get().edges, ...edges]) }),
+  setEdges: (edges) => set({ edges }),
+  addEdge: (edge) => set({ edges: [...get().edges, edge] }),
+  addEdges: (edges) => set({ edges: [...get().edges, ...edges] }),
 
   removeNode: (id) => {
     const updatedNodes = get().nodes.filter((node) => node.id !== id);
     const updatedEdges = get().edges.filter((edge) => edge.source !== id && edge.target !== id);
 
-    set({ ...flatNodes(updatedNodes), ...flatEdges(updatedEdges) });
+    set({ nodes: updatedNodes, edges: updatedEdges });
   },
   removeNodes: (ids) => {
     const updatedNodes = get().nodes.filter((node) => !ids.includes(node.id));
     const updatedEdges = get().edges.filter((edge) => !ids.includes(edge.source) && !ids.includes(edge.target));
 
-    set({ ...flatNodes(updatedNodes), ...flatEdges(updatedEdges) });
+    set({ nodes: updatedNodes, edges: updatedEdges });
   },
 
   onNodesChange: (changes) => {
     set({
-      ...flatNodes(applyNodeChanges(changes, get().nodes)),
+      nodes: applyNodeChanges(changes, get().nodes),
     });
   },
   onEdgesChange: (changes) => {
     set({
-      ...flatEdges(applyEdgeChanges(changes, get().edges)),
+      edges: applyEdgeChanges(changes, get().edges),
     });
   },
   onConnect: (connection) => {
     set({
-      ...flatEdges(addEdge(connection, get().edges)),
+      edges: addEdge(connection, get().edges),
     });
   },
 
   clear: () => {
     set({ reloadFlowCounter: 0, nodes: [], edges: [] });
   },
+
+  hiddenNodes: [],
+  setHiddenNodes: (nodes) => set({ hiddenNodes: nodes }),
 }));
 
 export default useStudioFlowStore;

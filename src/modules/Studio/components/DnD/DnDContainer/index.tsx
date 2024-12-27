@@ -1,9 +1,10 @@
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import useStudioFlowViewStore from '@/modules/Studio/stores/useStudioFlowViewStore';
+import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { DndType, DraggableDataType } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
-import { cloneData } from '@/modules/Studio/utils/data';
+import { cloneData, getFormDataFromCategory } from '@/modules/Studio/utils/data';
 import { createNewBaseNode } from '@/modules/Studio/utils/node';
 import {
   DndContext,
@@ -27,7 +28,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
   const flowStore = useStoreApi();
   const movingNodeRef = useRef<StudioNode>(null);
 
-  const getNewNode = (keyMapper: string) => {
+  const getNewNode = (keyMapper: string, existedId?: string) => {
     const {
       transform: [transformX, transformY, zoomLevel],
     } = flowStore.getState();
@@ -35,7 +36,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
     const transformedX = (mousePosition.x - transformX) / zoomLevel;
     const transformedY = (mousePosition.y - transformY) / zoomLevel;
 
-    const id = v4();
+    const id = existedId || v4();
     const position = {
       x: transformedX,
       y: transformedY,
@@ -86,6 +87,10 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
 
         useStudioFlowStore.getState().addNode(newNode);
 
+        const defaultValues = getFormDataFromCategory(fromOption || {});
+        useStudioFormStore.getState().addForm(newNode.id, {
+          ...defaultValues,
+        });
         console.log('[DndContainer] handleDragEnd case: Dropped on distribution from source', {
           newNode,
         });
@@ -168,6 +173,11 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
           [toNode],
         );
         useStudioFlowStore.getState().updateNode(updatedNodes[0]);
+
+        const defaultValues = getFormDataFromCategory(fromOption || {});
+        useStudioFormStore.getState().addForm(newNode.id, {
+          ...defaultValues,
+        });
       }
 
       if (

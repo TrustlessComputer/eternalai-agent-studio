@@ -89,9 +89,10 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       } else {
         // Check if draggable node is child of another node => decouple that to standalone node
       }
-    } else if (to === DndType.PACKAGE) {
-      const toNode = useStudioFlowStore.getState().nodes.find((node) => node.id === toData?.nodeId);
+    }
 
+    if (to === DndType.PACKAGE) {
+      const toNode = useStudioFlowStore.getState().nodes.find((node) => node.id === toData?.nodeId);
       if (!toNode) return;
 
       // Accept snap item
@@ -99,6 +100,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       if (from === DndType.PRODUCT) {
         const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.nodeId);
         if (!fromNode) return;
+
         if (fromNode.id === toNode.id) return;
 
         toNode.data.metadata.children = [
@@ -111,7 +113,9 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
 
         useStudioFlowStore.getState().updateNode(toNode);
         useStudioFlowStore.getState().removeNode(fromNode.id);
-      } else if (from === DndType.SOURCE && fromData?.optionId) {
+      }
+
+      if (from === DndType.SOURCE && fromData?.optionId) {
         // Create new, dragged from sidebar
         console.log('_______________handle create new and snap then ');
         const newProduct = getNewNode(fromData.optionId);
@@ -132,7 +136,9 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         );
         useStudioFlowStore.getState().updateNode(updatedNode[0]);
       }
-    } else if (to === DndType.FACTORY) {
+    }
+
+    if (to === DndType.FACTORY) {
       // Accept exist node - from board
       // Remove node from board
       if (from === DndType.PRODUCT && fromData?.nodeId) {
@@ -156,12 +162,15 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       if (!movingNode) {
         const nodes = useStudioFlowStore.getState().nodes;
         const movingNodeIndex = nodes.findIndex((node) => node.id === id);
+
         movingNode = movingNodeRef.current || nodes[movingNodeIndex];
+
         movingNodeRef.current = movingNode;
       }
 
       if (movingNode) {
         movingNodeRef.current = movingNode;
+
         const newPosition = {
           x: movingNode.position.x + delta.x,
           y: movingNode.position.y + delta.y,

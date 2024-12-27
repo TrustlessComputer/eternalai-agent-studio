@@ -3,7 +3,7 @@ import cx from 'clsx';
 import { StudioNode } from '@/modules/Studio/types/graph';
 import './BaseNode.scss';
 
-import { NodeProps } from '@xyflow/react';
+import { Handle, NodeProps, Position } from '@xyflow/react';
 
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { DataSchema, StudioCategoryMap } from '@/modules/Studio/types/category';
@@ -46,7 +46,7 @@ const LegoRender = ({
   );
 };
 
-const ChildBaseNode = ({ data }: { data: StudioNode }) => {
+const BaseNodeChild = ({ data }: { data: StudioNode }) => {
   const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
 
   const keyMapper = data.data.metadata.keyMapper;
@@ -65,6 +65,54 @@ const ChildBaseNode = ({ data }: { data: StudioNode }) => {
     />
   );
 };
+
+const BaseNodeConnection = ({ data }: { data: StudioNode['data'] }) => {
+  return (
+    <>
+      {data.sourceHandles?.map((handle, index) => (
+        <Handle
+          key={`${Position.Right}__${handle}__${index}`}
+          id={handle}
+          type="source"
+          position={Position.Right}
+          className="base-node__handle"
+          isConnectable={false}
+        />
+      ))}
+      {data.sourceHandles?.map((handle, index) => (
+        <Handle
+          key={`${Position.Top}__${handle}__${index}`}
+          id={handle}
+          type="source"
+          position={Position.Top}
+          className="base-node__handle"
+          isConnectable={false}
+        />
+      ))}
+      {data.sourceHandles?.map((handle, index) => (
+        <Handle
+          key={`${Position.Left}__${handle}__${index}`}
+          id={handle}
+          type="source"
+          position={Position.Left}
+          className="base-node__handle"
+          isConnectable={false}
+        />
+      ))}
+      {data.sourceHandles?.map((handle, index) => (
+        <Handle
+          key={`${Position.Bottom}__${handle}__${index}`}
+          id={handle}
+          type="source"
+          position={Position.Bottom}
+          isConnectable={false}
+          className="base-node__handle"
+        />
+      ))}
+    </>
+  );
+};
+
 const BaseNode = ({ data }: Props) => {
   const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
   const children = data?.metadata?.children;
@@ -77,14 +125,14 @@ const BaseNode = ({ data }: Props) => {
 
   return (
     <div
-      className="base-node-wrapper"
+      className="base-node"
       style={{
         position: 'relative',
       }}
     >
       <Product id={id} data={{ optionId: option.key, nodeId: id }}>
-        <div className={cx('base-node')} id={id}>
-          <div className="base-node_content">
+        <div className={cx('base-node__inner')} id={id}>
+          <div className="base-node__inner__content">
             <LegoRender
               background={option.color}
               icon={option.icon}
@@ -94,12 +142,14 @@ const BaseNode = ({ data }: Props) => {
               categoryId={option.keyMapper}
             />
 
-            {children?.map((item) => <ChildBaseNode key={`base-node-child-${item.id}`} data={item} />)}
+            {children?.map((item) => <BaseNodeChild key={item.id} data={item} />)}
           </div>
         </div>
       </Product>
 
       <Package id={id} data={{ nodeId: id }} />
+
+      <BaseNodeConnection data={data} />
     </div>
   );
 };

@@ -2,6 +2,13 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  height: 100%;
+
+  .studio-form-single-field-row {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
 }
 
 .studio-form-multiple-field {

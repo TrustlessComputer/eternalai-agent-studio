@@ -5,8 +5,8 @@ import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import { StudioDataNode, StudioNode } from '../../types/graph';
 
 import { useThrottleValue } from '@/hooks/useThrottleValue';
-import useStudioFormStore from '../../stores/useStudioFormStore';
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
+import useStudioFormStore from '../../stores/useStudioFormStore';
 import { StudioCategoryMap } from '../../types/category';
 
 function Listen() {
@@ -17,7 +17,7 @@ function Listen() {
   const throttleDataForms = useThrottleValue(dataForms, 500);
 
   useEffect(() => {
-    console.log('___________throttleNodes', throttleNodes);
+    // console.log('___________throttleNodes', throttleNodes);
     // sync nodes with data
 
     const mapCategories = useStudioCategoryStore.getState().mapCategories;
@@ -74,7 +74,7 @@ function Listen() {
         });
       }
     });
-    console.log('___________sync nodes with data', { newData, throttleNodes });
+    // console.log('___________sync nodes with data', { newData, throttleNodes });
     useStudioDataStore.getState().setData(newData);
   }, [throttleNodes, throttleDataForms]);
 

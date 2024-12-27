@@ -110,13 +110,13 @@ const NETWORK: StudioCategory = {
           defaultValue: 'Solana',
           dataSourceKey: 'network-data-source',
         },
-        token: {
-          type: 'select',
-          label: 'Token',
-          placeholder: 'Network',
-          defaultValue: 'Solana',
-          dataSourceKey: 'token-data-source',
-        },
+        // token: {
+        //   type: 'select',
+        //   label: 'Token',
+        //   placeholder: 'Network',
+        //   defaultValue: 'Solana',
+        //   dataSourceKey: 'token-data-source',
+        // },
       },
     },
     {

@@ -49,7 +49,7 @@ const FixedLego = ({
 
       <div className="lego__body">
         <div className="lego__icon">
-          <ImageRender data={icon} />
+          <ImageRender data={icon} size={20} />
         </div>
 
         <div className="lego__content">{children}</div>
@@ -95,6 +95,7 @@ const DynamicLego = ({
 
 const Lego = ({ fixedHeight = true, background = '#A041FF', ...props }: Props) => {
   const borderColor = useMemo(() => adjustColorShade(background, -20), [background]);
+
   if (fixedHeight) {
     return <FixedLego background={background} borderColor={borderColor} {...props} />;
   }

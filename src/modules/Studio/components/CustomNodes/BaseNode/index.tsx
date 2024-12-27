@@ -66,25 +66,6 @@ const DraggingFloating = ({ data }: { data: StudioNode }) => {
   );
 };
 
-const BaseNodeChild = ({ data }: { data: StudioNode }) => {
-  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
-
-  const keyMapper = data.data.metadata.keyMapper;
-  const option = mapCategories[keyMapper] as StudioCategoryMap;
-
-  return (
-    <LegoRender
-      background={option.color}
-      icon={option.icon}
-      title={option.title}
-      id={data.id}
-      schemaData={option.data}
-      categoryId={option.keyMapper}
-      readonly
-    />
-  );
-};
-
 const ChildBaseNode = ({ data, items, index }: { data: StudioNode; items: StudioNode[]; index: number }) => {
   const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
 
@@ -195,7 +176,10 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
   const option = mapCategories[keyMapper] as StudioCategoryMap;
   const schemaData = option.data;
 
-  const productData = useMemo(() => ({ optionId: option.key, nodeId: data.id }), [data.id, option.key]);
+  const productData = useMemo(
+    () => ({ optionId: option.key, nodeId: data.id, isOriginal: true }),
+    [data.id, option.key],
+  );
 
   const childIndexMoving = useMemo(
     () => children.findIndex((item) => item.id === draggingData?.nodeId),
@@ -254,7 +238,10 @@ const BaseNodeSingleItem = ({ data }: Props) => {
   const option = mapCategories[keyMapper] as StudioCategoryMap;
   const schemaData = option.data;
 
-  const productData = useMemo(() => ({ optionId: option.key, nodeId: data.id }), [data.id, option.key]);
+  const productData = useMemo(
+    () => ({ optionId: option.key, nodeId: data.id, isOriginal: true }),
+    [data.id, option.key],
+  );
 
   return (
     <div

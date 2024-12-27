@@ -12,6 +12,7 @@ import Product from '../../DnD/Product';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
 import TextRender from '../../Render/TextRender';
+import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 
 type Props = NodeProps<StudioNode>;
 
@@ -22,6 +23,7 @@ const LegoRender = ({
   schemaData,
   title,
   categoryId,
+  readonly,
 }: {
   background?: string;
   icon: React.ReactNode | FunctionComponent;
@@ -29,6 +31,7 @@ const LegoRender = ({
   schemaData?: DataSchema;
   title: React.ReactNode | FunctionComponent;
   categoryId: string;
+  readonly?: boolean;
 }) => {
   const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
   const isDynamicHeight = useMemo(() => fields.length > 1, [fields]);
@@ -36,11 +39,32 @@ const LegoRender = ({
   return (
     <Lego background={background} icon={icon} fixedHeight={!isDynamicHeight}>
       <LegoContent>
-        <FormRender categoryId={categoryId} id={id} schemaData={schemaData}>
+        <FormRender readonly={readonly} categoryId={categoryId} id={id} schemaData={schemaData}>
           <TextRender data={title} />
         </FormRender>
       </LegoContent>
     </Lego>
+  );
+};
+
+const DraggingFloating = ({ data }: { data: StudioNode }) => {
+  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
+
+  const keyMapper = data.data.metadata.keyMapper;
+  const option = mapCategories[keyMapper] as StudioCategoryMap;
+
+  const id = data.id;
+
+  return (
+    <LegoRender
+      background={option.color}
+      icon={option.icon}
+      title={option.title}
+      id={id}
+      schemaData={option.data}
+      categoryId={option.keyMapper}
+      readonly
+    />
   );
 };
 
@@ -52,10 +76,43 @@ const BaseNodeChild = ({ data }: { data: StudioNode }) => {
 
   const id = data.id;
 
+  return (
+    <LegoRender
+      background={option.color}
+      icon={option.icon}
+      title={option.title}
+      id={id}
+      schemaData={option.data}
+      categoryId={option.keyMapper}
+      readonly
+    />
+  );
+};
+
+const ChildBaseNode = ({ data, items, index }: { data: StudioNode; items: StudioNode[]; index: number }) => {
+  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
+
+  const keyMapper = data.data.metadata.keyMapper;
+  const option = mapCategories[keyMapper] as StudioCategoryMap;
+
+  const id = data.id;
+
   const productData = useMemo(() => ({ optionId: option.key, nodeId: id }), [id, option.key]);
 
+  const floatingItems = useMemo(() => items.slice(index), [items, index]);
+
   return (
-    <Product id={id} data={productData}>
+    <Product
+      id={id}
+      data={productData}
+      draggingFloating={
+        <div>
+          {floatingItems.map((item) => (
+            <DraggingFloating key={`dragging-floating-${item.id}`} data={item} />
+          ))}
+        </div>
+      }
+    >
       <LegoRender
         background={option.color}
         icon={option.icon}
@@ -65,6 +122,28 @@ const BaseNodeChild = ({ data }: { data: StudioNode }) => {
         categoryId={option.keyMapper}
       />
     </Product>
+  );
+};
+
+const BaseNodeReadonly = ({ data }: Props) => {
+  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
+
+  const keyMapper = data.metadata.keyMapper;
+  const option = mapCategories[keyMapper] as StudioCategoryMap;
+  const schemaData = option.data;
+
+  const id = data.id;
+
+  return (
+    <LegoRender
+      background={option.color}
+      icon={option.icon}
+      title={option.title}
+      id={id}
+      schemaData={schemaData}
+      categoryId={option.keyMapper}
+      readonly
+    />
   );
 };
 
@@ -115,7 +194,8 @@ const BaseNodeConnection = ({ data }: { data: StudioNode['data'] }) => {
   );
 };
 
-const BaseNode = ({ data }: Props) => {
+const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
+  const draggingData = useStudioDndStore((state) => state.draggingData);
   const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
   const children = data?.metadata?.children;
 
@@ -127,9 +207,70 @@ const BaseNode = ({ data }: Props) => {
 
   const productData = useMemo(() => ({ optionId: option.key, nodeId: id }), [id, option.key]);
 
+  const childIndexMoving = useMemo(
+    () => children.findIndex((item) => item.id === draggingData?.nodeId),
+    [children, draggingData?.nodeId],
+  );
+
+  const renderChildren = useMemo(() => {
+    if (childIndexMoving > -1) {
+      return children.slice(0, childIndexMoving + 1);
+    }
+
+    return children;
+  }, [childIndexMoving, children]);
+
   return (
     <div
       className="base-node"
+      style={{
+        position: 'relative',
+      }}
+    >
+      <Product
+        id={id}
+        data={productData}
+        draggingFloating={
+          <div>
+            <BaseNodeReadonly {...rest} data={data} />
+            {renderChildren.map((item) => (
+              <DraggingFloating key={`dragging-floating-${item.id}`} data={item} />
+            ))}
+          </div>
+        }
+      >
+        <LegoRender
+          background={option.color}
+          icon={option.icon}
+          title={option.title}
+          id={id}
+          schemaData={schemaData}
+          categoryId={option.keyMapper}
+        />
+      </Product>
+      {renderChildren?.map((item, index) => (
+        <ChildBaseNode index={index} key={`base-node-child-${item.id}`} data={item} items={children} />
+      ))}
+      <Package id={id} data={{ nodeId: id }} />
+      <BaseNodeConnection data={data} />
+    </div>
+  );
+};
+
+const BaseNodeSingleItem = ({ data }: Props) => {
+  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
+
+  const keyMapper = data.metadata.keyMapper;
+  const option = mapCategories[keyMapper] as StudioCategoryMap;
+  const schemaData = option.data;
+
+  const id = data.id;
+
+  const productData = useMemo(() => ({ optionId: option.key, nodeId: id }), [id, option.key]);
+
+  return (
+    <div
+      className="base-node-wrapper"
       style={{
         position: 'relative',
       }}
@@ -145,13 +286,18 @@ const BaseNode = ({ data }: Props) => {
         />
       </Product>
 
-      {children?.map((item) => <BaseNodeChild key={`base-node-child-${item.id}`} data={item} />)}
-
       <Package id={id} data={{ nodeId: id }} />
-
       <BaseNodeConnection data={data} />
     </div>
   );
 };
 
-export default BaseNode;
+export default function BaseNode(props: Props) {
+  const { data } = props;
+  const children = data?.metadata?.children;
+  if (children.length) {
+    return <BaseNodeMultipleItem {...props} />;
+  }
+
+  return <BaseNodeSingleItem {...props} />;
+}

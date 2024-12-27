@@ -92,6 +92,45 @@ export const GRAPH_DATA_TEMPLATE_2: StudioDataNode[] = [
           },
         },
       },
+      {
+        'id': v4(),
+        'keyMapper': 'network-option-1',
+        'title': 'Import from NFT',
+        'children': [],
+        'data': {},
+        'rect': {
+          'position': {
+            'x': 456.5,
+            'y': 546,
+          },
+        },
+      },
+      {
+        'id': v4(),
+        'keyMapper': 'network-option-1',
+        'title': 'Import from NFT',
+        'children': [],
+        'data': {},
+        'rect': {
+          'position': {
+            'x': 456.5,
+            'y': 546,
+          },
+        },
+      },
+      {
+        'id': v4(),
+        'keyMapper': 'network-option-1',
+        'title': 'Import from NFT',
+        'children': [],
+        'data': {},
+        'rect': {
+          'position': {
+            'x': 456.5,
+            'y': 546,
+          },
+        },
+      },
     ],
     'data': {
       agentName: 'template 2',

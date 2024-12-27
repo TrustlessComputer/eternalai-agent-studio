@@ -11,9 +11,10 @@ type Props = HTMLAttributes<HTMLDivElement> & {
   id: string;
   data: Omit<DraggableDataType, 'type'>;
   disabled?: boolean;
+  draggingFloating?: React.ReactNode;
 };
 
-const Product = ({ id, data, disabled = false, children, ...props }: Props) => {
+const Product = ({ id, data, disabled = false, children, draggingFloating, ...props }: Props) => {
   const extendedData = useMemo(() => {
     return {
       ...data,
@@ -38,7 +39,11 @@ const Product = ({ id, data, disabled = false, children, ...props }: Props) => {
 
   useEffect(() => {
     if (isDragging) {
-      useStudioDndStore.getState().setDragging(children, extendedData);
+      if (draggingFloating) {
+        useStudioDndStore.getState().setDragging(draggingFloating, extendedData);
+      } else {
+        useStudioDndStore.getState().setDragging(children, extendedData);
+      }
     } else {
       useStudioDndStore.getState().setDragging(null, null);
     }

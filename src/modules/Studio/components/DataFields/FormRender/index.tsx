@@ -10,9 +10,10 @@ type Props = React.PropsWithChildren & {
   id: string;
   schemaData?: DataSchema;
   categoryId: string;
+  readonly?: boolean;
 };
 
-function FormRender({ id, schemaData, children }: Props) {
+function FormRender({ id, schemaData, children, readonly }: Props) {
   const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
 
   if (fields.length && schemaData) {
@@ -25,7 +26,7 @@ function FormRender({ id, schemaData, children }: Props) {
           <div className="studio-form-single-field">
             <div className="studio-form-single-field-row">{children}</div>
             <div className="studio-form-single-field-row">
-              <Textbox formId={id} name={field} placeholder={fieldData.placeholder} />
+              <Textbox readonly={readonly} formId={id} name={field} placeholder={fieldData.placeholder} />
             </div>
           </div>
         );
@@ -34,7 +35,7 @@ function FormRender({ id, schemaData, children }: Props) {
           <div className="studio-form-single-field">
             <div className="studio-form-single-field-row">{children}</div>
             <div className="studio-form-single-field-row">
-              <TextArea formId={id} name={field} placeholder={fieldData.placeholder} />
+              <TextArea readonly={readonly} formId={id} name={field} placeholder={fieldData.placeholder} />
             </div>
           </div>
         );
@@ -44,6 +45,7 @@ function FormRender({ id, schemaData, children }: Props) {
             <div className="studio-form-single-field-row">{children}</div>
             <div className="studio-form-single-field-row">
               <Select
+                readonly={readonly}
                 formId={id}
                 name={field}
                 placeholder={fieldData.placeholder}
@@ -66,13 +68,24 @@ function FormRender({ id, schemaData, children }: Props) {
                   <span>{schemaData[field].label}</span>
                   <div>
                     {schemaData[field].type === 'text' && (
-                      <Textbox formId={id} name={field} placeholder={schemaData[field].placeholder} />
+                      <Textbox
+                        readonly={readonly}
+                        formId={id}
+                        name={field}
+                        placeholder={schemaData[field].placeholder}
+                      />
                     )}
                     {schemaData[field].type === 'textarea' && (
-                      <TextArea formId={id} name={field} placeholder={schemaData[field].placeholder} />
+                      <TextArea
+                        readonly={readonly}
+                        formId={id}
+                        name={field}
+                        placeholder={schemaData[field].placeholder}
+                      />
                     )}
                     {schemaData[field].type === 'select' && (
                       <Select
+                        readonly={readonly}
                         formId={id}
                         name={field}
                         placeholder={schemaData[field].placeholder}

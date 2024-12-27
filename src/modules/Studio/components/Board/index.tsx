@@ -47,6 +47,9 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
         connectionMode={ConnectionMode.Loose}
         zoomOnDoubleClick={false}
         selectNodesOnDrag={false}
+        disableKeyboardA11y
+        minZoom={1}
+        maxZoom={1}
       >
         <Controls />
         <Background />

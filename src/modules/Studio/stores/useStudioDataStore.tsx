@@ -9,7 +9,7 @@ type State = {
   clear: () => void;
 };
 
-const useStudioDataStore = create<State>((set, get) => ({
+const useStudioDataStore = create<State>((set) => ({
   data: [],
   setData: (data) => {
     const processingData = (data || []).map((item) => {

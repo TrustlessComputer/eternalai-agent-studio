@@ -35,6 +35,9 @@ const LegoRender = ({
 }) => {
   const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
   const isFixedHeight = useMemo(() => {
+    if (fields.length === 0) {
+      return true;
+    }
     if (fields.length === 1) {
       const field = fields[0];
       const fieldData = (schemaData || {})[field];

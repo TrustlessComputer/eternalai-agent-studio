@@ -102,6 +102,7 @@
     bottom: 0;
     left: 0px;
     width: calc(100% - 1px);
+    z-index: 0;
 
     > div {
       width: 100%;

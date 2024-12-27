@@ -1,9 +1,10 @@
 .studio-field-text-area {
-  border-radius: 20px;
+  border-radius: 8px;
   padding: 8px 12px;
   min-width: 180px;
   width: 100%;
 
+  min-height: 28px;
   border: 1px solid transparent;
 
   &:focus {

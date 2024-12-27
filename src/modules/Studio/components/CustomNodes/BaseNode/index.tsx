@@ -36,10 +36,23 @@ const LegoRender = ({
   readonly?: boolean;
 }) => {
   const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
-  const isDynamicHeight = useMemo(() => fields.length > 1, [fields]);
+  const isFixedHeight = useMemo(() => {
+    if (fields.length === 0) {
+      return true;
+    }
+    if (fields.length === 1) {
+      const field = fields[0];
+      const fieldData = (schemaData || {})[field];
+      if (fieldData.type !== 'textarea') {
+        return true;
+      }
+    }
+
+    return false;
+  }, [fields, schemaData]);
 
   return (
-    <Lego background={background} icon={icon} fixedHeight={!isDynamicHeight}>
+    <Lego background={background} icon={icon} fixedHeight={isFixedHeight}>
       <LegoContent>
         <FormRender readonly={readonly} categoryId={categoryId} id={id} schemaData={schemaData}>
           <TextRender data={title} />

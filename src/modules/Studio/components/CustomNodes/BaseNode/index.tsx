@@ -200,8 +200,6 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
   const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
   const children = data?.metadata?.children;
 
-  console.log('[BaseNodeMultipleItem] data', draggingData);
-
   const keyMapper = data.metadata.keyMapper;
   const option = mapCategories[keyMapper] as StudioCategoryMap;
   const schemaData = option.data;
@@ -212,7 +210,7 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
   );
 
   const renderChildren = useMemo(() => {
-    if (!draggingData?.childIndex) return children;
+    if (!!!draggingData?.childIndex) return children;
 
     return children.slice(0, draggingData.childIndex + 1);
   }, [draggingData, children]);

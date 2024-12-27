@@ -155,7 +155,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
 
         toNode.data.metadata.children = [...toNode.data.metadata.children, newNode];
 
-        const updatedNode = applyNodeChanges(
+        const updatedNodes = applyNodeChanges(
           [
             {
               id: toNode.id,
@@ -167,7 +167,38 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
           ],
           [toNode],
         );
-        useStudioFlowStore.getState().updateNode(updatedNode[0]);
+        useStudioFlowStore.getState().updateNode(updatedNodes[0]);
+      }
+
+      if (
+        from === DndType.PRODUCT_ADDON &&
+        fromData?.belongsTo &&
+        fromData?.optionId &&
+        fromData?.belongsTo !== toData?.belongsTo
+      ) {
+        const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.belongsTo);
+        if (!fromNode) return;
+
+        const addons = cloneData(fromNode.data.metadata.children).filter(
+          (_, index) => index > (fromData?.childIndex || 0),
+        );
+
+        toNode.data.metadata.children = [...toNode.data.metadata.children, ...addons];
+
+        fromNode.data.metadata.children = fromNode.data.metadata.children.filter(
+          (_, index) => index < (fromData?.childIndex || 0),
+        );
+
+        const updatedNodes = applyNodeChanges(
+          [
+            { id: toNode.id, type: 'position', position: toNode.position, positionAbsolute: toNode.position },
+            { id: fromNode.id, type: 'position', position: fromNode.position, positionAbsolute: fromNode.position },
+          ],
+          [toNode, fromNode],
+        );
+
+        useStudioFlowStore.getState().updateNode(updatedNodes[0]);
+        useStudioFlowStore.getState().updateNode(updatedNodes[1]);
       }
     }
 

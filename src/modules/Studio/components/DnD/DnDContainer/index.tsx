@@ -59,7 +59,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
     return newNode;
   };
 
-  const handleDragStart = useCallback((event: DragStartEvent) => {
+  const handleDragStart = useCallback((_event: DragStartEvent) => {
     movingNodeRef.current = null;
   }, []);
 
@@ -278,13 +278,13 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const handleDragOver = useCallback((event: DragOverEvent) => {}, []);
+  const handleDragOver = useCallback((_event: DragOverEvent) => {}, []);
 
-  const handleDragCancel = useCallback((event: DragCancelEvent) => {}, []);
+  const handleDragCancel = useCallback((_event: DragCancelEvent) => {}, []);
 
-  const handleDragAbort = useCallback((event: DragAbortEvent) => {}, []);
+  const handleDragAbort = useCallback((_event: DragAbortEvent) => {}, []);
 
-  const handleDragPending = useCallback((event: DragPendingEvent) => {}, []);
+  const handleDragPending = useCallback((_event: DragPendingEvent) => {}, []);
 
   return (
     <DndContext

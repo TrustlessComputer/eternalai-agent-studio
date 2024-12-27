@@ -1,40 +1,32 @@
 import { create } from 'zustand';
 import { v4 } from 'uuid';
 
-import { StudioCategory } from '../types/category';
+import { StudioDataNode } from '../types/graph';
 
 type State = {
-  data: StudioCategory[];
-  setData: (data: StudioCategory[]) => void;
-  getDataById: (id: string) => StudioCategory | undefined;
+  data: StudioDataNode[];
+  setData: (data: StudioDataNode[]) => void;
+  clear: () => void;
 };
 
 const useStudioDataStore = create<State>((set, get) => ({
   data: [],
   setData: (data) => {
-    const latestData = get().data;
-    const processingData = data
-      .map((item) => {
-        if (item.id) {
-          return item;
-        }
-        const existingItem = latestData.find((latestItem) => latestItem.id === item.id);
-        if (existingItem) {
-          return {
-            ...item,
-            id: existingItem.id,
-          };
-        }
+    const processingData = (data || []).map((item) => {
+      if (item.id) {
+        return item;
+      }
 
-        return {
-          ...item,
-          id: v4(),
-        };
-      })
-      .sort((a, b) => a.order - b.order);
+      return {
+        ...item,
+        id: v4(),
+      };
+    });
     set({ data: processingData });
   },
-  getDataById: (id) => get().data.find((item) => item.id === id),
+  clear: () => {
+    set({ data: [] });
+  },
 }));
 
 export default useStudioDataStore;

@@ -1,20 +1,27 @@
-import { Node } from '@xyflow/react';
-import { Component } from 'react';
+import { Node, XYPosition } from '@xyflow/react';
+import { FunctionComponent } from 'react';
+import { FormDataType, KeyMapperType } from './base';
+
+export type StudioNodeMetadata = Record<string, unknown> & {
+  children: StudioNode[];
+  keyMapper: KeyMapperType;
+};
 
 export type StudioNode = Node<{
-  title: string;
   sourceHandles: string[];
   targetHandles: string[];
-  metadata: Record<string, unknown>;
+  id: string;
+  metadata: StudioNodeMetadata;
 }>;
 
-export type NodeType = 'Baseplate' | 'Slot';
-
+export type StudioDataKeyMapperType = string;
 export type StudioDataNode = {
   id: string;
-  keyMapper: string;
-  title: string | React.ReactNode | Component;
+  keyMapper: KeyMapperType;
+  title: React.ReactNode | FunctionComponent;
   children: StudioDataNode[];
-  type: NodeType;
-  order?: number;
+  data?: FormDataType; // this field can be used to store additional data or form input data
+  rect?: {
+    position: XYPosition;
+  };
 };

@@ -1,0 +1,138 @@
+.lego {
+  position: relative;
+  width: max-content;
+  height: 41.5px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -0.7px;
+    left: 42px;
+    width: calc(100% - 42px);
+    height: 100%;
+    height: 41.5px;
+    border-radius: 0 4px 4px 0;
+    border: 1px solid var(--border-color);
+    border-left: none;
+    background-color: var(--background-color);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .lego--disabled {
+    opacity: 0.6;
+  }
+
+  .lego__stud {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+
+    svg {
+      path {
+        fill: var(--background-color);
+        stroke: var(--border-color);
+        stroke-width: 1px;
+        stroke-opacity: 1;
+      }
+    }
+  }
+
+  .lego__icon {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      height: 16px;
+      width: 16px;
+      fill: var(--background-color);
+      stroke: var(--border-color);
+
+      path {
+        fill: var(--background-color);
+        stroke: var(--border-color);
+        stroke-width: 1px;
+        stroke-opacity: 1;
+      }
+    }
+  }
+
+  .lego__content {
+    // padding: 8px;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .lego__body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 100%;
+    padding: 6px 12px;
+    z-index: 2;
+    position: relative;
+  }
+}
+
+.studio-lego-dynamic {
+  position: relative;
+  padding-top: 24px;
+  padding-bottom: 24px;
+
+  .studio-lego-dynamic__top {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: calc(100% - 1px);
+
+    > div {
+      width: 100%;
+    }
+  }
+
+  .studio-lego-dynamic__bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    width: calc(100% - 1px);
+
+    > div {
+      width: 100%;
+    }
+  }
+
+  .studio-lego-dynamic__body {
+    min-height: 42px;
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-bottom: none;
+    background-color: var(--background-color);
+    z-index: 2;
+    position: relative;
+
+    display: flex;
+    gap: 4px;
+    padding-right: 32px;
+    padding-left: 8px;
+
+    > div {
+      &:nth-child(1) {
+        transform: translateY(-4px);
+      }
+
+      &:nth-child(2) {
+        width: 100%;
+        > div {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

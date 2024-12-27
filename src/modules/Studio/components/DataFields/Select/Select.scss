@@ -1,0 +1,19 @@
+.studio-field-select {
+  border-radius: 20px;
+  padding: 8px 12px;
+  min-width: 180px;
+  width: 100%;
+  border: 1px solid transparent;
+
+  &:focus {
+    border: 1px solid #4a90e2;
+  }
+
+  &.studio-field-select__empty {
+    color: #999;
+  }
+
+  .studio-field-select__placeholder {
+    opacity: 0.6;
+  }
+}

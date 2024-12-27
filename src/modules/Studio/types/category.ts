@@ -1,25 +1,43 @@
-import React, { Component } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
+import { KeyMapperType } from './base';
 
-export type StudioCategoryItem = {
-  id: string;
-  keyMapper: string;
-  title?: string | React.ReactNode | Component | React.FC;
-  value: string | number;
-  disabled?: boolean;
-  tooltip?: string | React.ReactNode | Component | React.FC;
-  icon: string;
-  order: number;
+type DataSchemaField = string;
+type DataSchemaValue = {
+  type: 'text' | 'textarea' | 'checkbox' | 'select';
+  label?: string;
+  placeholder?: string;
+  defaultValue?: string | number | boolean;
+  dataSourceKey?: string;
+  // onValidate?: (value: unknown, dataFormNode: FormDataType) => boolean;
 };
 
-export type StudioCategory = {
-  id: string;
-  keyMapper: string;
-  title?: string | React.ReactNode | Component | React.FC;
-  tooltip?: string | React.ReactNode | Component | React.FC;
-  required?: true;
+export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
+
+type BaseCategoryOption = {
+  key: string;
+  keyMapper: KeyMapperType;
+  title?: React.ReactNode | FunctionComponent;
+  tooltip?: ReactNode;
+  required?: boolean;
   disabled?: boolean;
-  options: StudioCategoryItem[];
+  hidden?: boolean;
+  icon?: React.ReactNode | FunctionComponent;
+  order?: number;
+  customizeRenderOnNavigation?: FunctionComponent;
+  customizeRenderOnSideBar?: FunctionComponent;
+  customizeRenderOnBoard?: FunctionComponent;
+  data?: DataSchema;
+  color?: string;
+};
+
+export type StudioCategoryOption = BaseCategoryOption;
+
+export type StudioCategory = Omit<BaseCategoryOption, 'value' | 'data' | 'color'> & {
+  options: StudioCategoryOption[];
   color: string;
-  multipleChoice: boolean;
-  order: number;
 };
+
+export type StudioCategoryMap = StudioCategory &
+  StudioCategoryOption & {
+    parent: StudioCategory;
+  };

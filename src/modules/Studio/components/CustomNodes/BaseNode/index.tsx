@@ -210,7 +210,7 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
   );
 
   const renderChildren = useMemo(() => {
-    if (!!!draggingData?.childIndex) return children;
+    if (!draggingData || draggingData.childIndex === undefined) return children;
 
     return children.slice(0, draggingData.childIndex + 1);
   }, [draggingData, children]);

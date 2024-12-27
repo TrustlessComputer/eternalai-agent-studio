@@ -120,7 +120,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         const newNode = getNewNode(fromData.optionId, fromOption, childData?.id);
         newNode.data.metadata.children = cloneData(fromNode.data.metadata.children)
           .filter((_, index) => index > (fromData?.childIndex || 0))
-          .map((child) => getNewNode(child.data.metadata.keyMapper, fromOption));
+          .map((child) => getNewNode(child.data.metadata.keyMapper, fromOption, child.id));
 
         fromNode.data.metadata.children = fromNode.data.metadata.children.filter(
           (_, index) => index < (fromData?.childIndex || 0),

@@ -180,7 +180,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         if (!fromNode) return;
 
         const addons = cloneData(fromNode.data.metadata.children).filter(
-          (_, index) => index > (fromData?.childIndex || 0),
+          (_, index) => index >= (fromData?.childIndex || 0),
         );
 
         toNode.data.metadata.children = [...toNode.data.metadata.children, ...addons];

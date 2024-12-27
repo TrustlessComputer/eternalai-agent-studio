@@ -6,16 +6,19 @@ import NoDraggable from '../../DnD/NoDraggable';
 type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
   formId: string;
   name: string;
+  readonly?: boolean;
 };
 
-function Textbox({ formId, placeholder, className, name, ...rest }: Props) {
+function Textbox({ formId, placeholder, className, name, readonly, ...rest }: Props) {
   const { dataForms, setFormFields } = useStudioFormStore();
 
   const value = dataForms[formId]?.[name] || '';
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormFields(formId, {
-      [name]: e.target.value,
-    });
+    if (!readonly) {
+      setFormFields(formId, {
+        [name]: e.target.value,
+      });
+    }
   };
 
   return (

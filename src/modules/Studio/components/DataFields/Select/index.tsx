@@ -10,9 +10,10 @@ type Props = Omit<React.ComponentPropsWithoutRef<'select'>, 'defaultValue'> & {
   name: string;
   placeholder?: string;
   dataSourceKey?: string;
+  readonly?: boolean;
 };
 
-function Select({ formId, className, name, placeholder = 'Select', dataSourceKey, ...rest }: Props) {
+function Select({ formId, className, name, placeholder = 'Select', dataSourceKey, readonly, ...rest }: Props) {
   const { dataForms, setFormFields } = useStudioFormStore();
   const { dataSource } = useStudioDataSourceStore();
 
@@ -26,9 +27,11 @@ function Select({ formId, className, name, placeholder = 'Select', dataSourceKey
 
   const value = dataForms[formId]?.[name] || '';
   const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormFields(formId, {
-      [name]: e.target.value,
-    });
+    if (!readonly) {
+      setFormFields(formId, {
+        [name]: e.target.value,
+      });
+    }
   };
 
   return (

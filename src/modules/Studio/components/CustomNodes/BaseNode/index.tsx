@@ -144,6 +144,7 @@ const BaseNode = ({ data }: Props) => {
           categoryId={option.keyMapper}
         />
       </Product>
+
       {children?.map((item) => <BaseNodeChild key={`base-node-child-${item.id}`} data={item} />)}
 
       <Package id={id} data={{ nodeId: id }} />

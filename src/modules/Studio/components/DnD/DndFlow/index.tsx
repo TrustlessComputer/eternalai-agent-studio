@@ -18,6 +18,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
+import { applyNodeChanges } from '@xyflow/react';
 import { PropsWithChildren, useCallback, useRef } from 'react';
 
 function DndFlow({ children }: PropsWithChildren) {
@@ -81,8 +82,8 @@ function DndFlow({ children }: PropsWithChildren) {
       }
 
       if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
-        const { sourceNode } = splitPackage(fromNode, fromData, fromOption);
-        updateNodes([sourceNode]);
+        splitPackage(fromNode, fromData, fromOption);
+        updateNodes([fromNode]);
       }
     }
 
@@ -94,14 +95,14 @@ function DndFlow({ children }: PropsWithChildren) {
       }
 
       if (from === DndType.PRODUCT && !isTheSameNode) {
-        const { sourceNode, targetNode } = mergeProducts(fromNode, toNode, fromData);
-        updateNodes([sourceNode, targetNode]);
+        mergeProducts(fromNode, toNode, fromData);
+        updateNodes([fromNode, toNode]);
       }
 
       // Move current package to target package
       if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
-        const { sourceNode, targetNode } = movePartOfPackage(fromNode, toNode, fromData);
-        updateNodes([sourceNode, targetNode]);
+        movePartOfPackage(fromNode, toNode, fromData);
+        updateNodes([fromNode, toNode]);
       }
     }
 
@@ -113,8 +114,8 @@ function DndFlow({ children }: PropsWithChildren) {
 
       // Remove the node's children
       if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
-        const { sourceNode } = removePartOfPackage(fromNode, fromData?.childIndex || 0);
-        updateNodes([sourceNode]);
+        removePartOfPackage(fromNode, fromData?.childIndex || 0);
+        updateNodes([fromNode]);
       }
     }
 
@@ -147,12 +148,20 @@ function DndFlow({ children }: PropsWithChildren) {
           y: movingNode.position.y + delta.y,
         };
 
-        updateNodes([
-          {
-            ...movingNode,
-            position: newPosition,
-          },
-        ]);
+        const updatedNode = applyNodeChanges(
+          [
+            {
+              id,
+              type: 'position',
+              position: newPosition,
+              positionAbsolute: newPosition,
+              dragging: true,
+            },
+          ],
+          [movingNode],
+        );
+
+        useStudioFlowStore.getState().updateNode(updatedNode[0]);
       }
     }
   }, []);

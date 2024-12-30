@@ -109,7 +109,9 @@ function DataSync() {
         if (newEntry) {
           // set entry
           useStudioDataStore.getState().setEntry(newEntry);
-          // useStudioCategoryStore.getState().updateCategoriesForEntry(newEntry);
+          useStudioCategoryStore.getState().updateCategoriesForEntry(newEntry);
+        } else {
+          useStudioCategoryStore.getState().updateCategoriesForEntry(null);
         }
       }
     } else {
@@ -117,10 +119,10 @@ function DataSync() {
       if (!existEntry) {
         // remove entry
         useStudioDataStore.getState().setEntry(null);
-        // useStudioCategoryStore.getState().updateCategoriesForEntry(null);
+        useStudioCategoryStore.getState().updateCategoriesForEntry(null);
       }
     }
-    useStudioCategoryStore.getState().updateCategoriesForEntry(entry);
+    // useStudioCategoryStore.getState().updateCategoriesForEntry(entry);
   }, [entry, data, rootCategory]);
 
   return <></>;

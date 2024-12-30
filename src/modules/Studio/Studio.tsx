@@ -9,7 +9,7 @@ import DragMask from './components/DnD/DragMask';
 import Sidebar from './components/Sidebar';
 import { FLOW_EDGE_TYPES, FLOW_NODE_TYPES } from './constants/keyMapper';
 
-import DnDContainer from './components/DnD/DnDContainer';
+import DndFlow from './components/DnD/DndFlow';
 import EventHandler from './components/EventHandler';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
@@ -83,7 +83,7 @@ const StudioComponent = ({ data, className, categories, onChange, dataSource, ..
   }, []);
 
   return (
-    <DnDContainer>
+    <DndFlow>
       <DataFlow onChange={onChange} />
 
       <div className={cx('studio', className)} {...rest}>
@@ -97,7 +97,7 @@ const StudioComponent = ({ data, className, categories, onChange, dataSource, ..
           <Board nodeTypes={extendedNodeTypes} edgeTypes={extendedEdgeTypes} />
         </EventHandler>
       </div>
-    </DnDContainer>
+    </DndFlow>
   );
 };
 

@@ -21,6 +21,7 @@ type State = {
   addNodes: (nodes: StudioNode[]) => void;
 
   updateNode: (node: StudioNode) => void;
+  updateNodes: (nodes: StudioNode[]) => void;
 
   edges: Edge[];
   setEdges: (edges: Edge[]) => void;
@@ -56,6 +57,12 @@ const useStudioFlowStore = create<State>((set, get) => ({
     const updatedNodes = get().nodes.map((n) => (n.id === node.id ? node : n));
     set({ nodes: updatedNodes });
   },
+  updateNodes: (nodes) => {
+    const updatedNodes = get().nodes.map((n) => nodes.find((node) => node.id === n.id) || n);
+
+    set({ nodes: updatedNodes });
+  },
+
   edges: [],
   edgesMapped: {},
   setEdges: (edges) => set({ edges }),

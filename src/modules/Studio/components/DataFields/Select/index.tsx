@@ -5,7 +5,6 @@ import { useMemo } from 'react';
 import useStudioDataSourceStore from '@/modules/Studio/stores/useStudioDataSourceStore';
 import NoDraggable from '../../DnD/NoDraggable';
 import { DataSchema } from '@/modules/Studio/types/category';
-import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { useFormFunction } from '@/modules/Studio/hooks/useFormFunction';
 
 type Props = Omit<React.ComponentPropsWithoutRef<'select'>, 'defaultValue'> & {

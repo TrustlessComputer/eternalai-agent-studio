@@ -105,8 +105,8 @@ const ChildBaseNode = ({
   const option = mapCategories[keyMapper] as StudioCategoryMap;
 
   const productData: Omit<DraggableDataType, 'type'> = useMemo(
-    () => ({ optionKey: option.key, belongsTo, childIndex: index }),
-    [belongsTo, index, option.key],
+    () => ({ optionKey: option.keyMapper, belongsTo, childIndex: index }),
+    [belongsTo, index, option.keyMapper],
   );
 
   const floatingItems = useMemo(() => items.slice(index), [items, index]);
@@ -200,8 +200,8 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
   const schemaData = option.data;
 
   const productData: Omit<DraggableDataType, 'type'> = useMemo(
-    () => ({ optionKey: option.key, belongsTo: data.id }),
-    [data.id, option.key],
+    () => ({ optionKey: option.keyMapper, belongsTo: data.id }),
+    [data.id, option.keyMapper],
   );
 
   const renderChildren = useMemo(() => {
@@ -267,8 +267,8 @@ const BaseNodeSingleItem = ({ data }: Props) => {
   const schemaData = option.data;
 
   const productData: Omit<DraggableDataType, 'type'> = useMemo(
-    () => ({ optionKey: option.key, belongsTo: data.id }),
-    [data.id, option.key],
+    () => ({ optionKey: option.keyMapper, belongsTo: data.id }),
+    [data.id, option.keyMapper],
   );
 
   const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);

@@ -14,7 +14,6 @@ type DataSchemaValue = {
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
 type BaseCategory = {
-  key: string;
   keyMapper: KeyMapperType;
   title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;

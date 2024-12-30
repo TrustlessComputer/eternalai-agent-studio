@@ -2,7 +2,7 @@ import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategorySto
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import useStudioFlowViewStore from '@/modules/Studio/stores/useStudioFlowViewStore';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
-import { StudioCategoryMap } from '@/modules/Studio/types/category';
+import { StudioCategoryMap, StudioCategoryTypeEnum } from '@/modules/Studio/types/category';
 import { DndType, DraggableDataType } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
 import { cloneData, getFormDataFromCategory } from '@/modules/Studio/utils/data';
@@ -94,13 +94,18 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       // Accept new node - from sidebar
       // Create new, dragged from sidebar
       if (from === DndType.SOURCE && fromData?.optionId) {
-        const newNode = getNewNode(fromData.optionId, fromOption, undefined);
+        // create new node with type is inline
+        if (fromOption.type === StudioCategoryTypeEnum.INLINE) {
+          const newNode = getNewNode(fromData.optionId, fromOption, undefined);
 
-        useStudioFlowStore.getState().addNode(newNode);
+          useStudioFlowStore.getState().addNode(newNode);
 
-        console.log('[DndContainer] handleDragEnd case: Dropped on distribution from source', {
-          newNode,
-        });
+          console.log('[DndContainer] handleDragEnd case: Dropped on distribution from source', {
+            newNode,
+          });
+        } else {
+          // create new node with type is standalone
+        }
       }
 
       // Check if draggable node is child of another node => decouple that to standalone node

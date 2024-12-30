@@ -15,6 +15,7 @@ import ProductAddon from '../../DnD/ProductAddon';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
 import TextRender from '../../Render/TextRender';
+import BaseNodeWrapper from '../BaseNodeWrapper';
 
 type Props = NodeProps<StudioNode>;
 
@@ -212,47 +213,49 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
   const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
-    <div
-      className="base-node"
-      style={{
-        position: 'relative',
-      }}
-    >
-      <Product
-        id={data.id}
-        data={productData}
-        draggingFloating={
-          <div>
-            <BaseNodeReadonly {...rest} data={data} />
-            {renderChildren.map((item) => (
-              <DraggingFloating key={`dragging-floating-${item.id}`} data={item} />
-            ))}
-          </div>
-        }
+    <BaseNodeWrapper option={option}>
+      <div
+        className="base-node"
+        style={{
+          position: 'relative',
+        }}
       >
-        <LegoRender
-          background={option.color}
-          icon={option.icon}
-          title={option.title}
+        <Product
           id={data.id}
-          schemaData={schemaData}
-          categoryKey={option.keyMapper}
-        />
-      </Product>
+          data={productData}
+          draggingFloating={
+            <div>
+              <BaseNodeReadonly {...rest} data={data} />
+              {renderChildren.map((item) => (
+                <DraggingFloating key={`dragging-floating-${item.id}`} data={item} />
+              ))}
+            </div>
+          }
+        >
+          <LegoRender
+            background={option.color}
+            icon={option.icon}
+            title={option.title}
+            id={data.id}
+            schemaData={schemaData}
+            categoryKey={option.keyMapper}
+          />
+        </Product>
 
-      {renderChildren?.map((item, index) => (
-        <ChildBaseNode
-          index={index}
-          key={`base-node-child-${item.id}`}
-          data={item}
-          items={children}
-          belongsTo={data.id}
-        />
-      ))}
+        {renderChildren?.map((item, index) => (
+          <ChildBaseNode
+            index={index}
+            key={`base-node-child-${item.id}`}
+            data={item}
+            items={children}
+            belongsTo={data.id}
+          />
+        ))}
 
-      <Package id={data.id} data={packageData} />
-      <BaseNodeConnection />
-    </div>
+        <Package id={data.id} data={packageData} />
+        <BaseNodeConnection />
+      </div>
+    </BaseNodeWrapper>
   );
 };
 
@@ -271,25 +274,26 @@ const BaseNodeSingleItem = ({ data }: Props) => {
   const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
-    <div
-      className="base-node-wrapper"
-      style={{
-        position: 'relative',
-      }}
-    >
-      <div style={{ position: 'relative', width: '100%' }}>
-        <Product id={data.id} data={productData}>
-          <LegoRender
-            background={option.color}
-            icon={option.icon}
-            title={option.title}
-            id={data.id}
-            schemaData={schemaData}
-            categoryKey={option.keyMapper}
-          />
-        </Product>
+    <BaseNodeWrapper option={option}>
+      <div
+        className="base-node-wrapper"
+        style={{
+          position: 'relative',
+        }}
+      >
+        <div style={{ position: 'relative', width: '100%' }}>
+          <Product id={data.id} data={productData}>
+            <LegoRender
+              background={option.color}
+              icon={option.icon}
+              title={option.title}
+              id={data.id}
+              schemaData={schemaData}
+              categoryKey={option.keyMapper}
+            />
+          </Product>
 
-        {/* <div className="base-node__handles">
+          {/* <div className="base-node__handles">
           {data.sourceHandles?.map((handle, index) => (
             <Fragment key={handle}>
               <Handle
@@ -309,11 +313,12 @@ const BaseNodeSingleItem = ({ data }: Props) => {
             </Fragment>
           ))}
         </div> */}
-      </div>
+        </div>
 
-      <Package id={data.id} data={packageData} />
-      <BaseNodeConnection />
-    </div>
+        <Package id={data.id} data={packageData} />
+        <BaseNodeConnection />
+      </div>
+    </BaseNodeWrapper>
   );
 };
 

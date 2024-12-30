@@ -34,8 +34,7 @@ export enum StudioCategoryTypeEnum {
   STANDALONE = 'standalone',
 }
 
-export type StudioCategoryOption = BaseCategory & {
-  type?: StudioCategoryTypeEnum; // default is inline
+export type StudioCategoryDragDropFunctionType = {
   /**
    * onSnapValidate
    * handle drag and drop to attach or detach item
@@ -75,7 +74,15 @@ export type StudioCategoryOption = BaseCategory & {
    * @returns
    */
   onDroppedOutValidate?: (id: string, option: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean; // remove exist item from board to sidebar
+};
 
+export type StudioCategoryBoxWrapperType = {
+  draggable?: boolean;
+  title?: React.ReactNode | FunctionComponent;
+  render?: (children: React.ReactNode, option: StudioCategoryOption) => ReactNode;
+};
+
+export type StudioCategoryFormFunctionType = {
   // /**
   //  * onFormChange
   //  * handle form change event
@@ -112,6 +119,13 @@ export type StudioCategoryOption = BaseCategory & {
   //  */
   onFieldValidate?: (field: string, value: unknown) => boolean;
 };
+
+export type StudioCategoryOption = BaseCategory &
+  StudioCategoryDragDropFunctionType &
+  StudioCategoryFormFunctionType & {
+    type?: StudioCategoryTypeEnum; // default is inline
+    boxWrapper?: StudioCategoryBoxWrapperType;
+  };
 
 export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'color'> & {
   options: StudioCategoryOption[];

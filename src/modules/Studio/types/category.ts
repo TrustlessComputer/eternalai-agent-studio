@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactNode } from 'react';
 import { FormDataType, KeyMapperType } from './base';
+import { StudioNode } from './graph';
 
 type DataSchemaField = string;
 type DataSchemaValue = {
@@ -40,17 +41,19 @@ export type StudioCategoryDragDropFunctionType = {
    * handle drag and drop to attach or detach item
    * @param id current option item id
    * @param option current option item
-   * @param to to option item
+   * @param toOption to option item
    * @param formData option form data
    * @param allFormData all form data
    * @returns
    */
   onSnapValidate?: (
-    id: string,
+    id: string | undefined,
     option: StudioCategoryOption,
-    to: StudioCategoryOption,
-    formData: FormDataType,
+    toOption: StudioCategoryOption,
+    formData: FormDataType | null,
     allFormData: FormDataType,
+    fromNode?: StudioNode,
+    toNode?: StudioNode,
   ) => boolean;
 
   /**
@@ -62,7 +65,13 @@ export type StudioCategoryDragDropFunctionType = {
    * @param allFormData all form data
    * @returns
    */
-  onDroppedInValidate?: (id: string, option: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean; // add new item from sidebar to board
+  onDroppedInValidate?: (
+    id: string | undefined,
+    option: StudioCategoryOption,
+    formData: FormDataType | null,
+    allFormData: FormDataType,
+    toNode?: StudioNode,
+  ) => boolean; // add new item from sidebar to board
 
   /**
    * onDroppedOutValidate
@@ -73,7 +82,13 @@ export type StudioCategoryDragDropFunctionType = {
    * @param allFormData all form data
    * @returns
    */
-  onDroppedOutValidate?: (id: string, option: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean; // remove exist item from board to sidebar
+  onDroppedOutValidate?: (
+    id: string | undefined,
+    option: StudioCategoryOption,
+    formData: FormDataType | null,
+    allFormData: FormDataType,
+    fromNode?: StudioNode,
+  ) => boolean; // remove exist item from board to sidebar
 };
 
 export type StudioCategoryBoxWrapperType = {

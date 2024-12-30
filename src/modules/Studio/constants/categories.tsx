@@ -1,5 +1,7 @@
 import { LegoComponentIcon } from '../components/icons/lego';
-import { StudioCategory, StudioCategoryTypeEnum } from '../types/category';
+import { FormDataType } from '../types/base';
+import { StudioCategory, StudioCategoryOption, StudioCategoryTypeEnum } from '../types/category';
+import { StudioNode } from '../types/graph';
 
 const AGENT: StudioCategory = {
   key: 'agent',
@@ -28,6 +30,23 @@ const AGENT: StudioCategory = {
       boxWrapper: {
         draggable: true,
         title: 'Create agent',
+      },
+      onDroppedInValidate: (
+        id: string | undefined,
+        option: StudioCategoryOption,
+        formData: FormDataType | null,
+        allFormData: FormDataType,
+        toNode?: StudioNode,
+      ) => {
+        console.log('___________onDropInValidate', {
+          id,
+          option,
+          formData,
+          allFormData,
+          toNode,
+        });
+
+        return true;
       },
       onFieldValidate: (name, value) => {
         return true;
@@ -206,4 +225,150 @@ export const STANDALONE: StudioCategory = {
   order: -1,
 };
 
-export const MODEL_CATEGORIES: StudioCategory[] = [AGENT, PERSONALITY, NETWORK, STANDALONE];
+export const CAN_NOT_ADD: StudioCategory = {
+  key: 'validate',
+  keyMapper: 'validate',
+  title: 'Validates',
+  required: true,
+  color: '#FF0FF0',
+  options: [
+    {
+      key: 'validate-cannot-add-option-1',
+      keyMapper: 'validate-cannot-add-option-1',
+      title: 'Can not add',
+      tooltip: '',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      order: 0,
+      type: 'standalone' as StudioCategoryTypeEnum,
+      data: {
+        field1: {
+          type: 'text',
+          label: 'Field 1',
+          placeholder: 'Field 1',
+          defaultValue: '',
+        },
+        field2: {
+          type: 'textarea',
+          label: 'Field 2',
+          placeholder: 'Field 2',
+          defaultValue: '',
+        },
+      },
+      onFieldValidate: (name, value) => {
+        return false;
+      },
+      onDroppedInValidate: (
+        id: string | undefined,
+        option: StudioCategoryOption,
+        formData: FormDataType | null,
+        allFormData: FormDataType,
+        toNode?: StudioNode,
+      ) => {
+        console.log('___________onDropInValidate', {
+          id,
+          option,
+          formData,
+          allFormData,
+          toNode,
+        });
+
+        return false;
+      },
+    },
+
+    {
+      key: 'validate-add-without-snap-option-1',
+      keyMapper: 'validate-add-without-option-1',
+      title: 'Add - no snap',
+      tooltip: '',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      order: 0,
+      type: 'standalone' as StudioCategoryTypeEnum,
+      data: {
+        field1: {
+          type: 'text',
+          label: 'Field 1',
+          placeholder: 'Field 1',
+          defaultValue: '',
+        },
+        field2: {
+          type: 'textarea',
+          label: 'Field 2',
+          placeholder: 'Field 2',
+          defaultValue: '',
+        },
+      },
+      onFieldValidate: (name, value) => {
+        return false;
+      },
+      onSnapValidate: (
+        id: string | undefined,
+        option: StudioCategoryOption,
+        toOption: StudioCategoryOption,
+        formData: FormDataType | null,
+        allFormData: FormDataType,
+        fromNode?: StudioNode,
+        toNode?: StudioNode,
+      ) => {
+        console.log('___________onSnapValidate', {
+          id,
+          option,
+          toOption,
+          formData,
+          allFormData,
+          fromNode,
+          toNode,
+        });
+
+        return false;
+      },
+    },
+    {
+      key: 'validate-add-snap-no-remove-option-1',
+      keyMapper: 'validate-add-snap-no-remove-option-1',
+      title: 'Add - Snap - no remove',
+      tooltip: '',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      order: 0,
+      type: 'standalone' as StudioCategoryTypeEnum,
+      data: {
+        field1: {
+          type: 'text',
+          label: 'Field 1',
+          placeholder: 'Field 1',
+          defaultValue: '',
+        },
+        field2: {
+          type: 'textarea',
+          label: 'Field 2',
+          placeholder: 'Field 2',
+          defaultValue: '',
+        },
+      },
+      onFieldValidate: (name, value) => {
+        return false;
+      },
+      onDroppedOutValidate: (
+        id: string | undefined,
+        option: StudioCategoryOption,
+        formData: FormDataType | null,
+        allFormData: FormDataType,
+        fromNode?: StudioNode,
+      ) => {
+        console.log('___________onDroppedOutValidate', {
+          id,
+          option,
+          formData,
+          allFormData,
+          fromNode,
+        });
+
+        return false;
+      },
+    },
+  ],
+  icon: <LegoComponentIcon />,
+  order: -1,
+};
+
+export const MODEL_CATEGORIES: StudioCategory[] = [AGENT, PERSONALITY, NETWORK, STANDALONE, CAN_NOT_ADD];

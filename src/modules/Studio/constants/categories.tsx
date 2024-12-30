@@ -25,6 +25,10 @@ const AGENT: StudioCategory = {
           defaultValue: '',
         },
       },
+      boxWrapper: {
+        draggable: true,
+        title: 'Create agent',
+      },
       onFieldValidate: (name, value) => {
         return true;
       },

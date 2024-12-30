@@ -76,6 +76,12 @@ export type StudioCategoryDragDropFunctionType = {
   onDroppedOutValidate?: (id: string, option: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean; // remove exist item from board to sidebar
 };
 
+export type StudioCategoryBoxWrapperType = {
+  draggable?: boolean;
+  title?: React.ReactNode | FunctionComponent;
+  render?: (children: React.ReactNode, option: StudioCategoryOption) => ReactNode;
+};
+
 export type StudioCategoryFormFunctionType = {
   // /**
   //  * onFormChange
@@ -118,6 +124,7 @@ export type StudioCategoryOption = BaseCategory &
   StudioCategoryDragDropFunctionType &
   StudioCategoryFormFunctionType & {
     type?: StudioCategoryTypeEnum; // default is inline
+    boxWrapper?: StudioCategoryBoxWrapperType;
   };
 
 export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'color'> & {

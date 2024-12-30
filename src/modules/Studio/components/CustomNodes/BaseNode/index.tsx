@@ -225,7 +225,7 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
   const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
-    <BaseNodeWrapper>
+    <BaseNodeWrapper option={option}>
       <div
         className="base-node"
         style={{
@@ -286,7 +286,7 @@ const BaseNodeSingleItem = ({ data }: Props) => {
   const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
-    <BaseNodeWrapper>
+    <BaseNodeWrapper option={option}>
       <div
         className="base-node-wrapper"
         style={{

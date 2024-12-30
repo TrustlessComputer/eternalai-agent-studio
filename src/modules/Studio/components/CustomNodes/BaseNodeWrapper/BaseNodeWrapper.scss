@@ -1,5 +1,19 @@
 .studio-base-node-wrapper {
-  border-radius: 12px;
-  border: 12px solid #f0f0f0;
-  padding: 24px;
+  border-radius: 10px;
+  border: 1px solid #878682;
+  padding: 4px;
+  position: relative;
+
+  .studio-base-node-wrapper__title {
+    padding: 8px 8px;
+  }
+
+  // .box-wrapper-draggable-wrapper {
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 100%;
+  //   z-index: 1;
+  // }
 }

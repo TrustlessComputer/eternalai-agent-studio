@@ -67,16 +67,16 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
 
     const fromData = active?.data?.current as DraggableDataType;
     const from = fromData?.type;
-    const fromCategory = useStudioCategoryStore.getState().mapCategories[fromData?.categoryId || ''] as StudioCategory;
+    const fromCategory = useStudioCategoryStore.getState().mapCategories[fromData?.categoryKey || ''] as StudioCategory;
     const fromOption = useStudioCategoryStore.getState().mapCategories[
-      fromData?.optionId || ''
+      fromData?.optionKey || ''
     ] as StudioCategoryOption;
     const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.belongsTo);
 
     const toData = over?.data?.current as DraggableDataType;
     const to = toData?.type;
-    const toCategory = useStudioCategoryStore.getState().mapCategories[toData?.categoryId || ''] as StudioCategory;
-    const toOption = useStudioCategoryStore.getState().mapCategories[toData?.optionId || ''] as StudioCategoryOption;
+    const toCategory = useStudioCategoryStore.getState().mapCategories[toData?.categoryKey || ''] as StudioCategory;
+    const toOption = useStudioCategoryStore.getState().mapCategories[toData?.optionKey || ''] as StudioCategoryOption;
     const toNode = useStudioFlowStore.getState().nodes.find((node) => node.id === toData?.belongsTo);
 
     const isTheSameNode = fromNode?.id === toNode?.id;
@@ -97,8 +97,12 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
 
     if (to === DndType.DISTRIBUTION) {
       // Create WHEN it's Standalone && from Source
-      if (from === DndType.SOURCE && fromOption.type === StudioCategoryTypeEnum.STANDALONE && fromData?.optionId) {
-        const newNode = getNewNode(fromData.optionId, fromOption);
+      if (
+        from === DndType.SOURCE &&
+        (fromOption.type === StudioCategoryTypeEnum.STANDALONE || fromCategory.isRoot) &&
+        fromData?.optionKey
+      ) {
+        const newNode = getNewNode(fromData.optionKey, fromOption);
 
         useStudioFlowStore.getState().addNode(newNode);
 
@@ -108,12 +112,12 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       }
 
       // Decouple
-      // if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode && fromData?.belongsTo && fromData?.optionId) {
+      // if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode && fromData?.belongsTo && fromData?.optionKey) {
       //   const childData = !isNil(fromData.childIndex)
       //     ? fromNode.data.metadata.children[fromData.childIndex as number]
       //     : null;
 
-      //   const newNode = getNewNode(fromData.optionId, fromOption, childData?.id);
+      //   const newNode = getNewNode(fromData.optionKey, fromOption, childData?.id);
       //   newNode.data.metadata.children = cloneData(fromNode.data.metadata.children)
       //     .filter((_, index) => index > (fromData?.childIndex || 0))
       //     .map((child) => getNewNode(child.data.metadata.keyMapper, fromOption, child.id));
@@ -151,13 +155,13 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       // }
 
       // Create WHEN it's Inline && from Source
-      if (from === DndType.SOURCE && fromOption.type === StudioCategoryTypeEnum.INLINE && fromData?.optionId) {
+      if (from === DndType.SOURCE && fromOption.type === StudioCategoryTypeEnum.INLINE && fromData?.optionKey) {
         console.log('[DndContainer] handleDragEnd case: Dropped on package from source', {
           fromData,
           toData,
         });
 
-        const newNode = getNewNode(fromData.optionId, fromOption);
+        const newNode = getNewNode(fromData.optionKey, fromOption);
 
         toNode.data.metadata.children = [...toNode.data.metadata.children, newNode];
 
@@ -183,7 +187,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         fromNode &&
         fromOption.type === StudioCategoryTypeEnum.INLINE &&
         fromData?.belongsTo &&
-        fromData?.optionId
+        fromData?.optionKey
       ) {
         const addons = cloneData(fromNode.data.metadata.children).filter(
           (_, index) => index >= (fromData?.childIndex || 0),

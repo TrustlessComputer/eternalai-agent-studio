@@ -24,7 +24,7 @@ const LegoRender = ({
   id,
   schemaData,
   title,
-  categoryId,
+  categoryKey,
   readonly,
 }: {
   background?: string;
@@ -32,7 +32,7 @@ const LegoRender = ({
   id: string;
   schemaData?: DataSchema;
   title: React.ReactNode | FunctionComponent;
-  categoryId: string;
+  categoryKey: string;
   readonly?: boolean;
 }) => {
   const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
@@ -60,7 +60,7 @@ const LegoRender = ({
       }}
     >
       <LegoContent>
-        <FormRender readonly={readonly} categoryId={categoryId} id={id} schemaData={schemaData}>
+        <FormRender readonly={readonly} categoryKey={categoryKey} id={id} schemaData={schemaData}>
           <TextRender data={title} />
         </FormRender>
       </LegoContent>
@@ -81,7 +81,7 @@ const DraggingFloating = ({ data }: { data: StudioNode }) => {
       title={option.title}
       id={data.id}
       schemaData={option.data}
-      categoryId={option.keyMapper}
+      categoryKey={option.keyMapper}
       readonly
     />
   );
@@ -104,7 +104,7 @@ const ChildBaseNode = ({
   const option = mapCategories[keyMapper] as StudioCategoryMap;
 
   const productData: Omit<DraggableDataType, 'type'> = useMemo(
-    () => ({ optionId: option.key, belongsTo, childIndex: index }),
+    () => ({ optionKey: option.key, belongsTo, childIndex: index }),
     [belongsTo, index, option.key],
   );
 
@@ -128,7 +128,7 @@ const ChildBaseNode = ({
         title={option.title}
         id={data.id}
         schemaData={option.data}
-        categoryId={option.keyMapper}
+        categoryKey={option.keyMapper}
       />
     </ProductAddon>
   );
@@ -148,7 +148,7 @@ const BaseNodeReadonly = ({ data }: Props) => {
       title={option.title}
       id={data.id}
       schemaData={schemaData}
-      categoryId={option.keyMapper}
+      categoryKey={option.keyMapper}
       readonly
     />
   );
@@ -211,7 +211,7 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
   const schemaData = option.data;
 
   const productData: Omit<DraggableDataType, 'type'> = useMemo(
-    () => ({ optionId: option.key, belongsTo: data.id }),
+    () => ({ optionKey: option.key, belongsTo: data.id }),
     [data.id, option.key],
   );
 
@@ -248,7 +248,7 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
           title={option.title}
           id={data.id}
           schemaData={schemaData}
-          categoryId={option.keyMapper}
+          categoryKey={option.keyMapper}
         />
       </Product>
 
@@ -276,7 +276,7 @@ const BaseNodeSingleItem = ({ data }: Props) => {
   const schemaData = option.data;
 
   const productData: Omit<DraggableDataType, 'type'> = useMemo(
-    () => ({ optionId: option.key, belongsTo: data.id }),
+    () => ({ optionKey: option.key, belongsTo: data.id }),
     [data.id, option.key],
   );
 
@@ -297,7 +297,7 @@ const BaseNodeSingleItem = ({ data }: Props) => {
             title={option.title}
             id={data.id}
             schemaData={schemaData}
-            categoryId={option.keyMapper}
+            categoryKey={option.keyMapper}
           />
         </Product>
 

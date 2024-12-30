@@ -9,7 +9,7 @@ import './FormRender.scss';
 type Props = React.PropsWithChildren & {
   id: string;
   schemaData?: DataSchema;
-  categoryId: string;
+  categoryKey: string;
   readonly?: boolean;
 };
 

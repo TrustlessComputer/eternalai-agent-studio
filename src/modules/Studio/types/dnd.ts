@@ -1,7 +1,7 @@
 export type DraggableDataType = {
   type: DndType;
-  categoryId?: string;
-  optionId?: string;
+  categoryKey?: string;
+  optionKey?: string;
   belongsTo?: string;
   childIndex?: number;
 };

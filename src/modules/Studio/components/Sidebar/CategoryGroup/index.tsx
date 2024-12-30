@@ -8,11 +8,11 @@ import { useMemo } from 'react';
 import Source from '../../DnD/Source';
 import './CategoryGroup.scss';
 
-type Props = StudioCategory;
+type Props = StudioCategory & {
+  categoryKey: string;
+};
 
-const CategoryGroup = (category: Props) => {
-  const { title, color, options, customizeRenderOnSideBar, required, disabled } = useMemo(() => category, [category]);
-
+const CategoryGroup = ({ categoryKey, title, color, options, customizeRenderOnSideBar, required, disabled }: Props) => {
   const filteredOptions = useMemo(() => {
     return options.filter((item) => !item.hidden);
   }, [options]);
@@ -26,21 +26,19 @@ const CategoryGroup = (category: Props) => {
       <h5 className="category-group__title">
         <TextRender data={title} /> {required ? <span className="category-navigation_required">*</span> : ''}
       </h5>
+
       <div className="category-group__options">
         {filteredOptions.map((option) => {
-          if (disabled || option.disabled) {
-            return (
-              <Lego key={option.key} background={color} icon={option.icon} disabled={disabled || option.disabled}>
-                <LegoContent>
-                  <TextRender data={option.title} />
-                </LegoContent>
-              </Lego>
-            );
-          }
+          const isDisabled = disabled || option.disabled;
 
           return (
-            <Source id={option.key} key={option.key} data={{ optionId: option.key }}>
-              <Lego background={color} icon={option.icon} disabled={disabled || option.disabled}>
+            <Source
+              id={option.key}
+              key={option.key}
+              data={{ categoryKey, optionKey: option.key }}
+              disabled={isDisabled}
+            >
+              <Lego background={color} icon={option.icon} disabled={isDisabled}>
                 <LegoContent>
                   <TextRender data={option.title} />
                 </LegoContent>

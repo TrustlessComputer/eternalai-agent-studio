@@ -15,7 +15,7 @@ type DataSchemaValue = {
 
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
-type BaseCategoryOption = {
+type BaseCategory = {
   key: string;
   keyMapper: KeyMapperType;
   title?: React.ReactNode | FunctionComponent;
@@ -37,14 +37,14 @@ export enum StudioCategoryTypeEnum {
   STANDALONE = 'standalone',
 }
 
-export type StudioCategoryOption = BaseCategoryOption & {
+export type StudioCategoryOption = BaseCategory & {
   type?: StudioCategoryTypeEnum; // default is inline
   onSnapValidate?: (value: StudioCategoryOption, to: StudioCategoryOption) => boolean;
   onDroppedInValidate?: (value: StudioCategoryOption) => boolean; // add new item from sidebar to board
   onDroppedOutValidate?: (value: StudioCategoryOption) => boolean; // remove exist item from board to sidebar
 };
 
-export type StudioCategory = Omit<BaseCategoryOption, 'value' | 'data' | 'color'> & {
+export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'color'> & {
   options: StudioCategoryOption[];
   color: string;
   isRoot?: boolean; // default is false. have only one root in entire category

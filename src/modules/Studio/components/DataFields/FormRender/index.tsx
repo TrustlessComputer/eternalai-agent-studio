@@ -32,14 +32,6 @@ function FormRender({ id, schemaData, children, readonly }: Props) {
             </div>
           );
         } else if (fieldData.type === 'textarea') {
-          // return (
-          //   <div className="studio-form-single-field">
-          //     <div className="studio-form-single-field-row">{children}</div>
-          //     <div className="studio-form-single-field-row">
-          //       <TextArea readonly={readonly} formId={id} name={field} placeholder={fieldData.placeholder} />
-          //     </div>
-          //   </div>
-          // );
           return (
             <div className="studio-form-multiple-field">
               <div className="studio-form-multiple-field-heading">{children}</div>

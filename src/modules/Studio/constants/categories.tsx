@@ -158,4 +158,39 @@ const NETWORK: StudioCategory = {
   icon: <LegoComponentIcon />,
 };
 
-export const MODEL_CATEGORIES: StudioCategory[] = [AGENT, PERSONALITY, NETWORK];
+export const STANDALONE: StudioCategory = {
+  key: 'standalone',
+  keyMapper: 'standalone',
+  title: 'Standalone',
+  required: true,
+  color: '#FF0000',
+  options: [
+    {
+      key: 'standalone-option-1',
+      keyMapper: 'standalone-option-1',
+      title: 'New Standalone',
+      tooltip: '',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      order: 0,
+      type: 'standalone' as StudioCategoryTypeEnum,
+      data: {
+        field1: {
+          type: 'text',
+          label: 'Field 1',
+          placeholder: 'Field 1',
+          defaultValue: '',
+        },
+        field2: {
+          type: 'textarea',
+          label: 'Field 2',
+          placeholder: 'Field 2',
+          defaultValue: '',
+        },
+      },
+    },
+  ],
+  icon: <LegoComponentIcon />,
+  order: -1,
+};
+
+export const MODEL_CATEGORIES: StudioCategory[] = [AGENT, PERSONALITY, NETWORK, STANDALONE];

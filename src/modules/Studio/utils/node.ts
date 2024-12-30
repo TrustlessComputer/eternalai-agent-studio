@@ -3,7 +3,7 @@ import { XYPosition } from '@xyflow/react';
 import { AreaClassName } from '../constants/area-class-name';
 import { StudioDataNode, StudioNode, StudioNodeMetadata } from '../types/graph';
 
-export const createNewBaseNode = (id: string, position: XYPosition, metadata: StudioNodeMetadata) => {
+export const createNewBaseNode = (id: string, position: XYPosition, metadata: StudioNodeMetadata): StudioNode => {
   return {
     id,
     type: NodeType.BASE_NODE,

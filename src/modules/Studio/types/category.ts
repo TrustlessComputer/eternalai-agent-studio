@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react';
-import { KeyMapperType } from './base';
+import { FormDataType, KeyMapperType } from './base';
 
 type DataSchemaField = string;
 type DataSchemaValue = {
@@ -8,7 +8,9 @@ type DataSchemaValue = {
   placeholder?: string;
   defaultValue?: string | number | boolean;
   dataSourceKey?: string;
-  // onValidate?: (value: unknown, dataFormNode: FormDataType) => boolean;
+
+  onDataValidate?: <T extends FormDataType>(value: T) => boolean;
+  onDataFieldsChange?: <T extends FormDataType>(value: T, onUpdateToStore?: (update: T) => void) => T;
 };
 
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
@@ -37,6 +39,9 @@ export enum StudioCategoryTypeEnum {
 
 export type StudioCategoryOption = BaseCategoryOption & {
   type?: StudioCategoryTypeEnum; // default is inline
+  onSnapValidate?: (value: StudioCategoryOption, to: StudioCategoryOption) => boolean;
+  onDroppedInValidate?: (value: StudioCategoryOption) => boolean; // add new item from sidebar to board
+  onDroppedOutValidate?: (value: StudioCategoryOption) => boolean; // remove exist item from board to sidebar
 };
 
 export type StudioCategory = Omit<BaseCategoryOption, 'value' | 'data' | 'color'> & {

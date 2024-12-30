@@ -7,7 +7,7 @@ import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategorySto
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { DataSchema, StudioCategoryMap } from '@/modules/Studio/types/category';
 import { DraggableDataType } from '@/modules/Studio/types/dnd';
-import { FunctionComponent, useMemo } from 'react';
+import { Fragment, FunctionComponent, useMemo } from 'react';
 import FormRender from '../../DataFields/FormRender';
 import Package from '../../DnD/Package';
 import Product from '../../DnD/Product';
@@ -52,7 +52,14 @@ const LegoRender = ({
   }, [fields, schemaData]);
 
   return (
-    <Lego background={background} icon={icon} fixedHeight={isFixedHeight}>
+    <Lego
+      background={background}
+      icon={icon}
+      fixedHeight={isFixedHeight}
+      style={{
+        width: '100%',
+      }}
+    >
       <LegoContent>
         <FormRender readonly={readonly} categoryId={categoryId} id={id} schemaData={schemaData}>
           <TextRender data={title} />
@@ -153,7 +160,7 @@ const BaseNodeConnection = ({ data }: { data: StudioNode['data'] }) => {
     <>
       {data.sourceHandles?.map((handle, index) => (
         <Handle
-          key={`${Position.Right}__${handle}__${index}`}
+          key={handle}
           id={handle}
           type="source"
           position={Position.Right}
@@ -163,7 +170,7 @@ const BaseNodeConnection = ({ data }: { data: StudioNode['data'] }) => {
       ))}
       {data.sourceHandles?.map((handle, index) => (
         <Handle
-          key={`${Position.Top}__${handle}__${index}`}
+          key={handle}
           id={handle}
           type="source"
           position={Position.Top}
@@ -173,7 +180,7 @@ const BaseNodeConnection = ({ data }: { data: StudioNode['data'] }) => {
       ))}
       {data.sourceHandles?.map((handle, index) => (
         <Handle
-          key={`${Position.Left}__${handle}__${index}`}
+          key={handle}
           id={handle}
           type="source"
           position={Position.Left}
@@ -183,7 +190,7 @@ const BaseNodeConnection = ({ data }: { data: StudioNode['data'] }) => {
       ))}
       {data.sourceHandles?.map((handle, index) => (
         <Handle
-          key={`${Position.Bottom}__${handle}__${index}`}
+          key={handle}
           id={handle}
           type="source"
           position={Position.Bottom}
@@ -283,16 +290,39 @@ const BaseNodeSingleItem = ({ data }: Props) => {
         position: 'relative',
       }}
     >
-      <Product id={data.id} data={productData}>
-        <LegoRender
-          background={option.color}
-          icon={option.icon}
-          title={option.title}
-          id={data.id}
-          schemaData={schemaData}
-          categoryId={option.keyMapper}
-        />
-      </Product>
+      <div style={{ position: 'relative', width: '100%' }}>
+        <Product id={data.id} data={productData}>
+          <LegoRender
+            background={option.color}
+            icon={option.icon}
+            title={option.title}
+            id={data.id}
+            schemaData={schemaData}
+            categoryId={option.keyMapper}
+          />
+        </Product>
+
+        <div className="base-node__handles">
+          {data.sourceHandles?.map((handle, index) => (
+            <Fragment key={handle}>
+              <Handle
+                id={handle}
+                type="source"
+                position={Position.Right}
+                className="base-node__handles__handle"
+                isConnectable={false}
+              />
+              <Handle
+                id={handle}
+                type="source"
+                position={Position.Left}
+                className="base-node__handles__handle"
+                isConnectable={false}
+              />
+            </Fragment>
+          ))}
+        </div>
+      </div>
 
       <Package id={data.id} data={packageData} />
       <BaseNodeConnection data={data} />

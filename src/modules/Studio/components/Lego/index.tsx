@@ -26,6 +26,7 @@ const FixedLego = ({
   className,
   children,
   borderColor,
+  style,
   ...props
 }: Omit<Props, 'fixedHeight'> & {
   borderColor: string;
@@ -40,6 +41,7 @@ const FixedLego = ({
         {
           '--border-color': borderColor,
           '--background-color': background,
+          ...style,
         } as CSSProperties
       }
     >

@@ -86,7 +86,7 @@ function DndFlow({ children }: PropsWithChildren) {
       // Add new nodes
       if (from === DndType.SOURCE) {
         const isValid =
-          fromOption.onDroppedInValidate?.({
+          fromOption?.onDroppedInValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
             formData: currentFormData,
@@ -118,7 +118,7 @@ function DndFlow({ children }: PropsWithChildren) {
     if (to === DndType.PACKAGE && toNode) {
       if (from === DndType.SOURCE) {
         const isValid =
-          fromOption.onDroppedInValidate?.({
+          fromOption?.onDroppedInValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
             formData: currentFormData,

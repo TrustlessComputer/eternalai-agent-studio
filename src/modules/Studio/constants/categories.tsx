@@ -270,7 +270,7 @@ export const CAN_NOT_ADD: StudioCategory = {
 
     {
       key: 'validate-add-without-snap-option-1',
-      keyMapper: 'validate-add-without-option-1',
+      keyMapper: 'validate-add-without-snap-option-1',
       title: 'Add - no snap',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',

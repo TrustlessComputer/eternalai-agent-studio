@@ -12,6 +12,7 @@ const args = {
   categories: MODEL_CATEGORIES,
   dataSource: DATA_SOURCE,
   data: GRAPH_DATA_TEMPLATE_2,
+  // data: [],
 } satisfies StudioProps;
 
 const meta: Meta<typeof Studio> = {

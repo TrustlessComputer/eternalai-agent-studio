@@ -93,11 +93,48 @@ function Publish({ onChange }: { onChange?: (data: StudioDataNode[]) => void }) 
   return <></>;
 }
 
+function DataSync() {
+  const entry = useStudioDataStore((state) => state.entry);
+  const data = useStudioDataStore((state) => state.data);
+  const rootCategory = useStudioCategoryStore((state) => state.rootCategory);
+
+  const entryThrottle = useThrottleValue(entry, 500);
+
+  useEffect(() => {
+    if (!entry) {
+      if (rootCategory) {
+        const rootOptions = rootCategory.options as StudioCategoryMap[];
+        const rootOptionsKeyMapper = rootOptions.map((item) => item.keyMapper);
+        const newEntry = data?.find(
+          (item) => item.keyMapper === rootCategory.keyMapper || rootOptionsKeyMapper.includes(item.keyMapper),
+        );
+        if (newEntry) {
+          // set entry
+          useStudioDataStore.getState().setEntry(newEntry);
+        }
+      }
+    } else {
+      const existEntry = data.find((item) => item.id === entry.id);
+      if (!existEntry) {
+        // remove entry
+        useStudioDataStore.getState().setEntry(null);
+      }
+    }
+  }, [entry, data, rootCategory]);
+
+  useEffect(() => {
+    useStudioCategoryStore.getState().updateCategoriesForEntry(entryThrottle);
+  }, [entryThrottle]);
+
+  return <></>;
+}
+
 function DataFlow({ onChange }: { onChange?: (data: StudioDataNode[]) => void }) {
   return (
     <>
       <Listen />
       <Publish onChange={onChange} />
+      <DataSync />
     </>
   );
 }

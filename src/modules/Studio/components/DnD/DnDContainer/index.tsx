@@ -226,6 +226,9 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
     if (to === DndType.FACTORY) {
       // Accept exist node - from board
       // Remove node from board
+
+      // ignore root node || do nothing or cleanup data
+      if (fromCategory.isRoot) return;
       if (from === DndType.PRODUCT && fromData?.belongsTo) {
         console.log('[DndContainer] handleDragEnd case: Dropped on factory from product', {
           fromData,

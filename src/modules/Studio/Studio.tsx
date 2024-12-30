@@ -60,6 +60,12 @@ const StudioComponent = ({ data, className, categories, onChange, dataSource, ..
       // generate nodes/edges from data
       useStudioDataStore.getState().setData(data);
 
+      // const rootCategory = useStudioCategoryStore.getState().rootCategory || categories.find((item) => item.isRoot);
+      // const entry = data.find((item) => item.keyMapper === rootCategory?.keyMapper);
+      // useStudioCategoryStore.getState().setRootCategory(rootCategory || null);
+      // useStudioDataStore.getState().setEntry(entry || null);
+      // useStudioCategoryStore.getState().updateCategoriesForEntry(entry || null);
+
       const initNodes = transformDataToNodes(data);
       console.log('studio init nodes', initNodes);
       useStudioFlowStore.getState().addNodes(initNodes);
@@ -106,6 +112,13 @@ export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioPro
         console.log('studio redraw', data);
         // generate nodes/edges from data
         useStudioDataStore.getState().setData(data);
+
+        // const categories = useStudioCategoryStore.getState().categories;
+        // const rootCategory = useStudioCategoryStore.getState().rootCategory || categories.find((item) => item.isRoot);
+        // const entry = data.find((item) => item.keyMapper === rootCategory?.keyMapper);
+        // useStudioCategoryStore.getState().setRootCategory(rootCategory || null);
+        // useStudioDataStore.getState().setEntry(entry || null);
+        // useStudioCategoryStore.getState().updateCategoriesForEntry(entry || null);
 
         const initNodes = transformDataToNodes(data);
         console.log('studio init nodes', initNodes);

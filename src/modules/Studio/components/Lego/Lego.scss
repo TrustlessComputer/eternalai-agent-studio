@@ -19,8 +19,8 @@
     user-select: none;
   }
 
-  .lego--disabled {
-    opacity: 0.6;
+  &.lego--disabled {
+    opacity: 0.5;
   }
 
   .lego__stud {

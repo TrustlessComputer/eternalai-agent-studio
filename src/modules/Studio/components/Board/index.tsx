@@ -1,4 +1,4 @@
-import { Background, ConnectionMode, Controls, EdgeTypes, MiniMap, NodeTypes, ReactFlow } from '@xyflow/react';
+import { Background, ConnectionMode, Controls, MiniMap, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useEffect, useState } from 'react';
 
@@ -9,13 +9,9 @@ import { FlowView } from '../../types/ui';
 import Distribution from '../DnD/Distribution';
 import './Board.scss';
 import BoardOverlay from './BoardOverlay';
+import { FLOW_EDGE_TYPES, FLOW_NODE_TYPES } from '../../constants/keyMapper';
 
-type Props = {
-  nodeTypes?: NodeTypes;
-  edgeTypes?: EdgeTypes;
-};
-
-function Board({ nodeTypes, edgeTypes }: Props) {
+function Board() {
   const nodes = useStudioFlowStore((state) => state.nodes);
   const edges = useStudioFlowStore((state) => state.edges);
 
@@ -40,10 +36,10 @@ function Board({ nodeTypes, edgeTypes }: Props) {
       <BoardOverlay />
       <ReactFlow
         nodes={nodes}
-        nodeTypes={nodeTypes}
+        nodeTypes={FLOW_NODE_TYPES}
         onNodesChange={onNodesChange}
         edges={edges}
-        edgeTypes={edgeTypes}
+        edgeTypes={FLOW_EDGE_TYPES}
         onEdgesChange={onEdgesChange}
         edgesFocusable={false}
         fitViewOptions={{ padding: 1 }}

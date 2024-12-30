@@ -1,29 +1,22 @@
 import { ReactFlowProvider } from '@xyflow/react';
 import cx from 'clsx';
-import React, { useEffect, useImperativeHandle, useMemo } from 'react';
+import React, { useEffect, useImperativeHandle } from 'react';
 
 import '../../styles/global.scss';
 import Board from './components/Board';
 import DataFlow from './components/DataFlow';
 import DragMask from './components/DnD/DragMask';
 import Sidebar from './components/Sidebar';
-import { FLOW_EDGE_TYPES, FLOW_NODE_TYPES } from './constants/keyMapper';
 
 import DnDContainer from './components/DnD/DnDContainer';
 import EventHandler from './components/EventHandler';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
-import useStudioDataStore from './stores/useStudioDataStore';
-import useStudioDndStore from './stores/useStudioDndStore';
-import useStudioFlowStore from './stores/useStudioFlowStore';
-import useStudioFlowViewStore from './stores/useStudioFlowViewStore';
-import useStudioFormStore from './stores/useStudioFormStore';
 import './Studio.scss';
 import { StudioCategory } from './types/category';
 import { DataSourceType } from './types/dataSource';
 import { StudioDataNode } from './types/graph';
-import { getFieldDataFromRawData } from './utils/data';
-import { transformDataToNodes } from './utils/node';
+import { useStudioAgent } from './hooks/useStudioAgent';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   data: StudioDataNode[];
@@ -38,17 +31,7 @@ export type StudioRef = {
 };
 
 const StudioComponent = ({ data, className, categories, onChange, dataSource, ...rest }: StudioProps) => {
-  const extendedNodeTypes = useMemo(() => {
-    return {
-      ...FLOW_NODE_TYPES,
-    };
-  }, []);
-
-  const extendedEdgeTypes = useMemo(() => {
-    return {
-      ...FLOW_EDGE_TYPES,
-    };
-  }, []);
+  const { redraw } = useStudioAgent();
 
   useEffect(() => {
     useStudioCategoryStore.getState().setCategories(categories);
@@ -62,23 +45,7 @@ const StudioComponent = ({ data, className, categories, onChange, dataSource, ..
 
   useEffect(() => {
     if (data.length) {
-      console.log('studio redraw', data);
-      // generate nodes/edges from data
-      useStudioDataStore.getState().setData(data);
-
-      // const rootCategory = useStudioCategoryStore.getState().rootCategory || categories.find((item) => item.isRoot);
-      // const entry = data.find((item) => item.keyMapper === rootCategory?.keyMapper);
-      // useStudioCategoryStore.getState().setRootCategory(rootCategory || null);
-      // useStudioDataStore.getState().setEntry(entry || null);
-      // useStudioCategoryStore.getState().updateCategoriesForEntry(entry || null);
-
-      const initNodes = transformDataToNodes(data);
-      console.log('studio init nodes', initNodes);
-      useStudioFlowStore.getState().addNodes(initNodes);
-
-      const formData = getFieldDataFromRawData(data);
-      console.log('studio init form datas', formData);
-      useStudioFormStore.getState().initDataForms(formData);
+      redraw(data);
     }
   }, []);
 
@@ -94,7 +61,7 @@ const StudioComponent = ({ data, className, categories, onChange, dataSource, ..
         </div>
 
         <EventHandler className="studio__right">
-          <Board nodeTypes={extendedNodeTypes} edgeTypes={extendedEdgeTypes} />
+          <Board />
         </EventHandler>
       </div>
     </DnDContainer>
@@ -102,40 +69,18 @@ const StudioComponent = ({ data, className, categories, onChange, dataSource, ..
 };
 
 export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioProps, ref) => {
+  const { redraw, cleanup } = useStudioAgent();
   useImperativeHandle(
     ref,
     () => ({
       cleanup: () => {
-        console.log('cleanup data');
-        // clear current nodes/edges
-        useStudioFlowStore.getState().clear();
-        useStudioFormStore.getState().clear();
-        useStudioDataStore.getState().clear();
-        useStudioFlowViewStore.getState().clear();
-        useStudioDndStore.getState().clear();
+        cleanup();
       },
       redraw: (data: StudioDataNode[]) => {
-        console.log('studio redraw', data);
-        // generate nodes/edges from data
-        useStudioDataStore.getState().setData(data);
-
-        // const categories = useStudioCategoryStore.getState().categories;
-        // const rootCategory = useStudioCategoryStore.getState().rootCategory || categories.find((item) => item.isRoot);
-        // const entry = data.find((item) => item.keyMapper === rootCategory?.keyMapper);
-        // useStudioCategoryStore.getState().setRootCategory(rootCategory || null);
-        // useStudioDataStore.getState().setEntry(entry || null);
-        // useStudioCategoryStore.getState().updateCategoriesForEntry(entry || null);
-
-        const initNodes = transformDataToNodes(data);
-        console.log('studio init nodes', initNodes);
-        useStudioFlowStore.getState().addNodes(initNodes);
-
-        const formData = getFieldDataFromRawData(data);
-        console.log('studio init form datas', formData);
-        useStudioFormStore.getState().initDataForms(formData);
+        redraw(data);
       },
     }),
-    [],
+    [cleanup, redraw],
   );
 
   return (

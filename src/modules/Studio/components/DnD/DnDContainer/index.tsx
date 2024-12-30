@@ -2,12 +2,11 @@ import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategorySto
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import useStudioFlowViewStore from '@/modules/Studio/stores/useStudioFlowViewStore';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
-import { StudioCategoryMap } from '@/modules/Studio/types/category';
+import { StudioCategory, StudioCategoryOption, StudioCategoryTypeEnum } from '@/modules/Studio/types/category';
 import { DndType, DraggableDataType } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
-import { cloneData, getFormDataFromCategory } from '@/modules/Studio/utils/data';
+import { cloneData, getFormDataFromCategoryOption } from '@/modules/Studio/utils/data';
 import { createNewBaseNode } from '@/modules/Studio/utils/node';
-import { isNil } from '@/utils/data';
 import {
   DndContext,
   DragAbortEvent,
@@ -30,7 +29,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
   const flowStore = useStoreApi();
   const movingNodeRef = useRef<StudioNode>(null);
 
-  const getNewNode = (keyMapper: string, option: StudioCategoryMap, existedId?: string) => {
+  const getNewNode = (keyMapper: string, option: StudioCategoryOption, existedId?: string) => {
     const {
       transform: [transformX, transformY, zoomLevel],
     } = flowStore.getState();
@@ -50,7 +49,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
     });
 
     if (!existedId) {
-      const defaultValues = getFormDataFromCategory(option || {});
+      const defaultValues = getFormDataFromCategoryOption(option || {});
       useStudioFormStore.getState().addForm(newNode.id, {
         ...defaultValues,
       });
@@ -68,14 +67,16 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
 
     const fromData = active?.data?.current as DraggableDataType;
     const from = fromData?.type;
-    const fromCategory = useStudioCategoryStore.getState().mapCategories[fromData?.categoryId || ''];
-    const fromOption = useStudioCategoryStore.getState().mapCategories[fromData?.optionId || ''];
+    const fromCategory = useStudioCategoryStore.getState().mapCategories[fromData?.categoryId || ''] as StudioCategory;
+    const fromOption = useStudioCategoryStore.getState().mapCategories[
+      fromData?.optionId || ''
+    ] as StudioCategoryOption;
     const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.belongsTo);
 
     const toData = over?.data?.current as DraggableDataType;
     const to = toData?.type;
-    const toCategory = useStudioCategoryStore.getState().mapCategories[toData?.categoryId || ''];
-    const toOption = useStudioCategoryStore.getState().mapCategories[toData?.optionId || ''];
+    const toCategory = useStudioCategoryStore.getState().mapCategories[toData?.categoryId || ''] as StudioCategory;
+    const toOption = useStudioCategoryStore.getState().mapCategories[toData?.optionId || ''] as StudioCategoryOption;
     const toNode = useStudioFlowStore.getState().nodes.find((node) => node.id === toData?.belongsTo);
 
     const isTheSameNode = fromNode?.id === toNode?.id;
@@ -95,8 +96,8 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
     });
 
     if (to === DndType.DISTRIBUTION) {
-      // Create new
-      if (from === DndType.SOURCE && fromData?.optionId) {
+      // Create WHEN it's Standalone && from Source
+      if (from === DndType.SOURCE && fromOption.type === StudioCategoryTypeEnum.STANDALONE && fromData?.optionId) {
         const newNode = getNewNode(fromData.optionId, fromOption);
 
         useStudioFlowStore.getState().addNode(newNode);
@@ -106,51 +107,51 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         });
       }
 
-      // Check if draggable node is child of another node => decouple that to standalone node
-      if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode && fromData?.belongsTo && fromData?.optionId) {
-        const childData = !isNil(fromData.childIndex)
-          ? fromNode.data.metadata.children[fromData.childIndex as number]
-          : null;
+      // Decouple
+      // if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode && fromData?.belongsTo && fromData?.optionId) {
+      //   const childData = !isNil(fromData.childIndex)
+      //     ? fromNode.data.metadata.children[fromData.childIndex as number]
+      //     : null;
 
-        const newNode = getNewNode(fromData.optionId, fromOption, childData?.id);
-        newNode.data.metadata.children = cloneData(fromNode.data.metadata.children)
-          .filter((_, index) => index > (fromData?.childIndex || 0))
-          .map((child) => getNewNode(child.data.metadata.keyMapper, fromOption, child.id));
+      //   const newNode = getNewNode(fromData.optionId, fromOption, childData?.id);
+      //   newNode.data.metadata.children = cloneData(fromNode.data.metadata.children)
+      //     .filter((_, index) => index > (fromData?.childIndex || 0))
+      //     .map((child) => getNewNode(child.data.metadata.keyMapper, fromOption, child.id));
 
-        fromNode.data.metadata.children = fromNode.data.metadata.children.filter(
-          (_, index) => index < (fromData?.childIndex || 0),
-        );
+      //   fromNode.data.metadata.children = fromNode.data.metadata.children.filter(
+      //     (_, index) => index < (fromData?.childIndex || 0),
+      //   );
 
-        useStudioFlowStore.getState().addNode(newNode);
-        useStudioFlowStore.getState().updateNode(fromNode);
-      }
+      //   useStudioFlowStore.getState().addNode(newNode);
+      //   useStudioFlowStore.getState().updateNode(fromNode);
+      // }
     }
 
     if (to === DndType.PACKAGE && toNode) {
-      // Snap item to package
-      if (from === DndType.PRODUCT && !isTheSameNode) {
-        console.log('[DndContainer] handleDragEnd case: Dropped on package from product', {
-          fromData,
-          toData,
-        });
+      // Snap
+      // if (from === DndType.PRODUCT && !isTheSameNode) {
+      //   console.log('[DndContainer] handleDragEnd case: Dropped on package from product', {
+      //     fromData,
+      //     toData,
+      //   });
 
-        const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.belongsTo);
-        if (!fromNode) return;
+      //   const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.belongsTo);
+      //   if (!fromNode) return;
 
-        toNode.data.metadata.children = [
-          ...toNode.data.metadata.children,
-          fromNode,
-          ...cloneData(fromNode.data.metadata.children),
-        ];
+      //   toNode.data.metadata.children = [
+      //     ...toNode.data.metadata.children,
+      //     fromNode,
+      //     ...cloneData(fromNode.data.metadata.children),
+      //   ];
 
-        fromNode.data.metadata.children = [];
+      //   fromNode.data.metadata.children = [];
 
-        useStudioFlowStore.getState().updateNode(toNode);
-        useStudioFlowStore.getState().removeNode(fromNode.id);
-      }
+      //   useStudioFlowStore.getState().updateNode(toNode);
+      //   useStudioFlowStore.getState().removeNode(fromNode.id);
+      // }
 
-      // Create new
-      if (from === DndType.SOURCE && fromData?.optionId) {
+      // Create WHEN it's Inline && from Source
+      if (from === DndType.SOURCE && fromOption.type === StudioCategoryTypeEnum.INLINE && fromData?.optionId) {
         console.log('[DndContainer] handleDragEnd case: Dropped on package from source', {
           fromData,
           toData,
@@ -175,8 +176,15 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         useStudioFlowStore.getState().updateNode(updatedNodes[0]);
       }
 
-      // Add addon to package if it's inline
-      if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode && fromData?.belongsTo && fromData?.optionId) {
+      // Move current package to target package
+      if (
+        from === DndType.PRODUCT_ADDON &&
+        !isTheSameNode &&
+        fromNode &&
+        fromOption.type === StudioCategoryTypeEnum.INLINE &&
+        fromData?.belongsTo &&
+        fromData?.optionId
+      ) {
         const addons = cloneData(fromNode.data.metadata.children).filter(
           (_, index) => index >= (fromData?.childIndex || 0),
         );
@@ -200,9 +208,8 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
       }
     }
 
-    if (to === DndType.FACTORY) {
-      // Remove node
-      if (fromCategory.isRoot) return;
+    if (to === DndType.FACTORY && !fromCategory.isRoot) {
+      // Remove
       if (from === DndType.PRODUCT && fromData?.belongsTo) {
         console.log('[DndContainer] handleDragEnd case: Dropped on factory from product', {
           fromData,

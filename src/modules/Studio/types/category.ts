@@ -8,9 +8,6 @@ type DataSchemaValue = {
   placeholder?: string;
   defaultValue?: string | number | boolean;
   dataSourceKey?: string;
-
-  onDataValidate?: <T extends FormDataType>(value: T) => boolean;
-  onDataFieldsChange?: <T extends FormDataType>(value: T, onUpdateToStore?: (update: T) => void) => T;
 };
 
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
@@ -78,6 +75,42 @@ export type StudioCategoryOption = BaseCategory & {
    * @returns
    */
   onDroppedOutValidate?: (id: string, option: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean; // remove exist item from board to sidebar
+
+  // /**
+  //  * onFormChange
+  //  * handle form change event
+  //  * @param value form data
+  //  * @returns
+  //  */
+  // onFormChange?: <T extends FormDataType>(value: T) => void;
+
+  // /**
+  //  * onFormValidate
+  //  * handle form validate event
+  //  * @param value form data
+  //  * @param onUpdateToStore update form data to store
+  //  * @returns
+  //  */
+  // onFormValidate?: <T extends FormDataType>(value: T) => boolean;
+
+  // /**
+  //  * onFieldChange
+  //  * handle field change event
+  //  * @param field field name
+  //  * @param value field value
+  //  * @returns
+  //  */
+  // onFieldChange?: (field: string, value: unknown) => void;
+
+  // /**
+  //  * onFieldValidate
+  //  * handle field validate event
+  //  * @param field field name
+  //  * @param value field value
+  //  * @param onUpdateToStore update form data to store
+  //  * @returns
+  //  */
+  onFieldValidate?: (field: string, value: unknown) => boolean;
 };
 
 export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'color'> & {

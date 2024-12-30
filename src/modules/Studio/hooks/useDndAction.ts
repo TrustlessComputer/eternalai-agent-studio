@@ -2,6 +2,7 @@ import { isNil } from '@/utils/data';
 import { useStoreApi } from '@xyflow/react';
 import { useCallback } from 'react';
 import { v4 } from 'uuid';
+import { ROOT_NODE_ID } from '../constants/node-id';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
 import useStudioFormStore from '../stores/useStudioFormStore';
@@ -9,6 +10,7 @@ import { StudioCategoryOption } from '../types/category';
 import { DraggableDataType } from '../types/dnd';
 import { StudioNode } from '../types/graph';
 import { cloneData, getFormDataFromCategoryOption } from '../utils/data';
+import { createNewBaseEdge, getSourceHandle, getTargetHandle } from '../utils/edge';
 import { createNewBaseNode } from '../utils/node';
 
 const useDndAction = () => {
@@ -46,7 +48,7 @@ const useDndAction = () => {
   }, []);
 
   const removePartOfPackage = useCallback((node?: StudioNode, index?: number) => {
-    if (!node || !index) return { sourceNode: node };
+    if (!node || !index) return {};
 
     node.data.metadata.children = cloneData(node.data.metadata.children).filter((_, i) => i < index);
 
@@ -58,10 +60,6 @@ const useDndAction = () => {
   const addToPackage = useCallback((node?: StudioNode, products?: (StudioNode | undefined)[]) => {
     if (!node || !products) return {};
 
-    console.log('[useDndFlow] addToPackage', {
-      products: [...products, ...node.data.metadata.children],
-    });
-
     node.data.metadata.children = [...node.data.metadata.children, ...products.filter((product) => !!product)];
 
     return {
@@ -70,7 +68,7 @@ const useDndAction = () => {
   }, []);
 
   const movePartOfPackage = useCallback((fromNode?: StudioNode, toNode?: StudioNode, fromData?: DraggableDataType) => {
-    if (!fromNode || !toNode || !fromData) return { sourceNode: fromNode, targetNode: toNode };
+    if (!fromNode || !toNode || !fromData) return {};
 
     const addons = cloneData(fromNode.data.metadata.children).filter((_, index) => index >= (fromData?.childIndex || 0));
 
@@ -89,51 +87,67 @@ const useDndAction = () => {
     useStudioFlowStore.getState().removeNode(nodeId);
   }, []);
 
-  const addProduct = useCallback((fromData?: DraggableDataType, fromOption?: StudioCategoryOption) => {
+  const addProduct = useCallback((rootNode?: StudioNode, fromData?: DraggableDataType, fromOption?: StudioCategoryOption) => {
     if (!fromData?.optionKey || !fromOption) return {};
 
-    const newNode = getNewNodeInfo(fromData.optionKey, fromOption);
-
+    const newNode = getNewNodeInfo(fromData.optionKey, fromOption, fromData.isRoot ? ROOT_NODE_ID : undefined);
     if (!newNode) return {};
+
+    if (rootNode) {
+      const newEdge = createNewBaseEdge(rootNode.id, newNode.id, true);
+
+      newNode.data.sourceHandles = [getTargetHandle(rootNode.id, newNode.id), getSourceHandle(rootNode.id, newNode.id)];
+      newNode.data.targetHandles = [getSourceHandle(rootNode.id, newNode.id), getTargetHandle(rootNode.id, newNode.id)];
+      rootNode.data.sourceHandles.push(getSourceHandle(rootNode.id, newNode.id));
+
+      useStudioFlowStore.getState().addEdge(newEdge);
+    }
 
     useStudioFlowStore.getState().addNode(newNode);
 
-    return { targetNode: newNode };
+    return { rootNode, targetNode: newNode };
   }, []);
 
-  const splitPackage = useCallback((fromNode?: StudioNode, fromData?: DraggableDataType, fromOption?: StudioCategoryOption) => {
-    if (!fromNode || !fromData) return { sourceNode: fromNode };
+  const splitPackage = useCallback(
+    (rootNode?: StudioNode, fromNode?: StudioNode, fromData?: DraggableDataType, fromOption?: StudioCategoryOption) => {
+      if (!fromNode || !fromData || !rootNode) return {};
 
-    const childData = !isNil(fromData.childIndex) ? fromNode.data.metadata.children[fromData.childIndex as number] : null;
+      const childData = !isNil(fromData.childIndex) ? fromNode.data.metadata.children[fromData.childIndex as number] : null;
 
-    const newNode = getNewNodeInfo(fromData.optionKey, fromOption, childData?.id);
+      const newNode = getNewNodeInfo(fromData.optionKey, fromOption, childData?.id);
 
-    if (newNode) {
-      newNode.data.metadata.children = cloneData(fromNode.data.metadata.children)
-        .filter((_, index) => index > (fromData?.childIndex || 0))
-        .map((child) => getNewNodeInfo(child.data.metadata.keyMapper, fromOption, child.id))
-        .filter((child) => !!child);
+      if (newNode) {
+        const newEdge = createNewBaseEdge(rootNode.id, newNode.id, true);
 
-      useStudioFlowStore.getState().addNode(newNode);
-    }
+        newNode.data.metadata.children = cloneData(fromNode.data.metadata.children)
+          .filter((_, index) => index > (fromData?.childIndex || 0))
+          .map((child) => getNewNodeInfo(child.data.metadata.keyMapper, fromOption, child.id))
+          .filter((child) => !!child);
 
-    fromNode.data.metadata.children = fromNode.data.metadata.children.filter((_, index) => index < (fromData?.childIndex || 0));
+        newNode.data.sourceHandles = [getTargetHandle(rootNode.id, newNode.id), getSourceHandle(rootNode.id, newNode.id)];
+        newNode.data.targetHandles = [getSourceHandle(rootNode.id, newNode.id), getTargetHandle(rootNode.id, newNode.id)];
+        rootNode.data.sourceHandles.push(getSourceHandle(rootNode.id, newNode.id));
 
-    return {
-      sourceNode: fromNode,
-      targetNode: newNode,
-    };
-  }, []);
+        useStudioFlowStore.getState().addNode(newNode);
+        useStudioFlowStore.getState().addEdge(newEdge);
+      }
+
+      fromNode.data.metadata.children = fromNode.data.metadata.children.filter((_, index) => index < (fromData?.childIndex || 0));
+
+      return {
+        rootNode,
+        sourceNode: fromNode,
+        targetNode: newNode,
+      };
+    },
+    [],
+  );
 
   const mergeProducts = useCallback((fromNode?: StudioNode, toNode?: StudioNode, fromData?: DraggableDataType) => {
-    if (!fromNode || !toNode || !fromData) return { sourceNode: fromNode, targetNode: toNode };
+    if (!fromNode || !toNode || !fromData) return {};
 
     const clonedFromNode = cloneData(fromNode);
     clonedFromNode.data.metadata.children = [];
-
-    console.log('[useDndFlow] addToPackage', {
-      products: [clonedFromNode, ...fromNode.data.metadata.children],
-    });
 
     addToPackage(toNode, [clonedFromNode, ...fromNode.data.metadata.children]);
     removeProduct(fromNode.id);

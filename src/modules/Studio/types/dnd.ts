@@ -4,6 +4,7 @@ export type DraggableDataType = {
   optionKey?: string;
   belongsTo?: string;
   childIndex?: number;
+  isRoot?: boolean;
 };
 
 export enum DndType {

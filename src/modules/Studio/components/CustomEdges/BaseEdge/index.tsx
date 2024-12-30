@@ -24,7 +24,7 @@ const BaseEdge = ({ id, source, target, markerEnd, style, label }: EdgeProps) =>
   });
 
   return (
-    <React.Fragment key={id}>
+    <React.Fragment>
       <RfBaseEdge id={id} path={edgePath} markerEnd={markerEnd} className="edge__line" style={style} />
       {label && (
         <EdgeLabelRenderer>

@@ -154,49 +154,37 @@ const BaseNodeReadonly = ({ data }: Props) => {
   );
 };
 
-const BaseNodeConnection = ({ data }: { data: StudioNode['data'] }) => {
+const BaseNodeConnection = () => {
   return (
     <>
-      {data.sourceHandles?.map((handle, index) => (
-        <Handle
-          key={handle}
-          id={handle}
-          type="source"
-          position={Position.Right}
-          className="base-node__handle"
-          isConnectable={false}
-        />
-      ))}
-      {data.sourceHandles?.map((handle, index) => (
-        <Handle
-          key={handle}
-          id={handle}
-          type="source"
-          position={Position.Top}
-          className="base-node__handle"
-          isConnectable={false}
-        />
-      ))}
-      {data.sourceHandles?.map((handle, index) => (
-        <Handle
-          key={handle}
-          id={handle}
-          type="source"
-          position={Position.Left}
-          className="base-node__handle"
-          isConnectable={false}
-        />
-      ))}
-      {data.sourceHandles?.map((handle, index) => (
-        <Handle
-          key={handle}
-          id={handle}
-          type="source"
-          position={Position.Bottom}
-          isConnectable={false}
-          className="base-node__handle"
-        />
-      ))}
+      <Handle
+        id="a"
+        type="source"
+        position={Position.Top}
+        className="base-node__handles__handle"
+        isConnectable={false}
+      />
+      <Handle
+        id="b"
+        type="source"
+        position={Position.Right}
+        className="base-node__handles__handle"
+        isConnectable={false}
+      />
+      <Handle
+        id="c"
+        type="source"
+        position={Position.Bottom}
+        className="base-node__handles__handle"
+        isConnectable={false}
+      />
+      <Handle
+        id="d"
+        type="source"
+        position={Position.Left}
+        className="base-node__handles__handle"
+        isConnectable={false}
+      />
     </>
   );
 };
@@ -263,7 +251,7 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
       ))}
 
       <Package id={data.id} data={packageData} />
-      <BaseNodeConnection data={data} />
+      <BaseNodeConnection />
     </div>
   );
 };
@@ -324,7 +312,7 @@ const BaseNodeSingleItem = ({ data }: Props) => {
       </div>
 
       <Package id={data.id} data={packageData} />
-      <BaseNodeConnection data={data} />
+      <BaseNodeConnection />
     </div>
   );
 };

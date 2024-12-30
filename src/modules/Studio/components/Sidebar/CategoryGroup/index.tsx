@@ -12,7 +12,16 @@ type Props = StudioCategory & {
   categoryKey: string;
 };
 
-const CategoryGroup = ({ categoryKey, title, color, options, customizeRenderOnSideBar, required, disabled }: Props) => {
+const CategoryGroup = ({
+  categoryKey,
+  title,
+  color,
+  options,
+  customizeRenderOnSideBar,
+  required,
+  disabled,
+  isRoot,
+}: Props) => {
   const filteredOptions = useMemo(() => {
     return options.filter((item) => !item.hidden);
   }, [options]);
@@ -35,7 +44,7 @@ const CategoryGroup = ({ categoryKey, title, color, options, customizeRenderOnSi
             <Source
               id={option.key}
               key={option.key}
-              data={{ categoryKey, optionKey: option.key }}
+              data={{ categoryKey, optionKey: option.key, isRoot }}
               disabled={isDisabled}
             >
               <Lego background={color} icon={option.icon} disabled={isDisabled}>

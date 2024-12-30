@@ -15,9 +15,9 @@ export const createNewBaseEdge = (source: string, target: string, animated: bool
   return {
     id: v4(),
     source,
-    sourceHandle: getSourceHandle(source, target),
+    sourceHandle: 'c',
     target,
-    targetHandle: getTargetHandle(source, target),
+    targetHandle: 'a',
     type: EdgeType.BASE_EDGE,
     selectable: false,
     selected: false,

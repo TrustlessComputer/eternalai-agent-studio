@@ -6,10 +6,10 @@ import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
 import { FlowView } from '../../types/ui';
 
+import { FLOW_EDGE_TYPES, FLOW_NODE_TYPES } from '../../constants/keyMapper';
 import Distribution from '../DnD/Distribution';
 import './Board.scss';
 import BoardOverlay from './BoardOverlay';
-import { FLOW_EDGE_TYPES, FLOW_NODE_TYPES } from '../../constants/keyMapper';
 
 function Board() {
   const nodes = useStudioFlowStore((state) => state.nodes);

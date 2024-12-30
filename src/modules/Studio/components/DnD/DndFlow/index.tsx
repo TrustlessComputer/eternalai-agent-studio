@@ -1,3 +1,4 @@
+import { ROOT_NODE_ID } from '@/modules/Studio/constants/node-id';
 import useDndAction from '@/modules/Studio/hooks/useDndAction';
 import useDndInteraction from '@/modules/Studio/hooks/useDndInteraction';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
@@ -18,7 +19,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { applyNodeChanges } from '@xyflow/react';
+import { applyNodeChanges, XYPosition } from '@xyflow/react';
 import { PropsWithChildren, useCallback, useRef } from 'react';
 
 function DndFlow({ children }: PropsWithChildren) {
@@ -44,6 +45,8 @@ function DndFlow({ children }: PropsWithChildren) {
 
   const handleDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event;
+
+    const rootNode = useStudioFlowStore.getState().nodes.find((node) => node.id === ROOT_NODE_ID);
 
     const fromData = active?.data?.current as DraggableDataType;
     const from = fromData?.type;
@@ -76,14 +79,14 @@ function DndFlow({ children }: PropsWithChildren) {
     });
 
     if (to === DndType.DISTRIBUTION) {
-      // Create
       if (from === DndType.SOURCE) {
-        addProduct(fromData, fromOption);
+        addProduct(rootNode, fromData, fromOption);
+        updateNodes([rootNode]);
       }
 
       if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
-        splitPackage(fromNode, fromData, fromOption);
-        updateNodes([fromNode]);
+        splitPackage(rootNode, fromNode, fromData, fromOption);
+        updateNodes([rootNode, fromNode]);
       }
     }
 
@@ -143,7 +146,7 @@ function DndFlow({ children }: PropsWithChildren) {
       if (movingNode) {
         movingNodeRef.current = movingNode;
 
-        const newPosition = {
+        const newPosition: XYPosition = {
           x: movingNode.position.x + delta.x,
           y: movingNode.position.y + delta.y,
         };

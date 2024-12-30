@@ -28,15 +28,16 @@ type BaseCategoryOption = {
   customizeRenderOnBoard?: FunctionComponent;
   data?: DataSchema;
   color?: string;
-  type?: 'inline' | 'block' | 'standalone'; // default is block
-  isRoot?: boolean; // default is false. have only one root in entire category
 };
 
-export type StudioCategoryOption = BaseCategoryOption;
+export type StudioCategoryOption = BaseCategoryOption & {
+  type?: 'inline' | 'standalone'; // default is inline
+};
 
 export type StudioCategory = Omit<BaseCategoryOption, 'value' | 'data' | 'color'> & {
   options: StudioCategoryOption[];
   color: string;
+  isRoot?: boolean; // default is false. have only one root in entire category
 };
 
 export type StudioCategoryMap = StudioCategory &

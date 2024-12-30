@@ -46,15 +46,15 @@ export type StudioCategoryDragDropFunctionType = {
    * @param allFormData all form data
    * @returns
    */
-  onSnapValidate?: (
-    id: string | undefined,
-    option: StudioCategoryOption,
-    toOption: StudioCategoryOption,
-    formData: FormDataType | null,
-    allFormData: FormDataType,
-    fromNode?: StudioNode,
-    toNode?: StudioNode,
-  ) => boolean;
+  onSnapValidate?: (data: {
+    id: string | undefined;
+    option: StudioCategoryOption;
+    toOption: StudioCategoryOption;
+    formData: FormDataType | null;
+    allFormData: FormDataType;
+    fromNode?: StudioNode;
+    toNode?: StudioNode;
+  }) => boolean;
 
   /**
    * onDroppedInValidate
@@ -65,13 +65,13 @@ export type StudioCategoryDragDropFunctionType = {
    * @param allFormData all form data
    * @returns
    */
-  onDroppedInValidate?: (
-    id: string | undefined,
-    option: StudioCategoryOption,
-    formData: FormDataType | null,
-    allFormData: FormDataType,
-    toNode?: StudioNode,
-  ) => boolean; // add new item from sidebar to board
+  onDroppedInValidate?: (data: {
+    id: string | undefined;
+    option: StudioCategoryOption;
+    formData: FormDataType | null;
+    allFormData: FormDataType;
+    toNode?: StudioNode;
+  }) => boolean; // add new item from sidebar to board
 
   /**
    * onDroppedOutValidate
@@ -82,13 +82,13 @@ export type StudioCategoryDragDropFunctionType = {
    * @param allFormData all form data
    * @returns
    */
-  onDroppedOutValidate?: (
-    id: string | undefined,
-    option: StudioCategoryOption,
-    formData: FormDataType | null,
-    allFormData: FormDataType,
-    fromNode?: StudioNode,
-  ) => boolean; // remove exist item from board to sidebar
+  onDroppedOutValidate?: (data: {
+    id: string | undefined;
+    option: StudioCategoryOption;
+    formData: FormDataType | null;
+    allFormData: FormDataType;
+    fromNode?: StudioNode;
+  }) => boolean; // remove exist item from board to sidebar
 };
 
 export type StudioCategoryBoxWrapperType = {

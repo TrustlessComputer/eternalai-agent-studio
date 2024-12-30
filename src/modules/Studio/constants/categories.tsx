@@ -31,19 +31,15 @@ const AGENT: StudioCategory = {
         draggable: true,
         title: 'Create agent',
       },
-      onDroppedInValidate: (
-        id: string | undefined,
-        option: StudioCategoryOption,
-        formData: FormDataType | null,
-        allFormData: FormDataType,
-        toNode?: StudioNode,
-      ) => {
+      onDroppedInValidate: (data: {
+        id: string | undefined;
+        option: StudioCategoryOption;
+        formData: FormDataType | null;
+        allFormData: FormDataType;
+        toNode?: StudioNode;
+      }) => {
         console.log('___________onDropInValidate', {
-          id,
-          option,
-          formData,
-          allFormData,
-          toNode,
+          data,
         });
 
         return true;
@@ -257,19 +253,15 @@ export const CAN_NOT_ADD: StudioCategory = {
       onFieldValidate: (name, value) => {
         return false;
       },
-      onDroppedInValidate: (
-        id: string | undefined,
-        option: StudioCategoryOption,
-        formData: FormDataType | null,
-        allFormData: FormDataType,
-        toNode?: StudioNode,
-      ) => {
+      onDroppedInValidate: (data: {
+        id: string | undefined;
+        option: StudioCategoryOption;
+        formData: FormDataType | null;
+        allFormData: FormDataType;
+        toNode?: StudioNode;
+      }) => {
         console.log('___________onDropInValidate', {
-          id,
-          option,
-          formData,
-          allFormData,
-          toNode,
+          data,
         });
 
         return false;
@@ -301,23 +293,17 @@ export const CAN_NOT_ADD: StudioCategory = {
       onFieldValidate: (name, value) => {
         return false;
       },
-      onSnapValidate: (
-        id: string | undefined,
-        option: StudioCategoryOption,
-        toOption: StudioCategoryOption,
-        formData: FormDataType | null,
-        allFormData: FormDataType,
-        fromNode?: StudioNode,
-        toNode?: StudioNode,
-      ) => {
+      onSnapValidate: (data: {
+        id: string | undefined;
+        option: StudioCategoryOption;
+        toOption: StudioCategoryOption;
+        formData: FormDataType | null;
+        allFormData: FormDataType;
+        fromNode?: StudioNode;
+        toNode?: StudioNode;
+      }) => {
         console.log('___________onSnapValidate', {
-          id,
-          option,
-          toOption,
-          formData,
-          allFormData,
-          fromNode,
-          toNode,
+          data,
         });
 
         return false;

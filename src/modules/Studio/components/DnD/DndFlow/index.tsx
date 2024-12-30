@@ -86,8 +86,13 @@ function DndFlow({ children }: PropsWithChildren) {
       // Add new nodes
       if (from === DndType.SOURCE) {
         const isValid =
-          fromOption.onDroppedInValidate?.(fromData.belongsTo, fromOption, currentFormData, allFormData, fromNode) ??
-          true;
+          fromOption.onDroppedInValidate?.({
+            id: fromData.belongsTo,
+            option: fromOption,
+            formData: currentFormData,
+            allFormData,
+            toNode,
+          }) ?? true;
         if (!isValid) return;
         addProduct(rootNode, fromData, fromOption);
         updateNodes([rootNode]);
@@ -95,15 +100,15 @@ function DndFlow({ children }: PropsWithChildren) {
 
       if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
         const isValid =
-          fromOption.onSnapValidate?.(
-            fromData.belongsTo,
-            fromOption,
+          fromOption.onSnapValidate?.({
+            id: fromData.belongsTo,
+            option: fromOption,
             toOption,
-            currentFormData,
+            formData: currentFormData,
             allFormData,
             fromNode,
             toNode,
-          ) ?? true;
+          }) ?? true;
         if (!isValid) return;
         splitPackage(rootNode, fromNode, fromData, fromOption);
         updateNodes([rootNode, fromNode]);
@@ -113,8 +118,13 @@ function DndFlow({ children }: PropsWithChildren) {
     if (to === DndType.PACKAGE && toNode) {
       if (from === DndType.SOURCE) {
         const isValid =
-          fromOption.onDroppedInValidate?.(fromData.belongsTo, fromOption, currentFormData, allFormData, fromNode) ??
-          true;
+          fromOption.onDroppedInValidate?.({
+            id: fromData.belongsTo,
+            option: fromOption,
+            formData: currentFormData,
+            allFormData,
+            toNode,
+          }) ?? true;
         if (!isValid) return;
         const newNode = getNewNodeInfo(fromData.optionKey, fromOption);
         addToPackage(toNode, [newNode]);
@@ -123,15 +133,15 @@ function DndFlow({ children }: PropsWithChildren) {
 
       if (from === DndType.PRODUCT && !isTheSameNode) {
         const isValid =
-          fromOption.onSnapValidate?.(
-            fromData.belongsTo,
-            fromOption,
+          fromOption.onSnapValidate?.({
+            id: fromData.belongsTo,
+            option: fromOption,
             toOption,
-            currentFormData,
+            formData: currentFormData,
             allFormData,
             fromNode,
             toNode,
-          ) ?? true;
+          }) ?? true;
         if (!isValid) return;
         mergeProducts(fromNode, toNode, fromData);
         updateNodes([fromNode, toNode]);
@@ -140,15 +150,15 @@ function DndFlow({ children }: PropsWithChildren) {
       // Move current package to target package
       if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
         const isValid =
-          fromOption.onSnapValidate?.(
-            fromData.belongsTo,
-            fromOption,
+          fromOption.onSnapValidate?.({
+            id: fromData.belongsTo,
+            option: fromOption,
             toOption,
-            currentFormData,
+            formData: currentFormData,
             allFormData,
             fromNode,
             toNode,
-          ) ?? true;
+          }) ?? true;
         if (!isValid) return;
         movePartOfPackage(fromNode, toNode, fromData);
         updateNodes([fromNode, toNode]);
@@ -157,8 +167,13 @@ function DndFlow({ children }: PropsWithChildren) {
 
     if (to === DndType.FACTORY && !fromCategory?.isRoot) {
       const isValid =
-        fromOption.onDroppedOutValidate?.(fromData.belongsTo, fromOption, currentFormData, allFormData, fromNode) ??
-        true;
+        fromOption.onDroppedOutValidate?.({
+          id: fromData.belongsTo,
+          option: fromOption,
+          formData: currentFormData,
+          allFormData,
+          fromNode,
+        }) ?? true;
       if (!isValid) return;
       // Remove the whole node
       if (from === DndType.PRODUCT) {
@@ -168,8 +183,13 @@ function DndFlow({ children }: PropsWithChildren) {
       // Remove the node's children
       if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
         const isValid =
-          fromOption.onDroppedOutValidate?.(fromData.belongsTo, fromOption, currentFormData, allFormData, fromNode) ??
-          true;
+          fromOption.onDroppedOutValidate?.({
+            id: fromData.belongsTo,
+            option: fromOption,
+            formData: currentFormData,
+            allFormData,
+            fromNode,
+          }) ?? true;
         if (!isValid) return;
         removePartOfPackage(fromNode, fromData?.childIndex || 0);
         updateNodes([fromNode]);

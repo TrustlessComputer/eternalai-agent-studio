@@ -30,7 +30,7 @@ const Sidebar = () => {
       <div className="sidebar__left">
         <div className="sidebar__left__inner">
           {renderNavigationCategories.map((category) => (
-            <CategoryNavigation {...category} key={category.key} />
+            <CategoryNavigation {...category} key={category.keyMapper} />
           ))}
         </div>
       </div>
@@ -40,7 +40,7 @@ const Sidebar = () => {
 
         <div className="sidebar__right__inner">
           {renderGroupCategories.map((category) => (
-            <CategoryGroup {...category} categoryKey={category.key} key={category.key} />
+            <CategoryGroup {...category} categoryKey={category.keyMapper} key={category.keyMapper} />
           ))}
         </div>
       </div>

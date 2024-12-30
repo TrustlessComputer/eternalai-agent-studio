@@ -106,7 +106,7 @@ const useStudioCategoryStore = create<State>((set, get) => ({
     if (rootCategory) {
       if (entry) {
         const newCategories = categories.map((item) => {
-          if (item.key === rootCategory.key) {
+          if (item.keyMapper === rootCategory.keyMapper) {
             return {
               ...item,
               disabled: true,
@@ -114,7 +114,7 @@ const useStudioCategoryStore = create<State>((set, get) => ({
           } else {
             return {
               ...item,
-              disabled: mapCategories[item.key]?.disabled ?? false,
+              disabled: mapCategories[item.keyMapper]?.disabled ?? false,
             };
           }
         });
@@ -122,7 +122,7 @@ const useStudioCategoryStore = create<State>((set, get) => ({
         set({ categories: newCategories });
       } else {
         const newCategories = categories.map((item) => {
-          if (item.key === rootCategory.key) {
+          if (item.keyMapper === rootCategory.keyMapper) {
             return {
               ...item,
               disabled: false,

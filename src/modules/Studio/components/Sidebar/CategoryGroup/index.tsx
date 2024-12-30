@@ -42,9 +42,9 @@ const CategoryGroup = ({
 
           return (
             <Source
-              id={option.key}
-              key={option.key}
-              data={{ categoryKey, optionKey: option.key, isRoot }}
+              id={option.keyMapper}
+              key={option.keyMapper}
+              data={{ categoryKey, optionKey: option.keyMapper, isRoot }}
               disabled={isDisabled}
             >
               <Lego background={color} icon={option.icon} disabled={isDisabled}>

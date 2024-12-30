@@ -4,7 +4,6 @@ import { StudioCategory, StudioCategoryOption, StudioCategoryTypeEnum } from '..
 import { StudioNode } from '../types/graph';
 
 const AGENT: StudioCategory = {
-  key: 'agent',
   keyMapper: 'agent',
   title: 'Agent',
   required: true,
@@ -12,7 +11,6 @@ const AGENT: StudioCategory = {
   isRoot: true,
   options: [
     {
-      key: 'agent-option-1',
       keyMapper: 'agent-option-1',
       title: 'New Agent',
       tooltip: '',
@@ -54,7 +52,6 @@ const AGENT: StudioCategory = {
 };
 
 const PERSONALITY: StudioCategory = {
-  key: 'personality',
   keyMapper: 'personality',
   title: 'Personality',
   required: true,
@@ -62,7 +59,6 @@ const PERSONALITY: StudioCategory = {
     'Create an agent for your NFT, Ordinals, token, —or start fresh with a new idea. This section defines your agent’s lore and backstory.',
   options: [
     {
-      key: 'personality-option-1',
       keyMapper: 'personality-option-1',
       title: 'Import from NFT',
       tooltip: '',
@@ -72,7 +68,6 @@ const PERSONALITY: StudioCategory = {
       type: 'inline' as StudioCategoryTypeEnum,
     },
     {
-      key: 'personality-option-2',
       keyMapper: 'personality-option-2',
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
@@ -80,7 +75,6 @@ const PERSONALITY: StudioCategory = {
       type: 'inline' as StudioCategoryTypeEnum,
     },
     {
-      key: 'personality-option-3',
       keyMapper: 'personality-option-3',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
@@ -88,7 +82,6 @@ const PERSONALITY: StudioCategory = {
       type: 'inline' as StudioCategoryTypeEnum,
     },
     {
-      key: 'personality-option-4',
       keyMapper: 'personality-option-4',
       title: 'New personality',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
@@ -101,7 +94,6 @@ const PERSONALITY: StudioCategory = {
 };
 
 const NETWORK: StudioCategory = {
-  key: 'network',
   keyMapper: 'network',
   title: 'Network',
   required: true,
@@ -109,7 +101,6 @@ const NETWORK: StudioCategory = {
     'Choose the blockchain where your agent will live. Each option comes with different deployment fees, performance levels, and ongoing costs. Pick the one that best suits your goals and budget.',
   options: [
     {
-      key: 'network-option-1',
       keyMapper: 'network-option-1',
       title: 'Import from NFT',
       tooltip: '',
@@ -129,7 +120,6 @@ const NETWORK: StudioCategory = {
       },
     },
     {
-      key: 'network-option-2',
       keyMapper: 'network-option-2',
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
@@ -153,7 +143,6 @@ const NETWORK: StudioCategory = {
       },
     },
     {
-      key: 'network-option-3',
       keyMapper: 'network-option-3',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
@@ -161,7 +150,6 @@ const NETWORK: StudioCategory = {
       type: 'inline' as StudioCategoryTypeEnum,
     },
     {
-      key: 'network-option-4',
       keyMapper: 'network-option-4',
       title: 'New personality',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
@@ -184,14 +172,12 @@ const NETWORK: StudioCategory = {
 };
 
 export const STANDALONE: StudioCategory = {
-  key: 'standalone',
   keyMapper: 'standalone',
   title: 'Standalone',
   required: true,
   color: '#FF0000',
   options: [
     {
-      key: 'standalone-option-1',
       keyMapper: 'standalone-option-1',
       title: 'New Standalone',
       tooltip: '',
@@ -222,14 +208,12 @@ export const STANDALONE: StudioCategory = {
 };
 
 export const CAN_NOT_ADD: StudioCategory = {
-  key: 'validate',
   keyMapper: 'validate',
   title: 'Validates',
   required: true,
   color: '#FF0FF0',
   options: [
     {
-      key: 'validate-cannot-add-option-1',
       keyMapper: 'validate-cannot-add-option-1',
       title: 'Can not add',
       tooltip: '',
@@ -269,7 +253,6 @@ export const CAN_NOT_ADD: StudioCategory = {
     },
 
     {
-      key: 'validate-add-without-snap-option-1',
       keyMapper: 'validate-add-without-snap-option-1',
       title: 'Add - no snap',
       tooltip: '',
@@ -310,7 +293,6 @@ export const CAN_NOT_ADD: StudioCategory = {
       },
     },
     {
-      key: 'validate-add-snap-no-remove-option-1',
       keyMapper: 'validate-add-snap-no-remove-option-1',
       title: 'Add - Snap - no remove',
       tooltip: '',

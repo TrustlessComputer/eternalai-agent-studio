@@ -25,6 +25,9 @@ const AGENT: StudioCategory = {
           defaultValue: '',
         },
       },
+      onFieldValidate: (name, value) => {
+        return true;
+      },
     },
   ],
   icon: <LegoComponentIcon />,
@@ -101,6 +104,9 @@ const NETWORK: StudioCategory = {
           placeholder: 'Network',
           defaultValue: 'Base',
         },
+      },
+      onFieldValidate: (name, value) => {
+        return false;
       },
     },
     {
@@ -186,6 +192,9 @@ export const STANDALONE: StudioCategory = {
           placeholder: 'Field 2',
           defaultValue: '',
         },
+      },
+      onFieldValidate: (name, value) => {
+        return false;
       },
     },
   ],

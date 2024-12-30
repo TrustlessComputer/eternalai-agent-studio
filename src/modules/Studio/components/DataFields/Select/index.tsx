@@ -4,6 +4,9 @@ import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { useMemo } from 'react';
 import useStudioDataSourceStore from '@/modules/Studio/stores/useStudioDataSourceStore';
 import NoDraggable from '../../DnD/NoDraggable';
+import { DataSchema } from '@/modules/Studio/types/category';
+import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
+import { useFormFunction } from '@/modules/Studio/hooks/useFormFunction';
 
 type Props = Omit<React.ComponentPropsWithoutRef<'select'>, 'defaultValue'> & {
   formId: string;
@@ -11,9 +14,21 @@ type Props = Omit<React.ComponentPropsWithoutRef<'select'>, 'defaultValue'> & {
   placeholder?: string;
   dataSourceKey?: string;
   readonly?: boolean;
+  schemaData?: DataSchema;
+  keyMapper: string;
 };
 
-function Select({ formId, className, name, placeholder = 'Select', dataSourceKey, readonly, ...rest }: Props) {
+function Select({
+  formId,
+  className,
+  name,
+  placeholder = 'Select',
+  dataSourceKey,
+  readonly,
+  keyMapper,
+  ...rest
+}: Props) {
+  const formFunctions = useFormFunction(keyMapper);
   const { dataForms, setFormFields } = useStudioFormStore();
   const { dataSource } = useStudioDataSourceStore();
 
@@ -34,6 +49,8 @@ function Select({ formId, className, name, placeholder = 'Select', dataSourceKey
     }
   };
 
+  const isError = !(formFunctions?.onFieldValidate?.(name, value) ?? true);
+
   return (
     <NoDraggable>
       <select
@@ -44,6 +61,7 @@ function Select({ formId, className, name, placeholder = 'Select', dataSourceKey
           'studio-field-select',
           {
             ['studio-field-select__empty']: !value,
+            ['studio-field-select__error']: isError,
           },
           className,
         )}

@@ -8,9 +8,6 @@ type DataSchemaValue = {
   placeholder?: string;
   defaultValue?: string | number | boolean;
   dataSourceKey?: string;
-
-  onDataValidate?: <T extends FormDataType>(value: T) => boolean;
-  onDataFieldsChange?: <T extends FormDataType>(value: T, onUpdateToStore?: (update: T) => void) => T;
 };
 
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
@@ -39,9 +36,81 @@ export enum StudioCategoryTypeEnum {
 
 export type StudioCategoryOption = BaseCategory & {
   type?: StudioCategoryTypeEnum; // default is inline
-  onSnapValidate?: (value: StudioCategoryOption, to: StudioCategoryOption) => boolean;
-  onDroppedInValidate?: (value: StudioCategoryOption) => boolean; // add new item from sidebar to board
-  onDroppedOutValidate?: (value: StudioCategoryOption) => boolean; // remove exist item from board to sidebar
+  /**
+   * onSnapValidate
+   * handle drag and drop to attach or detach item
+   * @param id current option item id
+   * @param option current option item
+   * @param to to option item
+   * @param formData option form data
+   * @param allFormData all form data
+   * @returns
+   */
+  onSnapValidate?: (
+    id: string,
+    option: StudioCategoryOption,
+    to: StudioCategoryOption,
+    formData: FormDataType,
+    allFormData: FormDataType,
+  ) => boolean;
+
+  /**
+   * onDroppedInValidate
+   * handle drag and drop to add new item from sidebar to board
+   * @param id current option item id
+   * @param option current option item
+   * @param formData option form data
+   * @param allFormData all form data
+   * @returns
+   */
+  onDroppedInValidate?: (id: string, option: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean; // add new item from sidebar to board
+
+  /**
+   * onDroppedOutValidate
+   * handle drag and drop to remove exists item from board to sidebar
+   * @param id current option item id
+   * @param option current option item
+   * @param formData option data
+   * @param allFormData all form data
+   * @returns
+   */
+  onDroppedOutValidate?: (id: string, option: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean; // remove exist item from board to sidebar
+
+  // /**
+  //  * onFormChange
+  //  * handle form change event
+  //  * @param value form data
+  //  * @returns
+  //  */
+  // onFormChange?: <T extends FormDataType>(value: T) => void;
+
+  // /**
+  //  * onFormValidate
+  //  * handle form validate event
+  //  * @param value form data
+  //  * @param onUpdateToStore update form data to store
+  //  * @returns
+  //  */
+  // onFormValidate?: <T extends FormDataType>(value: T) => boolean;
+
+  // /**
+  //  * onFieldChange
+  //  * handle field change event
+  //  * @param field field name
+  //  * @param value field value
+  //  * @returns
+  //  */
+  // onFieldChange?: (field: string, value: unknown) => void;
+
+  // /**
+  //  * onFieldValidate
+  //  * handle field validate event
+  //  * @param field field name
+  //  * @param value field value
+  //  * @param onUpdateToStore update form data to store
+  //  * @returns
+  //  */
+  onFieldValidate?: (field: string, value: unknown) => boolean;
 };
 
 export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'color'> & {

@@ -17,7 +17,7 @@ function Listen() {
   const throttleDataForms = useThrottleValue(dataForms, 500);
 
   useEffect(() => {
-    console.log('___________throttleNodes', { throttleNodes, throttleDataForms });
+    // console.log('___________throttleNodes', { throttleNodes, throttleDataForms });
     // sync nodes with data
 
     const mapCategories = useStudioCategoryStore.getState().mapCategories;
@@ -98,8 +98,6 @@ function DataSync() {
   const data = useStudioDataStore((state) => state.data);
   const rootCategory = useStudioCategoryStore((state) => state.rootCategory);
 
-  const entryThrottle = useThrottleValue(entry, 500);
-
   useEffect(() => {
     if (!entry) {
       if (rootCategory) {
@@ -111,6 +109,7 @@ function DataSync() {
         if (newEntry) {
           // set entry
           useStudioDataStore.getState().setEntry(newEntry);
+          // useStudioCategoryStore.getState().updateCategoriesForEntry(newEntry);
         }
       }
     } else {
@@ -118,13 +117,11 @@ function DataSync() {
       if (!existEntry) {
         // remove entry
         useStudioDataStore.getState().setEntry(null);
+        // useStudioCategoryStore.getState().updateCategoriesForEntry(null);
       }
     }
+    useStudioCategoryStore.getState().updateCategoriesForEntry(entry);
   }, [entry, data, rootCategory]);
-
-  useEffect(() => {
-    useStudioCategoryStore.getState().updateCategoriesForEntry(entryThrottle);
-  }, [entryThrottle]);
 
   return <></>;
 }

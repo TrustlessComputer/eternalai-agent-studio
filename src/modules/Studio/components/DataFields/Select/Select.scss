@@ -15,7 +15,11 @@
     color: #999;
   }
 
-  .studio-field-select__placeholder {
+  &.studio-field-select__placeholder {
     opacity: 0.6;
+  }
+
+  &.studio-field-select__error {
+    border-color: rgb(252, 66, 66);
   }
 }

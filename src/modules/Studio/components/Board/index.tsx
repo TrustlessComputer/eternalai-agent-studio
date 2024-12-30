@@ -52,8 +52,10 @@ function Board() {
         disableKeyboardA11y
         minZoom={1}
         maxZoom={1}
+        snapGrid={[50, 50]}
+        snapToGrid
       >
-        <Controls />
+        <Controls fitViewOptions={{ padding: 1 }} />
         <Background />
         <MiniMap />
       </ReactFlow>

@@ -334,19 +334,15 @@ export const CAN_NOT_ADD: StudioCategory = {
       onFieldValidate: (name, value) => {
         return false;
       },
-      onDroppedOutValidate: (
-        id: string | undefined,
-        option: StudioCategoryOption,
-        formData: FormDataType | null,
-        allFormData: FormDataType,
-        fromNode?: StudioNode,
-      ) => {
+      onDroppedOutValidate: (data: {
+        id: string | undefined;
+        option: StudioCategoryOption;
+        formData: FormDataType | null;
+        allFormData: FormDataType;
+        fromNode?: StudioNode;
+      }) => {
         console.log('___________onDroppedOutValidate', {
-          id,
-          option,
-          formData,
-          allFormData,
-          fromNode,
+          data,
         });
 
         return false;

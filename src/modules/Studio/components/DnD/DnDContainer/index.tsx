@@ -105,7 +105,8 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         (fromOption.type === StudioCategoryTypeEnum.STANDALONE || fromCategory.isRoot) &&
         fromData?.optionKey
       ) {
-        const isValid = fromOption?.onDroppedInValidate?.(fromOption, allFormData) ?? true;
+        // const isValid = fromOption?.onDroppedInValidate?.(fromOption, allFormData) ?? true;
+        const isValid = true;
         if (isValid) {
           const newNode = getNewNode(fromData.optionKey, fromOption);
 
@@ -162,7 +163,8 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
 
       // Create WHEN it's Inline && from Source
       if (from === DndType.SOURCE && fromOption.type === StudioCategoryTypeEnum.INLINE && fromData?.optionKey) {
-        const isValid = fromOption?.onSnapValidate?.(fromOption, toOption, currentFormData, allFormData) ?? true;
+        // const isValid = fromOption?.onSnapValidate?.(fromOption, toOption, currentFormData, allFormData) ?? true;
+        const isValid = true;
         if (isValid) {
           console.log('[DndContainer] handleDragEnd case: Dropped on package from source', {
             fromData,
@@ -198,7 +200,8 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         fromData?.belongsTo &&
         fromData?.optionKey
       ) {
-        const isValid = fromOption?.onSnapValidate?.(fromOption, toOption, currentFormData, allFormData) ?? true;
+        // const isValid = fromOption?.onSnapValidate?.(fromOption, toOption, currentFormData, allFormData) ?? true;
+        const isValid = true;
         if (isValid) {
           const addons = cloneData(fromNode.data.metadata.children).filter(
             (_, index) => index >= (fromData?.childIndex || 0),
@@ -232,7 +235,8 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
           toData,
         });
 
-        const isValid = fromOption?.onDroppedOutValidate?.(fromOption, currentFormData, allFormData) ?? true;
+        // const isValid = fromOption?.onDroppedOutValidate?.(fromOption, currentFormData, allFormData) ?? true;
+        const isValid = true;
         if (isValid) {
           useStudioFlowStore.getState().removeNode(fromData?.belongsTo);
         }

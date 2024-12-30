@@ -39,9 +39,45 @@ export enum StudioCategoryTypeEnum {
 
 export type StudioCategoryOption = BaseCategory & {
   type?: StudioCategoryTypeEnum; // default is inline
-  onSnapValidate?: (value: StudioCategoryOption, to: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean;
-  onDroppedInValidate?: (value: StudioCategoryOption, allFormData: FormDataType) => boolean; // add new item from sidebar to board
-  onDroppedOutValidate?: (value: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean; // remove exist item from board to sidebar
+  /**
+   * onSnapValidate
+   * handle drag and drop to attach or detach item
+   * @param id current option item id
+   * @param option current option item
+   * @param to to option item
+   * @param formData option form data
+   * @param allFormData all form data
+   * @returns
+   */
+  onSnapValidate?: (
+    id: string,
+    option: StudioCategoryOption,
+    to: StudioCategoryOption,
+    formData: FormDataType,
+    allFormData: FormDataType,
+  ) => boolean;
+
+  /**
+   * onDroppedInValidate
+   * handle drag and drop to add new item from sidebar to board
+   * @param id current option item id
+   * @param option current option item
+   * @param formData option form data
+   * @param allFormData all form data
+   * @returns
+   */
+  onDroppedInValidate?: (id: string, option: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean; // add new item from sidebar to board
+
+  /**
+   * onDroppedOutValidate
+   * handle drag and drop to remove exists item from board to sidebar
+   * @param id current option item id
+   * @param option current option item
+   * @param formData option data
+   * @param allFormData all form data
+   * @returns
+   */
+  onDroppedOutValidate?: (id: string, option: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean; // remove exist item from board to sidebar
 };
 
 export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'color'> & {

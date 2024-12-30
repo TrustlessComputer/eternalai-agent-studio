@@ -39,9 +39,9 @@ export enum StudioCategoryTypeEnum {
 
 export type StudioCategoryOption = BaseCategory & {
   type?: StudioCategoryTypeEnum; // default is inline
-  onSnapValidate?: (value: StudioCategoryOption, to: StudioCategoryOption) => boolean;
-  onDroppedInValidate?: (value: StudioCategoryOption) => boolean; // add new item from sidebar to board
-  onDroppedOutValidate?: (value: StudioCategoryOption) => boolean; // remove exist item from board to sidebar
+  onSnapValidate?: (value: StudioCategoryOption, to: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean;
+  onDroppedInValidate?: (value: StudioCategoryOption, allFormData: FormDataType) => boolean; // add new item from sidebar to board
+  onDroppedOutValidate?: (value: StudioCategoryOption, formData: FormDataType, allFormData: FormDataType) => boolean; // remove exist item from board to sidebar
 };
 
 export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'color'> & {

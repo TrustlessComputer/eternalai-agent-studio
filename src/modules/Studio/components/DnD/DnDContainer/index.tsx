@@ -63,6 +63,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
   }, []);
 
   const handleDragEnd = useCallback((event: DragEndEvent) => {
+    const dataForms = useStudioFormStore.getState().dataForms;
     const { active, over } = event;
 
     const fromData = active?.data?.current as DraggableDataType;
@@ -80,6 +81,8 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
     const toNode = useStudioFlowStore.getState().nodes.find((node) => node.id === toData?.belongsTo);
 
     const isTheSameNode = fromNode?.id === toNode?.id;
+    const currentFormData = fromData?.belongsTo ? dataForms[fromData?.belongsTo] : {};
+    const allFormData = dataForms;
 
     console.log('[DndContainer] handleDragEnd', {
       from,
@@ -102,13 +105,16 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         (fromOption.type === StudioCategoryTypeEnum.STANDALONE || fromCategory.isRoot) &&
         fromData?.optionKey
       ) {
-        const newNode = getNewNode(fromData.optionKey, fromOption);
+        const isValid = fromOption?.onDroppedInValidate?.(fromOption, allFormData) ?? true;
+        if (isValid) {
+          const newNode = getNewNode(fromData.optionKey, fromOption);
 
-        useStudioFlowStore.getState().addNode(newNode);
+          useStudioFlowStore.getState().addNode(newNode);
 
-        console.log('[DndContainer] handleDragEnd case: Dropped on distribution from source', {
-          newNode,
-        });
+          console.log('[DndContainer] handleDragEnd case: Dropped on distribution from source', {
+            newNode,
+          });
+        }
       }
 
       // Decouple
@@ -156,28 +162,31 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
 
       // Create WHEN it's Inline && from Source
       if (from === DndType.SOURCE && fromOption.type === StudioCategoryTypeEnum.INLINE && fromData?.optionKey) {
-        console.log('[DndContainer] handleDragEnd case: Dropped on package from source', {
-          fromData,
-          toData,
-        });
+        const isValid = fromOption?.onSnapValidate?.(fromOption, toOption, currentFormData, allFormData) ?? true;
+        if (isValid) {
+          console.log('[DndContainer] handleDragEnd case: Dropped on package from source', {
+            fromData,
+            toData,
+          });
 
-        const newNode = getNewNode(fromData.optionKey, fromOption);
+          const newNode = getNewNode(fromData.optionKey, fromOption);
 
-        toNode.data.metadata.children = [...toNode.data.metadata.children, newNode];
+          toNode.data.metadata.children = [...toNode.data.metadata.children, newNode];
 
-        const updatedNodes = applyNodeChanges(
-          [
-            {
-              id: toNode.id,
-              type: 'position',
-              position: toNode.position,
-              positionAbsolute: toNode.position,
-              dragging: true,
-            },
-          ],
-          [toNode],
-        );
-        useStudioFlowStore.getState().updateNode(updatedNodes[0]);
+          const updatedNodes = applyNodeChanges(
+            [
+              {
+                id: toNode.id,
+                type: 'position',
+                position: toNode.position,
+                positionAbsolute: toNode.position,
+                dragging: true,
+              },
+            ],
+            [toNode],
+          );
+          useStudioFlowStore.getState().updateNode(updatedNodes[0]);
+        }
       }
 
       // Move current package to target package
@@ -189,26 +198,29 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
         fromData?.belongsTo &&
         fromData?.optionKey
       ) {
-        const addons = cloneData(fromNode.data.metadata.children).filter(
-          (_, index) => index >= (fromData?.childIndex || 0),
-        );
+        const isValid = fromOption?.onSnapValidate?.(fromOption, toOption, currentFormData, allFormData) ?? true;
+        if (isValid) {
+          const addons = cloneData(fromNode.data.metadata.children).filter(
+            (_, index) => index >= (fromData?.childIndex || 0),
+          );
 
-        toNode.data.metadata.children = [...toNode.data.metadata.children, ...addons];
+          toNode.data.metadata.children = [...toNode.data.metadata.children, ...addons];
 
-        fromNode.data.metadata.children = fromNode.data.metadata.children.filter(
-          (_, index) => index < (fromData?.childIndex || 0),
-        );
+          fromNode.data.metadata.children = fromNode.data.metadata.children.filter(
+            (_, index) => index < (fromData?.childIndex || 0),
+          );
 
-        const updatedNodes = applyNodeChanges(
-          [
-            { id: toNode.id, type: 'position', position: toNode.position, positionAbsolute: toNode.position },
-            { id: fromNode.id, type: 'position', position: fromNode.position, positionAbsolute: fromNode.position },
-          ],
-          [toNode, fromNode],
-        );
+          const updatedNodes = applyNodeChanges(
+            [
+              { id: toNode.id, type: 'position', position: toNode.position, positionAbsolute: toNode.position },
+              { id: fromNode.id, type: 'position', position: fromNode.position, positionAbsolute: fromNode.position },
+            ],
+            [toNode, fromNode],
+          );
 
-        useStudioFlowStore.getState().updateNode(updatedNodes[0]);
-        useStudioFlowStore.getState().updateNode(updatedNodes[1]);
+          useStudioFlowStore.getState().updateNode(updatedNodes[0]);
+          useStudioFlowStore.getState().updateNode(updatedNodes[1]);
+        }
       }
     }
 
@@ -220,7 +232,10 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
           toData,
         });
 
-        useStudioFlowStore.getState().removeNode(fromData?.belongsTo);
+        const isValid = fromOption?.onDroppedOutValidate?.(fromOption, currentFormData, allFormData) ?? true;
+        if (isValid) {
+          useStudioFlowStore.getState().removeNode(fromData?.belongsTo);
+        }
       }
     }
 

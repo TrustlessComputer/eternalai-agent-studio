@@ -130,7 +130,7 @@ const useStudioCategoryStore = create<State>((set, get) => ({
           } else {
             return {
               ...item,
-              disabled: mapCategories[item.key]?.disabled ?? true,
+              disabled: true,
             };
           }
         });

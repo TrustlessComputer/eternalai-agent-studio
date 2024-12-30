@@ -11,6 +11,7 @@ type Story = StoryObj<typeof Studio>;
 const args = {
   categories: MODEL_CATEGORIES,
   dataSource: DATA_SOURCE,
+  data: GRAPH_DATA_TEMPLATE_2,
 } satisfies StudioProps;
 
 const meta: Meta<typeof Studio> = {
@@ -21,19 +22,20 @@ const meta: Meta<typeof Studio> = {
 
 export const Default: Story = {
   render: function useTabs(args) {
-    const ref = useRef<StudioRef>(null);
+    // const ref = useRef<StudioRef>(null);
 
-    useEffect(() => {
-      if (ref.current) {
-        ref.current.setData(GRAPH_DATA_TEMPLATE_2);
-      }
-    }, []);
+    // useEffect(() => {
+    //   if (ref.current) {
+    //     ref.current.cleanup();
+    //     ref.current.redraw(GRAPH_DATA_TEMPLATE_2);
+    //   }
+    // }, []);
 
     return (
       <div style={{ width: 'calc(100vw - 3rem)', height: 'calc(100vh - 3rem)' }}>
         <Studio
           {...args}
-          ref={ref}
+          // ref={ref}
           onChange={(data) => {
             console.log('[Studio] onChange', data);
           }}

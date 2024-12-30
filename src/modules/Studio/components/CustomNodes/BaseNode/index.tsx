@@ -7,7 +7,7 @@ import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategorySto
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { DataSchema, StudioCategoryMap } from '@/modules/Studio/types/category';
 import { DraggableDataType } from '@/modules/Studio/types/dnd';
-import { Fragment, FunctionComponent, useMemo } from 'react';
+import { FunctionComponent, useMemo } from 'react';
 import FormRender from '../../DataFields/FormRender';
 import Package from '../../DnD/Package';
 import Product from '../../DnD/Product';
@@ -37,18 +37,10 @@ const LegoRender = ({
 }) => {
   const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
   const isFixedHeight = useMemo(() => {
-    if (fields.length === 0) {
-      return true;
-    }
-    if (fields.length === 1) {
-      const field = fields[0];
-      const fieldData = (schemaData || {})[field];
-      if (fieldData.type !== 'textarea') {
-        return true;
-      }
-    }
+    const field = fields[0];
+    const fieldData = (schemaData || {})[field];
 
-    return false;
+    return fieldData?.type !== 'textarea';
   }, [fields, schemaData]);
 
   return (
@@ -302,7 +294,7 @@ const BaseNodeSingleItem = ({ data }: Props) => {
           />
         </Product>
 
-        <div className="base-node__handles">
+        {/* <div className="base-node__handles">
           {data.sourceHandles?.map((handle, index) => (
             <Fragment key={handle}>
               <Handle
@@ -321,7 +313,7 @@ const BaseNodeSingleItem = ({ data }: Props) => {
               />
             </Fragment>
           ))}
-        </div>
+        </div> */}
       </div>
 
       <Package id={data.id} data={packageData} />

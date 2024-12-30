@@ -2,14 +2,19 @@ import cs from 'clsx';
 import './Textbox.scss';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import NoDraggable from '../../DnD/NoDraggable';
+import { DataSchema } from '@/modules/Studio/types/category';
+import { useFormFunction } from '@/modules/Studio/hooks/useFormFunction';
 
 type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
   formId: string;
   name: string;
   readonly?: boolean;
+  schemaData?: DataSchema;
+  keyMapper: string;
 };
 
-function Textbox({ formId, placeholder, className, name, readonly, ...rest }: Props) {
+function Textbox({ formId, placeholder, className, name, readonly, keyMapper, ...rest }: Props) {
+  const formFunctions = useFormFunction(keyMapper);
   const { dataForms, setFormFields } = useStudioFormStore();
 
   const value = dataForms[formId]?.[name] || '';
@@ -21,6 +26,8 @@ function Textbox({ formId, placeholder, className, name, readonly, ...rest }: Pr
     }
   };
 
+  const isError = !(formFunctions?.onFieldValidate?.(name, value) ?? true);
+
   return (
     <NoDraggable>
       <input
@@ -29,7 +36,9 @@ function Textbox({ formId, placeholder, className, name, readonly, ...rest }: Pr
         type="text"
         placeholder={placeholder}
         name={name}
-        className={cs('studio-field-input', className)}
+        className={cs('studio-field-input', className, {
+          'studio-field-input__error': isError,
+        })}
         value={value as string}
       />
     </NoDraggable>

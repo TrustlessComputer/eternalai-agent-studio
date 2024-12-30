@@ -7,7 +7,7 @@ import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategorySto
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { DataSchema, StudioCategoryMap } from '@/modules/Studio/types/category';
 import { DraggableDataType } from '@/modules/Studio/types/dnd';
-import { Fragment, FunctionComponent, useMemo } from 'react';
+import { FunctionComponent, useMemo } from 'react';
 import FormRender from '../../DataFields/FormRender';
 import Package from '../../DnD/Package';
 import Product from '../../DnD/Product';
@@ -15,6 +15,7 @@ import ProductAddon from '../../DnD/ProductAddon';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
 import TextRender from '../../Render/TextRender';
+import BaseNodeWrapper from '../BaseNodeWrapper';
 
 type Props = NodeProps<StudioNode>;
 
@@ -24,7 +25,7 @@ const LegoRender = ({
   id,
   schemaData,
   title,
-  categoryId,
+  categoryKey,
   readonly,
 }: {
   background?: string;
@@ -32,24 +33,23 @@ const LegoRender = ({
   id: string;
   schemaData?: DataSchema;
   title: React.ReactNode | FunctionComponent;
-  categoryId: string;
+  categoryKey: string;
   readonly?: boolean;
 }) => {
   const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
-  const isFixedHeight = useMemo(() => {
-    if (fields.length === 0) {
+
+  const isDynamicHeight = useMemo(() => {
+    if (fields.length > 1) {
       return true;
     }
-    if (fields.length === 1) {
-      const field = fields[0];
-      const fieldData = (schemaData || {})[field];
-      if (fieldData.type !== 'textarea') {
-        return true;
-      }
-    }
 
-    return false;
+    const field = fields[0];
+    const fieldData = (schemaData || {})[field];
+
+    return fieldData?.type === 'textarea';
   }, [fields, schemaData]);
+
+  const isFixedHeight = !isDynamicHeight;
 
   return (
     <Lego
@@ -61,7 +61,7 @@ const LegoRender = ({
       }}
     >
       <LegoContent>
-        <FormRender readonly={readonly} categoryId={categoryId} id={id} schemaData={schemaData}>
+        <FormRender readonly={readonly} categoryKey={categoryKey} id={id} schemaData={schemaData}>
           <TextRender data={title} />
         </FormRender>
       </LegoContent>
@@ -82,7 +82,7 @@ const DraggingFloating = ({ data }: { data: StudioNode }) => {
       title={option.title}
       id={data.id}
       schemaData={option.data}
-      categoryId={option.keyMapper}
+      categoryKey={option.keyMapper}
       readonly
     />
   );
@@ -105,8 +105,8 @@ const ChildBaseNode = ({
   const option = mapCategories[keyMapper] as StudioCategoryMap;
 
   const productData: Omit<DraggableDataType, 'type'> = useMemo(
-    () => ({ optionId: option.key, belongsTo, childIndex: index }),
-    [belongsTo, index, option.key],
+    () => ({ optionKey: option.keyMapper, belongsTo, childIndex: index }),
+    [belongsTo, index, option.keyMapper],
   );
 
   const floatingItems = useMemo(() => items.slice(index), [items, index]);
@@ -129,7 +129,7 @@ const ChildBaseNode = ({
         title={option.title}
         id={data.id}
         schemaData={option.data}
-        categoryId={option.keyMapper}
+        categoryKey={option.keyMapper}
       />
     </ProductAddon>
   );
@@ -149,55 +149,43 @@ const BaseNodeReadonly = ({ data }: Props) => {
       title={option.title}
       id={data.id}
       schemaData={schemaData}
-      categoryId={option.keyMapper}
+      categoryKey={option.keyMapper}
       readonly
     />
   );
 };
 
-const BaseNodeConnection = ({ data }: { data: StudioNode['data'] }) => {
+const BaseNodeConnection = () => {
   return (
     <>
-      {data.sourceHandles?.map((handle, index) => (
-        <Handle
-          key={handle}
-          id={handle}
-          type="source"
-          position={Position.Right}
-          className="base-node__handle"
-          isConnectable={false}
-        />
-      ))}
-      {data.sourceHandles?.map((handle, index) => (
-        <Handle
-          key={handle}
-          id={handle}
-          type="source"
-          position={Position.Top}
-          className="base-node__handle"
-          isConnectable={false}
-        />
-      ))}
-      {data.sourceHandles?.map((handle, index) => (
-        <Handle
-          key={handle}
-          id={handle}
-          type="source"
-          position={Position.Left}
-          className="base-node__handle"
-          isConnectable={false}
-        />
-      ))}
-      {data.sourceHandles?.map((handle, index) => (
-        <Handle
-          key={handle}
-          id={handle}
-          type="source"
-          position={Position.Bottom}
-          isConnectable={false}
-          className="base-node__handle"
-        />
-      ))}
+      <Handle
+        id="a"
+        type="source"
+        position={Position.Top}
+        className="base-node__handles__handle"
+        isConnectable={false}
+      />
+      <Handle
+        id="b"
+        type="source"
+        position={Position.Right}
+        className="base-node__handles__handle"
+        isConnectable={false}
+      />
+      <Handle
+        id="c"
+        type="source"
+        position={Position.Bottom}
+        className="base-node__handles__handle"
+        isConnectable={false}
+      />
+      <Handle
+        id="d"
+        type="source"
+        position={Position.Left}
+        className="base-node__handles__handle"
+        isConnectable={false}
+      />
     </>
   );
 };
@@ -212,8 +200,8 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
   const schemaData = option.data;
 
   const productData: Omit<DraggableDataType, 'type'> = useMemo(
-    () => ({ optionId: option.key, belongsTo: data.id }),
-    [data.id, option.key],
+    () => ({ optionKey: option.keyMapper, belongsTo: data.id }),
+    [data.id, option.keyMapper],
   );
 
   const renderChildren = useMemo(() => {
@@ -225,47 +213,49 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
   const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
-    <div
-      className="base-node"
-      style={{
-        position: 'relative',
-      }}
-    >
-      <Product
-        id={data.id}
-        data={productData}
-        draggingFloating={
-          <div>
-            <BaseNodeReadonly {...rest} data={data} />
-            {renderChildren.map((item) => (
-              <DraggingFloating key={`dragging-floating-${item.id}`} data={item} />
-            ))}
-          </div>
-        }
+    <BaseNodeWrapper option={option}>
+      <div
+        className="base-node"
+        style={{
+          position: 'relative',
+        }}
       >
-        <LegoRender
-          background={option.color}
-          icon={option.icon}
-          title={option.title}
+        <Product
           id={data.id}
-          schemaData={schemaData}
-          categoryId={option.keyMapper}
-        />
-      </Product>
+          data={productData}
+          draggingFloating={
+            <div>
+              <BaseNodeReadonly {...rest} data={data} />
+              {renderChildren.map((item) => (
+                <DraggingFloating key={`dragging-floating-${item.id}`} data={item} />
+              ))}
+            </div>
+          }
+        >
+          <LegoRender
+            background={option.color}
+            icon={option.icon}
+            title={option.title}
+            id={data.id}
+            schemaData={schemaData}
+            categoryKey={option.keyMapper}
+          />
+        </Product>
 
-      {renderChildren?.map((item, index) => (
-        <ChildBaseNode
-          index={index}
-          key={`base-node-child-${item.id}`}
-          data={item}
-          items={children}
-          belongsTo={data.id}
-        />
-      ))}
+        {renderChildren?.map((item, index) => (
+          <ChildBaseNode
+            index={index}
+            key={`base-node-child-${item.id}`}
+            data={item}
+            items={children}
+            belongsTo={data.id}
+          />
+        ))}
 
-      <Package id={data.id} data={packageData} />
-      <BaseNodeConnection data={data} />
-    </div>
+        <Package id={data.id} data={packageData} />
+        <BaseNodeConnection />
+      </div>
+    </BaseNodeWrapper>
   );
 };
 
@@ -277,32 +267,33 @@ const BaseNodeSingleItem = ({ data }: Props) => {
   const schemaData = option.data;
 
   const productData: Omit<DraggableDataType, 'type'> = useMemo(
-    () => ({ optionId: option.key, belongsTo: data.id }),
-    [data.id, option.key],
+    () => ({ optionKey: option.keyMapper, belongsTo: data.id }),
+    [data.id, option.keyMapper],
   );
 
   const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
-    <div
-      className="base-node-wrapper"
-      style={{
-        position: 'relative',
-      }}
-    >
-      <div style={{ position: 'relative', width: '100%' }}>
-        <Product id={data.id} data={productData}>
-          <LegoRender
-            background={option.color}
-            icon={option.icon}
-            title={option.title}
-            id={data.id}
-            schemaData={schemaData}
-            categoryId={option.keyMapper}
-          />
-        </Product>
+    <BaseNodeWrapper option={option}>
+      <div
+        className="base-node-wrapper"
+        style={{
+          position: 'relative',
+        }}
+      >
+        <div style={{ position: 'relative', width: '100%' }}>
+          <Product id={data.id} data={productData}>
+            <LegoRender
+              background={option.color}
+              icon={option.icon}
+              title={option.title}
+              id={data.id}
+              schemaData={schemaData}
+              categoryKey={option.keyMapper}
+            />
+          </Product>
 
-        <div className="base-node__handles">
+          {/* <div className="base-node__handles">
           {data.sourceHandles?.map((handle, index) => (
             <Fragment key={handle}>
               <Handle
@@ -321,12 +312,13 @@ const BaseNodeSingleItem = ({ data }: Props) => {
               />
             </Fragment>
           ))}
+        </div> */}
         </div>
-      </div>
 
-      <Package id={data.id} data={packageData} />
-      <BaseNodeConnection data={data} />
-    </div>
+        <Package id={data.id} data={packageData} />
+        <BaseNodeConnection />
+      </div>
+    </BaseNodeWrapper>
   );
 };
 

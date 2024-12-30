@@ -1,9 +1,10 @@
 export type DraggableDataType = {
   type: DndType;
-  categoryId?: string;
-  optionId?: string;
+  categoryKey?: string;
+  optionKey?: string;
   belongsTo?: string;
   childIndex?: number;
+  isRoot?: boolean;
 };
 
 export enum DndType {
@@ -14,4 +15,6 @@ export enum DndType {
   ADDON = 'addon',
   PACKAGE = 'package',
   DISTRIBUTION = 'distribution',
+
+  BOX_WRAPPER = 'box_wrapper',
 }

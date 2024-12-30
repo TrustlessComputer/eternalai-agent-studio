@@ -17,7 +17,7 @@ function Listen() {
   const throttleDataForms = useThrottleValue(dataForms, 500);
 
   useEffect(() => {
-    console.log('___________throttleNodes', { throttleNodes, throttleDataForms });
+    // console.log('___________throttleNodes', { throttleNodes, throttleDataForms });
     // sync nodes with data
 
     const mapCategories = useStudioCategoryStore.getState().mapCategories;
@@ -93,11 +93,47 @@ function Publish({ onChange }: { onChange?: (data: StudioDataNode[]) => void }) 
   return <></>;
 }
 
+function DataSync() {
+  const entry = useStudioDataStore((state) => state.entry);
+  const data = useStudioDataStore((state) => state.data);
+  const rootCategory = useStudioCategoryStore((state) => state.rootCategory);
+
+  useEffect(() => {
+    if (!entry) {
+      if (rootCategory) {
+        const rootOptions = rootCategory.options as StudioCategoryMap[];
+        const rootOptionsKeyMapper = rootOptions.map((item) => item.keyMapper);
+        const newEntry = data?.find(
+          (item) => item.keyMapper === rootCategory.keyMapper || rootOptionsKeyMapper.includes(item.keyMapper),
+        );
+        if (newEntry) {
+          // set entry
+          useStudioDataStore.getState().setEntry(newEntry);
+          useStudioCategoryStore.getState().updateCategoriesForEntry(newEntry);
+        } else {
+          useStudioCategoryStore.getState().updateCategoriesForEntry(null);
+        }
+      }
+    } else {
+      const existEntry = data.find((item) => item.id === entry.id);
+      if (!existEntry) {
+        // remove entry
+        useStudioDataStore.getState().setEntry(null);
+        useStudioCategoryStore.getState().updateCategoriesForEntry(null);
+      }
+    }
+    // useStudioCategoryStore.getState().updateCategoriesForEntry(entry);
+  }, [entry, data, rootCategory]);
+
+  return <></>;
+}
+
 function DataFlow({ onChange }: { onChange?: (data: StudioDataNode[]) => void }) {
   return (
     <>
       <Listen />
       <Publish onChange={onChange} />
+      <DataSync />
     </>
   );
 }

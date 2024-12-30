@@ -1,4 +1,4 @@
-import { Background, ConnectionMode, Controls, MiniMap, NodeTypes, ReactFlow } from '@xyflow/react';
+import { Background, ConnectionMode, Controls, MiniMap, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useEffect, useState } from 'react';
 
@@ -6,11 +6,12 @@ import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
 import { FlowView } from '../../types/ui';
 
+import { FLOW_EDGE_TYPES, FLOW_NODE_TYPES } from '../../constants/keyMapper';
 import Distribution from '../DnD/Distribution';
 import './Board.scss';
 import BoardOverlay from './BoardOverlay';
 
-function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
+function Board() {
   const nodes = useStudioFlowStore((state) => state.nodes);
   const edges = useStudioFlowStore((state) => state.edges);
 
@@ -35,9 +36,10 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
       <BoardOverlay />
       <ReactFlow
         nodes={nodes}
-        nodeTypes={nodeTypes}
+        nodeTypes={FLOW_NODE_TYPES}
         onNodesChange={onNodesChange}
         edges={edges}
+        edgeTypes={FLOW_EDGE_TYPES}
         onEdgesChange={onEdgesChange}
         edgesFocusable={false}
         fitViewOptions={{ padding: 1 }}
@@ -50,8 +52,10 @@ function Board({ nodeTypes }: { nodeTypes?: NodeTypes }) {
         disableKeyboardA11y
         minZoom={1}
         maxZoom={1}
+        snapGrid={[50, 50]}
+        snapToGrid
       >
-        <Controls />
+        <Controls fitViewOptions={{ padding: 1 }} />
         <Background />
         <MiniMap />
       </ReactFlow>

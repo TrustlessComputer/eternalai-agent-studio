@@ -12,6 +12,7 @@ const Sidebar = () => {
   const categories = useStudioCategoryStore((state) => state.categories);
   const filters = useStudioCategoryStore((state) => state.filters);
 
+  // check data have contains isRoot or not
   const renderNavigationCategories = useMemo(() => {
     return categories.filter((item) => !item.hidden);
   }, [categories]);
@@ -29,7 +30,7 @@ const Sidebar = () => {
       <div className="sidebar__left">
         <div className="sidebar__left__inner">
           {renderNavigationCategories.map((category) => (
-            <CategoryNavigation {...category} />
+            <CategoryNavigation {...category} key={category.keyMapper} />
           ))}
         </div>
       </div>
@@ -39,7 +40,7 @@ const Sidebar = () => {
 
         <div className="sidebar__right__inner">
           {renderGroupCategories.map((category) => (
-            <CategoryGroup {...category} />
+            <CategoryGroup {...category} categoryKey={category.keyMapper} key={category.keyMapper} />
           ))}
         </div>
       </div>

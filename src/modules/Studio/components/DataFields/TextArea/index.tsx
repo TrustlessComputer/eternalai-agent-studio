@@ -2,14 +2,19 @@ import cs from 'clsx';
 import './TextArea.scss';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import NoDraggable from '../../DnD/NoDraggable';
+import { DataSchema } from '@/modules/Studio/types/category';
+import { useFormFunction } from '@/modules/Studio/hooks/useFormFunction';
 
 type Props = Omit<React.ComponentPropsWithoutRef<'textarea'>, 'defaultValue'> & {
   formId: string;
   name: string;
   readonly?: boolean;
+  schemaData?: DataSchema;
+  keyMapper: string;
 };
 
-function TextArea({ formId, placeholder, className, name, readonly, ...rest }: Props) {
+function TextArea({ formId, placeholder, className, name, readonly, keyMapper, ...rest }: Props) {
+  const formFunctions = useFormFunction(keyMapper);
   const { dataForms, setFormFields } = useStudioFormStore();
 
   const value = dataForms[formId]?.[name] || '';
@@ -21,6 +26,8 @@ function TextArea({ formId, placeholder, className, name, readonly, ...rest }: P
     }
   };
 
+  const isError = !(formFunctions?.onFieldValidate?.(name, value) ?? true);
+
   return (
     <NoDraggable>
       <textarea
@@ -28,7 +35,9 @@ function TextArea({ formId, placeholder, className, name, readonly, ...rest }: P
         onChange={handleOnChange}
         placeholder={placeholder}
         name={name}
-        className={cs('studio-field-text-area', className)}
+        className={cs('studio-field-text-area', className, {
+          'studio-field-text-area__error': isError,
+        })}
         value={value as string}
         rows={4}
       />

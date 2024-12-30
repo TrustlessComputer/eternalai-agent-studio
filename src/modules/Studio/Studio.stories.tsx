@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { useEffect, useRef } from 'react';
-import { Studio, StudioProps, StudioRef } from './Studio';
+import { Studio, StudioProps } from './Studio';
 import { MODEL_CATEGORIES } from './constants/categories';
-import { GRAPH_DATA_TEMPLATE_2 } from './constants/data';
 import { DATA_SOURCE } from './constants/dataSource';
 
 type Story = StoryObj<typeof Studio>;
@@ -11,7 +9,8 @@ type Story = StoryObj<typeof Studio>;
 const args = {
   categories: MODEL_CATEGORIES,
   dataSource: DATA_SOURCE,
-  data: GRAPH_DATA_TEMPLATE_2,
+  // data: GRAPH_DATA_TEMPLATE_2,
+  data: [],
 } satisfies StudioProps;
 
 const meta: Meta<typeof Studio> = {

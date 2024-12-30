@@ -9,11 +9,11 @@ import './FormRender.scss';
 type Props = React.PropsWithChildren & {
   id: string;
   schemaData?: DataSchema;
-  categoryId: string;
+  categoryKey: string;
   readonly?: boolean;
 };
 
-function FormRender({ id, schemaData, children, readonly }: Props) {
+function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) {
   const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
 
   const renderForm = () => {
@@ -27,19 +27,18 @@ function FormRender({ id, schemaData, children, readonly }: Props) {
             <div className="studio-form-single-field">
               <div className="studio-form-single-field-row">{children}</div>
               <div className="studio-form-single-field-row">
-                <Textbox readonly={readonly} formId={id} name={field} placeholder={fieldData.placeholder} />
+                <Textbox
+                  readonly={readonly}
+                  formId={id}
+                  name={field}
+                  placeholder={fieldData.placeholder}
+                  schemaData={schemaData}
+                  keyMapper={categoryKey}
+                />
               </div>
             </div>
           );
         } else if (fieldData.type === 'textarea') {
-          // return (
-          //   <div className="studio-form-single-field">
-          //     <div className="studio-form-single-field-row">{children}</div>
-          //     <div className="studio-form-single-field-row">
-          //       <TextArea readonly={readonly} formId={id} name={field} placeholder={fieldData.placeholder} />
-          //     </div>
-          //   </div>
-          // );
           return (
             <div className="studio-form-multiple-field">
               <div className="studio-form-multiple-field-heading">{children}</div>
@@ -53,7 +52,14 @@ function FormRender({ id, schemaData, children, readonly }: Props) {
                     >
                       <span>{schemaData[field].label}</span>
                       <div>
-                        <TextArea readonly={readonly} formId={id} name={field} placeholder={fieldData.placeholder} />
+                        <TextArea
+                          readonly={readonly}
+                          formId={id}
+                          name={field}
+                          placeholder={fieldData.placeholder}
+                          schemaData={schemaData}
+                          keyMapper={categoryKey}
+                        />
                       </div>
                     </div>
                   );
@@ -72,6 +78,8 @@ function FormRender({ id, schemaData, children, readonly }: Props) {
                   name={field}
                   placeholder={fieldData.placeholder}
                   dataSourceKey={schemaData[field].dataSourceKey}
+                  schemaData={schemaData}
+                  keyMapper={categoryKey}
                 />
               </div>
             </div>
@@ -95,6 +103,7 @@ function FormRender({ id, schemaData, children, readonly }: Props) {
                           formId={id}
                           name={field}
                           placeholder={schemaData[field].placeholder}
+                          keyMapper={categoryKey}
                         />
                       )}
                       {schemaData[field].type === 'textarea' && (
@@ -103,6 +112,7 @@ function FormRender({ id, schemaData, children, readonly }: Props) {
                           formId={id}
                           name={field}
                           placeholder={schemaData[field].placeholder}
+                          keyMapper={categoryKey}
                         />
                       )}
                       {schemaData[field].type === 'select' && (
@@ -112,6 +122,7 @@ function FormRender({ id, schemaData, children, readonly }: Props) {
                           name={field}
                           placeholder={schemaData[field].placeholder}
                           dataSourceKey={schemaData[field].dataSourceKey}
+                          keyMapper={categoryKey}
                         />
                       )}
                     </div>

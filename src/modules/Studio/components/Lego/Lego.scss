@@ -3,7 +3,7 @@
   width: max-content;
   height: 41.5px;
 
-  &::before {
+  &:before {
     content: '';
     position: absolute;
     top: -0.7px;
@@ -19,8 +19,8 @@
     user-select: none;
   }
 
-  .lego--disabled {
-    opacity: 0.6;
+  &.lego--disabled {
+    opacity: 0.5;
   }
 
   .lego__stud {
@@ -89,7 +89,7 @@
   .studio-lego-dynamic__top {
     position: absolute;
     top: 0;
-    left: 0px;
+    left: 0;
     width: calc(100% - 1px);
 
     > div {
@@ -100,7 +100,7 @@
   .studio-lego-dynamic__bottom {
     position: absolute;
     bottom: 0;
-    left: 0px;
+    left: 0;
     width: calc(100% - 1px);
     z-index: 0;
 

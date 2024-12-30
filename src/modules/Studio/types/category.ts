@@ -30,8 +30,13 @@ type BaseCategoryOption = {
   color?: string;
 };
 
+export enum StudioCategoryTypeEnum {
+  INLINE = 'inline',
+  STANDALONE = 'standalone',
+}
+
 export type StudioCategoryOption = BaseCategoryOption & {
-  type?: 'inline' | 'standalone'; // default is inline
+  type?: StudioCategoryTypeEnum; // default is inline
 };
 
 export type StudioCategory = Omit<BaseCategoryOption, 'value' | 'data' | 'color'> & {

@@ -10,7 +10,7 @@ import { StudioCategoryOption } from '../types/category';
 import { DraggableDataType } from '../types/dnd';
 import { StudioNode } from '../types/graph';
 import { cloneData, getFormDataFromCategoryOption } from '../utils/data';
-import { createNewBaseEdge, getSourceHandle, getTargetHandle } from '../utils/edge';
+import { createNewBaseEdge, getSourceHandle } from '../utils/edge';
 import { createNewBaseNode } from '../utils/node';
 
 const useDndAction = () => {
@@ -48,9 +48,9 @@ const useDndAction = () => {
   }, []);
 
   const removePartOfPackage = useCallback((node?: StudioNode, index?: number) => {
-    if (!node || !index) return {};
+    if (!node) return {};
 
-    node.data.metadata.children = cloneData(node.data.metadata.children).filter((_, i) => i < index);
+    node.data.metadata.children = cloneData(node.data.metadata.children).filter((_, i) => i < (index || 0));
 
     return {
       sourceNode: node,
@@ -96,8 +96,6 @@ const useDndAction = () => {
     if (rootNode) {
       const newEdge = createNewBaseEdge(rootNode.id, newNode.id, true);
 
-      newNode.data.sourceHandles = [getTargetHandle(rootNode.id, newNode.id), getSourceHandle(rootNode.id, newNode.id)];
-      newNode.data.targetHandles = [getSourceHandle(rootNode.id, newNode.id), getTargetHandle(rootNode.id, newNode.id)];
       rootNode.data.sourceHandles.push(getSourceHandle(rootNode.id, newNode.id));
 
       useStudioFlowStore.getState().addEdge(newEdge);
@@ -124,8 +122,6 @@ const useDndAction = () => {
           .map((child) => getNewNodeInfo(child.data.metadata.keyMapper, fromOption, child.id))
           .filter((child) => !!child);
 
-        newNode.data.sourceHandles = [getTargetHandle(rootNode.id, newNode.id), getSourceHandle(rootNode.id, newNode.id)];
-        newNode.data.targetHandles = [getSourceHandle(rootNode.id, newNode.id), getTargetHandle(rootNode.id, newNode.id)];
         rootNode.data.sourceHandles.push(getSourceHandle(rootNode.id, newNode.id));
 
         useStudioFlowStore.getState().addNode(newNode);

@@ -202,6 +202,7 @@ function DnDContainer({ children }: { children: React.ReactNode }) {
 
     if (to === DndType.FACTORY) {
       // Remove node
+      if (fromCategory.isRoot) return;
       if (from === DndType.PRODUCT && fromData?.belongsTo) {
         console.log('[DndContainer] handleDragEnd case: Dropped on factory from product', {
           fromData,

@@ -11,7 +11,7 @@ import './CategoryGroup.scss';
 type Props = StudioCategory;
 
 const CategoryGroup = (category: Props) => {
-  const { title, color, options, customizeRenderOnSideBar, required } = useMemo(() => category, [category]);
+  const { title, color, options, customizeRenderOnSideBar, required, disabled } = useMemo(() => category, [category]);
 
   const filteredOptions = useMemo(() => {
     return options.filter((item) => !item.hidden);
@@ -27,15 +27,27 @@ const CategoryGroup = (category: Props) => {
         <TextRender data={title} /> {required ? <span className="category-navigation_required">*</span> : ''}
       </h5>
       <div className="category-group__options">
-        {filteredOptions.map((option) => (
-          <Source id={option.key} key={option.key} data={{ optionId: option.key }}>
-            <Lego background={color} icon={option.icon}>
-              <LegoContent>
-                <TextRender data={option.title} />
-              </LegoContent>
-            </Lego>
-          </Source>
-        ))}
+        {filteredOptions.map((option) => {
+          if (disabled || option.disabled) {
+            return (
+              <Lego key={option.key} background={color} icon={option.icon} disabled={disabled || option.disabled}>
+                <LegoContent>
+                  <TextRender data={option.title} />
+                </LegoContent>
+              </Lego>
+            );
+          }
+
+          return (
+            <Source id={option.key} key={option.key} data={{ optionId: option.key }}>
+              <Lego background={color} icon={option.icon} disabled={disabled || option.disabled}>
+                <LegoContent>
+                  <TextRender data={option.title} />
+                </LegoContent>
+              </Lego>
+            </Source>
+          );
+        })}
       </div>
     </div>
   );

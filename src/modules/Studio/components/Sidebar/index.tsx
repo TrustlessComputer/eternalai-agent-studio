@@ -12,6 +12,7 @@ const Sidebar = () => {
   const categories = useStudioCategoryStore((state) => state.categories);
   const filters = useStudioCategoryStore((state) => state.filters);
 
+  // check data have contains isRoot or not
   const renderNavigationCategories = useMemo(() => {
     return categories.filter((item) => !item.hidden);
   }, [categories]);

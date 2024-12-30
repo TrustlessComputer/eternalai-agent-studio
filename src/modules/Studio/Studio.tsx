@@ -7,7 +7,7 @@ import Board from './components/Board';
 import DataFlow from './components/DataFlow';
 import DragMask from './components/DnD/DragMask';
 import Sidebar from './components/Sidebar';
-import { FLOW_NODE_TYPES } from './constants/keyMapper';
+import { FLOW_EDGE_TYPES, FLOW_NODE_TYPES } from './constants/keyMapper';
 
 import DnDContainer from './components/DnD/DnDContainer';
 import EventHandler from './components/EventHandler';
@@ -41,6 +41,12 @@ const StudioComponent = ({ data, className, categories, onChange, dataSource, ..
   const extendedNodeTypes = useMemo(() => {
     return {
       ...FLOW_NODE_TYPES,
+    };
+  }, []);
+
+  const extendedEdgeTypes = useMemo(() => {
+    return {
+      ...FLOW_EDGE_TYPES,
     };
   }, []);
 
@@ -88,7 +94,7 @@ const StudioComponent = ({ data, className, categories, onChange, dataSource, ..
         </div>
 
         <EventHandler className="studio__right">
-          <Board nodeTypes={extendedNodeTypes} />
+          <Board nodeTypes={extendedNodeTypes} edgeTypes={extendedEdgeTypes} />
         </EventHandler>
       </div>
     </DnDContainer>

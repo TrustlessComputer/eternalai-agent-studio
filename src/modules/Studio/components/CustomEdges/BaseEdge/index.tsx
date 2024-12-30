@@ -34,7 +34,7 @@ const BaseEdge = ({ id, source, target, markerEnd, style, label }: EdgeProps) =>
               transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
               pointerEvents: 'all',
             }}
-          ></div>
+          />
         </EdgeLabelRenderer>
       )}
     </React.Fragment>

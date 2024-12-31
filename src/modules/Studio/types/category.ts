@@ -22,9 +22,6 @@ type BaseCategory = {
   hidden?: boolean;
   icon?: React.ReactNode | FunctionComponent;
   order?: number;
-  customizeRenderOnNavigation?: FunctionComponent;
-  customizeRenderOnSideBar?: FunctionComponent;
-  customizeRenderOnBoard?: FunctionComponent;
   data?: DataSchema;
   color?: string;
 };
@@ -34,69 +31,87 @@ export enum StudioCategoryTypeEnum {
   STANDALONE = 'standalone',
 }
 
+/**
+ * onSnapValidate
+ * handle drag and drop to attach or detach item
+ * @param id current option item id
+ * @param option current option item
+ * @param toOption to option item
+ * @param formData option form data
+ * @param allFormData all form data
+ * @returns
+ */
+export type StudioCategoryOptionSnapValidatePayload = {
+  id: string | undefined;
+  option: StudioCategoryOption;
+  toOption: StudioCategoryOption;
+  formData: FormDataType | null;
+  allFormData: FormDataType;
+  fromNode?: StudioNode;
+  toNode?: StudioNode;
+  data: StudioDataNode[];
+};
+
+/**
+ * onDroppedInValidate
+ * handle drag and drop to add new item from sidebar to board
+ * @param id current option item id
+ * @param option current option item
+ * @param formData option form data
+ * @param allFormData all form data
+ * @returns
+ */
+export type StudioCategoryOptionDroppedInValidatePayload = {
+  id: string | undefined;
+  option: StudioCategoryOption;
+  formData: FormDataType | null;
+  allFormData: FormDataType;
+  toNode?: StudioNode;
+  data: StudioDataNode[];
+};
+
+/**
+ * onDroppedOutValidate
+ * handle drag and drop to remove exists item from board to sidebar
+ * @param id current option item id
+ * @param option current option item
+ * @param formData option data
+ * @param allFormData all form data
+ * @returns
+ */
+export type StudioCategoryOptionDroppedOutValidatePayload = {
+  id: string | undefined;
+  option: StudioCategoryOption;
+  formData: FormDataType | null;
+  allFormData: FormDataType;
+  fromNode?: StudioNode;
+  data: StudioDataNode[];
+};
+
 export type StudioCategoryDragDropFunctionType = {
-  /**
-   * onSnapValidate
-   * handle drag and drop to attach or detach item
-   * @param id current option item id
-   * @param option current option item
-   * @param toOption to option item
-   * @param formData option form data
-   * @param allFormData all form data
-   * @returns
-   */
-  onSnapValidate?: (data: {
-    id: string | undefined;
-    option: StudioCategoryOption;
-    toOption: StudioCategoryOption;
-    formData: FormDataType | null;
-    allFormData: FormDataType;
-    fromNode?: StudioNode;
-    toNode?: StudioNode;
-    data: StudioDataNode[];
-  }) => boolean;
-
-  /**
-   * onDroppedInValidate
-   * handle drag and drop to add new item from sidebar to board
-   * @param id current option item id
-   * @param option current option item
-   * @param formData option form data
-   * @param allFormData all form data
-   * @returns
-   */
-  onDroppedInValidate?: (data: {
-    id: string | undefined;
-    option: StudioCategoryOption;
-    formData: FormDataType | null;
-    allFormData: FormDataType;
-    toNode?: StudioNode;
-    data: StudioDataNode[];
-  }) => boolean; // add new item from sidebar to board
-
-  /**
-   * onDroppedOutValidate
-   * handle drag and drop to remove exists item from board to sidebar
-   * @param id current option item id
-   * @param option current option item
-   * @param formData option data
-   * @param allFormData all form data
-   * @returns
-   */
-  onDroppedOutValidate?: (data: {
-    id: string | undefined;
-    option: StudioCategoryOption;
-    formData: FormDataType | null;
-    allFormData: FormDataType;
-    fromNode?: StudioNode;
-    data: StudioDataNode[];
-  }) => boolean; // remove exist item from board to sidebar
+  onSnapValidate?: (data: StudioCategoryOptionSnapValidatePayload) => boolean;
+  onDroppedInValidate?: (data: StudioCategoryOptionDroppedInValidatePayload) => boolean; // add new item from sidebar to board
+  onDroppedOutValidate?: (data: StudioCategoryOptionDroppedOutValidatePayload) => boolean; // remove exist item from board to sidebar
 };
 
 export type StudioCategoryBoxWrapperType = {
   draggable?: boolean;
   title?: React.ReactNode | FunctionComponent;
   render?: (children: React.ReactNode, option: StudioCategoryOption) => ReactNode;
+};
+
+export type StudioCategoryOptionRenderPayload = {
+  option: StudioCategoryOption;
+  formData: FormDataType;
+  setFormFields: (fields: FormDataType) => void;
+  allFormData: FormDataType;
+  data: StudioDataNode[];
+};
+
+export type StudioOptionCustomizeRenderType = {
+  // render?: (data: StudioCategoryOptionRenderPayload) => ReactNode;
+  customizeRenderOnSideBar?: () => ReactNode;
+  customizeRenderOnBoard?: (data: StudioCategoryOptionRenderPayload) => ReactNode;
 };
 
 export type StudioCategoryFormFunctionType = {
@@ -139,7 +154,8 @@ export type StudioCategoryFormFunctionType = {
 
 export type StudioCategoryOption = BaseCategory &
   StudioCategoryDragDropFunctionType &
-  StudioCategoryFormFunctionType & {
+  StudioCategoryFormFunctionType &
+  StudioOptionCustomizeRenderType & {
     type?: StudioCategoryTypeEnum; // default is inline
     boxWrapper?: StudioCategoryBoxWrapperType;
   };
@@ -148,6 +164,7 @@ export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'color'> & {
   options: StudioCategoryOption[];
   color: string;
   isRoot?: boolean; // default is false. have only one root in entire category
+  customizeRenderOnNavigation?: () => ReactNode;
 };
 
 export type StudioCategoryMap = StudioCategory &

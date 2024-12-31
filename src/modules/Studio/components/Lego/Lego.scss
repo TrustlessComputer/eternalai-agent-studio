@@ -83,57 +83,66 @@
 
 .studio-lego-dynamic {
   position: relative;
-  padding-top: 24px;
-  padding-bottom: 24px;
+  min-height: 50px;
+  padding-top: 12px;
+  padding-bottom: 1px;
 
   .studio-lego-dynamic__top {
     position: absolute;
     top: 0;
     left: 0;
-    width: calc(100% - 1px);
+    width: 100%;
+    height: 24px;
 
-    > div {
+    .studio-lego-dynamic__top--relative {
+      position: relative;
       width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .studio-lego-dynamic__top--background {
+      position: absolute;
+      width: calc(100% - 1px);
+      top: 1px;
     }
   }
 
   .studio-lego-dynamic__bottom {
     position: absolute;
-    bottom: 0;
+    bottom: -10px;
     left: 0;
-    width: calc(100% - 1px);
-    z-index: 0;
+    width: 100%;
+    height: 42px;
 
-    > div {
+    .studio-lego-dynamic__bottom--relative {
+      position: relative;
       width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .studio-lego-dynamic__bottom--background {
+      position: absolute;
+      width: calc(100% - 1px);
+      bottom: 8px;
     }
   }
 
   .studio-lego-dynamic__body {
-    min-height: 42px;
-    border: 1px solid var(--border-color);
-    border-top: none;
-    border-bottom: none;
-    background-color: var(--background-color);
-    z-index: 2;
+    width: 100%;
+    height: calc(100% - 8px);
+    z-index: 3;
     position: relative;
-
     display: flex;
-    gap: 4px;
     padding-right: 32px;
     padding-left: 8px;
+    gap: 8px;
 
-    > div {
-      &:nth-child(1) {
-        transform: translateY(-4px);
-      }
+    border: 1px solid var(--border-color);
+    background-color: var(--background-color);
 
-      &:nth-child(2) {
-        width: 100%;
-        > div {
-          width: 100%;
-        }
-      }
-    }
+    border-bottom: none;
+    border-top: none;
   }
 }

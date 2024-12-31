@@ -1,6 +1,6 @@
 import { Background, ConnectionMode, Controls, MiniMap, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
@@ -10,8 +10,10 @@ import { FLOW_EDGE_TYPES, FLOW_NODE_TYPES } from '../../constants/keyMapper';
 import Distribution from '../DnD/Distribution';
 import './Board.scss';
 import BoardOverlay from './BoardOverlay';
+import useStudioDataStore from '../../stores/useStudioDataStore';
 
 function Board() {
+  const showConnectLine = useStudioDataStore((state) => state.showConnectLine);
   const nodes = useStudioFlowStore((state) => state.nodes);
   const edges = useStudioFlowStore((state) => state.edges);
 
@@ -31,6 +33,14 @@ function Board() {
     setCurrentView(useStudioFlowViewStore.getState().view);
   }, [reloadFlowCounter]);
 
+  const renderEdges = useMemo(() => {
+    if (showConnectLine) {
+      return edges;
+    }
+
+    return [];
+  }, [edges, showConnectLine]);
+
   return (
     <Distribution className="board">
       <BoardOverlay />
@@ -38,7 +48,7 @@ function Board() {
         nodes={nodes}
         nodeTypes={FLOW_NODE_TYPES}
         onNodesChange={onNodesChange}
-        edges={edges}
+        edges={renderEdges}
         edgeTypes={FLOW_EDGE_TYPES}
         onEdgesChange={onEdgesChange}
         edgesFocusable={false}

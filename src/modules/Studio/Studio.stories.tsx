@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Studio, StudioProps } from './Studio';
-import { MODEL_CATEGORIES } from './constants/categories';
-import { DATA_SOURCE } from './constants/dataSource';
+import { MODEL_CATEGORIES } from './exampleData/categories';
+import { DATA_SOURCE } from './exampleData/dataSource';
 
 type Story = StoryObj<typeof Studio>;
 
@@ -11,6 +11,7 @@ const args = {
   dataSource: DATA_SOURCE,
   // data: GRAPH_DATA_TEMPLATE_2,
   data: [],
+  showConnectLine: true,
 } satisfies StudioProps;
 
 const meta: Meta<typeof Studio> = {

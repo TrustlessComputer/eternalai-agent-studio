@@ -17,12 +17,15 @@ import { StudioCategory } from './types/category';
 import { DataSourceType } from './types/dataSource';
 import { StudioDataNode } from './types/graph';
 import { useStudioAgent } from './hooks/useStudioAgent';
+import useStudioDataStore from './stores/useStudioDataStore';
+import { SHOW_CONNECT_LINE } from './constants/defaultValues';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   data: StudioDataNode[];
   categories: StudioCategory[];
   onChange?: (data: StudioDataNode[]) => void;
   dataSource?: Record<string, DataSourceType[]>;
+  showConnectLine?: boolean;
 };
 
 export type StudioRef = {
@@ -30,7 +33,15 @@ export type StudioRef = {
   redraw: (data: StudioDataNode[]) => void;
 };
 
-const StudioComponent = ({ data, className, categories, onChange, dataSource, ...rest }: StudioProps) => {
+const StudioComponent = ({
+  data,
+  className,
+  categories,
+  onChange,
+  dataSource,
+  showConnectLine = SHOW_CONNECT_LINE,
+  ...rest
+}: StudioProps) => {
   const { redraw } = useStudioAgent();
 
   useEffect(() => {
@@ -42,6 +53,10 @@ const StudioComponent = ({ data, className, categories, onChange, dataSource, ..
       useStudioDataSourceStore.getState().setDataSource(dataSource);
     }
   }, [dataSource]);
+
+  useEffect(() => {
+    useStudioDataStore.getState().setShowConnectLine(showConnectLine);
+  }, [showConnectLine]);
 
   useEffect(() => {
     if (data.length) {

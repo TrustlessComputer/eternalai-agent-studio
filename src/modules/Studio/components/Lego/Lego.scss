@@ -9,7 +9,6 @@
     top: -0.7px;
     left: 42px;
     width: calc(100% - 42px);
-    height: 100%;
     height: 41.5px;
     border-radius: 0 4px 4px 0;
     border: 1px solid var(--border-color);
@@ -23,10 +22,50 @@
     opacity: 0.5;
   }
 
+  &.lego--dynamic {
+    height: max-content;
+
+    &:before {
+      height: 100%;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -0.5px;
+      transform: translateY(-50%);
+      width: 100%;
+      height: calc(100% - 20px);
+      border-left: 1px solid var(--border-color);
+      background-color: var(--background-color);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .lego__body {
+      align-items: flex-start;
+    }
+
+    .lego__content {
+      padding-top: 0.1em;
+    }
+
+    .lego__stud.lego__stud--bottom {
+      display: block;
+    }
+  }
+
   .lego__stud {
     position: absolute;
     top: -1px;
     left: -1px;
+
+    &.lego__stud--bottom {
+      top: auto;
+      bottom: -11px;
+      display: none;
+    }
 
     svg {
       path {
@@ -40,15 +79,15 @@
 
   .lego__icon {
     position: relative;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
 
     svg {
-      height: 16px;
-      width: 16px;
+      height: 20px;
+      width: 20px;
       fill: var(--background-color);
       stroke: var(--border-color);
 
@@ -78,71 +117,5 @@
     padding: 8px 12px;
     z-index: 2;
     position: relative;
-  }
-}
-
-.studio-lego-dynamic {
-  position: relative;
-  min-height: 50px;
-  padding-top: 12px;
-  padding-bottom: 1px;
-
-  .studio-lego-dynamic__top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 24px;
-
-    .studio-lego-dynamic__top--relative {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .studio-lego-dynamic__top--background {
-      position: absolute;
-      width: calc(100% - 1px);
-      top: 1px;
-    }
-  }
-
-  .studio-lego-dynamic__bottom {
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 100%;
-    height: 42px;
-
-    .studio-lego-dynamic__bottom--relative {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .studio-lego-dynamic__bottom--background {
-      position: absolute;
-      width: calc(100% - 1px);
-      bottom: 8px;
-    }
-  }
-
-  .studio-lego-dynamic__body {
-    width: 100%;
-    height: calc(100% - 8px);
-    z-index: 3;
-    position: relative;
-    display: flex;
-    padding-right: 32px;
-    padding-left: 8px;
-    gap: 8px;
-
-    border: 1px solid var(--border-color);
-    background-color: var(--background-color);
-
-    border-bottom: none;
-    border-top: none;
   }
 }

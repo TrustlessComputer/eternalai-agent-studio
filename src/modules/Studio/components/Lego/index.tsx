@@ -19,23 +19,24 @@ type Props = HTMLAttributes<HTMLDivElement> & {
   title?: React.ReactNode | FunctionComponent;
 };
 
-const FixedLego = ({
+const Lego = ({
+  fixedHeight = true,
   background = '#A041FF',
-  disabled = false,
-  icon,
+  disabled,
   className,
-  children,
-  borderColor,
   style,
+  icon,
+  children,
   ...props
-}: Omit<Props, 'fixedHeight'> & {
-  borderColor: string;
-}) => {
+}: Props) => {
+  const borderColor = useMemo(() => adjustColorShade(background, -20), [background]);
+
   return (
     <div
       {...props}
       className={cx('lego', className, {
         'lego--disabled': disabled,
+        'lego--dynamic': !fixedHeight,
       })}
       style={
         {
@@ -49,6 +50,10 @@ const FixedLego = ({
         <StudIcon />
       </div>
 
+      <div className="lego__stud lego__stud--bottom">
+        <StudIcon />
+      </div>
+
       <div className="lego__body">
         <div className="lego__icon">
           <ImageRender data={icon} size={20} />
@@ -58,60 +63,6 @@ const FixedLego = ({
       </div>
     </div>
   );
-};
-
-const DynamicLego = ({
-  children,
-  icon,
-  background,
-  borderColor,
-  ...props
-}: Omit<Props, 'fixedHeight'> & {
-  borderColor: string;
-}) => {
-  return (
-    <div
-      className="studio-lego-dynamic"
-      style={
-        {
-          '--border-color': borderColor,
-          '--background-color': background,
-        } as CSSProperties
-      }
-    >
-      <div className="studio-lego-dynamic__top">
-        <div className="studio-lego-dynamic__top--relative">
-          <div className="studio-lego-dynamic__top--background">
-            <FixedLego {...props} icon={null} background={background} borderColor={borderColor} />
-          </div>
-        </div>
-      </div>
-      <div className="studio-lego-dynamic__body">
-        <div>
-          <ImageRender data={icon} />
-        </div>
-        <div>{children}</div>
-      </div>
-
-      <div className="studio-lego-dynamic__bottom">
-        <div className="studio-lego-dynamic__bottom--relative">
-          <div className="studio-lego-dynamic__bottom--background">
-            <FixedLego {...props} icon={null} background={background} borderColor={borderColor} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Lego = ({ fixedHeight = true, background = '#A041FF', ...props }: Props) => {
-  const borderColor = useMemo(() => adjustColorShade(background, -20), [background]);
-
-  if (fixedHeight) {
-    return <FixedLego background={background} borderColor={borderColor} {...props} />;
-  }
-
-  return <DynamicLego background={background} borderColor={borderColor} {...props} />;
 };
 
 export default memo(Lego);

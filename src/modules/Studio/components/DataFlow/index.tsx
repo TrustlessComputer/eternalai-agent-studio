@@ -8,10 +8,14 @@ import { useThrottleValue } from '@/hooks/useThrottleValue';
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
 import useStudioFormStore from '../../stores/useStudioFormStore';
 import { StudioCategoryMap } from '../../types/category';
+import useStudioDndStore from '../../stores/useStudioDndStore';
 
 function Listen() {
   const nodes = useStudioFlowStore((state) => state.nodes);
   const dataForms = useStudioFormStore((state) => state.dataForms);
+  const draggingData = useStudioDndStore((state) => state.draggingData);
+
+  const isDragging = !!draggingData;
 
   const throttleNodes = useThrottleValue(nodes, 1000);
   const throttleDataForms = useThrottleValue(dataForms, 500);
@@ -20,78 +24,80 @@ function Listen() {
     // console.log('___________throttleNodes', { throttleNodes, throttleDataForms });
     // sync nodes with data
 
-    const usedKeyCollection: Record<string, string> = {};
-    const mapCategories = useStudioCategoryStore.getState().mapCategories;
-    const getChildrenDataFromChildren = (children: StudioNode[]) => {
-      return children
-        .map((child) => {
-          const id = child.data.id;
-          const metadata = child.data.metadata;
-          const keyMapper = child.data.metadata.keyMapper;
-          const option = mapCategories[keyMapper] as StudioCategoryMap;
+    if (!isDragging) {
+      const usedKeyCollection: Record<string, string> = {};
+      const mapCategories = useStudioCategoryStore.getState().mapCategories;
+      const getChildrenDataFromChildren = (children: StudioNode[]) => {
+        return children
+          .map((child) => {
+            const id = child.data.id;
+            const metadata = child.data.metadata;
+            const keyMapper = child.data.metadata.keyMapper;
+            const option = mapCategories[keyMapper] as StudioCategoryMap;
 
-          // const id = data.id;
-          if (metadata) {
-            const formValue = throttleDataForms[id] || {};
+            // const id = data.id;
+            if (metadata) {
+              const formValue = throttleDataForms[id] || {};
 
-            if (option?.parent?.keyMapper) {
-              usedKeyCollection[option.parent.keyMapper] = option.parent.keyMapper;
+              if (option?.parent?.keyMapper) {
+                usedKeyCollection[option.parent.keyMapper] = option.parent.keyMapper;
+              }
+
+              usedKeyCollection[option.keyMapper] = option.keyMapper;
+
+              return {
+                id,
+                keyMapper,
+                title: option.title || 'Untitled',
+                children: [],
+                data: {
+                  ...formValue,
+                },
+                rect: {
+                  position: child.position,
+                },
+              };
             }
 
-            usedKeyCollection[option.keyMapper] = option.keyMapper;
+            return null;
+          })
+          .filter((item) => !!item) as StudioDataNode[];
+      };
 
-            return {
-              id,
-              keyMapper,
-              title: option.title || 'Untitled',
-              children: [],
-              data: {
-                ...formValue,
-              },
-              rect: {
-                position: child.position,
-              },
-            };
+      const newData: StudioDataNode[] = [];
+      throttleNodes.forEach((node) => {
+        const metadata = node.data.metadata;
+        const id = node.data.id;
+        const keyMapper = node.data.metadata.keyMapper;
+        const option = mapCategories[keyMapper] as StudioCategoryMap;
+        if (metadata) {
+          const children = getChildrenDataFromChildren(metadata?.children);
+          const formValue = throttleDataForms[id] || {};
+
+          if (option?.parent?.keyMapper) {
+            usedKeyCollection[option.parent.keyMapper] = option.parent.keyMapper;
           }
 
-          return null;
-        })
-        .filter((item) => !!item) as StudioDataNode[];
-    };
-
-    const newData: StudioDataNode[] = [];
-    throttleNodes.forEach((node) => {
-      const metadata = node.data.metadata;
-      const id = node.data.id;
-      const keyMapper = node.data.metadata.keyMapper;
-      const option = mapCategories[keyMapper] as StudioCategoryMap;
-      if (metadata) {
-        const children = getChildrenDataFromChildren(metadata?.children);
-        const formValue = throttleDataForms[id] || {};
-
-        if (option?.parent?.keyMapper) {
-          usedKeyCollection[option.parent.keyMapper] = option.parent.keyMapper;
+          usedKeyCollection[option.keyMapper] = option.keyMapper;
+          newData.push({
+            id,
+            keyMapper: option.keyMapper,
+            title: option.title || 'Untitled',
+            children,
+            data: {
+              ...formValue,
+            },
+            rect: {
+              position: node.position,
+            },
+          });
         }
-
-        usedKeyCollection[option.keyMapper] = option.keyMapper;
-        newData.push({
-          id,
-          keyMapper: option.keyMapper,
-          title: option.title || 'Untitled',
-          children,
-          data: {
-            ...formValue,
-          },
-          rect: {
-            position: node.position,
-          },
-        });
-      }
-    });
-    // console.log('___________sync nodes with data', { newData, throttleNodes });
-    useStudioDataStore.getState().setData(newData);
-    useStudioCategoryStore.getState().setUsedKeyCollection(usedKeyCollection);
-  }, [throttleNodes, throttleDataForms]);
+      });
+      // console.log('___________sync nodes with data', { newData, throttleNodes });
+      useStudioDataStore.getState().setData(newData);
+      useStudioCategoryStore.getState().setUsedKeyCollection(usedKeyCollection);
+    }
+  }, [throttleNodes, throttleDataForms, isDragging]);
 
   return <></>;
 }

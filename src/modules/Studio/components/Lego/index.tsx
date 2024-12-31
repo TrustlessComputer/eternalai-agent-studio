@@ -80,7 +80,11 @@ const DynamicLego = ({
       }
     >
       <div className="studio-lego-dynamic__top">
-        <FixedLego {...props} icon={null} background={background} borderColor={borderColor} />
+        <div className="studio-lego-dynamic__top--relative">
+          <div className="studio-lego-dynamic__top--background">
+            <FixedLego {...props} icon={null} background={background} borderColor={borderColor} />
+          </div>
+        </div>
       </div>
       <div className="studio-lego-dynamic__body">
         <div>
@@ -88,8 +92,13 @@ const DynamicLego = ({
         </div>
         <div>{children}</div>
       </div>
+
       <div className="studio-lego-dynamic__bottom">
-        <FixedLego {...props} icon={null} background={background} borderColor={borderColor} />
+        <div className="studio-lego-dynamic__bottom--relative">
+          <div className="studio-lego-dynamic__bottom--background">
+            <FixedLego {...props} icon={null} background={background} borderColor={borderColor} />
+          </div>
+        </div>
       </div>
     </div>
   );

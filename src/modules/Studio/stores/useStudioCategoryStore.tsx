@@ -256,8 +256,10 @@ const useStudioCategoryStore = create<State>((set, get) => ({
 
   usedKeyCollection: {},
   setUsedKeyCollection: (collection) => {
-    const { usedKeyCollection } = get();
-    set({ usedKeyCollection: { ...usedKeyCollection, ...collection } });
+    // const { usedKeyCollection } = get();
+    // set({ usedKeyCollection: { ...usedKeyCollection, ...collection } });
+    // const { usedKeyCollection } = get();
+    set({ usedKeyCollection: collection });
   },
 
   clear: () => {

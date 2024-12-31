@@ -11,9 +11,11 @@ import useStudioDndStore from '../stores/useStudioDndStore';
 import { transformDataToNodes } from '../utils/node';
 import { getFieldDataFromRawData } from '../utils/data';
 import { StudioDataNode } from '../types/graph';
+import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 
 export const useStudioAgent = () => {
   const cleanup = useCallback(() => {
+    useStudioCategoryStore.getState().clear();
     useStudioFlowStore.getState().clear();
     useStudioFormStore.getState().clear();
     useStudioDataStore.getState().clear();

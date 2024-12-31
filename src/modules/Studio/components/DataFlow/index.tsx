@@ -20,6 +20,7 @@ function Listen() {
     // console.log('___________throttleNodes', { throttleNodes, throttleDataForms });
     // sync nodes with data
 
+    const usedKeyCollection: Record<string, string> = {};
     const mapCategories = useStudioCategoryStore.getState().mapCategories;
     const getChildrenDataFromChildren = (children: StudioNode[]) => {
       return children
@@ -28,9 +29,16 @@ function Listen() {
           const metadata = child.data.metadata;
           const keyMapper = child.data.metadata.keyMapper;
           const option = mapCategories[keyMapper] as StudioCategoryMap;
+
           // const id = data.id;
           if (metadata) {
             const formValue = throttleDataForms[id] || {};
+
+            if (option?.parent?.keyMapper) {
+              usedKeyCollection[option.parent.keyMapper] = option.parent.keyMapper;
+            }
+
+            usedKeyCollection[option.keyMapper] = option.keyMapper;
 
             return {
               id,
@@ -60,6 +68,12 @@ function Listen() {
       if (metadata) {
         const children = getChildrenDataFromChildren(metadata?.children);
         const formValue = throttleDataForms[id] || {};
+
+        if (option?.parent?.keyMapper) {
+          usedKeyCollection[option.parent.keyMapper] = option.parent.keyMapper;
+        }
+
+        usedKeyCollection[option.keyMapper] = option.keyMapper;
         newData.push({
           id,
           keyMapper: option.keyMapper,
@@ -76,6 +90,7 @@ function Listen() {
     });
     // console.log('___________sync nodes with data', { newData, throttleNodes });
     useStudioDataStore.getState().setData(newData);
+    useStudioCategoryStore.getState().setUsedKeyCollection(usedKeyCollection);
   }, [throttleNodes, throttleDataForms]);
 
   return <></>;

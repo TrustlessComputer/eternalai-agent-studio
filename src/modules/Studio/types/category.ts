@@ -161,6 +161,7 @@ export type StudioCategoryOption = BaseCategory &
   StudioOptionCustomizeRenderType & {
     type?: StudioCategoryTypeEnum; // default is inline
     boxWrapper?: StudioCategoryBoxWrapperType;
+    multipleChoice?: boolean; // default true
   };
 
 export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'color'> & {
@@ -168,6 +169,7 @@ export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'color'> & {
   color: string;
   isRoot?: boolean; // default is false. have only one root in entire category
   customizeRenderOnNavigation?: () => ReactNode;
+  multipleOption?: boolean; // default true
 };
 
 export type StudioCategoryMap = StudioCategory &

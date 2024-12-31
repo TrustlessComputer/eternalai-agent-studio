@@ -1,11 +1,10 @@
-import { ROOT_NODE_ID } from '@/modules/Studio/constants/node-id';
 import useDndAction from '@/modules/Studio/hooks/useDndAction';
 import useDndInteraction from '@/modules/Studio/hooks/useDndInteraction';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
-import { StudioCategory, StudioCategoryOption } from '@/modules/Studio/types/category';
+import { StudioCategory, StudioCategoryMap, StudioCategoryOption } from '@/modules/Studio/types/category';
 import { DndType, DraggableDataType } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
 import {
@@ -48,7 +47,14 @@ function DndFlow({ children }: PropsWithChildren) {
   const handleDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event;
 
-    const rootNode = useStudioFlowStore.getState().nodes.find((node) => node.id === ROOT_NODE_ID);
+    const data = useStudioDataStore.getState().data;
+    const rootCategory = useStudioCategoryStore.getState().rootCategory;
+    const rootOptionKey = rootCategory?.options?.map((item) => item?.keyMapper);
+
+    const rootData = data.find(
+      (item) => item.keyMapper === rootCategory?.keyMapper || rootOptionKey?.includes(item.keyMapper),
+    );
+    const rootNode = useStudioFlowStore.getState().nodes.find((node) => node.id === rootData?.id);
 
     const fromData = active?.data?.current as DraggableDataType;
     const from = fromData?.type;
@@ -69,7 +75,7 @@ function DndFlow({ children }: PropsWithChildren) {
     const allFormData = useStudioFormStore.getState().dataForms;
     const currentFormData = fromData?.belongsTo ? allFormData[fromData.belongsTo] : null;
 
-    const data = useStudioDataStore.getState().data;
+    const parentOption = (fromOption as StudioCategoryMap).parent;
 
     console.log('[DndContainer] handleDragEnd', {
       from,
@@ -83,6 +89,12 @@ function DndFlow({ children }: PropsWithChildren) {
       //
       fromCategory,
       toCategory,
+
+      //
+      rootCategory,
+      rootNode,
+      rootData,
+      parentOption,
     });
 
     if (to === DndType.DISTRIBUTION) {
@@ -97,6 +109,7 @@ function DndFlow({ children }: PropsWithChildren) {
           fromOption?.onDroppedInValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
+            parentOption,
             formData: currentFormData,
             allFormData,
             toNode,
@@ -119,6 +132,7 @@ function DndFlow({ children }: PropsWithChildren) {
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
+            parentOption,
             toOption,
             formData: currentFormData,
             allFormData,
@@ -145,6 +159,7 @@ function DndFlow({ children }: PropsWithChildren) {
           fromOption?.onDroppedInValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
+            parentOption,
             formData: currentFormData,
             allFormData,
             toNode,
@@ -169,6 +184,7 @@ function DndFlow({ children }: PropsWithChildren) {
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
+            parentOption,
             toOption,
             formData: currentFormData,
             allFormData,
@@ -194,6 +210,7 @@ function DndFlow({ children }: PropsWithChildren) {
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
+            parentOption,
             toOption,
             formData: currentFormData,
             allFormData,
@@ -221,6 +238,7 @@ function DndFlow({ children }: PropsWithChildren) {
           fromOption.onDroppedOutValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
+            parentOption,
             formData: currentFormData,
             allFormData,
             fromNode,
@@ -243,6 +261,7 @@ function DndFlow({ children }: PropsWithChildren) {
           fromOption.onDroppedOutValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
+            parentOption,
             formData: currentFormData,
             allFormData,
             fromNode,

@@ -2,7 +2,6 @@ import { isNil } from '@/utils/data';
 import { useStoreApi } from '@xyflow/react';
 import { useCallback } from 'react';
 import { v4 } from 'uuid';
-import { ROOT_NODE_ID } from '../constants/node-id';
 import useStudioDndStore from '../stores/useStudioDndStore';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
@@ -100,7 +99,7 @@ const useDndAction = () => {
   const addProduct = useCallback((rootNode?: StudioNode, fromData?: DraggableDataType, fromOption?: StudioCategoryOption) => {
     if (!fromData?.optionKey || !fromOption) return {};
 
-    const newNode = getNewNodeInfo(fromData.optionKey, fromOption, fromData.isRoot ? ROOT_NODE_ID : undefined);
+    const newNode = getNewNodeInfo(fromData.optionKey, fromOption);
     if (!newNode) return {};
 
     if (rootNode) {

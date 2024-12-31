@@ -1,6 +1,12 @@
 import { LegoComponentIcon } from '../components/icons/lego';
 import { FormDataType } from '../types/base';
-import { StudioCategoryFromProp, StudioCategoryOption, StudioCategoryOptionRenderPayload } from '../types/category';
+import {
+  StudioCategory,
+  StudioCategoryFromProp,
+  StudioCategoryOption,
+  StudioCategoryOptionDroppedInValidatePayload,
+  StudioCategoryOptionRenderPayload,
+} from '../types/category';
 import { StudioDataNode, StudioNode } from '../types/graph';
 
 const AGENT: StudioCategoryFromProp = {
@@ -30,6 +36,27 @@ const AGENT: StudioCategoryFromProp = {
   ],
 };
 
+const checkDataContainsOption = (data: StudioDataNode[] = [], option?: StudioCategoryOption) => {
+  return !!(data || []).find((item) => (item.children || []).find((child) => child.keyMapper === option?.keyMapper));
+};
+
+const checkPersonalityOptionDroppedIn = (data: StudioCategoryOptionDroppedInValidatePayload) => {
+  // check if the option is already existed
+
+  if (checkDataContainsOption(data?.data, data?.option)) return false;
+
+  // check the group option
+  if (data.parentOption) {
+    const isSameCategoryExisted = data.parentOption?.options
+      ?.filter((item) => item.keyMapper !== data.option?.keyMapper)
+      ?.find((item) => checkDataContainsOption(data?.data, item));
+
+    if (isSameCategoryExisted) return false;
+  }
+
+  return true;
+};
+
 const PERSONALITY: StudioCategoryFromProp = {
   keyMapper: 'personality',
   title: 'Personality',
@@ -43,18 +70,7 @@ const PERSONALITY: StudioCategoryFromProp = {
       title: 'New personality',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
-      onDroppedInValidate: (data: {
-        id: string | undefined;
-        option: StudioCategoryOption;
-        formData: FormDataType | null;
-        allFormData: FormDataType;
-        toNode?: StudioNode;
-        data: StudioDataNode[];
-      }) => {
-        console.log(data);
-
-        return true;
-      },
+      onDroppedInValidate: checkPersonalityOptionDroppedIn,
 
       customizeRenderOnBoard: ({ setFormFields, formData }: StudioCategoryOptionRenderPayload) => {
         const agentName = formData?.agentName as string;
@@ -98,16 +114,19 @@ const PERSONALITY: StudioCategoryFromProp = {
       keyMapper: 'personality-option-2',
       title: 'Import from NFT',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
+      onDroppedInValidate: checkPersonalityOptionDroppedIn,
     },
     {
       keyMapper: 'personality-option-3',
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
+      onDroppedInValidate: checkPersonalityOptionDroppedIn,
     },
     {
       keyMapper: 'personality-option-4',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
+      onDroppedInValidate: checkPersonalityOptionDroppedIn,
     },
   ],
 };

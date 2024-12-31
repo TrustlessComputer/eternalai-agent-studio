@@ -45,7 +45,7 @@ const Product = ({ id, data, disabled = false, children, draggingFloating, ...pr
         useStudioDndStore.getState().setDragging(children, extendedData);
       }
     } else {
-      useStudioDndStore.getState().setDragging(null, null);
+      useStudioDndStore.getState().setDragging();
     }
     // no need push children to dependency array
   }, [isDragging, extendedData]);

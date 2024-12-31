@@ -92,6 +92,7 @@ function DndFlow({ children }: PropsWithChildren) {
           to: DndType.DISTRIBUTION,
           from: DndType.SOURCE,
         });
+
         const isValid =
           fromOption?.onDroppedInValidate?.({
             id: fromData.belongsTo,
@@ -101,7 +102,9 @@ function DndFlow({ children }: PropsWithChildren) {
             toNode,
             data,
           }) ?? true;
+
         if (!isValid) return;
+
         addProduct(rootNode, fromData, fromOption);
         updateNodes([rootNode]);
       }
@@ -111,6 +114,7 @@ function DndFlow({ children }: PropsWithChildren) {
           to: DndType.DISTRIBUTION,
           from: DndType.PRODUCT_ADDON,
         });
+
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -122,7 +126,9 @@ function DndFlow({ children }: PropsWithChildren) {
             toNode,
             data,
           }) ?? true;
+
         if (!isValid) return;
+
         splitPackage(rootNode, fromNode, fromData, fromOption);
         updateNodes([rootNode, fromNode]);
       }
@@ -134,6 +140,7 @@ function DndFlow({ children }: PropsWithChildren) {
           to: DndType.PACKAGE,
           from: DndType.SOURCE,
         });
+
         const isValid =
           fromOption?.onDroppedInValidate?.({
             id: fromData.belongsTo,
@@ -143,8 +150,11 @@ function DndFlow({ children }: PropsWithChildren) {
             toNode,
             data,
           }) ?? true;
+
         if (!isValid) return;
+
         const newNode = getNewNodeInfo(fromData.optionKey, fromOption);
+
         addToPackage(toNode, [newNode]);
         updateNodes([toNode]);
       }
@@ -154,6 +164,7 @@ function DndFlow({ children }: PropsWithChildren) {
           to: DndType.PACKAGE,
           from: DndType.PRODUCT,
         });
+
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -165,7 +176,9 @@ function DndFlow({ children }: PropsWithChildren) {
             toNode,
             data,
           }) ?? true;
+
         if (!isValid) return;
+
         mergeProducts(fromNode, toNode, fromData);
         updateNodes([fromNode, toNode]);
       }
@@ -176,6 +189,7 @@ function DndFlow({ children }: PropsWithChildren) {
           to: DndType.PACKAGE,
           from: DndType.PRODUCT_ADDON,
         });
+
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -187,7 +201,9 @@ function DndFlow({ children }: PropsWithChildren) {
             toNode,
             data,
           }) ?? true;
+
         if (!isValid) return;
+
         movePartOfPackage(fromNode, toNode, fromData);
         updateNodes([fromNode, toNode]);
       }
@@ -200,6 +216,7 @@ function DndFlow({ children }: PropsWithChildren) {
           to: DndType.FACTORY,
           from: DndType.PRODUCT,
         });
+
         const isValid =
           fromOption.onDroppedOutValidate?.({
             id: fromData.belongsTo,
@@ -209,6 +226,7 @@ function DndFlow({ children }: PropsWithChildren) {
             fromNode,
             data,
           }) ?? true;
+
         if (!isValid) return;
 
         removeProduct(fromData?.belongsTo);
@@ -220,6 +238,7 @@ function DndFlow({ children }: PropsWithChildren) {
           to: DndType.FACTORY,
           from: DndType.PRODUCT_ADDON,
         });
+
         const isValid =
           fromOption.onDroppedOutValidate?.({
             id: fromData.belongsTo,
@@ -229,7 +248,9 @@ function DndFlow({ children }: PropsWithChildren) {
             fromNode,
             data,
           }) ?? true;
+
         if (!isValid) return;
+
         removePartOfPackage(fromNode, fromData?.childIndex || 0);
         updateNodes([fromNode]);
       }

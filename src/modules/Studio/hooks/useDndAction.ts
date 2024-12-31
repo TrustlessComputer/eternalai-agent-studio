@@ -3,6 +3,7 @@ import { useStoreApi } from '@xyflow/react';
 import { useCallback } from 'react';
 import { v4 } from 'uuid';
 import { ROOT_NODE_ID } from '../constants/node-id';
+import useStudioDndStore from '../stores/useStudioDndStore';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
 import useStudioFormStore from '../stores/useStudioFormStore';
@@ -22,9 +23,18 @@ const useDndAction = () => {
     const {
       transform: [transformX, transformY, zoomLevel],
     } = flowStore.getState();
+
+    const { draggingPoint } = useStudioDndStore.getState();
+
     const mousePosition = useStudioFlowViewStore.getState().mousePosition;
-    const transformedX = (mousePosition.x - transformX) / zoomLevel;
-    const transformedY = (mousePosition.y - transformY) / zoomLevel;
+    const transformedX = (mousePosition.x - transformX - (draggingPoint?.x || 0)) / zoomLevel;
+    const transformedY = (mousePosition.y - transformY - (draggingPoint?.y || 0)) / zoomLevel;
+
+    console.log({
+      draggingPoint,
+      transformedX,
+      transformedY,
+    });
 
     const id = existedId || v4();
     const position = {

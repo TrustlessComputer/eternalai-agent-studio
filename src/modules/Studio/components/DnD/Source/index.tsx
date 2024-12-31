@@ -1,10 +1,12 @@
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import cx from 'clsx';
-import { HTMLAttributes, memo, useEffect, useMemo } from 'react';
+import { HTMLAttributes, memo, useEffect, useMemo, useRef } from 'react';
 
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { DndType, DraggableDataType } from '@/modules/Studio/types/dnd';
+import { TouchingPoint } from '@/modules/Studio/types/ui';
+import { calculateTouchingPercentage } from '@/modules/Studio/utils/ui';
 import './Draggable.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
@@ -14,6 +16,8 @@ type Props = HTMLAttributes<HTMLDivElement> & {
 };
 
 const Source = ({ id, data, disabled = false, children, ...props }: Props) => {
+  const touchingPointRef = useRef<TouchingPoint>({ clientX: 0, clientY: 0 });
+
   const extendedData = useMemo(() => {
     return {
       ...data,
@@ -21,7 +25,7 @@ const Source = ({ id, data, disabled = false, children, ...props }: Props) => {
     } satisfies DraggableDataType;
   }, [data, id]);
 
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+  const { attributes, listeners, setNodeRef, transform, isDragging, node } = useDraggable({
     id,
     disabled,
     data: extendedData,
@@ -38,9 +42,11 @@ const Source = ({ id, data, disabled = false, children, ...props }: Props) => {
 
   useEffect(() => {
     if (isDragging) {
-      useStudioDndStore.getState().setDragging(children, extendedData);
+      const touchingPoint = node?.current ? calculateTouchingPercentage(node.current, touchingPointRef.current) : null;
+
+      useStudioDndStore.getState().setDragging(children, extendedData, touchingPoint);
     } else {
-      useStudioDndStore.getState().setDragging(null, null);
+      useStudioDndStore.getState().setDragging();
     }
     // no need push children to dependency array
   }, [isDragging, extendedData]);
@@ -53,6 +59,12 @@ const Source = ({ id, data, disabled = false, children, ...props }: Props) => {
       {...listeners}
       {...attributes}
       className={cx('draggable', { 'draggable--disabled': disabled })}
+      onMouseMove={(e) => {
+        touchingPointRef.current = {
+          clientX: e.clientX,
+          clientY: e.clientY,
+        };
+      }}
     >
       {children}
     </div>

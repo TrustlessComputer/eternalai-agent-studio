@@ -1,28 +1,33 @@
-import { create } from 'zustand';
 import { ReactNode } from 'react';
+import { create } from 'zustand';
 import { DraggableDataType } from '../types/dnd';
+import { DomRect } from '../types/ui';
+
+const DEFAULT_VALUE = {
+  draggingElement: null,
+  draggingData: null,
+  draggingPoint: null,
+};
 
 type State = {
   draggingElement: ReactNode | null;
-
   draggingData: DraggableDataType | null;
+  draggingPoint: DomRect | null; // touching point of dragging element
 
-  setDragging: (node: ReactNode | null | undefined, data: DraggableDataType | null | undefined) => void;
+  setDragging: (node?: ReactNode | null, data?: DraggableDataType | null, point?: DomRect | null) => void;
 
   clear: () => void;
 };
 
 const useStudioDndStore = create<State>((set) => ({
-  draggingElement: null,
+  ...DEFAULT_VALUE,
 
-  draggingData: null,
-
-  setDragging: (node, data) => {
-    set({ draggingElement: node, draggingData: data });
+  setDragging: (node, data, point) => {
+    set({ draggingElement: node, draggingData: data, draggingPoint: point });
   },
 
   clear: () => {
-    set({ draggingElement: null, draggingData: null });
+    set(DEFAULT_VALUE);
   },
 }));
 

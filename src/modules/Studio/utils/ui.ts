@@ -1,3 +1,5 @@
+import { TouchingPoint } from '../types/ui';
+
 export const adjustColorShade = (hexColor: string, percent: number): string => {
   const hex = hexColor.replace('#', '');
 
@@ -24,4 +26,15 @@ export const adjustColorShade = (hexColor: string, percent: number): string => {
   };
 
   return `#${toHex(newR)}${toHex(newG)}${toHex(newB)}`;
+};
+
+export const calculateTouchingPercentage = (element: HTMLElement, point: TouchingPoint) => {
+  const rect = element.getBoundingClientRect();
+  const relativeX = point.clientX - rect.left;
+  const relativeY = point.clientY - rect.top;
+
+  return {
+    x: relativeX,
+    y: relativeY,
+  };
 };

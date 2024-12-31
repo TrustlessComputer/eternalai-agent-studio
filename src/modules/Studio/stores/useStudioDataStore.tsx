@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { v4 } from 'uuid';
 
 import { StudioDataNode } from '../types/graph';
-import { SHOW_CONNECT_LINE } from '../constants/defaultValues';
+import { DEFAULT_SHOW_CONNECT_LINE } from '../constants/defaultValues';
 
 type State = {
   entry: StudioDataNode | null;
@@ -40,7 +40,7 @@ const useStudioDataStore = create<State>((set) => ({
     set({ data: [], entry: null });
   },
 
-  showConnectLine: SHOW_CONNECT_LINE,
+  showConnectLine: DEFAULT_SHOW_CONNECT_LINE,
   setShowConnectLine: (showConnectLine) => {
     set({ showConnectLine });
   },

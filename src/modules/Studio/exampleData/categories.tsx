@@ -1,13 +1,12 @@
 import { LegoComponentIcon } from '../components/icons/lego';
 import { FormDataType } from '../types/base';
-import { StudioCategory, StudioCategoryOption, StudioCategoryTypeEnum } from '../types/category';
+import { StudioCategoryFromProp, StudioCategoryOption, StudioCategoryTypeEnum } from '../types/category';
 import { StudioNode } from '../types/graph';
 
-const AGENT: StudioCategory = {
+const AGENT: StudioCategoryFromProp = {
   keyMapper: 'agent',
   title: 'Agent',
   required: true,
-  color: '#FF0000',
   isRoot: true,
   options: [
     {
@@ -51,7 +50,7 @@ const AGENT: StudioCategory = {
   order: -1,
 };
 
-const PERSONALITY: StudioCategory = {
+const PERSONALITY: StudioCategoryFromProp = {
   keyMapper: 'personality',
   title: 'Personality',
   required: true,
@@ -89,11 +88,10 @@ const PERSONALITY: StudioCategory = {
       type: 'inline' as StudioCategoryTypeEnum,
     },
   ],
-  color: '#12DAC2',
   icon: <LegoComponentIcon />,
 };
 
-const NETWORK: StudioCategory = {
+const NETWORK: StudioCategoryFromProp = {
   keyMapper: 'network',
   title: 'Network',
   required: true,
@@ -166,16 +164,14 @@ const NETWORK: StudioCategory = {
       },
     },
   ],
-  color: '#12DAC2',
   order: 0,
   icon: <LegoComponentIcon />,
 };
 
-export const STANDALONE: StudioCategory = {
+export const STANDALONE: StudioCategoryFromProp = {
   keyMapper: 'standalone',
   title: 'Standalone',
   required: true,
-  color: '#FF0000',
   options: [
     {
       keyMapper: 'standalone-option-1',
@@ -207,11 +203,10 @@ export const STANDALONE: StudioCategory = {
   order: -1,
 };
 
-export const CAN_NOT_ADD: StudioCategory = {
+export const CAN_NOT_ADD: StudioCategoryFromProp = {
   keyMapper: 'validate',
   title: 'Validates',
   required: true,
-  color: '#FF0FF0',
   options: [
     {
       keyMapper: 'validate-cannot-add-option-1',
@@ -335,4 +330,4 @@ export const CAN_NOT_ADD: StudioCategory = {
   order: -1,
 };
 
-export const MODEL_CATEGORIES: StudioCategory[] = [AGENT, PERSONALITY, NETWORK, STANDALONE, CAN_NOT_ADD];
+export const MODEL_CATEGORIES: StudioCategoryFromProp[] = [AGENT, PERSONALITY, NETWORK, STANDALONE, CAN_NOT_ADD];

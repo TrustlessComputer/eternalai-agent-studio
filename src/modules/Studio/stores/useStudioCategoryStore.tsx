@@ -1,14 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from 'zustand';
 
-import { StudioCategory, StudioCategoryMap } from '../types/category';
+import { StudioCategory, StudioCategoryFromProp, StudioCategoryMap } from '../types/category';
 import { StudioDataNode } from '../types/graph';
+import { COLOR_PALETTES } from '../constants/color-palettes';
+import categoryColorDatabase from '../database/category-color-database';
+import { DEFAULT_CATEGORY_TYPE } from '../constants/defaultValues';
 
 interface State {
   rootCategory: StudioCategory | null;
   setRootCategory: (category: StudioCategory | null) => void;
   categories: StudioCategory[];
   mapCategories: Record<string, StudioCategoryMap>;
-  setCategories: (categories: StudioCategory[]) => void;
+  setCategories: (categories: StudioCategoryFromProp[]) => Promise<void>;
 
   filters: string[];
   setFilters: (filter: string) => void;
@@ -18,6 +22,40 @@ interface State {
 
   updateCategoriesForEntry: (entry: StudioDataNode | null) => void;
 }
+
+const persistCategoryColor = async (key: string, color: string) => {
+  try {
+    await categoryColorDatabase.upsertItem({
+      key,
+      color,
+    });
+  } catch (e) {
+    //
+  }
+};
+
+const getCategoryColor = (colorCollection: Record<string, string>, key: string, color?: string) => {
+  if (color) {
+    return color;
+  }
+
+  // random color
+  const max = COLOR_PALETTES.length;
+  const randomIndex = Math.floor(Math.random() * max);
+  const newColor = COLOR_PALETTES[randomIndex];
+
+  // check if color is already used
+  if (colorCollection[newColor]) {
+    return getCategoryColor(colorCollection, key);
+  }
+
+  colorCollection[newColor] = newColor;
+
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  persistCategoryColor(key, newColor);
+
+  return newColor;
+};
 
 const flatCategoriesByKeyMapper = (categories: StudioCategory[], parent?: StudioCategory) => {
   let mapCategories: Record<string, StudioCategoryMap> = {};
@@ -49,16 +87,30 @@ const useStudioCategoryStore = create<State>((set, get) => ({
   },
   categories: [],
   mapCategories: {},
-  setCategories: (categories) => {
+  setCategories: async (categories) => {
+    const existingCollection = await categoryColorDatabase.getAllItemsToMap();
+
+    const colorCollection: Record<string, string> = {};
     const pipeData = (categories || [])
       .map((item) => {
         const options = item.options
-          .map((option) => ({
-            ...option,
-            color: option.color || item.color,
-            order: option.order ?? Number.MAX_SAFE_INTEGER,
-          }))
+          .map((option) => {
+            if (option.color) {
+              colorCollection[option.color] = option.color;
+            }
+
+            return {
+              ...option,
+              color: option.color || item.color,
+              order: option.order ?? Number.MAX_SAFE_INTEGER,
+              type: option.type ?? DEFAULT_CATEGORY_TYPE,
+            };
+          })
           .sort((a, b) => a.order - b.order);
+
+        if (item.color) {
+          colorCollection[item.color] = item.color;
+        }
 
         return {
           ...item,
@@ -66,7 +118,32 @@ const useStudioCategoryStore = create<State>((set, get) => ({
           order: item.order ?? Number.MAX_SAFE_INTEGER,
         };
       })
-      .sort((a, b) => a.order - b.order);
+      .map((item) => {
+        // generate color for category
+        return {
+          ...item,
+          color: getCategoryColor(colorCollection, item.keyMapper, item.color || existingCollection[item.keyMapper]),
+        };
+      })
+      .map((item) => {
+        // generate color for option category
+        const options = item.options.map((option) => {
+          return {
+            ...option,
+            color: getCategoryColor(
+              colorCollection,
+              option.keyMapper,
+              option.color || existingCollection[option.keyMapper] || item.color,
+            ),
+          };
+        });
+
+        return {
+          ...item,
+          options,
+        };
+      })
+      .sort((a, b) => a.order - b.order) as StudioCategory[];
 
     const rootCategory = pipeData?.find((item) => item.isRoot);
     set({

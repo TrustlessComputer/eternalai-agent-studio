@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactNode } from 'react';
 import { FormDataType, KeyMapperType } from './base';
-import { StudioNode } from './graph';
+import { StudioDataNode, StudioNode } from './graph';
 
 type DataSchemaField = string;
 type DataSchemaValue = {
@@ -53,6 +53,7 @@ export type StudioCategoryDragDropFunctionType = {
     allFormData: FormDataType;
     fromNode?: StudioNode;
     toNode?: StudioNode;
+    data: StudioDataNode[];
   }) => boolean;
 
   /**
@@ -70,6 +71,7 @@ export type StudioCategoryDragDropFunctionType = {
     formData: FormDataType | null;
     allFormData: FormDataType;
     toNode?: StudioNode;
+    data: StudioDataNode[];
   }) => boolean; // add new item from sidebar to board
 
   /**
@@ -87,6 +89,7 @@ export type StudioCategoryDragDropFunctionType = {
     formData: FormDataType | null;
     allFormData: FormDataType;
     fromNode?: StudioNode;
+    data: StudioDataNode[];
   }) => boolean; // remove exist item from board to sidebar
 };
 
@@ -151,3 +154,7 @@ export type StudioCategoryMap = StudioCategory &
   StudioCategoryOption & {
     parent: StudioCategory;
   };
+
+export type StudioCategoryFromProp = Omit<StudioCategory, 'color'> & {
+  color?: string;
+};

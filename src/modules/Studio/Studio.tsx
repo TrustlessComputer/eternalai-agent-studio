@@ -13,16 +13,16 @@ import EventHandler from './components/EventHandler';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
 import './Studio.scss';
-import { StudioCategory } from './types/category';
+import { StudioCategoryFromProp } from './types/category';
 import { DataSourceType } from './types/dataSource';
 import { StudioDataNode } from './types/graph';
 import { useStudioAgent } from './hooks/useStudioAgent';
 import useStudioDataStore from './stores/useStudioDataStore';
-import { SHOW_CONNECT_LINE } from './constants/defaultValues';
+import { DEFAULT_SHOW_CONNECT_LINE } from './constants/defaultValues';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   data: StudioDataNode[];
-  categories: StudioCategory[];
+  categories: StudioCategoryFromProp[];
   onChange?: (data: StudioDataNode[]) => void;
   dataSource?: Record<string, DataSourceType[]>;
   showConnectLine?: boolean;
@@ -39,12 +39,13 @@ const StudioComponent = ({
   categories,
   onChange,
   dataSource,
-  showConnectLine = SHOW_CONNECT_LINE,
+  showConnectLine = DEFAULT_SHOW_CONNECT_LINE,
   ...rest
 }: StudioProps) => {
   const { redraw } = useStudioAgent();
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     useStudioCategoryStore.getState().setCategories(categories);
   }, [categories]);
 

@@ -2,6 +2,7 @@ import { ROOT_NODE_ID } from '@/modules/Studio/constants/node-id';
 import useDndAction from '@/modules/Studio/hooks/useDndAction';
 import useDndInteraction from '@/modules/Studio/hooks/useDndInteraction';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
+import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { StudioCategory, StudioCategoryOption } from '@/modules/Studio/types/category';
@@ -68,6 +69,8 @@ function DndFlow({ children }: PropsWithChildren) {
     const allFormData = useStudioFormStore.getState().dataForms;
     const currentFormData = fromData?.belongsTo ? allFormData[fromData.belongsTo] : null;
 
+    const data = useStudioDataStore.getState().data;
+
     console.log('[DndContainer] handleDragEnd', {
       from,
       to,
@@ -85,6 +88,10 @@ function DndFlow({ children }: PropsWithChildren) {
     if (to === DndType.DISTRIBUTION) {
       // Add new nodes
       if (from === DndType.SOURCE) {
+        console.log('___________handle drag end', {
+          to: DndType.DISTRIBUTION,
+          from: DndType.SOURCE,
+        });
         const isValid =
           fromOption?.onDroppedInValidate?.({
             id: fromData.belongsTo,
@@ -92,6 +99,7 @@ function DndFlow({ children }: PropsWithChildren) {
             formData: currentFormData,
             allFormData,
             toNode,
+            data,
           }) ?? true;
         if (!isValid) return;
         addProduct(rootNode, fromData, fromOption);
@@ -99,6 +107,10 @@ function DndFlow({ children }: PropsWithChildren) {
       }
 
       if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
+        console.log('___________handle drag end', {
+          to: DndType.DISTRIBUTION,
+          from: DndType.PRODUCT_ADDON,
+        });
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -108,6 +120,7 @@ function DndFlow({ children }: PropsWithChildren) {
             allFormData,
             fromNode,
             toNode,
+            data,
           }) ?? true;
         if (!isValid) return;
         splitPackage(rootNode, fromNode, fromData, fromOption);
@@ -117,6 +130,10 @@ function DndFlow({ children }: PropsWithChildren) {
 
     if (to === DndType.PACKAGE && toNode) {
       if (from === DndType.SOURCE) {
+        console.log('___________handle drag end', {
+          to: DndType.PACKAGE,
+          from: DndType.SOURCE,
+        });
         const isValid =
           fromOption?.onDroppedInValidate?.({
             id: fromData.belongsTo,
@@ -124,6 +141,7 @@ function DndFlow({ children }: PropsWithChildren) {
             formData: currentFormData,
             allFormData,
             toNode,
+            data,
           }) ?? true;
         if (!isValid) return;
         const newNode = getNewNodeInfo(fromData.optionKey, fromOption);
@@ -132,6 +150,10 @@ function DndFlow({ children }: PropsWithChildren) {
       }
 
       if (from === DndType.PRODUCT && !isTheSameNode) {
+        console.log('___________handle drag end', {
+          to: DndType.PACKAGE,
+          from: DndType.PRODUCT,
+        });
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -141,6 +163,7 @@ function DndFlow({ children }: PropsWithChildren) {
             allFormData,
             fromNode,
             toNode,
+            data,
           }) ?? true;
         if (!isValid) return;
         mergeProducts(fromNode, toNode, fromData);
@@ -149,6 +172,10 @@ function DndFlow({ children }: PropsWithChildren) {
 
       // Move current package to target package
       if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
+        console.log('___________handle drag end', {
+          to: DndType.PACKAGE,
+          from: DndType.PRODUCT_ADDON,
+        });
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -158,6 +185,7 @@ function DndFlow({ children }: PropsWithChildren) {
             allFormData,
             fromNode,
             toNode,
+            data,
           }) ?? true;
         if (!isValid) return;
         movePartOfPackage(fromNode, toNode, fromData);
@@ -166,22 +194,12 @@ function DndFlow({ children }: PropsWithChildren) {
     }
 
     if (to === DndType.FACTORY && !fromCategory?.isRoot) {
-      const isValid =
-        fromOption.onDroppedOutValidate?.({
-          id: fromData.belongsTo,
-          option: fromOption,
-          formData: currentFormData,
-          allFormData,
-          fromNode,
-        }) ?? true;
-      if (!isValid) return;
       // Remove the whole node
       if (from === DndType.PRODUCT) {
-        removeProduct(fromData?.belongsTo);
-      }
-
-      // Remove the node's children
-      if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
+        console.log('___________handle drag end', {
+          to: DndType.FACTORY,
+          from: DndType.PRODUCT,
+        });
         const isValid =
           fromOption.onDroppedOutValidate?.({
             id: fromData.belongsTo,
@@ -189,6 +207,27 @@ function DndFlow({ children }: PropsWithChildren) {
             formData: currentFormData,
             allFormData,
             fromNode,
+            data,
+          }) ?? true;
+        if (!isValid) return;
+
+        removeProduct(fromData?.belongsTo);
+      }
+
+      // Remove the node's children
+      if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
+        console.log('___________handle drag end', {
+          to: DndType.FACTORY,
+          from: DndType.PRODUCT_ADDON,
+        });
+        const isValid =
+          fromOption.onDroppedOutValidate?.({
+            id: fromData.belongsTo,
+            option: fromOption,
+            formData: currentFormData,
+            allFormData,
+            fromNode,
+            data,
           }) ?? true;
         if (!isValid) return;
         removePartOfPackage(fromNode, fromData?.childIndex || 0);

@@ -1,10 +1,11 @@
+import cx from 'clsx';
+
 import './NoDraggable.scss';
-import cs from 'classnames';
 
 function NoDraggable({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <div
-      className={cs('studio-no-draggable', className)}
+      className={cx('studio-no-draggable', className)}
       onPointerDown={(e) => e.stopPropagation()}
       onMouseDown={(e) => e.stopPropagation()}
       onMouseMove={(e) => e.stopPropagation()}

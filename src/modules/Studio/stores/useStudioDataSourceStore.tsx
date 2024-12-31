@@ -10,10 +10,21 @@ interface State {
 const useStudioDataSourceStore = create<State>((set, get) => ({
   dataSource: {},
   setDataSource: (data) => {
+    // processing input data
+    const inputSource = Object.keys(data).reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]: data[key].map((item) => ({
+          ...item,
+          selectable: item.selectable ?? true,
+        })),
+      }),
+      {},
+    );
     set({
       dataSource: {
         ...get().dataSource,
-        ...data,
+        ...inputSource,
       },
     });
   },

@@ -42,9 +42,12 @@ function Select({
   const value = dataForms[formId]?.[name] || '';
   const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (!readonly) {
-      setFormFields(formId, {
-        [name]: e.target.value,
-      });
+      const selectable = options.find((op) => op.value === e.target.value)?.selectable;
+      if (selectable) {
+        setFormFields(formId, {
+          [name]: e.target.value,
+        });
+      }
     }
   };
 
@@ -70,7 +73,7 @@ function Select({
           {placeholder}
         </option>
         {options.map((op) => (
-          <option key={`form-render-select-${formId}-${op.value}`} value={op.value}>
+          <option disabled={!op.selectable} key={`form-render-select-${formId}-${op.value}`} value={op.value}>
             {op.label}
           </option>
         ))}

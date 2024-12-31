@@ -5,11 +5,10 @@ import { StudioNode } from '../types/graph';
 
 const useDndInteraction = () => {
   const updateNodes = useCallback((nodes: (StudioNode | undefined)[]) => {
+    const shouldUpdatedNodes = nodes.filter((node) => !!node);
     const updatedNodes = applyNodeChanges(
-      nodes
-        .filter((node) => !!node)
-        .map((node) => ({ id: node.id, type: 'position', position: node.position, positionAbsolute: node.position })),
-      nodes.filter((node) => !!node),
+      [...shouldUpdatedNodes].map((node) => ({ id: node.id, type: 'position', position: node.position, positionAbsolute: node.position })),
+      shouldUpdatedNodes,
     );
 
     useStudioFlowStore.getState().updateNodes(updatedNodes);

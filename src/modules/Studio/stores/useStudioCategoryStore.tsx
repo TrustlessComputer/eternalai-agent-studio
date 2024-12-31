@@ -3,7 +3,7 @@ import { create } from 'zustand';
 
 import { StudioCategory, StudioCategoryFromProp, StudioCategoryMap } from '../types/category';
 import { StudioDataNode } from '../types/graph';
-import { COLOR_PALETTES } from '../constants/color-palettes';
+import { COLOR_PALETTES, POPULAR } from '../constants/color-palettes';
 import categoryColorDatabase from '../database/category-color-database';
 import { DEFAULT_CATEGORY_TYPE } from '../constants/defaultValues';
 
@@ -34,11 +34,41 @@ const persistCategoryColor = async (key: string, color: string) => {
   }
 };
 
+const popularUsagedCollection: Record<string, string> = {};
+const pickFromPopularColorFirst = (key: string, color?: string) => {
+  if (color) {
+    return color;
+  }
+
+  // random color
+  const max = POPULAR.length;
+  const randomIndex = Math.floor(Math.random() * max);
+  const newColor = POPULAR[randomIndex];
+
+  // check if color is already used
+  if (popularUsagedCollection[newColor]) {
+    return pickFromPopularColorFirst(key);
+  }
+
+  popularUsagedCollection[newColor] = newColor;
+
+  return newColor;
+};
+
 const getCategoryColor = (colorCollection: Record<string, string>, key: string, color?: string) => {
   if (color) {
     return color;
   }
 
+  const popularColor = pickFromPopularColorFirst(key, color);
+  if (popularColor) {
+    colorCollection[popularColor] = popularColor;
+
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    persistCategoryColor(key, popularColor);
+
+    return popularColor;
+  }
   // random color
   const max = COLOR_PALETTES.length;
   const randomIndex = Math.floor(Math.random() * max);

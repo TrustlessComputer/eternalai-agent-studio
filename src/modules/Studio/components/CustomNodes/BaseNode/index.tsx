@@ -215,7 +215,7 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
   return (
     <BaseNodeWrapper option={option}>
       <div
-        className="base-node"
+        className="base-node-wrapper"
         style={{
           position: 'relative',
         }}

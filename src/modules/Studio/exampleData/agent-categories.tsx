@@ -270,30 +270,35 @@ const TOKEN: StudioCategoryFromProp = {
   tooltip:
     'Create an agent for your NFT, Ordinals, token, —or start fresh with a new idea. This section defines your agent’s lore and backstory.',
   icon: <LegoComponentIcon />,
+  multipleOption: false,
   options: [
     {
       keyMapper: 'token-option-1',
       title: 'Base',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      multipleChoice: false,
     },
     {
       keyMapper: 'token-option-2',
       title: 'Solana',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      multipleChoice: false,
     },
     {
       keyMapper: 'token-option-3',
       title: 'Arbitrum',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      multipleChoice: false,
     },
     {
       keyMapper: 'token-option-4',
       title: 'BNB',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      multipleChoice: false,
     },
   ],
 };

@@ -7,6 +7,7 @@ import { StudioCategory } from '@/modules/Studio/types/category';
 import { useMemo } from 'react';
 import Source from '../../DnD/Source';
 import './CategoryGroup.scss';
+import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 
 type Props = StudioCategory & {
   categoryKey: string;
@@ -21,7 +22,9 @@ const CategoryGroup = ({
   required,
   disabled,
   isRoot,
+  multipleOption,
 }: Props) => {
+  const usedKeyCollection = useStudioCategoryStore((state) => state.usedKeyCollection);
   const filteredOptions = useMemo(() => {
     return options.filter((item) => !item.hidden);
   }, [options]);
@@ -38,7 +41,22 @@ const CategoryGroup = ({
             return option.customizeRenderOnSideBar();
           }
 
-          const isDisabled = disabled || option.disabled;
+          let isDisabled = disabled || option.disabled;
+          // check parent first
+          if (!isDisabled) {
+            if (!multipleOption) {
+              if (usedKeyCollection[categoryKey]) {
+                isDisabled = true;
+              }
+            }
+          }
+          if (!isDisabled) {
+            if (!option.multipleChoice) {
+              if (usedKeyCollection[option.keyMapper]) {
+                isDisabled = true;
+              }
+            }
+          }
 
           return (
             <Source

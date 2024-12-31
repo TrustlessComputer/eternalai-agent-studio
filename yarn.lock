@@ -5441,6 +5441,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dexie-react-hooks@npm:^1.1.7":
+  version: 1.1.7
+  resolution: "dexie-react-hooks@npm:1.1.7"
+  peerDependencies:
+    "@types/react": ">=16"
+    dexie: ^3.2 || ^4.0.1-alpha
+    react: ">=16"
+  checksum: 10/6f64ce678d8aec39ac50b9ee6b9298dc48f2d6d0b1adb80c8826c3b19ea5571001449fcf2bbe9f744dd6b054cc42ce840eab284aa698786a760ba4a530924aa9
+  languageName: node
+  linkType: hard
+
+"dexie@npm:^4.0.10":
+  version: 4.0.10
+  resolution: "dexie@npm:4.0.10"
+  checksum: 10/d1902c319e36918545eddfa68f5a404fa6f2e32a8bdc062606aaa955ab44664833acf9f8c163719abe27a752f3b22a44ce6f11071c438510f11e40495db89769
+  languageName: node
+  linkType: hard
+
 "dir-glob@npm:^3.0.1":
   version: 3.0.1
   resolution: "dir-glob@npm:3.0.1"
@@ -6343,6 +6361,8 @@ __metadata:
     "@vitejs/plugin-react": "npm:^4.3.4"
     "@xyflow/react": "npm:^12.3.6"
     clsx: "npm:^2.1.1"
+    dexie: "npm:^4.0.10"
+    dexie-react-hooks: "npm:^1.1.7"
     eslint: "npm:^9.17.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-import: "npm:^2.31.0"
@@ -6382,6 +6402,8 @@ __metadata:
     "@dnd-kit/core": ^6.3.1
     "@xyflow/react": ^12.3.6
     clsx: 2.x
+    dexie: "*"
+    dexie-react-hooks: "*"
     react: 19.x
     react-dom: 19.x
     uuid: "*"

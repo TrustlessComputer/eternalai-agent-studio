@@ -43,10 +43,11 @@ export enum StudioCategoryTypeEnum {
  */
 export type StudioCategoryOptionSnapValidatePayload = {
   id: string | undefined;
-  option: StudioCategoryOption;
-  toOption: StudioCategoryOption;
-  formData: FormDataType | null;
-  allFormData: FormDataType;
+  option?: StudioCategoryOption;
+  parentOption?: StudioCategory;
+  toOption?: StudioCategoryOption;
+  formData?: FormDataType | null;
+  allFormData?: FormDataType;
   fromNode?: StudioNode;
   toNode?: StudioNode;
   data: StudioDataNode[];
@@ -63,9 +64,10 @@ export type StudioCategoryOptionSnapValidatePayload = {
  */
 export type StudioCategoryOptionDroppedInValidatePayload = {
   id: string | undefined;
-  option: StudioCategoryOption;
-  formData: FormDataType | null;
-  allFormData: FormDataType;
+  option?: StudioCategoryOption;
+  parentOption?: StudioCategory;
+  formData?: FormDataType | null;
+  allFormData?: FormDataType;
   toNode?: StudioNode;
   data: StudioDataNode[];
 };
@@ -81,9 +83,10 @@ export type StudioCategoryOptionDroppedInValidatePayload = {
  */
 export type StudioCategoryOptionDroppedOutValidatePayload = {
   id: string | undefined;
-  option: StudioCategoryOption;
-  formData: FormDataType | null;
-  allFormData: FormDataType;
+  option?: StudioCategoryOption;
+  parentOption?: StudioCategory;
+  formData?: FormDataType | null;
+  allFormData?: FormDataType;
   fromNode?: StudioNode;
   data: StudioDataNode[];
 };

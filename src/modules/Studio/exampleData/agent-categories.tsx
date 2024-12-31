@@ -1,13 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { LegoComponentIcon } from '../components/icons/lego';
-import { FormDataType } from '../types/base';
 import {
-  StudioCategory,
   StudioCategoryFromProp,
   StudioCategoryOption,
   StudioCategoryOptionDroppedInValidatePayload,
   StudioCategoryOptionRenderPayload,
 } from '../types/category';
-import { StudioDataNode, StudioNode } from '../types/graph';
+import { StudioDataNode } from '../types/graph';
 
 const AGENT: StudioCategoryFromProp = {
   keyMapper: 'agent',

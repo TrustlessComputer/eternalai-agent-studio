@@ -42,7 +42,7 @@ const StudioComponent = ({
   showConnectLine = DEFAULT_SHOW_CONNECT_LINE,
   ...rest
 }: StudioProps) => {
-  const { redraw } = useStudioAgent();
+  const { redraw, cleanup } = useStudioAgent();
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -63,6 +63,10 @@ const StudioComponent = ({
     if (data.length) {
       redraw(data);
     }
+
+    return () => {
+      cleanup();
+    };
   }, []);
 
   return (

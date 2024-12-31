@@ -61,7 +61,7 @@ const CategoryGroup = ({
           return (
             <Source
               id={option.keyMapper}
-              key={option.keyMapper}
+              key={`sidebar-source-${categoryKey}-${option.keyMapper}`}
               data={{ categoryKey, optionKey: option.keyMapper, isRoot }}
               disabled={isDisabled}
             >

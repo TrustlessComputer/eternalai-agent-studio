@@ -48,7 +48,7 @@ const BaseNodeStacks = ({ data, ...rest }: Props) => {
             <div>
               <BaseNodeReadOnly {...rest} data={data} />
               {renderChildren.map((item) => (
-                <DraggingFloating key={`dragging-floating-${item.id}`} data={item} />
+                <DraggingFloating key={`dragging-floating-${data.id}-${item.id}`} data={item} />
               ))}
             </div>
           }
@@ -67,7 +67,7 @@ const BaseNodeStacks = ({ data, ...rest }: Props) => {
         {renderChildren?.map((item, index) => (
           <ChildBaseNode
             index={index}
-            key={`base-node-child-${item.id}`}
+            key={`base-node-child-${data.id}-${item.id}`}
             data={item}
             items={children}
             belongsTo={data.id}

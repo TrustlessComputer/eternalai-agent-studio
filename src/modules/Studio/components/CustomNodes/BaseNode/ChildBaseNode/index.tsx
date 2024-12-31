@@ -37,7 +37,7 @@ const ChildBaseNode = ({
       draggingFloating={
         <div>
           {floatingItems.map((item) => (
-            <DraggingFloating key={`dragging-floating-${item.id}`} data={item} />
+            <DraggingFloating key={`dragging-floating-${data.id}-${item.id}`} data={item} />
           ))}
         </div>
       }

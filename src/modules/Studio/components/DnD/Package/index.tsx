@@ -66,17 +66,13 @@ const Package = ({ id, data, disabled, className, children, ...props }: Props) =
       ref={setNodeRef}
       style={{
         width: '100%',
-        // height: 'calc(100% + 42px)',
         minHeight: '100%',
-        // transform: 'translateX(-50%)',
         ...extendedStyle,
       }}
       {...props}
     >
-      <div className="droppable-node__container">
-        {children}
-        {/* {isShowDropMask && <Lego background="rgba(0,0,0, 0.1)" />} */}
-      </div>
+      <div className="droppable-node__container">{children}</div>
+
       {isShowDropMask && <div className="droppable-node__mask">{draggingElement}</div>}
     </div>
   );

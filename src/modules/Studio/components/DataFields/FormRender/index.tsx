@@ -22,6 +22,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
         // render single field
         const field = fields[0];
         const fieldData = schemaData[field];
+
         if (fieldData.type === 'text') {
           return (
             <div className="studio-form-single-field">
@@ -38,7 +39,9 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
               </div>
             </div>
           );
-        } else if (fieldData.type === 'textarea') {
+        }
+
+        if (fieldData.type === 'textarea') {
           return (
             <div className="studio-form-multiple-field">
               <div className="studio-form-multiple-field-heading">{children}</div>
@@ -67,7 +70,9 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
               </div>
             </div>
           );
-        } else if (fieldData.type === 'select') {
+        }
+
+        if (fieldData.type === 'select') {
           return (
             <div className="studio-form-single-field">
               <div className="studio-form-single-field-row">{children}</div>
@@ -96,6 +101,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                 return (
                   <div className="studio-form-multiple-field-row" key={`studio-form-multiple-field-row${id}-${field}`}>
                     <span>{schemaData[field].label}</span>
+
                     <div>
                       {schemaData[field].type === 'text' && (
                         <Textbox
@@ -106,6 +112,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                           keyMapper={categoryKey}
                         />
                       )}
+
                       {schemaData[field].type === 'textarea' && (
                         <TextArea
                           readonly={readonly}
@@ -115,6 +122,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                           keyMapper={categoryKey}
                         />
                       )}
+
                       {schemaData[field].type === 'select' && (
                         <Select
                           readonly={readonly}

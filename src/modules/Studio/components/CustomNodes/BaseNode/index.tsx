@@ -88,7 +88,7 @@ const DraggingFloating = ({ data }: { data: StudioNode }) => {
   );
 };
 
-const ChildBaseNode = ({
+const BaseNodeChild = ({
   data,
   items,
   index,
@@ -204,7 +204,7 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
     [data.id, option.keyMapper],
   );
 
-  const renderChildren = useMemo(() => {
+  const baseNodeChildren = useMemo(() => {
     if (!draggingData || draggingData.childIndex === undefined || draggingData.belongsTo !== data.id) return children;
 
     return children.slice(0, draggingData.childIndex + 1);
@@ -226,7 +226,7 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
           draggingFloating={
             <div>
               <BaseNodeReadonly {...rest} data={data} />
-              {renderChildren.map((item) => (
+              {baseNodeChildren.map((item) => (
                 <DraggingFloating key={`dragging-floating-${item.id}`} data={item} />
               ))}
             </div>
@@ -242,8 +242,8 @@ const BaseNodeMultipleItem = ({ data, ...rest }: Props) => {
           />
         </Product>
 
-        {renderChildren?.map((item, index) => (
-          <ChildBaseNode
+        {baseNodeChildren?.map((item, index) => (
+          <BaseNodeChild
             index={index}
             key={`base-node-child-${item.id}`}
             data={item}
@@ -292,27 +292,6 @@ const BaseNodeSingleItem = ({ data }: Props) => {
               categoryKey={option.keyMapper}
             />
           </Product>
-
-          {/* <div className="base-node__handles">
-          {data.sourceHandles?.map((handle, index) => (
-            <Fragment key={handle}>
-              <Handle
-                id={handle}
-                type="source"
-                position={Position.Right}
-                className="base-node__handles__handle"
-                isConnectable={false}
-              />
-              <Handle
-                id={handle}
-                type="source"
-                position={Position.Left}
-                className="base-node__handles__handle"
-                isConnectable={false}
-              />
-            </Fragment>
-          ))}
-        </div> */}
         </div>
 
         <Package id={data.id} data={packageData} />

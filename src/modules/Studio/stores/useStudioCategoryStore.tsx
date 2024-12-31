@@ -21,6 +21,11 @@ interface State {
   updateCategory: (category: StudioCategory) => void;
 
   updateCategoriesForEntry: (entry: StudioDataNode | null) => void;
+
+  usedKeyCollection: Record<string, string>;
+  setUsedKeyCollection: (collection: Record<string, string>) => void;
+
+  clear: () => void;
 }
 
 const persistCategoryColor = async (key: string, color: string) => {
@@ -134,6 +139,7 @@ const useStudioCategoryStore = create<State>((set, get) => ({
               color: option.color || item.color,
               order: option.order ?? Number.MAX_SAFE_INTEGER,
               type: option.type ?? DEFAULT_CATEGORY_TYPE,
+              multipleChoice: option.multipleChoice ?? true,
             };
           })
           .sort((a, b) => a.order - b.order);
@@ -146,6 +152,7 @@ const useStudioCategoryStore = create<State>((set, get) => ({
           ...item,
           options,
           order: item.order ?? Number.MAX_SAFE_INTEGER,
+          multipleOption: item.multipleOption ?? true,
         };
       })
       .map((item) => {
@@ -245,6 +252,22 @@ const useStudioCategoryStore = create<State>((set, get) => ({
         set({ categories: newCategories });
       }
     }
+  },
+
+  usedKeyCollection: {},
+  setUsedKeyCollection: (collection) => {
+    const { usedKeyCollection } = get();
+    set({ usedKeyCollection: { ...usedKeyCollection, ...collection } });
+  },
+
+  clear: () => {
+    set({
+      rootCategory: null,
+      categories: [],
+      mapCategories: {},
+      filters: [],
+      usedKeyCollection: {},
+    });
   },
 }));
 

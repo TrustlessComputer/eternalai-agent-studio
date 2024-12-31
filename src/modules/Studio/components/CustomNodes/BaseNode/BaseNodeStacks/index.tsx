@@ -1,17 +1,17 @@
-import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
-import { BaseNodeProps } from '../types';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
+import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { StudioCategoryMap } from '@/modules/Studio/types/category';
 import { DraggableDataType } from '@/modules/Studio/types/dnd';
 import { useMemo } from 'react';
-import BaseNodeWrapper from '../BaseNodeWrapper';
+import Package from '../../../DnD/Package';
 import Product from '../../../DnD/Product';
-import BaseNodeReadonly from '../BaseNodeReadonly';
+import BaseNodeConnection from '../BaseNodeConnection';
+import BaseNodeReadOnly from '../BaseNodeReadOnly';
+import BaseNodeWrapper from '../BaseNodeWrapper';
+import ChildBaseNode from '../ChildBaseNode';
 import DraggingFloating from '../DraggingFloating';
 import LegoRender from '../LegoRender';
-import ChildBaseNode from '../ChildBaseNode';
-import Package from '../../../DnD/Package';
-import BaseNodeConnection from '../BaseNodeConnection';
+import { BaseNodeProps } from '../types';
 
 import './BaseNodeStacks.scss';
 
@@ -46,7 +46,7 @@ const BaseNodeStacks = ({ data, ...rest }: Props) => {
           data={productData}
           draggingFloating={
             <div>
-              <BaseNodeReadonly {...rest} data={data} />
+              <BaseNodeReadOnly {...rest} data={data} />
               {renderChildren.map((item) => (
                 <DraggingFloating key={`dragging-floating-${item.id}`} data={item} />
               ))}

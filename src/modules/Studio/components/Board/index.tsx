@@ -1,16 +1,15 @@
-import { Background, ConnectionMode, Controls, MiniMap, ReactFlow } from '@xyflow/react';
+import { Background, ConnectionMode, Controls, MiniMap, ReactFlow, Viewport } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useEffect, useMemo, useState } from 'react';
 
 import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
-import { FlowView } from '../../types/ui';
 
 import { FLOW_EDGE_TYPES, FLOW_NODE_TYPES } from '../../constants/keyMapper';
+import useStudioDataStore from '../../stores/useStudioDataStore';
 import Distribution from '../DnD/Distribution';
 import './Board.scss';
 import BoardOverlay from './BoardOverlay';
-import useStudioDataStore from '../../stores/useStudioDataStore';
 
 function Board() {
   const showConnectLine = useStudioDataStore((state) => state.showConnectLine);
@@ -23,7 +22,7 @@ function Board() {
   const reloadFlowCounter = useStudioFlowStore((state) => state.reloadFlowCounter);
   const setView = useStudioFlowViewStore((state) => state.setView);
 
-  const [currentView, setCurrentView] = useState<FlowView>({
+  const [currentView, setCurrentView] = useState<Viewport>({
     x: 0,
     y: 0,
     zoom: 1,
@@ -62,8 +61,6 @@ function Board() {
         disableKeyboardA11y
         minZoom={1}
         maxZoom={1}
-        snapGrid={[50, 50]}
-        snapToGrid
       >
         <Controls fitViewOptions={{ padding: 1 }} />
         <Background />

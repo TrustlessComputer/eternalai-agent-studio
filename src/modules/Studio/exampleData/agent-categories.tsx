@@ -195,32 +195,32 @@ const NETWORK: StudioCategoryFromProp = {
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      keyMapper: 'network-option-4',
+      keyMapper: 'network-option-6',
       title: 'Solana',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      keyMapper: 'network-option-5',
-      title: 'Polygon',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
-    },
-    {
-      keyMapper: 'network-option-6',
-      title: 'Polygon',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
-    },
-    {
       keyMapper: 'network-option-7',
-      title: 'ZKsync Era',
+      title: 'Polygon',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
       keyMapper: 'network-option-8',
-      title: 'Avalanche C-Chain',
+      title: 'Polygon',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
       keyMapper: 'network-option-9',
+      title: 'ZKsync Era',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
+    },
+    {
+      keyMapper: 'network-option-10',
+      title: 'Avalanche C-Chain',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
+    },
+    {
+      keyMapper: 'network-option-11',
       title: 'Abstract Testnet',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },

@@ -15,7 +15,8 @@ type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
 
 function Textbox({ formId, placeholder, className, name, readonly, keyMapper, ...rest }: Props) {
   const formFunctions = useFormFunction(keyMapper);
-  const { dataForms, setFormFields } = useStudioFormStore();
+  const dataForms = useStudioFormStore((state) => state.dataForms);
+  const setFormFields = useStudioFormStore((state) => state.setFormFields);
 
   const value = dataForms[formId]?.[name] || '';
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {

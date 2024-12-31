@@ -20,7 +20,7 @@ const CategoryNavigation = ({ keyMapper, icon, title, color, customizeRenderOnNa
   }, [filters, keyMapper]);
 
   if (customizeRenderOnNavigation && typeof customizeRenderOnNavigation === 'function') {
-    return customizeRenderOnNavigation({});
+    return customizeRenderOnNavigation();
   }
 
   return (

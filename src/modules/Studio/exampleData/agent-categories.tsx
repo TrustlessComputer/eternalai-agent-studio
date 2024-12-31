@@ -1,6 +1,6 @@
 import { LegoComponentIcon } from '../components/icons/lego';
 import { FormDataType } from '../types/base';
-import { StudioCategoryFromProp, StudioCategoryOption } from '../types/category';
+import { StudioCategoryFromProp, StudioCategoryOption, StudioCategoryOptionRenderPayload } from '../types/category';
 import { StudioDataNode, StudioNode } from '../types/graph';
 
 const AGENT: StudioCategoryFromProp = {
@@ -54,6 +54,44 @@ const PERSONALITY: StudioCategoryFromProp = {
         console.log(data);
 
         return true;
+      },
+
+      customizeRenderOnBoard: ({ setFormFields, formData }: StudioCategoryOptionRenderPayload) => {
+        const agentName = formData?.agentName as string;
+        const aTest = formData?.atest as string;
+
+        return (
+          <div>
+            <div>This customize title</div>
+            <div>
+              <input
+                type="text"
+                value={agentName || ''}
+                onChange={(e) => {
+                  setFormFields({
+                    agentName: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div>
+              <textarea
+                type="text"
+                value={aTest || ''}
+                onChange={(e) => {
+                  setFormFields({
+                    atest: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div>
+              <button>Send</button>
+            </div>
+          </div>
+        );
+
+        return <></>;
       },
     },
     {

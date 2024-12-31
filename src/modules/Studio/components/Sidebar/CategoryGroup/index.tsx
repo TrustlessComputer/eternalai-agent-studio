@@ -17,7 +17,7 @@ const CategoryGroup = ({
   title,
   color,
   options,
-  customizeRenderOnSideBar,
+
   required,
   disabled,
   isRoot,
@@ -25,10 +25,6 @@ const CategoryGroup = ({
   const filteredOptions = useMemo(() => {
     return options.filter((item) => !item.hidden);
   }, [options]);
-
-  if (customizeRenderOnSideBar && typeof customizeRenderOnSideBar === 'function') {
-    return customizeRenderOnSideBar({});
-  }
 
   return (
     <div className="category-group">
@@ -38,6 +34,10 @@ const CategoryGroup = ({
 
       <div className="category-group__options">
         {filteredOptions.map((option) => {
+          if (option.customizeRenderOnSideBar && typeof option.customizeRenderOnSideBar === 'function') {
+            return option.customizeRenderOnSideBar();
+          }
+
           const isDisabled = disabled || option.disabled;
 
           return (

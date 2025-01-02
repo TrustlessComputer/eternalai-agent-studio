@@ -30,12 +30,6 @@ const useDndAction = () => {
     const transformedX = (mousePosition.x - transformX - (draggingPoint?.x || 0)) / zoomLevel;
     const transformedY = (mousePosition.y - transformY - (draggingPoint?.y || 0)) / zoomLevel;
 
-    console.log({
-      draggingPoint,
-      transformedX,
-      transformedY,
-    });
-
     const id = existedId || v4();
     const position = {
       x: transformedX,

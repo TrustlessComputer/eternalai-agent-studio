@@ -15,7 +15,7 @@ import { useStudio } from './hooks/useStudio';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
 import useStudioDataStore from './stores/useStudioDataStore';
-import { StudioDataNode, StudioCategory, DataSource } from './types';
+import { DataSource, StudioCategory, StudioDataNode } from './types';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   data: StudioDataNode[];

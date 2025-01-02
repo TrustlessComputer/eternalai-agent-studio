@@ -1,12 +1,4 @@
-import {
-  addEdge,
-  applyEdgeChanges,
-  applyNodeChanges,
-  Edge,
-  OnConnect,
-  OnEdgesChange,
-  OnNodesChange,
-} from '@xyflow/react';
+import { addEdge, applyEdgeChanges, applyNodeChanges, Edge, OnConnect, OnEdgesChange, OnNodesChange } from '@xyflow/react';
 import { create } from 'zustand';
 
 import { StudioNode } from '../types/graph';

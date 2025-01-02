@@ -21,7 +21,6 @@ function Listen() {
   const throttleDataForms = useThrottleValue(dataForms, 500);
 
   useEffect(() => {
-    // console.log('___________throttleNodes', { throttleNodes, throttleDataForms });
     // sync nodes with data
 
     if (!isDragging) {
@@ -93,7 +92,7 @@ function Listen() {
           });
         }
       });
-      // console.log('___________sync nodes with data', { newData, throttleNodes });
+
       useStudioDataStore.getState().setData(newData);
       useStudioCategoryStore.getState().setUsedKeyCollection(usedKeyCollection);
     }
@@ -123,8 +122,9 @@ function DataSync() {
     if (!entry) {
       if (rootCategory) {
         const rootOptions = rootCategory.options as StudioCategoryMap[];
-        const rootOptionsKeyMapper = rootOptions.map((item) => item.key);
-        const newEntry = data?.find((item) => item.key === rootCategory.key || rootOptionsKeyMapper.includes(item.key));
+        const rootOptionsKey = rootOptions.map((item) => item.key);
+        const newEntry = data?.find((item) => item.key === rootCategory.key || rootOptionsKey.includes(item.key));
+
         if (newEntry) {
           // set entry
           useStudioDataStore.getState().setEntry(newEntry);

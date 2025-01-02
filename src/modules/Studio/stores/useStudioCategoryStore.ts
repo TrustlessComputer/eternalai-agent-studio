@@ -90,11 +90,11 @@ const getCategoryColor = (colorCollection: Record<string, string>, key: string, 
   return newColor;
 };
 
-const flatCategoriesByKeyMapper = (categories: StudioCategory[], parent?: StudioCategory) => {
+const flatCategoriesByKey = (categories: StudioCategory[], parent?: StudioCategory) => {
   let categoryMap: Record<string, StudioCategoryMap> = {};
   categories.forEach((item) => {
     if (item?.options?.length) {
-      const subCategories = flatCategoriesByKeyMapper(item.options as StudioCategory[], item);
+      const subCategories = flatCategoriesByKey(item.options as StudioCategory[], item);
       categoryMap = {
         ...categoryMap,
         ...subCategories,
@@ -180,7 +180,7 @@ const useStudioCategoryStore = create<State>((set, get) => ({
     set({
       rootCategory,
       categories: pipeData,
-      categoryMap: flatCategoriesByKeyMapper(pipeData),
+      categoryMap: flatCategoriesByKey(pipeData),
     });
   },
 

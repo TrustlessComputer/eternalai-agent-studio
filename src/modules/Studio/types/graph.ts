@@ -1,10 +1,10 @@
 import { Node, XYPosition } from '@xyflow/react';
 import { FunctionComponent } from 'react';
-import { FormDataType, KeyMapperType } from './base';
+import { FormDataType, KeyType } from './base';
 
 export type StudioNodeMetadata = Record<string, unknown> & {
   children: StudioNode[];
-  key: KeyMapperType;
+  key: KeyType;
 };
 
 export type StudioNode = Node<{
@@ -16,7 +16,7 @@ export type StudioNode = Node<{
 
 export type StudioDataNode = {
   id: string;
-  key: KeyMapperType;
+  key: KeyType;
   title: React.ReactNode | FunctionComponent;
   children: StudioDataNode[];
   data?: FormDataType; // this field can be used to store additional data or form input data

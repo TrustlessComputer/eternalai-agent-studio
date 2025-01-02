@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react';
-import { FormDataType, KeyMapperType } from './base';
+import { FormDataType, KeyType } from './base';
 import { StudioDataNode, StudioNode } from './graph';
 
 type DataSchemaField = string;
@@ -14,7 +14,7 @@ type DataSchemaValue = {
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
 type BaseCategory = {
-  key: KeyMapperType;
+  key: KeyType;
   title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;
   required?: boolean;

@@ -1,2 +1,2 @@
-export type KeyMapperType = string;
+export type KeyType = string;
 export type FormDataType = Record<string, unknown>;

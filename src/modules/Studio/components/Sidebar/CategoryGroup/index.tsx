@@ -32,7 +32,7 @@ const CategoryGroup = ({
   return (
     <div className="category-group">
       <h5 className="category-group__title">
-        <TextRender data={title} /> {required ? <span className="category-navigation_required">*</span> : ''}
+        <TextRender data={title} /> {required ? <span className="category-navigation__required">*</span> : ''}
       </h5>
 
       <div className="category-group__options">

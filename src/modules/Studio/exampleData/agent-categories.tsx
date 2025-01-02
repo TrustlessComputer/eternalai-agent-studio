@@ -28,7 +28,7 @@ const AGENT: StudioCategoryFromProp = {
           defaultValue: '',
         },
       },
-      onSnapValidate: (data) => {
+      onSnapValidate: () => {
         return false;
       },
     },
@@ -91,7 +91,6 @@ const PERSONALITY: StudioCategoryFromProp = {
             </div>
             <div>
               <textarea
-                type="text"
                 value={aTest || ''}
                 onChange={(e) => {
                   setFormFields({
@@ -105,8 +104,6 @@ const PERSONALITY: StudioCategoryFromProp = {
             </div>
           </div>
         );
-
-        return <></>;
       },
     },
     {

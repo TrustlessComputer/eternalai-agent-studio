@@ -11,7 +11,7 @@
   padding: 4px;
   opacity: 0.2;
 
-  &.category-navigation__active {
+  &.category-navigation--active {
     opacity: 1;
   }
 
@@ -35,12 +35,13 @@
   }
 }
 
-.category-navigation_title {
+.category-navigation__title {
   font-size: 12px;
   font-weight: 500;
   text-align: center;
 }
-.category-navigation_required {
+
+.category-navigation__required {
   color: red;
   font-size: 18px;
   line-height: 0;

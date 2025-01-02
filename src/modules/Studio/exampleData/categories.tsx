@@ -1,7 +1,11 @@
 import { LegoComponentIcon } from '../components/icons/lego';
-import { FormDataType } from '../types/base';
-import { StudioCategoryFromProp, StudioCategoryOption, StudioCategoryTypeEnum } from '../types/category';
-import { StudioNode } from '../types/graph';
+import {
+  StudioCategoryFromProp,
+  StudioCategoryOptionDroppedInValidatePayload,
+  StudioCategoryOptionDroppedOutValidatePayload,
+  StudioCategoryOptionSnapValidatePayload,
+  StudioCategoryTypeEnum,
+} from '../types/category';
 
 const AGENT: StudioCategoryFromProp = {
   keyMapper: 'agent',
@@ -28,20 +32,14 @@ const AGENT: StudioCategoryFromProp = {
         draggable: true,
         title: 'Create agent',
       },
-      onDroppedInValidate: (data: {
-        id: string | undefined;
-        option: StudioCategoryOption;
-        formData: FormDataType | null;
-        allFormData: FormDataType;
-        toNode?: StudioNode;
-      }) => {
+      onDroppedInValidate: (data: StudioCategoryOptionDroppedInValidatePayload) => {
         console.log('___________onDropInValidate', {
           data,
         });
 
         return true;
       },
-      onFieldValidate: (name, value) => {
+      onFieldValidate: () => {
         return true;
       },
     },
@@ -113,7 +111,7 @@ const NETWORK: StudioCategoryFromProp = {
           defaultValue: 'Base',
         },
       },
-      onFieldValidate: (name, value) => {
+      onFieldValidate: () => {
         return false;
       },
     },
@@ -194,7 +192,7 @@ export const STANDALONE: StudioCategoryFromProp = {
           defaultValue: '',
         },
       },
-      onFieldValidate: (name, value) => {
+      onFieldValidate: () => {
         return false;
       },
     },
@@ -229,16 +227,10 @@ export const CAN_NOT_ADD: StudioCategoryFromProp = {
           defaultValue: '',
         },
       },
-      onFieldValidate: (name, value) => {
+      onFieldValidate: () => {
         return false;
       },
-      onDroppedInValidate: (data: {
-        id: string | undefined;
-        option: StudioCategoryOption;
-        formData: FormDataType | null;
-        allFormData: FormDataType;
-        toNode?: StudioNode;
-      }) => {
+      onDroppedInValidate: (data: StudioCategoryOptionDroppedInValidatePayload) => {
         console.log('___________onDropInValidate', {
           data,
         });
@@ -268,18 +260,10 @@ export const CAN_NOT_ADD: StudioCategoryFromProp = {
           defaultValue: '',
         },
       },
-      onFieldValidate: (name, value) => {
+      onFieldValidate: () => {
         return false;
       },
-      onSnapValidate: (data: {
-        id: string | undefined;
-        option: StudioCategoryOption;
-        toOption: StudioCategoryOption;
-        formData: FormDataType | null;
-        allFormData: FormDataType;
-        fromNode?: StudioNode;
-        toNode?: StudioNode;
-      }) => {
+      onSnapValidate: (data: StudioCategoryOptionSnapValidatePayload) => {
         console.log('___________onSnapValidate', {
           data,
         });
@@ -308,16 +292,10 @@ export const CAN_NOT_ADD: StudioCategoryFromProp = {
           defaultValue: '',
         },
       },
-      onFieldValidate: (name, value) => {
+      onFieldValidate: () => {
         return false;
       },
-      onDroppedOutValidate: (data: {
-        id: string | undefined;
-        option: StudioCategoryOption;
-        formData: FormDataType | null;
-        allFormData: FormDataType;
-        fromNode?: StudioNode;
-      }) => {
+      onDroppedOutValidate: (data: StudioCategoryOptionDroppedOutValidatePayload) => {
         console.log('___________onDroppedOutValidate', {
           data,
         });

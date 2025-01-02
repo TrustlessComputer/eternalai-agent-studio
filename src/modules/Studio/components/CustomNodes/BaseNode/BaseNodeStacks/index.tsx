@@ -11,7 +11,7 @@ import ChildBaseNode from '../ChildBaseNode';
 import DraggingFloating from '../DraggingFloating';
 import LegoRender from '../LegoRender';
 import { BaseNodeProps } from '../types';
-import BaseNodeReadOnly from '../BaseNodeReadonly';
+import BaseNodeReadOnly from '../BaseNodeReadOnly';
 
 import './BaseNodeStacks.scss';
 

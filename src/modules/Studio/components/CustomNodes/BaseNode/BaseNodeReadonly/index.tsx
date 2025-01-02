@@ -4,6 +4,7 @@ import LegoRender from '../LegoRender';
 import { BaseNodeProps } from '../types';
 
 type Props = BaseNodeProps;
+
 const BaseNodeReadonly = ({ data }: Props) => {
   const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
 

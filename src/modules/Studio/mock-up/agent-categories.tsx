@@ -39,7 +39,6 @@ const PERSONALITY_CATEGORY: StudioCategory = {
       title: 'New personality',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
-      onDropInValidate: checkPersonalityOptionDroppedIn,
       data: {
         personality: {
           type: 'textarea',
@@ -53,7 +52,6 @@ const PERSONALITY_CATEGORY: StudioCategory = {
       key: 'personality-option-2',
       title: 'Import from NFT',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
-      onDropInValidate: checkPersonalityOptionDroppedIn,
       data: {
         nftId: {
           type: 'text',
@@ -67,7 +65,6 @@ const PERSONALITY_CATEGORY: StudioCategory = {
       key: 'personality-option-3',
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
-      onDropInValidate: checkPersonalityOptionDroppedIn,
       data: {
         ordinalsId: {
           type: 'text',
@@ -81,7 +78,6 @@ const PERSONALITY_CATEGORY: StudioCategory = {
       key: 'personality-option-4',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
-      onDropInValidate: checkPersonalityOptionDroppedIn,
       data: {
         tokenId: {
           type: 'text',
@@ -274,24 +270,3 @@ export const AGENT_MODEL_CATEGORIES: StudioCategory[] = [
   DECENTRALIZE_CATEGORY,
   TOKEN_CATEGORY,
 ];
-
-function checkDataContainsOption(data: StudioDataNode[] = [], option?: StudioCategoryOption) {
-  return !!(data || []).find((item) => (item.children || []).find((child) => child.key === option?.key));
-}
-
-function checkPersonalityOptionDroppedIn(data: StudioCategoryOptionDropInValidatePayload) {
-  // check if the option is already existed
-
-  if (checkDataContainsOption(data?.data, data?.option)) return false;
-
-  // check the group option
-  if (data.parentOption) {
-    const isSameCategoryExisted = data.parentOption?.options
-      ?.filter((item) => item.key !== data.option?.key)
-      ?.find((item) => checkDataContainsOption(data?.data, item));
-
-    if (isSameCategoryExisted) return false;
-  }
-
-  return true;
-}

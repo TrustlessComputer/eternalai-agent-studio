@@ -13,11 +13,13 @@ type Store = {
   setFormFields: (id: string, fields: Record<string, unknown>) => void;
   removeForm: (id: string) => void;
   getFormById: (id: string) => FormDataMap;
+
   clear: () => void;
 };
 
 const useStudioFormStore = create<Store>((set, get) => ({
   ...DEFAULT_VALUE,
+
   initDataForms: (data) => {
     set({ dataForms: data });
   },
@@ -57,6 +59,7 @@ const useStudioFormStore = create<Store>((set, get) => ({
     });
   },
   getFormById: (id) => get().dataForms[id],
+
   clear: () => set(DEFAULT_VALUE),
 }));
 

@@ -24,6 +24,7 @@ type BaseCategory = {
   order?: number;
   data?: DataSchema;
   color?: string;
+  maxPlaceableAmount?: number; // -1 or undefined is unlimited
 };
 
 export enum StudioCategoryType {
@@ -42,7 +43,7 @@ export enum StudioCategoryType {
  * @returns
  */
 export type StudioCategoryOptionSnapValidatePayload = {
-  id: string | undefined;
+  id?: string;
   option?: StudioCategoryOption;
   parentOption?: StudioCategory;
   toOption?: StudioCategoryOption;
@@ -164,12 +165,11 @@ export type StudioCategoryOption = BaseCategory &
     multipleChoice?: boolean; // default true
   };
 
-export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'color'> & {
+export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'maxPlaceableAmount'> & {
   options: StudioCategoryOption[];
-  color?: string;
   isRoot?: boolean; // default is false. have only one root in entire category
+  multipleOption?: boolean; // default false
   customizeRenderOnNavigation?: () => ReactNode;
-  multipleOption?: boolean; // default true
 };
 
 export type StudioCategoryMap = StudioCategory &

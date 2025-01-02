@@ -12,7 +12,7 @@ import { StudioNode } from '../types/graph';
 import { cloneData, getFormDataFromCategoryOption } from '../utils/data';
 import { createNewBaseEdge, getSourceHandle } from '../utils/edge';
 import { createNewBaseNode } from '../utils/node';
-import { noUndefined } from '../utils/array';
+import { noUndefinedElement } from '../utils/array';
 
 const useDndAction = () => {
   const flowStore = useStoreApi();
@@ -64,7 +64,7 @@ const useDndAction = () => {
   const addToPackage = useCallback((node?: StudioNode, products?: (StudioNode | undefined)[]) => {
     if (!node || !products) return {};
 
-    node.data.metadata.children = [...node.data.metadata.children, ...noUndefined(products)];
+    node.data.metadata.children = [...node.data.metadata.children, ...noUndefinedElement(products)];
 
     return {
       targetNode: node,

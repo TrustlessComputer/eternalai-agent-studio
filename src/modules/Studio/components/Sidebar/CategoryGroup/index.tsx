@@ -43,20 +43,21 @@ const CategoryGroup = ({
 
           let isDisabled = disabled || option.disabled;
           // check parent first
-          if (!isDisabled) {
-            if (!multipleOption) {
-              if (usedKeyCollection[categoryKey]) {
-                isDisabled = true;
-              }
-            }
-          }
-          if (!isDisabled) {
-            if (!option.multipleChoice) {
-              if (usedKeyCollection[option.key]) {
-                isDisabled = true;
-              }
-            }
-          }
+          // if (!isDisabled) {
+          //   if (!multipleOption) {
+          //     if (usedKeyCollection[categoryKey]) {
+          //       isDisabled = true;
+          //     }
+          //   }
+          // }
+
+          // if (!isDisabled) {
+          //   if (!option.multipleChoice) {
+          //     if (usedKeyCollection[option.key]) {
+          //       isDisabled = true;
+          //     }
+          //   }
+          // }
 
           return (
             <Source

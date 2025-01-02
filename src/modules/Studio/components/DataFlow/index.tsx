@@ -26,6 +26,7 @@ function Listen() {
     if (!isDragging) {
       const usedKeyCollection: Record<string, string> = {};
       const categoryMap = useStudioCategoryStore.getState().categoryMap;
+
       const getChildrenDataFromChildren = (children: StudioNode[]) => {
         return children
           .map((child) => {
@@ -64,11 +65,13 @@ function Listen() {
       };
 
       const newData: StudioDataNode[] = [];
+
       throttleNodes.forEach((node) => {
         const metadata = node.data.metadata;
         const id = node.data.id;
         const key = node.data.metadata.key;
         const option = categoryMap[key] as StudioCategoryMap;
+
         if (metadata) {
           const children = getChildrenDataFromChildren(metadata?.children);
           const formValue = throttleDataForms[id] || {};

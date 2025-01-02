@@ -34,7 +34,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                   name={field}
                   placeholder={fieldData.placeholder}
                   schemaData={schemaData}
-                  key={categoryKey}
+                  fieldKey={categoryKey}
                 />
               </div>
             </div>
@@ -60,7 +60,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                           name={field}
                           placeholder={fieldData.placeholder}
                           schemaData={schemaData}
-                          key={categoryKey}
+                          fieldKey={categoryKey}
                         />
                       </div>
                     </div>
@@ -83,7 +83,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                   placeholder={fieldData.placeholder}
                   dataSourceKey={schemaData[field].dataSourceKey}
                   schemaData={schemaData}
-                  key={categoryKey}
+                  fieldKey={categoryKey}
                 />
               </div>
             </div>
@@ -108,7 +108,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                           formId={id}
                           name={field}
                           placeholder={schemaData[field].placeholder}
-                          key={categoryKey}
+                          fieldKey={categoryKey}
                         />
                       )}
 
@@ -118,7 +118,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                           formId={id}
                           name={field}
                           placeholder={schemaData[field].placeholder}
-                          key={categoryKey}
+                          fieldKey={categoryKey}
                         />
                       )}
 
@@ -129,7 +129,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                           name={field}
                           placeholder={schemaData[field].placeholder}
                           dataSourceKey={schemaData[field].dataSourceKey}
-                          key={categoryKey}
+                          fieldKey={categoryKey}
                         />
                       )}
                     </div>

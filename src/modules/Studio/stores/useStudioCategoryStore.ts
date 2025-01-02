@@ -157,7 +157,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
           ...item,
           options,
           order: item.order ?? Number.MAX_SAFE_INTEGER,
-          multipleOption: item.multipleOption ?? true,
+          multipleOption: item.multipleOption ?? false,
         };
       })
       .map((item) => {

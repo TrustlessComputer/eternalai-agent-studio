@@ -8,11 +8,9 @@ type Props = React.ComponentPropsWithoutRef<'div'>;
 function EventHandler({ children, ...rest }: Props) {
   const rightContentRef = useRef<HTMLDivElement>(null);
 
-  const setMousePosition = useStudioFlowViewStore((state) => state.setMousePosition);
-
   const handleOnTick = useCallback(
     (_contentRect: DOMRect, mousePosition: XYPosition, _previousMousePosition: XYPosition) => {
-      setMousePosition(mousePosition);
+      useStudioFlowViewStore.getState().setMousePosition(mousePosition);
     },
     [],
   );

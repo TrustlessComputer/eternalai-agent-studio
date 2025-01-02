@@ -1,12 +1,10 @@
 import { Background, ConnectionMode, Controls, MiniMap, ReactFlow, Viewport } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useEffect, useMemo, useState } from 'react';
-
-import useStudioFlowStore from '../../stores/useStudioFlowStore';
-import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
-
 import { FLOW_EDGE_TYPES, FLOW_NODE_TYPES } from '../../constants/keyMapper';
 import useStudioDataStore from '../../stores/useStudioDataStore';
+import useStudioFlowStore from '../../stores/useStudioFlowStore';
+import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
 import Distribution from '../DnD/Distribution';
 import './Board.scss';
 import BoardOverlay from './BoardOverlay';
@@ -28,10 +26,6 @@ function Board() {
     zoom: 1,
   });
 
-  useEffect(() => {
-    setCurrentView(useStudioFlowViewStore.getState().view);
-  }, [reloadFlowCounter]);
-
   const renderEdges = useMemo(() => {
     if (showConnectLine) {
       return edges;
@@ -39,6 +33,10 @@ function Board() {
 
     return [];
   }, [edges, showConnectLine]);
+
+  useEffect(() => {
+    setCurrentView(useStudioFlowViewStore.getState().view);
+  }, [reloadFlowCounter]);
 
   return (
     <Distribution className="board">

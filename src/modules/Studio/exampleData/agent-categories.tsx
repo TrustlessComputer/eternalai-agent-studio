@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { LegoComponentIcon } from '../components/icons/lego';
 import {
   StudioCategoryFromProp,

@@ -7,7 +7,7 @@ const BoardOverlay = () => {
   const { draggingData, draggingElement } = useStudioDndStore();
 
   return (
-    <Overlay active={!!draggingData && draggingData.type === DndType.SOURCE && !!draggingElement}>
+    <Overlay active={draggingData?.type === DndType.SOURCE && !!draggingElement}>
       <></>
     </Overlay>
   );

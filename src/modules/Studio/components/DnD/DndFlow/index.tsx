@@ -77,20 +77,27 @@ function DndFlow({ children }: PropsWithChildren) {
 
     const parentOption = (fromOption as StudioCategoryMap).parent;
 
-    console.log('[DndContainer] handleDragEnd', {
+    console.log('[DndContainer] handleDragEnd from to', {
       from,
       to,
-      //
+    });
+
+    console.log('[DndContainer] handleDragEnd option', {
       fromOption,
       toOption,
-      //
+    });
+
+    console.log('[DndContainer] handleDragEnd data', {
       fromData,
       toData,
-      //
+    });
+
+    console.log('[DndContainer] handleDragEnd category', {
       fromCategory,
       toCategory,
+    });
 
-      //
+    console.log('[DndContainer] handleDragEnd root', {
       rootCategory,
       rootNode,
       rootData,
@@ -98,13 +105,8 @@ function DndFlow({ children }: PropsWithChildren) {
     });
 
     if (to === DndType.DISTRIBUTION) {
-      // Add new nodes
+      // Create
       if (from === DndType.SOURCE) {
-        console.log('___________handle drag end', {
-          to: DndType.DISTRIBUTION,
-          from: DndType.SOURCE,
-        });
-
         const isValid =
           fromOption?.onDroppedInValidate?.({
             id: fromData.belongsTo,
@@ -122,12 +124,8 @@ function DndFlow({ children }: PropsWithChildren) {
         updateNodes([rootNode]);
       }
 
+      // Split
       if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
-        console.log('___________handle drag end', {
-          to: DndType.DISTRIBUTION,
-          from: DndType.PRODUCT_ADDON,
-        });
-
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -149,12 +147,8 @@ function DndFlow({ children }: PropsWithChildren) {
     }
 
     if (to === DndType.PACKAGE && toNode) {
+      // Add
       if (from === DndType.SOURCE) {
-        console.log('___________handle drag end', {
-          to: DndType.PACKAGE,
-          from: DndType.SOURCE,
-        });
-
         const isValid =
           fromOption?.onDroppedInValidate?.({
             id: fromData.belongsTo,
@@ -174,12 +168,8 @@ function DndFlow({ children }: PropsWithChildren) {
         updateNodes([toNode]);
       }
 
+      // Merge
       if (from === DndType.PRODUCT && !isTheSameNode) {
-        console.log('___________handle drag end', {
-          to: DndType.PACKAGE,
-          from: DndType.PRODUCT,
-        });
-
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -199,13 +189,8 @@ function DndFlow({ children }: PropsWithChildren) {
         updateNodes([fromNode, toNode]);
       }
 
-      // Move current package to target package
+      // Move
       if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
-        console.log('___________handle drag end', {
-          to: DndType.PACKAGE,
-          from: DndType.PRODUCT_ADDON,
-        });
-
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -229,11 +214,6 @@ function DndFlow({ children }: PropsWithChildren) {
     if (to === DndType.FACTORY && !fromCategory?.isRoot) {
       // Remove the whole node
       if (from === DndType.PRODUCT) {
-        console.log('___________handle drag end', {
-          to: DndType.FACTORY,
-          from: DndType.PRODUCT,
-        });
-
         const isValid =
           fromOption.onDroppedOutValidate?.({
             id: fromData.belongsTo,
@@ -303,6 +283,8 @@ function DndFlow({ children }: PropsWithChildren) {
           x: movingNode.position.x + delta.x,
           y: movingNode.position.y + delta.y,
         };
+
+        updateNodes([movingNode]);
 
         const updatedNode = applyNodeChanges(
           [

@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 
-import { DataSourceType } from '../types/dataSource';
+import { DataSource } from '../types/data-source';
 
 interface State {
-  dataSource: Record<string, DataSourceType[]>;
-  setDataSource: (data: Record<string, DataSourceType[]>) => void;
+  dataSource: Record<string, DataSource[]>;
+  setDataSource: (data: Record<string, DataSource[]>) => void;
 }
 
 const useStudioDataSourceStore = create<State>((set, get) => ({

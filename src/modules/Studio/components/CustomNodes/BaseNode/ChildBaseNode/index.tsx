@@ -18,14 +18,14 @@ const ChildBaseNode = ({
   index: number;
   belongsTo: string;
 }) => {
-  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
+  const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
 
-  const keyMapper = data.data.metadata.keyMapper;
-  const option = mapCategories[keyMapper] as StudioCategoryMap;
+  const key = data.data.metadata.key;
+  const option = categoryMap[key] as StudioCategoryMap;
 
   const productData: Omit<DraggableDataType, 'type'> = useMemo(
-    () => ({ optionKey: option.keyMapper, belongsTo, childIndex: index }),
-    [belongsTo, index, option.keyMapper],
+    () => ({ optionKey: option.key, belongsTo, childIndex: index }),
+    [belongsTo, index, option.key],
   );
 
   const floatingItems = useMemo(() => items.slice(index), [items, index]);
@@ -48,7 +48,7 @@ const ChildBaseNode = ({
         title={option.title}
         id={data.id}
         schemaData={option.data}
-        categoryKey={option.keyMapper}
+        categoryKey={option.key}
         render={option.customizeRenderOnBoard}
       />
     </ProductAddon>

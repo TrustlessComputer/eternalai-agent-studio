@@ -1,31 +1,28 @@
-import { ReactFlowProvider } from '@xyflow/react';
-import cx from 'clsx';
-import React, { useEffect, useImperativeHandle } from 'react';
-
 import '../../styles/global.scss';
+import './Studio.scss';
+
+import cx from 'clsx';
+import { ReactFlowProvider } from '@xyflow/react';
+import React, { useEffect, useImperativeHandle } from 'react';
 import Board from './components/Board';
 import DataFlow from './components/DataFlow';
-import DragMask from './components/DnD/DragMask';
-import Sidebar from './components/Sidebar';
-
 import DndFlow from './components/DnD/DndFlow';
+import DragMask from './components/DnD/DragMask';
 import EventHandler from './components/EventHandler';
+import Sidebar from './components/Sidebar';
+import { DEFAULT_SHOW_CONNECT_LINE } from './constants/default-values';
+import { useStudio } from './hooks/useStudio';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
-import './Studio.scss';
-import { StudioCategoryFromProp } from './types/category';
-import { DataSourceType } from './types/dataSource';
-import { StudioDataNode } from './types/graph';
-import { useStudioAgent } from './hooks/useStudioAgent';
 import useStudioDataStore from './stores/useStudioDataStore';
-import { DEFAULT_SHOW_CONNECT_LINE } from './constants/defaultValues';
+import { StudioDataNode, StudioCategory, DataSource } from './types';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   data: StudioDataNode[];
-  categories: StudioCategoryFromProp[];
-  onChange?: (data: StudioDataNode[]) => void;
-  dataSource?: Record<string, DataSourceType[]>;
+  categories: StudioCategory[];
+  dataSource?: Record<string, DataSource[]>;
   showConnectLine?: boolean;
+  onChange?: (data: StudioDataNode[]) => void;
 };
 
 export type StudioRef = {
@@ -42,7 +39,7 @@ const StudioComponent = ({
   showConnectLine = DEFAULT_SHOW_CONNECT_LINE,
   ...rest
 }: StudioProps): React.ReactNode => {
-  const { redraw, cleanup } = useStudioAgent();
+  const { redraw, cleanup } = useStudio();
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -90,7 +87,8 @@ const StudioComponent = ({
 
 export const Studio: React.FC<StudioProps> = React.forwardRef<StudioRef, StudioProps>(
   (props: StudioProps, ref): React.ReactNode => {
-    const { redraw, cleanup } = useStudioAgent();
+    const { redraw, cleanup } = useStudio();
+
     useImperativeHandle(
       ref,
       () => ({

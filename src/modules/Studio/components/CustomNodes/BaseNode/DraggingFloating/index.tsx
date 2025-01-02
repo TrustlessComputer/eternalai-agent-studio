@@ -4,10 +4,10 @@ import { StudioNode } from '@/modules/Studio/types/graph';
 import LegoRender from '../LegoRender';
 
 const DraggingFloating = ({ data }: { data: StudioNode }) => {
-  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
+  const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
 
-  const keyMapper = data.data.metadata.keyMapper;
-  const option = mapCategories[keyMapper] as StudioCategoryMap;
+  const key = data.data.metadata.key;
+  const option = categoryMap[key] as StudioCategoryMap;
 
   return (
     <LegoRender
@@ -16,7 +16,7 @@ const DraggingFloating = ({ data }: { data: StudioNode }) => {
       title={option.title}
       id={data.id}
       schemaData={option.data}
-      categoryKey={option.keyMapper}
+      categoryKey={option.key}
       readonly
       render={option.customizeRenderOnBoard}
     />

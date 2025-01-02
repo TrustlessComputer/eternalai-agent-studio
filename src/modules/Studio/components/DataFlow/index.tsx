@@ -26,28 +26,28 @@ function Listen() {
 
     if (!isDragging) {
       const usedKeyCollection: Record<string, string> = {};
-      const mapCategories = useStudioCategoryStore.getState().mapCategories;
+      const categoryMap = useStudioCategoryStore.getState().categoryMap;
       const getChildrenDataFromChildren = (children: StudioNode[]) => {
         return children
           .map((child) => {
             const id = child.data.id;
             const metadata = child.data.metadata;
-            const keyMapper = child.data.metadata.keyMapper;
-            const option = mapCategories[keyMapper] as StudioCategoryMap;
+            const key = child.data.metadata.key;
+            const option = categoryMap[key] as StudioCategoryMap;
 
             // const id = data.id;
             if (metadata) {
               const formValue = throttleDataForms[id] || {};
 
-              if (option?.parent?.keyMapper) {
-                usedKeyCollection[option.parent.keyMapper] = option.parent.keyMapper;
+              if (option?.parent?.key) {
+                usedKeyCollection[option.parent.key] = option.parent.key;
               }
 
-              usedKeyCollection[option.keyMapper] = option.keyMapper;
+              usedKeyCollection[option.key] = option.key;
 
               return {
                 id,
-                keyMapper,
+                key,
                 title: option.title || 'Untitled',
                 children: [],
                 data: {
@@ -68,20 +68,20 @@ function Listen() {
       throttleNodes.forEach((node) => {
         const metadata = node.data.metadata;
         const id = node.data.id;
-        const keyMapper = node.data.metadata.keyMapper;
-        const option = mapCategories[keyMapper] as StudioCategoryMap;
+        const key = node.data.metadata.key;
+        const option = categoryMap[key] as StudioCategoryMap;
         if (metadata) {
           const children = getChildrenDataFromChildren(metadata?.children);
           const formValue = throttleDataForms[id] || {};
 
-          if (option?.parent?.keyMapper) {
-            usedKeyCollection[option.parent.keyMapper] = option.parent.keyMapper;
+          if (option?.parent?.key) {
+            usedKeyCollection[option.parent.key] = option.parent.key;
           }
 
-          usedKeyCollection[option.keyMapper] = option.keyMapper;
+          usedKeyCollection[option.key] = option.key;
           newData.push({
             id,
-            keyMapper: option.keyMapper,
+            key: option.key,
             title: option.title || 'Untitled',
             children,
             data: {
@@ -123,10 +123,8 @@ function DataSync() {
     if (!entry) {
       if (rootCategory) {
         const rootOptions = rootCategory.options as StudioCategoryMap[];
-        const rootOptionsKeyMapper = rootOptions.map((item) => item.keyMapper);
-        const newEntry = data?.find(
-          (item) => item.keyMapper === rootCategory.keyMapper || rootOptionsKeyMapper.includes(item.keyMapper),
-        );
+        const rootOptionsKeyMapper = rootOptions.map((item) => item.key);
+        const newEntry = data?.find((item) => item.key === rootCategory.key || rootOptionsKeyMapper.includes(item.key));
         if (newEntry) {
           // set entry
           useStudioDataStore.getState().setEntry(newEntry);

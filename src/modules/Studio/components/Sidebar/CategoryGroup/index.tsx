@@ -52,7 +52,7 @@ const CategoryGroup = ({
           }
           if (!isDisabled) {
             if (!option.multipleChoice) {
-              if (usedKeyCollection[option.keyMapper]) {
+              if (usedKeyCollection[option.key]) {
                 isDisabled = true;
               }
             }
@@ -60,9 +60,9 @@ const CategoryGroup = ({
 
           return (
             <Source
-              id={option.keyMapper}
-              key={`sidebar-source-${categoryKey}-${option.keyMapper}`}
-              data={{ categoryKey, optionKey: option.keyMapper, isRoot }}
+              id={option.key}
+              key={`sidebar-source-${categoryKey}-${option.key}`}
+              data={{ categoryKey, optionKey: option.key, isRoot }}
               disabled={isDisabled}
             >
               <Lego background={color} icon={option.icon} disabled={isDisabled}>

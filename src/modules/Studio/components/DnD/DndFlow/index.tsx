@@ -49,25 +49,21 @@ function DndFlow({ children }: PropsWithChildren) {
 
     const data = useStudioDataStore.getState().data;
     const rootCategory = useStudioCategoryStore.getState().rootCategory;
-    const rootOptionKey = rootCategory?.options?.map((item) => item?.keyMapper);
+    const rootOptionKey = rootCategory?.options?.map((item) => item?.key);
 
-    const rootData = data.find(
-      (item) => item.keyMapper === rootCategory?.keyMapper || rootOptionKey?.includes(item.keyMapper),
-    );
+    const rootData = data.find((item) => item.key === rootCategory?.key || rootOptionKey?.includes(item.key));
     const rootNode = useStudioFlowStore.getState().nodes.find((node) => node.id === rootData?.id);
 
     const fromData = active?.data?.current as DraggableDataType;
     const from = fromData?.type;
-    const fromCategory = useStudioCategoryStore.getState().mapCategories[fromData?.categoryKey || ''] as StudioCategory;
-    const fromOption = useStudioCategoryStore.getState().mapCategories[
-      fromData?.optionKey || ''
-    ] as StudioCategoryOption;
+    const fromCategory = useStudioCategoryStore.getState().categoryMap[fromData?.categoryKey || ''] as StudioCategory;
+    const fromOption = useStudioCategoryStore.getState().categoryMap[fromData?.optionKey || ''] as StudioCategoryOption;
     const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.belongsTo);
 
     const toData = over?.data?.current as DraggableDataType;
     const to = toData?.type;
-    const toCategory = useStudioCategoryStore.getState().mapCategories[toData?.categoryKey || ''] as StudioCategory;
-    const toOption = useStudioCategoryStore.getState().mapCategories[toData?.optionKey || ''] as StudioCategoryOption;
+    const toCategory = useStudioCategoryStore.getState().categoryMap[toData?.categoryKey || ''] as StudioCategory;
+    const toOption = useStudioCategoryStore.getState().categoryMap[toData?.optionKey || ''] as StudioCategoryOption;
     const toNode = useStudioFlowStore.getState().nodes.find((node) => node.id === toData?.belongsTo);
 
     const isTheSameNode = fromNode?.id === toNode?.id;

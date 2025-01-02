@@ -14,7 +14,7 @@ type DataSchemaValue = {
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
 type BaseCategory = {
-  keyMapper: KeyMapperType;
+  key: KeyMapperType;
   title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;
   required?: boolean;
@@ -26,7 +26,7 @@ type BaseCategory = {
   color?: string;
 };
 
-export enum StudioCategoryTypeEnum {
+export enum StudioCategoryType {
   INLINE = 'inline',
   STANDALONE = 'standalone',
 }
@@ -159,14 +159,14 @@ export type StudioCategoryOption = BaseCategory &
   StudioCategoryDragDropFunctionType &
   StudioCategoryFormFunctionType &
   StudioOptionCustomizeRenderType & {
-    type?: StudioCategoryTypeEnum; // default is inline
+    type?: StudioCategoryType; // default is inline
     boxWrapper?: StudioCategoryBoxWrapperType;
     multipleChoice?: boolean; // default true
   };
 
 export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'color'> & {
   options: StudioCategoryOption[];
-  color: string;
+  color?: string;
   isRoot?: boolean; // default is false. have only one root in entire category
   customizeRenderOnNavigation?: () => ReactNode;
   multipleOption?: boolean; // default true
@@ -176,7 +176,3 @@ export type StudioCategoryMap = StudioCategory &
   StudioCategoryOption & {
     parent: StudioCategory;
   };
-
-export type StudioCategoryFromProp = Omit<StudioCategory, 'color'> & {
-  color?: string;
-};

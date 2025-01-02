@@ -15,6 +15,4 @@ export enum DndType {
   ADDON = 'addon',
   PACKAGE = 'package',
   DISTRIBUTION = 'distribution',
-
-  BOX_WRAPPER = 'box_wrapper',
 }

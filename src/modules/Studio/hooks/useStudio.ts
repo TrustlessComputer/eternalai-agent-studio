@@ -1,5 +1,5 @@
 /**
- * The hook to export the function can integrate/manipulation to studio agent
+ * The hook to export the function can integrate/manipulation to studio
  */
 
 import { useCallback, useMemo } from 'react';
@@ -13,7 +13,7 @@ import { getFieldDataFromRawData } from '../utils/data';
 import { StudioDataNode } from '../types/graph';
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 
-export const useStudioAgent = () => {
+export const useStudio = () => {
   const cleanup = useCallback(() => {
     useStudioCategoryStore.getState().clear();
     useStudioFlowStore.getState().clear();

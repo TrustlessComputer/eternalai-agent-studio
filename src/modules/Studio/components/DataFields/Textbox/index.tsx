@@ -10,11 +10,11 @@ type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
   name: string;
   readonly?: boolean;
   schemaData?: DataSchema;
-  keyMapper: string;
+  key: string;
 };
 
-function Textbox({ formId, placeholder, className, name, readonly, keyMapper, ...rest }: Props) {
-  const formFunctions = useFormFunction(keyMapper);
+function Textbox({ formId, placeholder, className, name, readonly, key, ...rest }: Props) {
+  const formFunctions = useFormFunction(key);
   const dataForms = useStudioFormStore((state) => state.dataForms);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
 

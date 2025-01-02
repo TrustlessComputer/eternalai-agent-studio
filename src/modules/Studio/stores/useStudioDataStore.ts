@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { v4 } from 'uuid';
 
 import { StudioDataNode } from '../types/graph';
-import { DEFAULT_SHOW_CONNECT_LINE } from '../constants/defaultValues';
+import { DEFAULT_SHOW_CONNECT_LINE } from '../constants/default-values';
 
 type State = {
   entry: StudioDataNode | null;

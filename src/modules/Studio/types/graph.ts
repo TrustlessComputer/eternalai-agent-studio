@@ -4,7 +4,7 @@ import { FormDataType, KeyMapperType } from './base';
 
 export type StudioNodeMetadata = Record<string, unknown> & {
   children: StudioNode[];
-  keyMapper: KeyMapperType;
+  key: KeyMapperType;
 };
 
 export type StudioNode = Node<{
@@ -14,10 +14,9 @@ export type StudioNode = Node<{
   metadata: StudioNodeMetadata;
 }>;
 
-export type StudioDataKeyMapperType = string;
 export type StudioDataNode = {
   id: string;
-  keyMapper: KeyMapperType;
+  key: KeyMapperType;
   title: React.ReactNode | FunctionComponent;
   children: StudioDataNode[];
   data?: FormDataType; // this field can be used to store additional data or form input data

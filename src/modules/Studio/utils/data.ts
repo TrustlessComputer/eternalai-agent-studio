@@ -18,9 +18,9 @@ export const getFormDataFromCategoryOption = (category: StudioCategoryOption) =>
 
 export const getFieldDataFromRawData = (data: StudioDataNode[]) => {
   let formData: Record<string, FormDataType> = {};
-  const mapCategories = useStudioCategoryStore.getState().mapCategories;
+  const categoryMap = useStudioCategoryStore.getState().categoryMap;
   data.forEach((item) => {
-    const defaultValues = getFormDataFromCategoryOption(mapCategories[item.keyMapper] || {});
+    const defaultValues = getFormDataFromCategoryOption(categoryMap[item.key] || {});
 
     formData[item.id] = {
       ...defaultValues,

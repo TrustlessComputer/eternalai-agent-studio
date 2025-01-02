@@ -1,6 +1,6 @@
-import { DataSourceType } from '../types/dataSource';
+import { DataSource } from '../types/data-source';
 
-export const DATA_SOURCE: Record<string, DataSourceType[]> = {
+export const DATA_SOURCE: Record<string, DataSource[]> = {
   'network-data-source': [
     {
       value: 'base',

@@ -1,25 +1,19 @@
 import { LegoComponentIcon } from '../components/icons/lego';
-import {
-  StudioCategoryFromProp,
-  StudioCategoryOptionDroppedInValidatePayload,
-  StudioCategoryOptionDroppedOutValidatePayload,
-  StudioCategoryOptionSnapValidatePayload,
-  StudioCategoryTypeEnum,
-} from '../types/category';
+import { StudioCategory, StudioCategoryType } from '../types/category';
 
-const AGENT: StudioCategoryFromProp = {
-  keyMapper: 'agent',
+const AGENT: StudioCategory = {
+  key: 'agent',
   title: 'Agent',
   required: true,
   isRoot: true,
   options: [
     {
-      keyMapper: 'agent-option-1',
+      key: 'agent-option-1',
       title: 'New Agent',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: 'inline' as StudioCategoryTypeEnum,
+      type: 'inline' as StudioCategoryType,
       data: {
         agentName: {
           type: 'text',
@@ -32,11 +26,7 @@ const AGENT: StudioCategoryFromProp = {
         draggable: true,
         title: 'Create agent',
       },
-      onDroppedInValidate: (data: StudioCategoryOptionDroppedInValidatePayload) => {
-        console.log('___________onDropInValidate', {
-          data,
-        });
-
+      onDroppedInValidate: () => {
         return true;
       },
       onFieldValidate: () => {
@@ -48,61 +38,61 @@ const AGENT: StudioCategoryFromProp = {
   order: -1,
 };
 
-const PERSONALITY: StudioCategoryFromProp = {
-  keyMapper: 'personality',
+const PERSONALITY: StudioCategory = {
+  key: 'personality',
   title: 'Personality',
   required: true,
   tooltip:
     'Create an agent for your NFT, Ordinals, token, —or start fresh with a new idea. This section defines your agent’s lore and backstory.',
   options: [
     {
-      keyMapper: 'personality-option-1',
+      key: 'personality-option-1',
       title: 'Import from NFT',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
       data: {},
-      type: 'inline' as StudioCategoryTypeEnum,
+      type: 'inline' as StudioCategoryType,
     },
     {
-      keyMapper: 'personality-option-2',
+      key: 'personality-option-2',
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       order: 1,
-      type: 'inline' as StudioCategoryTypeEnum,
+      type: 'inline' as StudioCategoryType,
     },
     {
-      keyMapper: 'personality-option-3',
+      key: 'personality-option-3',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
       order: 2,
-      type: 'inline' as StudioCategoryTypeEnum,
+      type: 'inline' as StudioCategoryType,
     },
     {
-      keyMapper: 'personality-option-4',
+      key: 'personality-option-4',
       title: 'New personality',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
       order: 3,
-      type: 'inline' as StudioCategoryTypeEnum,
+      type: 'inline' as StudioCategoryType,
     },
   ],
   icon: LegoComponentIcon,
 };
 
-const NETWORK: StudioCategoryFromProp = {
-  keyMapper: 'network',
+const NETWORK: StudioCategory = {
+  key: 'network',
   title: 'Network',
   required: true,
   tooltip:
     'Choose the blockchain where your agent will live. Each option comes with different deployment fees, performance levels, and ongoing costs. Pick the one that best suits your goals and budget.',
   options: [
     {
-      keyMapper: 'network-option-1',
+      key: 'network-option-1',
       title: 'Import from NFT',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: 'inline' as StudioCategoryTypeEnum,
+      type: 'inline' as StudioCategoryType,
       data: {
         network: {
           type: 'text',
@@ -116,11 +106,11 @@ const NETWORK: StudioCategoryFromProp = {
       },
     },
     {
-      keyMapper: 'network-option-2',
+      key: 'network-option-2',
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       order: 1,
-      type: 'inline' as StudioCategoryTypeEnum,
+      type: 'inline' as StudioCategoryType,
       data: {
         network: {
           type: 'textarea',
@@ -139,18 +129,18 @@ const NETWORK: StudioCategoryFromProp = {
       },
     },
     {
-      keyMapper: 'network-option-3',
+      key: 'network-option-3',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
       order: 2,
-      type: 'inline' as StudioCategoryTypeEnum,
+      type: 'inline' as StudioCategoryType,
     },
     {
-      keyMapper: 'network-option-4',
+      key: 'network-option-4',
       title: 'New personality',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
       order: 3,
-      type: 'inline' as StudioCategoryTypeEnum,
+      type: 'inline' as StudioCategoryType,
       data: {
         network: {
           type: 'select',
@@ -166,18 +156,18 @@ const NETWORK: StudioCategoryFromProp = {
   icon: LegoComponentIcon,
 };
 
-export const STANDALONE: StudioCategoryFromProp = {
-  keyMapper: 'standalone',
+export const STANDALONE: StudioCategory = {
+  key: 'standalone',
   title: 'Standalone',
   required: true,
   options: [
     {
-      keyMapper: 'standalone-option-1',
+      key: 'standalone-option-1',
       title: 'New Standalone',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: 'standalone' as StudioCategoryTypeEnum,
+      type: 'standalone' as StudioCategoryType,
       data: {
         field1: {
           type: 'text',
@@ -201,18 +191,18 @@ export const STANDALONE: StudioCategoryFromProp = {
   order: -1,
 };
 
-export const CAN_NOT_ADD: StudioCategoryFromProp = {
-  keyMapper: 'validate',
+export const CAN_NOT_ADD: StudioCategory = {
+  key: 'validate',
   title: 'Validates',
   required: true,
   options: [
     {
-      keyMapper: 'validate-cannot-add-option-1',
+      key: 'validate-cannot-add-option-1',
       title: 'Can not add',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: 'standalone' as StudioCategoryTypeEnum,
+      type: 'standalone' as StudioCategoryType,
       data: {
         field1: {
           type: 'text',
@@ -230,22 +220,18 @@ export const CAN_NOT_ADD: StudioCategoryFromProp = {
       onFieldValidate: () => {
         return false;
       },
-      onDroppedInValidate: (data: StudioCategoryOptionDroppedInValidatePayload) => {
-        console.log('___________onDropInValidate', {
-          data,
-        });
-
+      onDroppedInValidate: () => {
         return false;
       },
     },
 
     {
-      keyMapper: 'validate-add-without-snap-option-1',
+      key: 'validate-add-without-snap-option-1',
       title: 'Add - no snap',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: 'standalone' as StudioCategoryTypeEnum,
+      type: 'standalone' as StudioCategoryType,
       data: {
         field1: {
           type: 'text',
@@ -263,21 +249,17 @@ export const CAN_NOT_ADD: StudioCategoryFromProp = {
       onFieldValidate: () => {
         return false;
       },
-      onSnapValidate: (data: StudioCategoryOptionSnapValidatePayload) => {
-        console.log('___________onSnapValidate', {
-          data,
-        });
-
+      onSnapValidate: () => {
         return false;
       },
     },
     {
-      keyMapper: 'validate-add-snap-no-remove-option-1',
+      key: 'validate-add-snap-no-remove-option-1',
       title: 'Add - Snap - no remove',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: 'standalone' as StudioCategoryTypeEnum,
+      type: 'standalone' as StudioCategoryType,
       data: {
         field1: {
           type: 'text',
@@ -295,11 +277,7 @@ export const CAN_NOT_ADD: StudioCategoryFromProp = {
       onFieldValidate: () => {
         return false;
       },
-      onDroppedOutValidate: (data: StudioCategoryOptionDroppedOutValidatePayload) => {
-        console.log('___________onDroppedOutValidate', {
-          data,
-        });
-
+      onDroppedOutValidate: () => {
         return false;
       },
     },
@@ -308,4 +286,4 @@ export const CAN_NOT_ADD: StudioCategoryFromProp = {
   order: -1,
 };
 
-export const MODEL_CATEGORIES: StudioCategoryFromProp[] = [AGENT, PERSONALITY, NETWORK, STANDALONE, CAN_NOT_ADD];
+export const CATEGORIES: StudioCategory[] = [AGENT, PERSONALITY, NETWORK, STANDALONE, CAN_NOT_ADD];

@@ -13,15 +13,15 @@ import './BaseNodeSingleItem.scss';
 
 type Props = BaseNodeProps;
 const BaseNodeSingleItem = ({ data }: Props) => {
-  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
+  const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
 
-  const keyMapper = data.metadata.keyMapper;
-  const option = mapCategories[keyMapper] as StudioCategoryMap;
+  const key = data.metadata.key;
+  const option = categoryMap[key] as StudioCategoryMap;
   const schemaData = option.data;
 
   const productData: Omit<DraggableDataType, 'type'> = useMemo(
-    () => ({ optionKey: option.keyMapper, belongsTo: data.id }),
-    [data.id, option.keyMapper],
+    () => ({ optionKey: option.key, belongsTo: data.id }),
+    [data.id, option.key],
   );
 
   const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
@@ -37,7 +37,7 @@ const BaseNodeSingleItem = ({ data }: Props) => {
               title={option.title}
               id={data.id}
               schemaData={schemaData}
-              categoryKey={option.keyMapper}
+              categoryKey={option.key}
               render={option.customizeRenderOnBoard}
             />
           </Product>

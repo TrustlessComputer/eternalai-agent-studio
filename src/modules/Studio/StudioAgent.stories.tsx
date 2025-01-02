@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Studio, StudioProps } from './Studio';
-import { AGENT_DATA_SOURCE } from './exampleData/agent-dataSource';
-import { AGENT_MODEL_CATEGORIES } from './exampleData/agent-categories';
+import { AGENT_DATA_SOURCE } from './mock-up/agent-data-source';
+import { AGENT_MODEL_CATEGORIES } from './mock-up/agent-categories';
 import { useState } from 'react';
 
 type Story = StoryObj<typeof Studio>;

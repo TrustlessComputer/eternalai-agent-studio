@@ -1,6 +1,6 @@
-import { DataSourceType } from '../types/dataSource';
+import { DataSource } from '../types/data-source';
 
-export const AGENT_DATA_SOURCE: Record<string, DataSourceType[]> = {
+export const AGENT_DATA_SOURCE: Record<string, DataSource[]> = {
   'personality-data-source': [
     {
       value: 'custom',

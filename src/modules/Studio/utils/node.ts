@@ -22,7 +22,7 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
   const nodes: StudioNode[] = [];
 
   data.forEach((item) => {
-    if (item.keyMapper) {
+    if (item.key) {
       const position = item.rect?.position || { x: 0, y: 0 };
 
       const childrenNode: StudioNode[] = [];
@@ -32,7 +32,7 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
 
       const metadata = {
         children: childrenNode,
-        keyMapper: item.keyMapper,
+        key: item.key,
       } satisfies StudioNodeMetadata;
 
       nodes.push(createNewBaseNode(item.id, position, metadata));

@@ -22,7 +22,7 @@ const Sidebar = () => {
       return renderNavigationCategories;
     }
 
-    return renderNavigationCategories.filter((item) => filters.includes(item.keyMapper));
+    return renderNavigationCategories.filter((item) => filters.includes(item.key));
   }, [renderNavigationCategories, filters]);
 
   return (
@@ -30,7 +30,7 @@ const Sidebar = () => {
       <div className="sidebar__left">
         <div className="sidebar__left__inner">
           {renderNavigationCategories.map((category) => (
-            <CategoryNavigation {...category} key={`sidebar-navigation-${category.keyMapper}`} />
+            <CategoryNavigation {...category} key={`sidebar-navigation-${category.key}`} />
           ))}
         </div>
       </div>
@@ -40,7 +40,7 @@ const Sidebar = () => {
 
         <div className="sidebar__right__inner">
           {renderGroupCategories.map((category) => (
-            <CategoryGroup {...category} categoryKey={category.keyMapper} key={`sidebar-group-${category.keyMapper}`} />
+            <CategoryGroup {...category} categoryKey={category.key} key={`sidebar-group-${category.key}`} />
           ))}
         </div>
       </div>

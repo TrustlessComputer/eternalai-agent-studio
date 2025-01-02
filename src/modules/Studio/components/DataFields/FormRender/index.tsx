@@ -34,7 +34,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                   name={field}
                   placeholder={fieldData.placeholder}
                   schemaData={schemaData}
-                  keyMapper={categoryKey}
+                  key={categoryKey}
                 />
               </div>
             </div>
@@ -61,7 +61,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                           name={field}
                           placeholder={fieldData.placeholder}
                           schemaData={schemaData}
-                          keyMapper={categoryKey}
+                          key={categoryKey}
                         />
                       </div>
                     </div>
@@ -84,7 +84,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                   placeholder={fieldData.placeholder}
                   dataSourceKey={schemaData[field].dataSourceKey}
                   schemaData={schemaData}
-                  keyMapper={categoryKey}
+                  key={categoryKey}
                 />
               </div>
             </div>
@@ -109,7 +109,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                           formId={id}
                           name={field}
                           placeholder={schemaData[field].placeholder}
-                          keyMapper={categoryKey}
+                          key={categoryKey}
                         />
                       )}
 
@@ -119,7 +119,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                           formId={id}
                           name={field}
                           placeholder={schemaData[field].placeholder}
-                          keyMapper={categoryKey}
+                          key={categoryKey}
                         />
                       )}
 
@@ -130,7 +130,7 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                           name={field}
                           placeholder={schemaData[field].placeholder}
                           dataSourceKey={schemaData[field].dataSourceKey}
-                          keyMapper={categoryKey}
+                          key={categoryKey}
                         />
                       )}
                     </div>

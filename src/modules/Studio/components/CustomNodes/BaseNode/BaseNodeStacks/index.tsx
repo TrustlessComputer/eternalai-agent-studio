@@ -18,16 +18,16 @@ import './BaseNodeStacks.scss';
 type Props = BaseNodeProps;
 const BaseNodeStacks = ({ data, ...rest }: Props) => {
   const draggingData = useStudioDndStore((state) => state.draggingData);
-  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
+  const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
   const children = data?.metadata?.children;
 
-  const keyMapper = data.metadata.keyMapper;
-  const option = mapCategories[keyMapper] as StudioCategoryMap;
+  const key = data.metadata.key;
+  const option = categoryMap[key] as StudioCategoryMap;
   const schemaData = option.data;
 
   const productData: Omit<DraggableDataType, 'type'> = useMemo(
-    () => ({ optionKey: option.keyMapper, belongsTo: data.id }),
-    [data.id, option.keyMapper],
+    () => ({ optionKey: option.key, belongsTo: data.id }),
+    [data.id, option.key],
   );
 
   const renderChildren = useMemo(() => {
@@ -59,7 +59,7 @@ const BaseNodeStacks = ({ data, ...rest }: Props) => {
             title={option.title}
             id={data.id}
             schemaData={schemaData}
-            categoryKey={option.keyMapper}
+            categoryKey={option.key}
             render={option.customizeRenderOnBoard}
           />
         </Product>

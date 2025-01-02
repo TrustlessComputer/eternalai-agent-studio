@@ -5,10 +5,10 @@ import { BaseNodeProps } from '../types';
 
 type Props = BaseNodeProps;
 const BaseNodeReadonly = ({ data }: Props) => {
-  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
+  const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
 
-  const keyMapper = data.metadata.keyMapper;
-  const option = mapCategories[keyMapper] as StudioCategoryMap;
+  const key = data.metadata.key;
+  const option = categoryMap[key] as StudioCategoryMap;
   const schemaData = option.data;
 
   return (
@@ -18,7 +18,7 @@ const BaseNodeReadonly = ({ data }: Props) => {
       title={option.title}
       id={data.id}
       schemaData={schemaData}
-      categoryKey={option.keyMapper}
+      categoryKey={option.key}
       readonly
       render={option.customizeRenderOnBoard}
     />

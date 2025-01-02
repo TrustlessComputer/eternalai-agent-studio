@@ -14,20 +14,11 @@ type Props = Omit<React.ComponentPropsWithoutRef<'select'>, 'defaultValue'> & {
   dataSourceKey?: string;
   readonly?: boolean;
   schemaData?: DataSchema;
-  keyMapper: string;
+  key: string;
 };
 
-function Select({
-  formId,
-  className,
-  name,
-  placeholder = 'Select',
-  dataSourceKey,
-  readonly,
-  keyMapper,
-  ...rest
-}: Props) {
-  const formFunctions = useFormFunction(keyMapper);
+function Select({ formId, className, name, placeholder = 'Select', dataSourceKey, readonly, key, ...rest }: Props) {
+  const formFunctions = useFormFunction(key);
   const dataForms = useStudioFormStore((state) => state.dataForms);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
 

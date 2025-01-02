@@ -1,7 +1,7 @@
 import { Background, ConnectionMode, Controls, MiniMap, ReactFlow, Viewport } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useEffect, useMemo, useState } from 'react';
-import { FLOW_EDGE_TYPES, FLOW_NODE_TYPES } from '../../constants/keyMapper';
+import { FLOW_EDGE_TYPES, FLOW_NODE_TYPES } from '../../constants/key-map';
 import useStudioDataStore from '../../stores/useStudioDataStore';
 import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';

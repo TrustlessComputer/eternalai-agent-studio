@@ -1,17 +1,17 @@
 import { useMemo } from 'react';
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 
-export const useFormFunction = (keyMapper: string) => {
-  const mapCategories = useStudioCategoryStore((state) => state.mapCategories);
+export const useFormFunction = (key: string) => {
+  const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
 
   const memorizedFuncs = useMemo(() => {
     return {
-      // onFormChange: mapCategories[keyMapper].onFormChange,
-      // onFormValidate: mapCategories[keyMapper].onFormValidate,
-      // onFieldChange: mapCategories[keyMapper].onFieldChange,
-      onFieldValidate: mapCategories[keyMapper].onFieldValidate,
+      // onFormChange: categoryMap[key].onFormChange,
+      // onFormValidate: categoryMap[key].onFormValidate,
+      // onFieldChange: categoryMap[key].onFieldChange,
+      onFieldValidate: categoryMap[key].onFieldValidate,
     };
-  }, [keyMapper, mapCategories]);
+  }, [key, categoryMap]);
 
   return memorizedFuncs;
 };

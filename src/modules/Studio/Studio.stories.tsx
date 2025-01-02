@@ -1,15 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Studio, StudioProps } from './Studio';
-import { MODEL_CATEGORIES } from './exampleData/categories';
-import { DATA_SOURCE } from './exampleData/dataSource';
+import { CATEGORIES } from './mock-up/categories';
+import { DATA_SOURCE } from './mock-up/data-source';
 
 type Story = StoryObj<typeof Studio>;
 
 const args = {
-  categories: MODEL_CATEGORIES,
+  categories: CATEGORIES,
   dataSource: DATA_SOURCE,
-  // data: GRAPH_DATA_TEMPLATE_2,
   data: [],
   showConnectLine: true,
 } satisfies StudioProps;
@@ -22,20 +21,10 @@ const meta: Meta<typeof Studio> = {
 
 export const Default: Story = {
   render: function useTabs(args) {
-    // const ref = useRef<StudioRef>(null);
-
-    // useEffect(() => {
-    //   if (ref.current) {
-    //     ref.current.cleanup();
-    //     ref.current.redraw(GRAPH_DATA_TEMPLATE_2);
-    //   }
-    // }, []);
-
     return (
       <div style={{ width: 'calc(100vw - 3rem)', height: 'calc(100vh - 3rem)' }}>
         <Studio
           {...args}
-          // ref={ref}
           onChange={(data) => {
             console.log('[Studio] onChange', data);
           }}

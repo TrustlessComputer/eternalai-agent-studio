@@ -4,14 +4,14 @@ import cx from 'clsx';
 import { HTMLAttributes, memo, useEffect, useMemo, useRef } from 'react';
 
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
-import { DndType, DraggableDataType } from '@/modules/Studio/types/dnd';
+import { DndZone, DraggableData } from '@/modules/Studio/types/dnd';
 import { TouchingPoint } from '@/modules/Studio/types/ui';
 import { calculateTouchingPercentage } from '@/modules/Studio/utils/ui';
 import './Draggable.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   id: string;
-  data: Omit<DraggableDataType, 'type'>;
+  data: Omit<DraggableData, 'type'>;
   disabled?: boolean;
 };
 
@@ -21,8 +21,8 @@ const Source = ({ id, data, disabled = false, children, ...props }: Props) => {
   const extendedData = useMemo(() => {
     return {
       ...data,
-      type: DndType.SOURCE,
-    } satisfies DraggableDataType;
+      type: DndZone.SOURCE,
+    } satisfies DraggableData;
   }, [data, id]);
 
   const { attributes, listeners, setNodeRef, transform, isDragging, node } = useDraggable({

@@ -1,6 +1,6 @@
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
-import { DndType, DraggableDataType } from '@/modules/Studio/types/dnd';
+import { DndZone, DraggableData } from '@/modules/Studio/types/dnd';
 import { useDroppable } from '@dnd-kit/core';
 import cx from 'clsx';
 import React, { useMemo } from 'react';
@@ -9,7 +9,7 @@ import './Droppable.scss';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   id: string;
-  data: Omit<DraggableDataType, 'type'>;
+  data: Omit<DraggableData, 'type'>;
   disabled?: boolean; // means the droppable do not accept any droppable
 };
 
@@ -19,8 +19,8 @@ const Package = ({ id, data, disabled, className, children, ...props }: Props) =
   const extendedData = useMemo(() => {
     return {
       ...data,
-      type: DndType.PACKAGE,
-    } satisfies DraggableDataType;
+      type: DndZone.PACKAGE,
+    } satisfies DraggableData;
   }, [data]);
 
   const { setNodeRef, isOver, active } = useDroppable({

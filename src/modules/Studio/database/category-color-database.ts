@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Dexie, { type EntityTable } from 'dexie';
 
-type PersistedStudioCategoryColorItemType = {
+type PersistedStudioCategoryColorItem = {
   key: string;
   color: string;
   createdAt?: string;
@@ -13,7 +13,7 @@ class CategoryColorDatabase {
   constructor() {
     try {
       this.db = new Dexie(this.databaseName) as Dexie & {
-        category: EntityTable<PersistedStudioCategoryColorItemType, 'key'>;
+        category: EntityTable<PersistedStudioCategoryColorItem, 'key'>;
       };
 
       // for version 1
@@ -52,7 +52,7 @@ class CategoryColorDatabase {
     return {};
   }
 
-  private async addItem(newItem: PersistedStudioCategoryColorItemType) {
+  private async addItem(newItem: PersistedStudioCategoryColorItem) {
     try {
       await this.db?.category.add({
         ...newItem,
@@ -67,7 +67,7 @@ class CategoryColorDatabase {
     return null;
   }
 
-  private async updateItem(updatedItem: PersistedStudioCategoryColorItemType) {
+  private async updateItem(updatedItem: PersistedStudioCategoryColorItem) {
     try {
       await this.db?.category.update(updatedItem.key, updatedItem);
 
@@ -79,7 +79,7 @@ class CategoryColorDatabase {
     return null;
   }
 
-  async upsertItem(item: PersistedStudioCategoryColorItemType) {
+  async upsertItem(item: PersistedStudioCategoryColorItem) {
     try {
       const persisted = await this.getItem(item.key);
       if (persisted) {

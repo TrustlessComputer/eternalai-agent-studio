@@ -53,7 +53,6 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                       className="studio-form-multiple-field-row"
                       key={`studio-form-multiple-field-row-${id}-${field}`}
                     >
-                      <span>{schemaData[field].label}</span>
                       <div>
                         <TextArea
                           readonly={readonly}

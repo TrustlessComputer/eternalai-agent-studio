@@ -4,12 +4,12 @@ import cx from 'clsx';
 import { HTMLAttributes, memo, useEffect, useMemo } from 'react';
 
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
-import { DndType, DraggableDataType } from '@/modules/Studio/types/dnd';
+import { DndZone, DraggableData } from '@/modules/Studio/types/dnd';
 import './Draggable.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   id: string;
-  data: Omit<DraggableDataType, 'type'>;
+  data: Omit<DraggableData, 'type'>;
   disabled?: boolean;
   draggingFloating?: React.ReactNode;
 };
@@ -18,8 +18,8 @@ const Product = ({ id, data, disabled = false, children, draggingFloating, ...pr
   const extendedData = useMemo(() => {
     return {
       ...data,
-      type: DndType.PRODUCT,
-    } satisfies DraggableDataType;
+      type: DndZone.PRODUCT,
+    } satisfies DraggableData;
   }, [data]);
 
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({

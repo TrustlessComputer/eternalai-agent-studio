@@ -7,7 +7,7 @@ import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
 import useStudioFormStore from '../stores/useStudioFormStore';
 import { StudioCategoryOption } from '../types/category';
-import { DraggableDataType } from '../types/dnd';
+import { DraggableData } from '../types/dnd';
 import { StudioNode } from '../types/graph';
 import { cloneData, getFormDataFromCategoryOption } from '../utils/data';
 import { createNewBaseEdge, getSourceHandle } from '../utils/edge';
@@ -71,7 +71,7 @@ const useDndAction = () => {
     };
   }, []);
 
-  const movePartOfPackage = useCallback((fromNode?: StudioNode, toNode?: StudioNode, fromData?: DraggableDataType) => {
+  const movePartOfPackage = useCallback((fromNode?: StudioNode, toNode?: StudioNode, fromData?: DraggableData) => {
     if (!fromNode || !toNode || !fromData) return {};
 
     const addons = cloneData(fromNode.data.metadata.children).filter((_, index) => index >= (fromData?.childIndex || 0));
@@ -91,7 +91,7 @@ const useDndAction = () => {
     useStudioFlowStore.getState().removeNode(nodeId);
   }, []);
 
-  const addProduct = useCallback((rootNode?: StudioNode, fromData?: DraggableDataType, fromOption?: StudioCategoryOption) => {
+  const addProduct = useCallback((rootNode?: StudioNode, fromData?: DraggableData, fromOption?: StudioCategoryOption) => {
     if (!fromData?.optionKey || !fromOption) return {};
 
     const newNode = getNewNodeInfo(fromData.optionKey, fromOption);
@@ -111,7 +111,7 @@ const useDndAction = () => {
   }, []);
 
   const splitPackage = useCallback(
-    (rootNode?: StudioNode, fromNode?: StudioNode, fromData?: DraggableDataType, fromOption?: StudioCategoryOption) => {
+    (rootNode?: StudioNode, fromNode?: StudioNode, fromData?: DraggableData, fromOption?: StudioCategoryOption) => {
       if (!fromNode || !fromData || !rootNode) return {};
 
       const childData = !isNil(fromData.childIndex) ? fromNode.data.metadata.children[fromData.childIndex as number] : null;
@@ -143,7 +143,7 @@ const useDndAction = () => {
     [],
   );
 
-  const mergeProducts = useCallback((fromNode?: StudioNode, toNode?: StudioNode, fromData?: DraggableDataType) => {
+  const mergeProducts = useCallback((fromNode?: StudioNode, toNode?: StudioNode, fromData?: DraggableData) => {
     if (!fromNode || !toNode || !fromData) return {};
 
     const clonedFromNode = cloneData(fromNode);

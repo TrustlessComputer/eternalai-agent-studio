@@ -1,6 +1,6 @@
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { StudioCategoryMap } from '@/modules/Studio/types/category';
-import { DraggableDataType } from '@/modules/Studio/types/dnd';
+import { DraggableData } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
 import { useMemo } from 'react';
 import ProductAddon from '../../../DnD/ProductAddon';
@@ -23,7 +23,7 @@ const ChildBaseNode = ({
   const key = data.data.metadata.key;
   const option = categoryMap[key] as StudioCategoryMap;
 
-  const productData: Omit<DraggableDataType, 'type'> = useMemo(
+  const productData: Omit<DraggableData, 'type'> = useMemo(
     () => ({ optionKey: option.key, belongsTo, childIndex: index }),
     [belongsTo, index, option.key],
   );

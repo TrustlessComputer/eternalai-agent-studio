@@ -7,7 +7,7 @@ import FormRender from '../../../DataFields/FormRender';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
-import { FormDataType } from '@/modules/Studio/types/base';
+import { FormDataMap } from '@/modules/Studio/types/base';
 import NoDraggable from '../../../DnD/NoDraggable';
 
 import './LegoRender.scss';
@@ -68,7 +68,7 @@ const LegoRenderCustomization = ({ background, icon, id, categoryKey, render, ti
   const option = categoryMap[categoryKey];
 
   const specifyFormFields = useCallback(
-    (fields: FormDataType) => {
+    (fields: FormDataMap) => {
       return setFormFields(id, fields);
     },
     [id, setFormFields],

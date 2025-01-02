@@ -5,7 +5,7 @@ import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { StudioCategory, StudioCategoryMap, StudioCategoryOption } from '@/modules/Studio/types/category';
-import { DndType, DraggableDataType } from '@/modules/Studio/types/dnd';
+import { DndZone, DraggableData } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
 import {
   DndContext,
@@ -54,13 +54,13 @@ function DndFlow({ children }: PropsWithChildren) {
     const rootData = data.find((item) => item.key === rootCategory?.key || rootOptionKey?.includes(item.key));
     const rootNode = useStudioFlowStore.getState().nodes.find((node) => node.id === rootData?.id);
 
-    const fromData = active?.data?.current as DraggableDataType;
+    const fromData = active?.data?.current as DraggableData;
     const from = fromData?.type;
     const fromCategory = useStudioCategoryStore.getState().categoryMap[fromData?.categoryKey || ''] as StudioCategory;
     const fromOption = useStudioCategoryStore.getState().categoryMap[fromData?.optionKey || ''] as StudioCategoryOption;
     const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.belongsTo);
 
-    const toData = over?.data?.current as DraggableDataType;
+    const toData = over?.data?.current as DraggableData;
     const to = toData?.type;
     const toCategory = useStudioCategoryStore.getState().categoryMap[toData?.categoryKey || ''] as StudioCategory;
     const toOption = useStudioCategoryStore.getState().categoryMap[toData?.optionKey || ''] as StudioCategoryOption;
@@ -100,11 +100,11 @@ function DndFlow({ children }: PropsWithChildren) {
       parentOption,
     });
 
-    if (to === DndType.DISTRIBUTION) {
+    if (to === DndZone.DISTRIBUTION) {
       // Create
-      if (from === DndType.SOURCE) {
+      if (from === DndZone.SOURCE) {
         const isValid =
-          fromOption?.onDroppedInValidate?.({
+          fromOption?.onDropInValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
             parentOption,
@@ -121,7 +121,7 @@ function DndFlow({ children }: PropsWithChildren) {
       }
 
       // Split
-      if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
+      if (from === DndZone.PRODUCT_ADDON && !isTheSameNode && fromNode) {
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -142,11 +142,11 @@ function DndFlow({ children }: PropsWithChildren) {
       }
     }
 
-    if (to === DndType.PACKAGE && toNode) {
+    if (to === DndZone.PACKAGE && toNode) {
       // Add
-      if (from === DndType.SOURCE) {
+      if (from === DndZone.SOURCE) {
         const isValid =
-          fromOption?.onDroppedInValidate?.({
+          fromOption?.onDropInValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
             parentOption,
@@ -165,7 +165,7 @@ function DndFlow({ children }: PropsWithChildren) {
       }
 
       // Merge
-      if (from === DndType.PRODUCT && !isTheSameNode) {
+      if (from === DndZone.PRODUCT && !isTheSameNode) {
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -186,7 +186,7 @@ function DndFlow({ children }: PropsWithChildren) {
       }
 
       // Move
-      if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
+      if (from === DndZone.PRODUCT_ADDON && !isTheSameNode && fromNode) {
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -207,11 +207,11 @@ function DndFlow({ children }: PropsWithChildren) {
       }
     }
 
-    if (to === DndType.FACTORY && !fromCategory?.isRoot) {
+    if (to === DndZone.FACTORY && !fromCategory?.isRoot) {
       // Remove the whole node
-      if (from === DndType.PRODUCT) {
+      if (from === DndZone.PRODUCT) {
         const isValid =
-          fromOption.onDroppedOutValidate?.({
+          fromOption.onDropOutValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
             parentOption,
@@ -227,14 +227,14 @@ function DndFlow({ children }: PropsWithChildren) {
       }
 
       // Remove the node's children
-      if (from === DndType.PRODUCT_ADDON && !isTheSameNode && fromNode) {
+      if (from === DndZone.PRODUCT_ADDON && !isTheSameNode && fromNode) {
         console.log('___________handle drag end', {
-          to: DndType.FACTORY,
-          from: DndType.PRODUCT_ADDON,
+          to: DndZone.FACTORY,
+          from: DndZone.PRODUCT_ADDON,
         });
 
         const isValid =
-          fromOption.onDroppedOutValidate?.({
+          fromOption.onDropOutValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
             parentOption,

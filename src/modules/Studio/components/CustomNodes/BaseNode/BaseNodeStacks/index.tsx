@@ -1,7 +1,7 @@
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { StudioCategoryMap } from '@/modules/Studio/types/category';
-import { DraggableDataType } from '@/modules/Studio/types/dnd';
+import { DraggableData } from '@/modules/Studio/types/dnd';
 import { useMemo } from 'react';
 import Package from '../../../DnD/Package';
 import Product from '../../../DnD/Product';
@@ -25,7 +25,7 @@ const BaseNodeStacks = ({ data, ...rest }: Props) => {
   const option = categoryMap[key] as StudioCategoryMap;
   const schemaData = option.data;
 
-  const productData: Omit<DraggableDataType, 'type'> = useMemo(
+  const productData: Omit<DraggableData, 'type'> = useMemo(
     () => ({ optionKey: option.key, belongsTo: data.id }),
     [data.id, option.key],
   );

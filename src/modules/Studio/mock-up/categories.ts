@@ -26,7 +26,7 @@ const AGENT: StudioCategory = {
         draggable: true,
         title: 'Create agent',
       },
-      onDroppedInValidate: () => {
+      onDropInValidate: () => {
         return true;
       },
       onFieldValidate: () => {
@@ -220,7 +220,7 @@ export const CAN_NOT_ADD: StudioCategory = {
       onFieldValidate: () => {
         return false;
       },
-      onDroppedInValidate: () => {
+      onDropInValidate: () => {
         return false;
       },
     },
@@ -277,7 +277,7 @@ export const CAN_NOT_ADD: StudioCategory = {
       onFieldValidate: () => {
         return false;
       },
-      onDroppedOutValidate: () => {
+      onDropOutValidate: () => {
         return false;
       },
     },

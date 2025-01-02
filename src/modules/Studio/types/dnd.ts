@@ -1,5 +1,5 @@
-export type DraggableDataType = {
-  type: DndType;
+export type DraggableData = {
+  type: DndZone;
   categoryKey?: string;
   optionKey?: string;
   belongsTo?: string;
@@ -7,7 +7,7 @@ export type DraggableDataType = {
   isRoot?: boolean;
 };
 
-export enum DndType {
+export enum DndZone {
   FACTORY = 'factory',
   SOURCE = 'source',
   PRODUCT = 'product',

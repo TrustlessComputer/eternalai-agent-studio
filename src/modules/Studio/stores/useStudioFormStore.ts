@@ -1,18 +1,18 @@
 import { create } from 'zustand';
-import { FormDataType } from '../types/base';
+import { FormDataMap } from '../types/base';
 
 const DEFAULT_VALUE = {
   dataForms: {},
 };
 
 type Store = {
-  dataForms: Record<string, FormDataType>;
-  initDataForms: (data: Record<string, FormDataType>) => void;
-  addForm: (id: string, data: FormDataType) => void;
-  editForm: (id: string, data: FormDataType) => void;
+  dataForms: Record<string, FormDataMap>;
+  initDataForms: (data: Record<string, FormDataMap>) => void;
+  addForm: (id: string, data: FormDataMap) => void;
+  editForm: (id: string, data: FormDataMap) => void;
   setFormFields: (id: string, fields: Record<string, unknown>) => void;
   removeForm: (id: string) => void;
-  getFormById: (id: string) => FormDataType;
+  getFormById: (id: string) => FormDataMap;
   clear: () => void;
 };
 

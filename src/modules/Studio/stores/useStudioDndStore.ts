@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { create } from 'zustand';
-import { DraggableDataType } from '../types/dnd';
+import { DraggableData } from '../types/dnd';
 import { DomRect } from '../types/ui';
 
 const DEFAULT_VALUE = {
@@ -11,10 +11,10 @@ const DEFAULT_VALUE = {
 
 type Store = {
   draggingElement: ReactNode | null;
-  draggingData: DraggableDataType | null;
+  draggingData: DraggableData | null;
   draggingPoint: DomRect | null; // touching point of dragging element
 
-  setDragging: (node?: ReactNode | null, data?: DraggableDataType | null, point?: DomRect | null) => void;
+  setDragging: (node?: ReactNode | null, data?: DraggableData | null, point?: DomRect | null) => void;
 
   clear: () => void;
 };

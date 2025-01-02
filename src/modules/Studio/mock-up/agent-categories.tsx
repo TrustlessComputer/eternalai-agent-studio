@@ -1,13 +1,8 @@
 import { LegoComponentIcon } from '../components/icons/lego';
-import {
-  StudioCategory,
-  StudioCategoryOption,
-  StudioCategoryOptionDroppedInValidatePayload,
-  StudioCategoryOptionRenderPayload,
-} from '../types/category';
+import { StudioCategory, StudioCategoryOption, StudioCategoryOptionDropInValidatePayload } from '../types/category';
 import { StudioDataNode } from '../types/graph';
 
-const AGENT: StudioCategory = {
+const AGENT_CATEGORY: StudioCategory = {
   key: 'agent',
   title: 'Agent',
   required: true,
@@ -27,35 +22,11 @@ const AGENT: StudioCategory = {
           defaultValue: '',
         },
       },
-      onSnapValidate: () => {
-        return false;
-      },
     },
   ],
 };
 
-const checkDataContainsOption = (data: StudioDataNode[] = [], option?: StudioCategoryOption) => {
-  return !!(data || []).find((item) => (item.children || []).find((child) => child.key === option?.key));
-};
-
-const checkPersonalityOptionDroppedIn = (data: StudioCategoryOptionDroppedInValidatePayload) => {
-  // check if the option is already existed
-
-  if (checkDataContainsOption(data?.data, data?.option)) return false;
-
-  // check the group option
-  if (data.parentOption) {
-    const isSameCategoryExisted = data.parentOption?.options
-      ?.filter((item) => item.key !== data.option?.key)
-      ?.find((item) => checkDataContainsOption(data?.data, item));
-
-    if (isSameCategoryExisted) return false;
-  }
-
-  return true;
-};
-
-const PERSONALITY: StudioCategory = {
+const PERSONALITY_CATEGORY: StudioCategory = {
   key: 'personality',
   title: 'Personality',
   required: true,
@@ -68,65 +39,62 @@ const PERSONALITY: StudioCategory = {
       title: 'New personality',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
-      onDroppedInValidate: checkPersonalityOptionDroppedIn,
-
-      customizeRenderOnBoard: ({ setFormFields, formData }: StudioCategoryOptionRenderPayload) => {
-        const agentName = formData?.agentName as string;
-        const aTest = formData?.atest as string;
-
-        return (
-          <div>
-            <div>This customize title</div>
-            <div>
-              <input
-                type="text"
-                value={agentName || ''}
-                onChange={(e) => {
-                  setFormFields({
-                    agentName: e.target.value,
-                  });
-                }}
-              />
-            </div>
-            <div>
-              <textarea
-                value={aTest || ''}
-                onChange={(e) => {
-                  setFormFields({
-                    atest: e.target.value,
-                  });
-                }}
-              />
-            </div>
-            <div>
-              <button>Send</button>
-            </div>
-          </div>
-        );
+      onDropInValidate: checkPersonalityOptionDroppedIn,
+      data: {
+        personality: {
+          type: 'textarea',
+          label: 'Personality',
+          placeholder: 'Personality',
+          defaultValue: '',
+        },
       },
     },
     {
       key: 'personality-option-2',
       title: 'Import from NFT',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
-      onDroppedInValidate: checkPersonalityOptionDroppedIn,
+      onDropInValidate: checkPersonalityOptionDroppedIn,
+      data: {
+        nftId: {
+          type: 'text',
+          label: 'NFT ID',
+          placeholder: 'NFT ID',
+          defaultValue: '',
+        },
+      },
     },
     {
       key: 'personality-option-3',
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
-      onDroppedInValidate: checkPersonalityOptionDroppedIn,
+      onDropInValidate: checkPersonalityOptionDroppedIn,
+      data: {
+        ordinalsId: {
+          type: 'text',
+          label: 'Ordinals ID',
+          placeholder: 'Ordinals ID',
+          defaultValue: '',
+        },
+      },
     },
     {
       key: 'personality-option-4',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
-      onDroppedInValidate: checkPersonalityOptionDroppedIn,
+      onDropInValidate: checkPersonalityOptionDroppedIn,
+      data: {
+        tokenId: {
+          type: 'text',
+          label: 'Token ID',
+          placeholder: 'Token ID',
+          defaultValue: '',
+        },
+      },
     },
   ],
 };
 
-const AI_FRAME_WORK: StudioCategory = {
+const AI_FRAMEWORK_CATEGORY: StudioCategory = {
   key: 'ai-framework',
   title: 'AI Framework',
   required: true,
@@ -155,74 +123,74 @@ const AI_FRAME_WORK: StudioCategory = {
   ],
 };
 
-const NETWORK: StudioCategory = {
-  key: 'network',
-  title: 'Network',
+const BLOCKCHAIN_CATEGORY: StudioCategory = {
+  key: 'blockchain',
+  title: 'Blockchain',
   required: true,
   icon: LegoComponentIcon,
   tooltip:
     'Choose the blockchain where your agent will live. Each option comes with different deployment fees, performance levels, and ongoing costs. Pick the one that best suits your goals and budget.',
   options: [
     {
-      key: 'network-option-1',
+      key: 'blockchain-option-1',
       title: 'Base',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
     },
     {
-      key: 'network-option-2',
+      key: 'blockchain-option-2',
       title: 'Arbitrum',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
     },
     {
-      key: 'network-option-3',
+      key: 'blockchain-option-3',
       title: 'BNB',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
     },
     {
-      key: 'network-option-4',
+      key: 'blockchain-option-4',
       title: 'Bitcoin',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network-option-5',
+      key: 'blockchain-option-5',
       title: 'Symbiosis',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network-option-6',
+      key: 'blockchain-option-6',
       title: 'Solana',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network-option-7',
+      key: 'blockchain-option-7',
       title: 'Polygon',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network-option-8',
+      key: 'blockchain-option-8',
       title: 'Polygon',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network-option-9',
+      key: 'blockchain-option-9',
       title: 'ZKsync Era',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network-option-10',
+      key: 'blockchain-option-10',
       title: 'Avalanche C-Chain',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network-option-11',
+      key: 'blockchain-option-11',
       title: 'Abstract Testnet',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
   ],
 };
 
-const DECENTRALIZE: StudioCategory = {
+const DECENTRALIZE_CATEGORY: StudioCategory = {
   key: 'decentralize-inference',
   title: 'Decentralize Inference',
   required: true,
@@ -258,7 +226,7 @@ const DECENTRALIZE: StudioCategory = {
   ],
 };
 
-const TOKEN: StudioCategory = {
+const TOKEN_CATEGORY: StudioCategory = {
   key: 'token',
   title: 'Token',
   required: true,
@@ -299,10 +267,31 @@ const TOKEN: StudioCategory = {
 };
 
 export const AGENT_MODEL_CATEGORIES: StudioCategory[] = [
-  AGENT,
-  PERSONALITY,
-  AI_FRAME_WORK,
-  NETWORK,
-  DECENTRALIZE,
-  TOKEN,
+  AGENT_CATEGORY,
+  PERSONALITY_CATEGORY,
+  AI_FRAMEWORK_CATEGORY,
+  BLOCKCHAIN_CATEGORY,
+  DECENTRALIZE_CATEGORY,
+  TOKEN_CATEGORY,
 ];
+
+function checkDataContainsOption(data: StudioDataNode[] = [], option?: StudioCategoryOption) {
+  return !!(data || []).find((item) => (item.children || []).find((child) => child.key === option?.key));
+}
+
+function checkPersonalityOptionDroppedIn(data: StudioCategoryOptionDropInValidatePayload) {
+  // check if the option is already existed
+
+  if (checkDataContainsOption(data?.data, data?.option)) return false;
+
+  // check the group option
+  if (data.parentOption) {
+    const isSameCategoryExisted = data.parentOption?.options
+      ?.filter((item) => item.key !== data.option?.key)
+      ?.find((item) => checkDataContainsOption(data?.data, item));
+
+    if (isSameCategoryExisted) return false;
+  }
+
+  return true;
+}

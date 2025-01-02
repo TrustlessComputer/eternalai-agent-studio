@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react';
-import { FormDataType, KeyType } from './base';
+import { FormDataMap, Key } from './base';
 import { StudioDataNode, StudioNode } from './graph';
 
 type DataSchemaField = string;
@@ -14,7 +14,7 @@ type DataSchemaValue = {
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
 type BaseCategory = {
-  key: KeyType;
+  key: Key;
   title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;
   required?: boolean;
@@ -46,15 +46,15 @@ export type StudioCategoryOptionSnapValidatePayload = {
   option?: StudioCategoryOption;
   parentOption?: StudioCategory;
   toOption?: StudioCategoryOption;
-  formData?: FormDataType | null;
-  allFormData?: FormDataType;
+  formData?: FormDataMap | null;
+  allFormData?: FormDataMap;
   fromNode?: StudioNode;
   toNode?: StudioNode;
   data: StudioDataNode[];
 };
 
 /**
- * onDroppedInValidate
+ * onDropInValidate
  * handle drag and drop to add new item from sidebar to board
  * @param id current option item id
  * @param option current option item
@@ -62,18 +62,18 @@ export type StudioCategoryOptionSnapValidatePayload = {
  * @param allFormData all form data
  * @returns
  */
-export type StudioCategoryOptionDroppedInValidatePayload = {
+export type StudioCategoryOptionDropInValidatePayload = {
   id: string | undefined;
   option?: StudioCategoryOption;
   parentOption?: StudioCategory;
-  formData?: FormDataType | null;
-  allFormData?: FormDataType;
+  formData?: FormDataMap | null;
+  allFormData?: FormDataMap;
   toNode?: StudioNode;
   data: StudioDataNode[];
 };
 
 /**
- * onDroppedOutValidate
+ * onDropOutValidate
  * handle drag and drop to remove exists item from board to sidebar
  * @param id current option item id
  * @param option current option item
@@ -81,20 +81,20 @@ export type StudioCategoryOptionDroppedInValidatePayload = {
  * @param allFormData all form data
  * @returns
  */
-export type StudioCategoryOptionDroppedOutValidatePayload = {
+export type StudioCategoryOptionDropOutValidatePayload = {
   id: string | undefined;
   option?: StudioCategoryOption;
   parentOption?: StudioCategory;
-  formData?: FormDataType | null;
-  allFormData?: FormDataType;
+  formData?: FormDataMap | null;
+  allFormData?: FormDataMap;
   fromNode?: StudioNode;
   data: StudioDataNode[];
 };
 
-export type StudioCategoryDragDropFunctionType = {
+export type StudioCategoryDragDropFunction = {
   onSnapValidate?: (data: StudioCategoryOptionSnapValidatePayload) => boolean;
-  onDroppedInValidate?: (data: StudioCategoryOptionDroppedInValidatePayload) => boolean; // add new item from sidebar to board
-  onDroppedOutValidate?: (data: StudioCategoryOptionDroppedOutValidatePayload) => boolean; // remove exist item from board to sidebar
+  onDropInValidate?: (data: StudioCategoryOptionDropInValidatePayload) => boolean; // add new item from sidebar to board
+  onDropOutValidate?: (data: StudioCategoryOptionDropOutValidatePayload) => boolean; // remove exist item from board to sidebar
 };
 
 export type StudioCategoryBoxWrapperType = {
@@ -105,26 +105,26 @@ export type StudioCategoryBoxWrapperType = {
 
 export type StudioCategoryOptionRenderPayload = {
   option: StudioCategoryOption;
-  formData: FormDataType;
-  setFormFields: (fields: FormDataType) => void;
-  allFormData: FormDataType;
+  formData: FormDataMap;
+  setFormFields: (fields: FormDataMap) => void;
+  allFormData: FormDataMap;
   data: StudioDataNode[];
 };
 
-export type StudioOptionCustomizeRenderType = {
+export type StudioOptionCustomizeRender = {
   // render?: (data: StudioCategoryOptionRenderPayload) => ReactNode;
   customizeRenderOnSideBar?: () => ReactNode;
   customizeRenderOnBoard?: (data: StudioCategoryOptionRenderPayload) => ReactNode;
 };
 
-export type StudioCategoryFormFunctionType = {
+export type StudioCategoryFormFunction = {
   // /**
   //  * onFormChange
   //  * handle form change event
   //  * @param value form data
   //  * @returns
   //  */
-  // onFormChange?: <T extends FormDataType>(value: T) => void;
+  // onFormChange?: <T extends FormDataMap>(value: T) => void;
 
   // /**
   //  * onFormValidate
@@ -133,7 +133,7 @@ export type StudioCategoryFormFunctionType = {
   //  * @param onUpdateToStore update form data to store
   //  * @returns
   //  */
-  // onFormValidate?: <T extends FormDataType>(value: T) => boolean;
+  // onFormValidate?: <T extends FormDataMap>(value: T) => boolean;
 
   // /**
   //  * onFieldChange
@@ -156,9 +156,9 @@ export type StudioCategoryFormFunctionType = {
 };
 
 export type StudioCategoryOption = BaseCategory &
-  StudioCategoryDragDropFunctionType &
-  StudioCategoryFormFunctionType &
-  StudioOptionCustomizeRenderType & {
+  StudioCategoryDragDropFunction &
+  StudioCategoryFormFunction &
+  StudioOptionCustomizeRender & {
     type?: StudioCategoryType; // default is inline
     boxWrapper?: StudioCategoryBoxWrapperType;
     multipleChoice?: boolean; // default true

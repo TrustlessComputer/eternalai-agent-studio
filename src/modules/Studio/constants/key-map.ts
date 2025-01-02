@@ -7,10 +7,10 @@ import BaseEdge from '../components/CustomEdges/BaseEdge';
 
 export const CATEGORY_KEY_MAPPER = {};
 
-export const FLOW_NODE_TYPES: NodeTypes = {
+export const DEFAULT_NODE_TYPES: NodeTypes = {
   [NodeType.BASE_NODE]: BaseNode,
 };
 
-export const FLOW_EDGE_TYPES: EdgeTypes = {
+export const DEFAULT_EDGE_TYPES: EdgeTypes = {
   [EdgeType.BASE_EDGE]: BaseEdge,
 };

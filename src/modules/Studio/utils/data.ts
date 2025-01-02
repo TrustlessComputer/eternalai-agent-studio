@@ -1,5 +1,5 @@
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
-import { FormDataType } from '../types/base';
+import { FormDataMap } from '../types/base';
 import { StudioCategoryOption } from '../types/category';
 import { StudioDataNode } from '../types/graph';
 
@@ -17,7 +17,7 @@ export const getFormDataFromCategoryOption = (category: StudioCategoryOption) =>
 };
 
 export const getFieldDataFromRawData = (data: StudioDataNode[]) => {
-  let formData: Record<string, FormDataType> = {};
+  let formData: Record<string, FormDataMap> = {};
   const categoryMap = useStudioCategoryStore.getState().categoryMap;
   data.forEach((item) => {
     const defaultValues = getFormDataFromCategoryOption(categoryMap[item.key] || {});

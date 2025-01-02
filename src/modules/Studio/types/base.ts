@@ -1,2 +1,2 @@
-export type KeyType = string;
-export type FormDataType = Record<string, unknown>;
+export type Key = string;
+export type FormDataMap = Record<string, unknown>;

@@ -21,7 +21,7 @@ type Props = HTMLAttributes<HTMLDivElement> & {
 
 const Lego = ({
   fixedHeight = true,
-  background = '#A041FF',
+  background = '#CC6234',
   disabled,
   className,
   style,

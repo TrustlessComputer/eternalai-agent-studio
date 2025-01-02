@@ -44,7 +44,7 @@ const AGENT: StudioCategoryFromProp = {
       },
     },
   ],
-  icon: <LegoComponentIcon />,
+  icon: LegoComponentIcon,
   order: -1,
 };
 
@@ -86,7 +86,7 @@ const PERSONALITY: StudioCategoryFromProp = {
       type: 'inline' as StudioCategoryTypeEnum,
     },
   ],
-  icon: <LegoComponentIcon />,
+  icon: LegoComponentIcon,
 };
 
 const NETWORK: StudioCategoryFromProp = {
@@ -163,7 +163,7 @@ const NETWORK: StudioCategoryFromProp = {
     },
   ],
   order: 0,
-  icon: <LegoComponentIcon />,
+  icon: LegoComponentIcon,
 };
 
 export const STANDALONE: StudioCategoryFromProp = {
@@ -197,7 +197,7 @@ export const STANDALONE: StudioCategoryFromProp = {
       },
     },
   ],
-  icon: <LegoComponentIcon />,
+  icon: LegoComponentIcon,
   order: -1,
 };
 
@@ -304,7 +304,7 @@ export const CAN_NOT_ADD: StudioCategoryFromProp = {
       },
     },
   ],
-  icon: <LegoComponentIcon />,
+  icon: LegoComponentIcon,
   order: -1,
 };
 

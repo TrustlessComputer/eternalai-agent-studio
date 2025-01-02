@@ -41,7 +41,7 @@ const StudioComponent = ({
   dataSource,
   showConnectLine = DEFAULT_SHOW_CONNECT_LINE,
   ...rest
-}: StudioProps) => {
+}: StudioProps): React.ReactNode => {
   const { redraw, cleanup } = useStudioAgent();
 
   useEffect(() => {
@@ -88,24 +88,26 @@ const StudioComponent = ({
   );
 };
 
-export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioProps, ref) => {
-  const { redraw, cleanup } = useStudioAgent();
-  useImperativeHandle(
-    ref,
-    () => ({
-      cleanup: () => {
-        cleanup();
-      },
-      redraw: (data: StudioDataNode[]) => {
-        redraw(data);
-      },
-    }),
-    [cleanup, redraw],
-  );
+export const Studio: React.FC<StudioProps> = React.forwardRef<StudioRef, StudioProps>(
+  (props: StudioProps, ref): React.ReactNode => {
+    const { redraw, cleanup } = useStudioAgent();
+    useImperativeHandle(
+      ref,
+      () => ({
+        cleanup: () => {
+          cleanup();
+        },
+        redraw: (data: StudioDataNode[]) => {
+          redraw(data);
+        },
+      }),
+      [cleanup, redraw],
+    );
 
-  return (
-    <ReactFlowProvider>
-      <StudioComponent {...props} />
-    </ReactFlowProvider>
-  );
-});
+    return (
+      <ReactFlowProvider>
+        <StudioComponent {...props} />
+      </ReactFlowProvider>
+    );
+  },
+);

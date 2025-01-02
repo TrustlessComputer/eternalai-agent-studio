@@ -33,9 +33,9 @@
       content: '';
       position: absolute;
       top: 50%;
-      left: -0.5px;
+      left: 0;
       transform: translateY(-50%);
-      width: 100%;
+      width: 42px;
       height: calc(100% - 20px);
       border-left: 1px solid var(--border-color);
       background-color: var(--background-color);
@@ -68,6 +68,8 @@
     }
 
     svg {
+      stroke-width: 1px;
+
       path {
         fill: var(--background-color);
         stroke: var(--border-color);

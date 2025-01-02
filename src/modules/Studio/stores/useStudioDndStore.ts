@@ -9,7 +9,7 @@ const DEFAULT_VALUE = {
   draggingPoint: null,
 };
 
-type State = {
+type Store = {
   draggingElement: ReactNode | null;
   draggingData: DraggableDataType | null;
   draggingPoint: DomRect | null; // touching point of dragging element
@@ -19,7 +19,7 @@ type State = {
   clear: () => void;
 };
 
-const useStudioDndStore = create<State>((set) => ({
+const useStudioDndStore = create<Store>((set) => ({
   ...DEFAULT_VALUE,
 
   setDragging: (node, data, point) => {

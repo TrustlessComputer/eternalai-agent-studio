@@ -1,7 +1,11 @@
 import { create } from 'zustand';
 import { FormDataType } from '../types/base';
 
-type State = {
+const DEFAULT_VALUE = {
+  dataForms: {},
+};
+
+type Store = {
   dataForms: Record<string, FormDataType>;
   initDataForms: (data: Record<string, FormDataType>) => void;
   addForm: (id: string, data: FormDataType) => void;
@@ -12,8 +16,8 @@ type State = {
   clear: () => void;
 };
 
-const useStudioFormStore = create<State>((set, get) => ({
-  dataForms: {},
+const useStudioFormStore = create<Store>((set, get) => ({
+  ...DEFAULT_VALUE,
   initDataForms: (data) => {
     set({ dataForms: data });
   },
@@ -53,9 +57,7 @@ const useStudioFormStore = create<State>((set, get) => ({
     });
   },
   getFormById: (id) => get().dataForms[id],
-  clear: () => {
-    set({ dataForms: {} });
-  },
+  clear: () => set(DEFAULT_VALUE),
 }));
 
 export default useStudioFormStore;

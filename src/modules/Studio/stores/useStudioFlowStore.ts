@@ -3,7 +3,14 @@ import { create } from 'zustand';
 
 import { StudioNode } from '../types/graph';
 
-type State = {
+const DEFAULT_VALUE = {
+  reloadFlowCounter: 0,
+  nodes: [],
+  edges: [],
+  hiddenNodes: [],
+};
+
+type Store = {
   reloadFlowCounter: number;
   reloadFlow: () => void;
 
@@ -27,20 +34,19 @@ type State = {
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
 
-  clear: () => void;
-
   hiddenNodes: StudioNode[];
   setHiddenNodes: (nodes: StudioNode[]) => void;
+
+  clear: () => void;
 };
 
-const useStudioFlowStore = create<State>((set, get) => ({
-  reloadFlowCounter: 0,
+const useStudioFlowStore = create<Store>((set, get) => ({
+  ...DEFAULT_VALUE,
+
   reloadFlow: () => {
     set({ reloadFlowCounter: get().reloadFlowCounter + 1 });
   },
 
-  nodes: [],
-  nodesMapped: {},
   setNodes: (nodes) => set({ nodes }),
   addNode: (node) => set({ nodes: [...get().nodes, node] }),
   addNodes: (nodes) => set({ nodes: [...get().nodes, ...nodes] }),
@@ -55,8 +61,6 @@ const useStudioFlowStore = create<State>((set, get) => ({
     set({ nodes: updatedNodes });
   },
 
-  edges: [],
-  edgesMapped: {},
   setEdges: (edges) => set({ edges }),
   addEdge: (edge) => set({ edges: [...get().edges, edge] }),
   addEdges: (edges) => set({ edges: [...get().edges, ...edges] }),
@@ -90,12 +94,9 @@ const useStudioFlowStore = create<State>((set, get) => ({
     });
   },
 
-  clear: () => {
-    set({ reloadFlowCounter: 0, nodes: [], edges: [] });
-  },
-
-  hiddenNodes: [],
   setHiddenNodes: (nodes) => set({ hiddenNodes: nodes }),
+
+  clear: () => set(DEFAULT_VALUE),
 }));
 
 export default useStudioFlowStore;

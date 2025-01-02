@@ -13,7 +13,7 @@ const AGENT: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: 'inline' as StudioCategoryType,
+      type: StudioCategoryType.INLINE,
       data: {
         agentName: {
           type: 'text',
@@ -52,28 +52,28 @@ const PERSONALITY: StudioCategory = {
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
       data: {},
-      type: 'inline' as StudioCategoryType,
+      type: StudioCategoryType.INLINE,
     },
     {
       key: 'personality-option-2',
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       order: 1,
-      type: 'inline' as StudioCategoryType,
+      type: StudioCategoryType.INLINE,
     },
     {
       key: 'personality-option-3',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
       order: 2,
-      type: 'inline' as StudioCategoryType,
+      type: StudioCategoryType.INLINE,
     },
     {
       key: 'personality-option-4',
       title: 'New personality',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
       order: 3,
-      type: 'inline' as StudioCategoryType,
+      type: StudioCategoryType.INLINE,
     },
   ],
   icon: LegoComponentIcon,
@@ -92,7 +92,7 @@ const NETWORK: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: 'inline' as StudioCategoryType,
+      type: StudioCategoryType.INLINE,
       data: {
         network: {
           type: 'text',
@@ -110,7 +110,7 @@ const NETWORK: StudioCategory = {
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       order: 1,
-      type: 'inline' as StudioCategoryType,
+      type: StudioCategoryType.INLINE,
       data: {
         network: {
           type: 'textarea',
@@ -133,14 +133,14 @@ const NETWORK: StudioCategory = {
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
       order: 2,
-      type: 'inline' as StudioCategoryType,
+      type: StudioCategoryType.INLINE,
     },
     {
       key: 'network-option-4',
       title: 'New personality',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
       order: 3,
-      type: 'inline' as StudioCategoryType,
+      type: StudioCategoryType.INLINE,
       data: {
         network: {
           type: 'select',
@@ -167,7 +167,7 @@ export const STANDALONE: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: 'standalone' as StudioCategoryType,
+      type: StudioCategoryType.STANDALONE,
       data: {
         field1: {
           type: 'text',
@@ -202,7 +202,7 @@ export const CAN_NOT_ADD: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: 'standalone' as StudioCategoryType,
+      type: StudioCategoryType.STANDALONE,
       data: {
         field1: {
           type: 'text',
@@ -231,7 +231,7 @@ export const CAN_NOT_ADD: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: 'standalone' as StudioCategoryType,
+      type: StudioCategoryType.STANDALONE,
       data: {
         field1: {
           type: 'text',
@@ -259,7 +259,7 @@ export const CAN_NOT_ADD: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: 'standalone' as StudioCategoryType,
+      type: StudioCategoryType.STANDALONE,
       data: {
         field1: {
           type: 'text',

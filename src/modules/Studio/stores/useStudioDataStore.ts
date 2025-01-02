@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 import { StudioDataNode } from '../types/graph';
 import { DEFAULT_SHOW_CONNECT_LINE } from '../constants/default-values';
 
-type State = {
+type Store = {
   entry: StudioDataNode | null;
   setEntry: (entry: StudioDataNode | null) => void;
 
@@ -16,7 +16,7 @@ type State = {
   setShowConnectLine: (showConnectLine: boolean) => void;
 };
 
-const useStudioDataStore = create<State>((set) => ({
+const useStudioDataStore = create<Store>((set) => ({
   entry: null,
   setEntry: (entry) => {
     set({ entry });

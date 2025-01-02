@@ -2,12 +2,12 @@ import { create } from 'zustand';
 
 import { DataSource } from '../types/data-source';
 
-interface State {
+type Store = {
   dataSource: Record<string, DataSource[]>;
   setDataSource: (data: Record<string, DataSource[]>) => void;
-}
+};
 
-const useStudioDataSourceStore = create<State>((set, get) => ({
+const useStudioDataSourceStore = create<Store>((set, get) => ({
   dataSource: {},
   setDataSource: (data) => {
     // processing input data

@@ -6,7 +6,15 @@ import { COLOR_PALETTES, POPULAR } from '../constants/color-palettes';
 import categoryColorDatabase from '../database/category-color-database';
 import { DEFAULT_CATEGORY_TYPE } from '../constants/default-values';
 
-interface State {
+const DEFAULT_VALUE = {
+  rootCategory: null,
+  categories: [],
+  categoryMap: {},
+  filters: [],
+  usedKeyCollection: {},
+};
+
+type Store = {
   rootCategory: StudioCategory | null;
   setRootCategory: (category: StudioCategory | null) => void;
 
@@ -24,7 +32,7 @@ interface State {
   setUsedKeyCollection: (collection: Record<string, string>) => void;
 
   clear: () => void;
-}
+};
 
 const persistCategoryColor = async (key: string, color: string) => {
   try {
@@ -113,13 +121,12 @@ const flatCategoriesByKey = (categories: StudioCategory[], parent?: StudioCatego
   return categoryMap;
 };
 
-const useStudioCategoryStore = create<State>((set, get) => ({
-  rootCategory: null,
+const useStudioCategoryStore = create<Store>((set, get) => ({
+  ...DEFAULT_VALUE,
+
   setRootCategory: (category) => {
     set({ rootCategory: category });
   },
-  categories: [],
-  categoryMap: {},
   setCategories: async (categories) => {
     const existingCollection = await categoryColorDatabase.getAllItemsToMap();
 
@@ -183,8 +190,6 @@ const useStudioCategoryStore = create<State>((set, get) => ({
       categoryMap: flatCategoriesByKey(pipeData),
     });
   },
-
-  filters: [],
   setFilters: (filter) => {
     const filters = get().filters;
     const matchedFilter = filters.find((item) => item === filter);
@@ -194,7 +199,6 @@ const useStudioCategoryStore = create<State>((set, get) => ({
       set({ filters: [...filters, filter] });
     }
   },
-
   updateCategory: (category) => {
     // just update category for render
     const { categories } = get();
@@ -208,7 +212,6 @@ const useStudioCategoryStore = create<State>((set, get) => ({
 
     set({ categories: newCategories });
   },
-
   updateCategoriesForEntry: (entry) => {
     const { rootCategory, categoryMap, categories } = get();
     if (rootCategory) {
@@ -247,8 +250,6 @@ const useStudioCategoryStore = create<State>((set, get) => ({
       }
     }
   },
-
-  usedKeyCollection: {},
   setUsedKeyCollection: (collection) => {
     // const { usedKeyCollection } = get();
     // set({ usedKeyCollection: { ...usedKeyCollection, ...collection } });
@@ -256,15 +257,7 @@ const useStudioCategoryStore = create<State>((set, get) => ({
     set({ usedKeyCollection: collection });
   },
 
-  clear: () => {
-    set({
-      rootCategory: null,
-      categories: [],
-      categoryMap: {},
-      filters: [],
-      usedKeyCollection: {},
-    });
-  },
+  clear: () => set(DEFAULT_VALUE),
 }));
 
 export default useStudioCategoryStore;

@@ -2,7 +2,12 @@ import { create } from 'zustand';
 
 import { Viewport, XYPosition } from '@xyflow/react';
 
-type State = {
+const DEFAULT_VALUE = {
+  mousePosition: { x: 0, y: 0 },
+  view: { x: 0, y: 0, zoom: 1 },
+};
+
+type Store = {
   mousePosition: XYPosition;
   setMousePosition: (position: XYPosition) => void;
 
@@ -12,16 +17,13 @@ type State = {
   clear: () => void;
 };
 
-const useStudioFlowViewStore = create<State>((set) => ({
-  mousePosition: { x: 0, y: 0 },
-  setMousePosition: (position) => set({ mousePosition: position }),
+const useStudioFlowViewStore = create<Store>((set) => ({
+  ...DEFAULT_VALUE,
 
-  view: { x: 0, y: 0, zoom: 1 },
+  setMousePosition: (position) => set({ mousePosition: position }),
   setView: (view) => set({ view }),
 
-  clear: () => {
-    set({ mousePosition: { x: 0, y: 0 }, view: { x: 0, y: 0, zoom: 1 } });
-  },
+  clear: () => set(DEFAULT_VALUE),
 }));
 
 export default useStudioFlowViewStore;

@@ -9,7 +9,7 @@ export const useFormFunction = (key: string) => {
       // onFormChange: categoryMap[key].onFormChange,
       // onFormValidate: categoryMap[key].onFormValidate,
       // onFieldChange: categoryMap[key].onFieldChange,
-      onFieldValidate: categoryMap[key].onFieldValidate,
+      onFieldValidate: categoryMap[key]?.onFieldValidate || (() => {}),
     };
   }, [key, categoryMap]);
 

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 import { StudioFormFieldValidate } from '../types';
 
-export const useFormFunction = (key: string) => {
+export const useFormFunction = (idx: string) => {
   const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
 
   const memorizedFuncs = useMemo(() => {
@@ -10,9 +10,9 @@ export const useFormFunction = (key: string) => {
       // onFormChange: categoryMap[key].onFormChange,
       // onFormValidate: categoryMap[key].onFormValidate,
       // onFieldChange: categoryMap[key].onFieldChange,
-      onFieldValidate: categoryMap[key]?.onFieldValidate || ((() => true) as StudioFormFieldValidate),
+      onFieldValidate: categoryMap[idx]?.onFieldValidate || ((() => true) as StudioFormFieldValidate),
     };
-  }, [key, categoryMap]);
+  }, [idx, categoryMap]);
 
   return memorizedFuncs;
 };

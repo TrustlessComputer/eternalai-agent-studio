@@ -15,7 +15,7 @@ export type DataSchemaValue = {
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
 export type BaseCategory = {
-  key: Key;
+  idx: Key;
   title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;
   required?: boolean;
@@ -101,6 +101,7 @@ export type StudioFormFieldValidate = (
     data: StudioDataNode[];
   },
 ) => boolean;
+
 export type StudioCategoryFormFunction = {
   // /**
   //  * onFormChange

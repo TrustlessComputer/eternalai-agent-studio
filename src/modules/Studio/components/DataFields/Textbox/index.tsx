@@ -11,17 +11,17 @@ type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
   formId: string;
   name: string;
   readonly?: boolean;
-  schemaData?: DataSchema;
+  schemadata?: DataSchema;
   fieldKey: string;
 };
 
 function Textbox({ formId, placeholder, className, name, readonly, fieldKey, ...rest }: Props) {
   // const data = useStudioDataStore((state) => state.data);
   const formFunctions = useFormFunction(fieldKey);
-  const dataForms = useStudioFormStore((state) => state.dataForms);
+  const formMap = useStudioFormStore((state) => state.formMap);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
 
-  const value = dataForms[formId]?.[name] || '';
+  const value = formMap[formId]?.[name] || '';
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!readonly) {
       setFormFields(formId, {
@@ -34,8 +34,8 @@ function Textbox({ formId, placeholder, className, name, readonly, fieldKey, ...
     return !(
       formFunctions?.onFieldValidate?.(name, value, {
         formId,
-        formData: dataForms[formId],
-        allFormData: dataForms,
+        formData: formMap[formId],
+        allFormData: formMap,
         data: useStudioDataStore.getState().data,
       }) ?? true
     );

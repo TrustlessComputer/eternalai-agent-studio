@@ -15,7 +15,7 @@ import { useStudio } from './hooks/useStudio';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
 import useStudioDataStore from './stores/useStudioDataStore';
-import { DataSource, StudioCategory, StudioDataNode } from './types';
+import { DataSource, FormDataMap, StudioCategory, StudioDataNode } from './types';
 
 export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   data: StudioDataNode[];
@@ -28,6 +28,9 @@ export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>
 export type StudioRef = {
   cleanup: () => void;
   redraw: (data: StudioDataNode[]) => void;
+  getOptionPlaceQuantity: (optionId: string) => number;
+  checkOptionIsPlaced: (optionId: string) => boolean;
+  getFormDataById: (id: string) => FormDataMap | undefined;
 };
 
 const StudioComponent = ({
@@ -85,27 +88,34 @@ const StudioComponent = ({
   );
 };
 
-export const Studio: React.FC<StudioProps> = React.forwardRef<StudioRef, StudioProps>(
-  (props: StudioProps, ref): React.ReactNode => {
-    const { redraw, cleanup } = useStudio();
+export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioProps, ref): React.ReactNode => {
+  const { redraw, cleanup, getOptionPlaceQuantity, checkOptionIsPlaced, getFormDataById } = useStudio();
 
-    useImperativeHandle(
-      ref,
-      () => ({
-        cleanup: () => {
-          cleanup();
-        },
-        redraw: (data: StudioDataNode[]) => {
-          redraw(data);
-        },
-      }),
-      [cleanup, redraw],
-    );
+  useImperativeHandle(
+    ref,
+    () => ({
+      cleanup: () => {
+        cleanup();
+      },
+      redraw: (data: StudioDataNode[]) => {
+        redraw(data);
+      },
+      getOptionPlaceQuantity: (optionId: string) => {
+        return getOptionPlaceQuantity(optionId);
+      },
+      checkOptionIsPlaced: (optionId: string) => {
+        return checkOptionIsPlaced(optionId);
+      },
+      getFormDataById: (id: string) => {
+        return getFormDataById(id);
+      },
+    }),
+    [cleanup, redraw, getOptionPlaceQuantity, checkOptionIsPlaced, getFormDataById],
+  );
 
-    return (
-      <ReactFlowProvider>
-        <StudioComponent {...props} />
-      </ReactFlowProvider>
-    );
-  },
-);
+  return (
+    <ReactFlowProvider>
+      <StudioComponent {...props} />
+    </ReactFlowProvider>
+  );
+});

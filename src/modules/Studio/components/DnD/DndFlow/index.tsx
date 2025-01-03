@@ -51,9 +51,9 @@ function DndFlow({ children }: PropsWithChildren) {
     const usedKeyCollection = useStudioCategoryStore.getState().usedKeyCollection;
 
     const rootCategory = useStudioCategoryStore.getState().rootCategory;
-    const rootOptionKey = rootCategory?.options?.map((item) => item?.key);
+    const rootOptionKey = rootCategory?.options?.map((item) => item?.idx);
 
-    const rootData = data.find((item) => item.key === rootCategory?.key || rootOptionKey?.includes(item.key));
+    const rootData = data.find((item) => item.idx === rootCategory?.idx || rootOptionKey?.includes(item.idx));
     const rootNode = useStudioFlowStore.getState().nodes.find((node) => node.id === rootData?.id);
 
     const fromData = active?.data?.current as DraggableData;
@@ -76,7 +76,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
     const isTheSameNode = fromNode?.id === toNode?.id;
 
-    const allFormData = useStudioFormStore.getState().dataForms;
+    const allFormData = useStudioFormStore.getState().formMap;
     const currentFormData = allFormData[fromData.belongsTo || ''];
 
     const parentOption = (fromOption as StudioCategoryMap).parent;

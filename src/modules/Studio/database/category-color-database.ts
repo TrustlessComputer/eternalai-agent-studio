@@ -2,7 +2,7 @@
 import Dexie, { type EntityTable } from 'dexie';
 
 type PersistedStudioCategoryColorItem = {
-  key: string;
+  idx: string;
   color: string;
   createdAt?: string;
 };
@@ -25,7 +25,7 @@ class CategoryColorDatabase {
     }
   }
 
-  private async getItem(key: string) {
+  private async getItem(idx: string) {
     try {
       return await this.db?.category.get(key);
     } catch (e) {
@@ -40,7 +40,7 @@ class CategoryColorDatabase {
       const allItems = await this.db?.category.toArray();
       if (allItems) {
         return allItems.reduce((acc: Record<string, string>, item) => {
-          acc[item.key] = item.color;
+          acc[item.idx] = item.color;
 
           return acc;
         }, {});
@@ -69,7 +69,7 @@ class CategoryColorDatabase {
 
   private async updateItem(updatedItem: PersistedStudioCategoryColorItem) {
     try {
-      await this.db?.category.update(updatedItem.key, updatedItem);
+      await this.db?.category.update(updatedItem.idx, updatedItem);
 
       return updatedItem;
     } catch (e) {
@@ -81,7 +81,7 @@ class CategoryColorDatabase {
 
   async upsertItem(item: PersistedStudioCategoryColorItem) {
     try {
-      const persisted = await this.getItem(item.key);
+      const persisted = await this.getItem(item.idx);
       if (persisted) {
         return this.updateItem(item);
       } else {

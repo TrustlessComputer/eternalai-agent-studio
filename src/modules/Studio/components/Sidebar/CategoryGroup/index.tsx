@@ -9,21 +9,9 @@ import Source from '../../DnD/Source';
 import './CategoryGroup.scss';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 
-type Props = StudioCategory & {
-  categoryKey: string;
-};
+type Props = StudioCategory;
 
-const CategoryGroup = ({
-  categoryKey,
-  title,
-  color,
-  options,
-
-  required,
-  disabled,
-  isRoot,
-  multipleOption,
-}: Props) => {
+const CategoryGroup = ({ idx, title, color, options, required, disabled, isRoot, multipleOption }: Props) => {
   const usedKeyCollection = useStudioCategoryStore((state) => state.usedKeyCollection);
   const filteredOptions = useMemo(() => {
     return options.filter((item) => !item.hidden);
@@ -45,7 +33,7 @@ const CategoryGroup = ({
           // check parent first
           if (!isDisabled) {
             if (!multipleOption) {
-              if (usedKeyCollection[categoryKey]) {
+              if (usedKeyCollection[idx]) {
                 isDisabled = true;
               }
             }
@@ -53,7 +41,7 @@ const CategoryGroup = ({
 
           if (!isDisabled) {
             if (!option.multipleChoice) {
-              if (usedKeyCollection[option.key]) {
+              if (usedKeyCollection[option.idx]) {
                 isDisabled = true;
               }
             }
@@ -61,9 +49,9 @@ const CategoryGroup = ({
 
           return (
             <Source
-              id={option.key}
-              key={`sidebar-source-${categoryKey}-${option.key}`}
-              data={{ categoryKey, optionKey: option.key, isRoot }}
+              id={option.idx}
+              key={`sidebar-source-${idx}-${option.idx}`}
+              data={{ categoryKey: idx, optionKey: option.idx, isRoot }}
               disabled={isDisabled}
             >
               <Lego background={color} icon={option.icon} disabled={isDisabled}>

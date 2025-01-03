@@ -14,7 +14,7 @@ type Props = Omit<React.ComponentPropsWithoutRef<'select'>, 'defaultValue'> & {
   placeholder?: string;
   dataSourceKey?: string;
   readonly?: boolean;
-  schemaData?: DataSchema;
+  schemadata?: DataSchema;
   fieldKey: string;
 };
 
@@ -30,7 +30,7 @@ function Select({
 }: Props) {
   // const data = useStudioDataStore((state) => state.data);
   const formFunctions = useFormFunction(fieldKey);
-  const dataForms = useStudioFormStore((state) => state.dataForms);
+  const formMap = useStudioFormStore((state) => state.formMap);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
 
   const { dataSource } = useStudioDataSourceStore();
@@ -43,10 +43,11 @@ function Select({
     return [];
   }, [dataSource, dataSourceKey]);
 
-  const value = dataForms[formId]?.[name] || '';
+  const value = formMap[formId]?.[name] || '';
   const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (!readonly) {
       const selectable = options.find((op) => op.value === e.target.value)?.selectable;
+
       if (selectable) {
         setFormFields(formId, {
           [name]: e.target.value,
@@ -59,8 +60,8 @@ function Select({
     return !(
       formFunctions?.onFieldValidate?.(name, value, {
         formId,
-        formData: dataForms[formId],
-        allFormData: dataForms,
+        formData: formMap[formId],
+        allFormData: formMap,
         data: useStudioDataStore.getState().data,
       }) ?? true
     );
@@ -87,6 +88,7 @@ function Select({
         <option value="" className="studio-field-select__placeholder">
           {placeholder}
         </option>
+
         {options.map((op) => (
           <option disabled={!op.selectable} key={`form-render-select-${formId}-${op.value}`} value={op.value}>
             {op.label}

@@ -8,9 +8,9 @@ type Props = BaseNodeProps;
 const BaseNodeReadonly = ({ data }: Props) => {
   const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
 
-  const key = data.metadata.key;
-  const option = categoryMap[key] as StudioCategoryMap;
-  const schemaData = option.data;
+  const idx = data.metadata.idx;
+  const option = categoryMap[idx] as StudioCategoryMap;
+  const schemadata = option.data;
 
   return (
     <LegoRender
@@ -18,8 +18,8 @@ const BaseNodeReadonly = ({ data }: Props) => {
       icon={option.icon}
       title={option.title}
       id={data.id}
-      schemaData={schemaData}
-      categoryKey={option.key}
+      schemadata={schemadata}
+      idx={option.idx}
       readonly
       render={option.customizeRenderOnBoard}
     />

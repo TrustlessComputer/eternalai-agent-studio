@@ -17,8 +17,8 @@ import { noUndefinedElement } from '../utils/array';
 const useDndAction = () => {
   const flowStore = useStoreApi();
 
-  const getNewNodeInfo = useCallback((key?: string, option?: StudioCategoryOption, existedId?: string) => {
-    if (!key || !option) return;
+  const getNewNodeInfo = useCallback((idx?: string, option?: StudioCategoryOption, existedId?: string) => {
+    if (!idx || !option) return;
 
     const {
       transform: [transformX, transformY, zoomLevel],
@@ -38,7 +38,7 @@ const useDndAction = () => {
 
     const newNodeInfo = createNewBaseNode(id, position, {
       children: [],
-      key,
+      idx,
     });
 
     if (!existedId) {
@@ -121,7 +121,7 @@ const useDndAction = () => {
       if (newNode) {
         newNode.data.metadata.children = cloneData(fromNode.data.metadata.children)
           .filter((_, index) => index > (fromData?.childIndex || 0))
-          .map((child) => getNewNodeInfo(child.data.metadata.key, fromOption, child.id))
+          .map((child) => getNewNodeInfo(child.data.metadata.idx, fromOption, child.id))
           .filter((child) => !!child);
 
         if (rootNode) {

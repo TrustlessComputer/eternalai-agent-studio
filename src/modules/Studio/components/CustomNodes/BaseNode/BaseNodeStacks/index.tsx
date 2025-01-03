@@ -21,13 +21,13 @@ const BaseNodeStacks = ({ data, ...rest }: Props) => {
   const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
   const children = data?.metadata?.children;
 
-  const key = data.metadata.key;
-  const option = categoryMap[key] as StudioCategoryMap;
-  const schemaData = option.data;
+  const idx = data.metadata.idx;
+  const option = categoryMap[idx] as StudioCategoryMap;
+  const schemadata = option.data;
 
   const productData: Omit<DraggableData, 'type'> = useMemo(
-    () => ({ optionKey: option.key, belongsTo: data.id }),
-    [data.id, option.key],
+    () => ({ optionKey: option.idx, belongsTo: data.id }),
+    [data.id, option.idx],
   );
 
   const renderChildren = useMemo(() => {
@@ -58,8 +58,8 @@ const BaseNodeStacks = ({ data, ...rest }: Props) => {
             icon={option.icon}
             title={option.title}
             id={data.id}
-            schemaData={schemaData}
-            categoryKey={option.key}
+            schemadata={schemadata}
+            idx={option.idx}
             render={option.customizeRenderOnBoard}
           />
         </Product>

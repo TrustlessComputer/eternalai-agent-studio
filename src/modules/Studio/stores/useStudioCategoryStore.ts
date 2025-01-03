@@ -34,10 +34,10 @@ type Store = {
   clear: () => void;
 };
 
-const persistCategoryColor = async (key: string, color: string) => {
+const persistCategoryColor = async (idx: string, color: string) => {
   try {
     await categoryColorDatabase.upsertItem({
-      key,
+      idx,
       color,
     });
   } catch (e) {
@@ -46,7 +46,7 @@ const persistCategoryColor = async (key: string, color: string) => {
 };
 
 const popularUsagedCollection: Record<string, string> = {};
-const pickFromPopularColorFirst = (key: string, color?: string) => {
+const pickFromPopularColorFirst = (idx: string, color?: string) => {
   if (color) {
     return color;
   }
@@ -58,7 +58,7 @@ const pickFromPopularColorFirst = (key: string, color?: string) => {
 
   // check if color is already used
   if (popularUsagedCollection[newColor]) {
-    return pickFromPopularColorFirst(key);
+    return pickFromPopularColorFirst(idx);
   }
 
   popularUsagedCollection[newColor] = newColor;
@@ -66,17 +66,17 @@ const pickFromPopularColorFirst = (key: string, color?: string) => {
   return newColor;
 };
 
-const getCategoryColor = (colorCollection: Record<string, string>, key: string, color?: string) => {
+const getCategoryColor = (colorCollection: Record<string, string>, idx: string, color?: string) => {
   if (color) {
     return color;
   }
 
-  const popularColor = pickFromPopularColorFirst(key, color);
+  const popularColor = pickFromPopularColorFirst(idx, color);
   if (popularColor) {
     colorCollection[popularColor] = popularColor;
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    persistCategoryColor(key, popularColor);
+    persistCategoryColor(idx, popularColor);
 
     return popularColor;
   }
@@ -87,13 +87,13 @@ const getCategoryColor = (colorCollection: Record<string, string>, key: string, 
 
   // check if color is already used
   if (colorCollection[newColor]) {
-    return getCategoryColor(colorCollection, key);
+    return getCategoryColor(colorCollection, idx);
   }
 
   colorCollection[newColor] = newColor;
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  persistCategoryColor(key, newColor);
+  persistCategoryColor(idx, newColor);
 
   return newColor;
 };
@@ -109,12 +109,12 @@ const flatCategoriesByKey = (categories: StudioCategory[], parent?: StudioCatego
       };
     }
     if (parent) {
-      categoryMap[item.key] = {
+      categoryMap[item.idx] = {
         ...item,
         parent,
       };
     } else {
-      categoryMap[item.key] = item as StudioCategoryMap;
+      categoryMap[item.idx] = item as StudioCategoryMap;
     }
   });
 
@@ -164,7 +164,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
         // generate color for category
         return {
           ...item,
-          color: getCategoryColor(colorCollection, item.key, item.color || existingCollection[item.key]),
+          color: getCategoryColor(colorCollection, item.idx, item.color || existingCollection[item.idx]),
         };
       })
       .map((item) => {
@@ -172,7 +172,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
         const options = item.options.map((option) => {
           return {
             ...option,
-            color: getCategoryColor(colorCollection, option.key, option.color || existingCollection[option.key] || item.color),
+            color: getCategoryColor(colorCollection, option.idx, option.color || existingCollection[option.idx] || item.color),
           };
         });
 
@@ -203,7 +203,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
     // just update category for render
     const { categories } = get();
     const newCategories = categories.map((item) => {
-      if (item.key === category.key) {
+      if (item.idx === category.idx) {
         return category;
       }
 
@@ -217,7 +217,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
     if (rootCategory) {
       if (entry) {
         const newCategories = categories.map((item) => {
-          if (item.key === rootCategory.key) {
+          if (item.idx === rootCategory.idx) {
             return {
               ...item,
               disabled: true,
@@ -225,7 +225,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
           } else {
             return {
               ...item,
-              disabled: categoryMap[item.key]?.disabled ?? false,
+              disabled: categoryMap[item.idx]?.disabled ?? false,
             };
           }
         });
@@ -233,7 +233,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
         set({ categories: newCategories });
       } else {
         const newCategories = categories.map((item) => {
-          if (item.key === rootCategory.key) {
+          if (item.idx === rootCategory.idx) {
             return {
               ...item,
               disabled: false,

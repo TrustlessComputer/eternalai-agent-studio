@@ -2,17 +2,17 @@ import { create } from 'zustand';
 import { FormDataMap } from '../types/base';
 
 const DEFAULT_VALUE = {
-  dataForms: {},
+  formMap: {},
 };
 
 type Store = {
-  dataForms: Record<string, FormDataMap>;
+  formMap: Record<string, FormDataMap>;
   initDataForms: (data: Record<string, FormDataMap>) => void;
   addForm: (id: string, data: FormDataMap) => void;
   editForm: (id: string, data: FormDataMap) => void;
-  setFormFields: (id: string, fields: Record<string, unknown>) => void;
+  setFormFields: (id: string, fields: FormDataMap) => void;
   removeForm: (id: string) => void;
-  getFormById: (id: string) => FormDataMap;
+  getFormById: (id: string) => FormDataMap | undefined;
 
   clear: () => void;
 };
@@ -21,30 +21,30 @@ const useStudioFormStore = create<Store>((set, get) => ({
   ...DEFAULT_VALUE,
 
   initDataForms: (data) => {
-    set({ dataForms: data });
+    set({ formMap: data });
   },
   addForm: (id, data) => {
     set((state) => ({
-      dataForms: {
-        ...state.dataForms,
+      formMap: {
+        ...state.formMap,
         [id]: data,
       },
     }));
   },
   editForm: (id, data) => {
     set((state) => ({
-      dataForms: {
-        ...state.dataForms,
+      formMap: {
+        ...state.formMap,
         [id]: data,
       },
     }));
   },
   setFormFields: (id, fields) => {
     set((state) => ({
-      dataForms: {
-        ...state.dataForms,
+      formMap: {
+        ...state.formMap,
         [id]: {
-          ...state.dataForms[id],
+          ...state.formMap[id],
           ...fields,
         },
       },
@@ -52,13 +52,13 @@ const useStudioFormStore = create<Store>((set, get) => ({
   },
   removeForm: (id) => {
     set((state) => {
-      const dataForms = { ...state.dataForms };
-      delete dataForms[id];
+      const formMap = { ...state.formMap };
+      delete formMap[id];
 
-      return { dataForms };
+      return { formMap };
     });
   },
-  getFormById: (id) => get().dataForms[id],
+  getFormById: (id) => get().formMap[id],
 
   clear: () => set(DEFAULT_VALUE),
 }));

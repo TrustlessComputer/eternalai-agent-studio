@@ -16,15 +16,15 @@ type Props = {
   background?: string;
   icon: React.ReactNode | FunctionComponent;
   id: string;
-  schemaData?: DataSchema;
+  schemadata?: DataSchema;
   title: React.ReactNode | FunctionComponent;
-  categoryKey: string;
+  idx: string;
   readonly?: boolean;
   render?: (data: StudioCategoryOptionRenderPayload) => React.ReactNode;
 };
 
-const LegoRenderBase = ({ background, icon, id, schemaData, title, categoryKey, readonly }: Omit<Props, 'render'>) => {
-  const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
+const LegoRenderBase = ({ background, icon, id, schemadata, title, idx, readonly }: Omit<Props, 'render'>) => {
+  const fields = useMemo(() => Object.keys(schemadata || {}), [schemadata]);
 
   const isDynamicHeight = useMemo(() => {
     if (fields.length > 1) {
@@ -32,10 +32,10 @@ const LegoRenderBase = ({ background, icon, id, schemaData, title, categoryKey, 
     }
 
     const field = fields[0];
-    const fieldData = (schemaData || {})[field];
+    const fieldData = (schemadata || {})[field];
 
     return fieldData?.type === 'textarea';
-  }, [fields, schemaData]);
+  }, [fields, schemadata]);
 
   const isFixedHeight = !isDynamicHeight;
 
@@ -49,7 +49,7 @@ const LegoRenderBase = ({ background, icon, id, schemaData, title, categoryKey, 
       }}
     >
       <LegoContent>
-        <FormRender readonly={readonly} categoryKey={categoryKey} id={id} schemaData={schemaData}>
+        <FormRender readonly={readonly} idx={idx} id={id} schemadata={schemadata}>
           <TextRender data={title} />
         </FormRender>
       </LegoContent>
@@ -57,15 +57,15 @@ const LegoRenderBase = ({ background, icon, id, schemaData, title, categoryKey, 
   );
 };
 
-const LegoRenderCustomization = ({ background, icon, id, categoryKey, render, title }: Props) => {
+const LegoRenderCustomization = ({ background, icon, id, idx, render, title }: Props) => {
   const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
-  const allFormData = useStudioFormStore((state) => state.dataForms);
+  const allFormData = useStudioFormStore((state) => state.formMap);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
 
   const data = useStudioDataStore((state) => state.data);
 
   const formData = allFormData[id];
-  const option = categoryMap[categoryKey];
+  const option = categoryMap[idx];
 
   const specifyFormFields = useCallback(
     (fields: FormDataMap) => {

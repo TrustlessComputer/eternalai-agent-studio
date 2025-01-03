@@ -8,20 +8,20 @@ import './FormRender.scss';
 
 type Props = React.PropsWithChildren & {
   id: string;
-  schemaData?: DataSchema;
-  categoryKey: string;
+  schemadata?: DataSchema;
+  idx: string;
   readonly?: boolean;
 };
 
-function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) {
-  const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
+function FormRender({ id, schemadata, children, readonly, idx }: Props) {
+  const fields = useMemo(() => Object.keys(schemadata || {}), [schemadata]);
 
   const renderForm = () => {
-    if (fields.length && schemaData) {
+    if (fields.length && schemadata) {
       if (fields.length === 1) {
         // render single field
         const field = fields[0];
-        const fieldData = schemaData[field];
+        const fieldData = schemadata[field];
 
         if (fieldData.type === 'text') {
           return (
@@ -33,8 +33,8 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                   formId={id}
                   name={field}
                   placeholder={fieldData.placeholder}
-                  schemaData={schemaData}
-                  fieldKey={categoryKey}
+                  schemadata={schemadata}
+                  fieldKey={idx}
                 />
               </div>
             </div>
@@ -59,8 +59,8 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                           formId={id}
                           name={field}
                           placeholder={fieldData.placeholder}
-                          schemaData={schemaData}
-                          fieldKey={categoryKey}
+                          schemadata={schemadata}
+                          fieldKey={idx}
                         />
                       </div>
                     </div>
@@ -81,9 +81,9 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
                   formId={id}
                   name={field}
                   placeholder={fieldData.placeholder}
-                  dataSourceKey={schemaData[field].dataSourceKey}
-                  schemaData={schemaData}
-                  fieldKey={categoryKey}
+                  dataSourceKey={schemadata[field].dataSourceKey}
+                  schemadata={schemadata}
+                  fieldKey={idx}
                 />
               </div>
             </div>
@@ -99,37 +99,37 @@ function FormRender({ id, schemaData, children, readonly, categoryKey }: Props) 
               {fields.map((field) => {
                 return (
                   <div className="studio-form-multiple-field-row" key={`studio-form-multiple-field-row-${id}-${field}`}>
-                    <span>{schemaData[field].label}</span>
+                    <span>{schemadata[field].label}</span>
 
                     <div>
-                      {schemaData[field].type === 'text' && (
+                      {schemadata[field].type === 'text' && (
                         <Textbox
                           readonly={readonly}
                           formId={id}
                           name={field}
-                          placeholder={schemaData[field].placeholder}
-                          fieldKey={categoryKey}
+                          placeholder={schemadata[field].placeholder}
+                          fieldKey={idx}
                         />
                       )}
 
-                      {schemaData[field].type === 'textarea' && (
+                      {schemadata[field].type === 'textarea' && (
                         <TextArea
                           readonly={readonly}
                           formId={id}
                           name={field}
-                          placeholder={schemaData[field].placeholder}
-                          fieldKey={categoryKey}
+                          placeholder={schemadata[field].placeholder}
+                          fieldKey={idx}
                         />
                       )}
 
-                      {schemaData[field].type === 'select' && (
+                      {schemadata[field].type === 'select' && (
                         <Select
                           readonly={readonly}
                           formId={id}
                           name={field}
-                          placeholder={schemaData[field].placeholder}
-                          dataSourceKey={schemaData[field].dataSourceKey}
-                          fieldKey={categoryKey}
+                          placeholder={schemadata[field].placeholder}
+                          dataSourceKey={schemadata[field].dataSourceKey}
+                          fieldKey={idx}
                         />
                       )}
                     </div>

@@ -2,14 +2,14 @@ import { LegoComponentIcon } from '../components/icons/lego';
 import { StudioCategory } from '../types/category';
 
 const AGENT: StudioCategory = {
-  key: 'agent',
+  idx: 'agent',
   title: 'Agent',
   required: true,
   icon: LegoComponentIcon,
   isRoot: false,
   options: [
     {
-      key: 'agent_option_1',
+      idx: 'agent_option_1',
       title: 'New Agent',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
@@ -26,7 +26,7 @@ const AGENT: StudioCategory = {
 };
 
 const PERSONALITY: StudioCategory = {
-  key: 'personality',
+  idx: 'personality',
   title: 'Personality',
   required: true,
   tooltip:
@@ -34,7 +34,7 @@ const PERSONALITY: StudioCategory = {
   icon: LegoComponentIcon,
   options: [
     {
-      key: 'personality_option_1',
+      idx: 'personality_option_1',
       title: 'Create personality',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
@@ -52,7 +52,7 @@ const PERSONALITY: StudioCategory = {
 };
 
 const AI_FRAME_WORK: StudioCategory = {
-  key: 'ai_framework',
+  idx: 'ai_framework',
   title: 'AI Framework',
   required: true,
   tooltip:
@@ -60,7 +60,7 @@ const AI_FRAME_WORK: StudioCategory = {
   icon: LegoComponentIcon,
   options: [
     {
-      key: 'ai_framework_option_1',
+      idx: 'ai_framework_option_1',
       title: 'Choose Ai Framework',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
@@ -77,67 +77,62 @@ const AI_FRAME_WORK: StudioCategory = {
   ],
 };
 
-const NETWORK: StudioCategory = {
-  key: 'network',
-  title: 'Network',
+const BLOCKCHAIN_CATEGORY: StudioCategory = {
+  idx: 'blockchain',
+  title: 'Blockchain',
   required: true,
   icon: LegoComponentIcon,
   tooltip:
     'Choose the blockchain where your agent will live. Each option comes with different deployment fees, performance levels, and ongoing costs. Pick the one that best suits your goals and budget.',
   options: [
     {
-      key: 'network_option_1',
+      idx: 'blockchain_option_1',
       title: 'Base',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
     },
     {
-      key: 'network_option_2',
+      idx: 'blockchain_option_2',
       title: 'Arbitrum',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
     },
     {
-      key: 'network_option_3',
+      idx: 'blockchain_option_3',
       title: 'BNB',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
     },
     {
-      key: 'network_option_4',
+      idx: 'blockchain_option_4',
       title: 'Bitcoin',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network_option_5',
+      idx: 'blockchain_option_5',
       title: 'Symbiosis',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network_option_4',
+      idx: 'blockchain_option_6',
       title: 'Solana',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network_option_5',
+      idx: 'blockchain_option_7',
       title: 'Polygon',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network_option_6',
-      title: 'Polygon',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
-    },
-    {
-      key: 'network_option_7',
+      idx: 'blockchain_option_8',
       title: 'ZKsync Era',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network_option_8',
+      idx: 'blockchain_option_9',
       title: 'Avalanche C-Chain',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
     {
-      key: 'network_option_9',
+      idx: 'blockchain_option_10',
       title: 'Abstract Testnet',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
     },
@@ -145,7 +140,7 @@ const NETWORK: StudioCategory = {
 };
 
 const DECENTRALIZE: StudioCategory = {
-  key: 'decentralize_inference',
+  idx: 'decentralize_inference',
   title: 'Decentralize Inference',
   required: true,
   tooltip:
@@ -153,25 +148,25 @@ const DECENTRALIZE: StudioCategory = {
   icon: LegoComponentIcon,
   options: [
     {
-      key: 'decentralize_inference_option_1',
+      idx: 'decentralize_inference_option_1',
       title: 'Hermes 3 70B',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
     },
     {
-      key: 'decentralize_inference_option_2',
+      idx: 'decentralize_inference_option_2',
       title: 'INTELLECT 1 10B',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
     },
     {
-      key: 'decentralize_inference_option_3',
+      idx: 'decentralize_inference_option_3',
       title: 'Llama 3.1 405B',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
     },
     {
-      key: 'decentralize_inference_option_5',
+      idx: 'decentralize_inference_option_5',
       title: 'Llama 3.3 470B',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
@@ -181,7 +176,7 @@ const DECENTRALIZE: StudioCategory = {
 };
 
 const TOKEN: StudioCategory = {
-  key: 'token',
+  idx: 'token',
   title: 'Token',
   required: true,
   tooltip:
@@ -189,7 +184,7 @@ const TOKEN: StudioCategory = {
   icon: LegoComponentIcon,
   options: [
     {
-      key: 'token_option_1',
+      idx: 'token_option_1',
       title: 'Create token',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
@@ -210,7 +205,7 @@ export const AGENT_MODEL_CATEGORIES: StudioCategory[] = [
   AGENT,
   PERSONALITY,
   AI_FRAME_WORK,
-  NETWORK,
+  BLOCKCHAIN_CATEGORY,
   DECENTRALIZE,
   TOKEN,
 ];

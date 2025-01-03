@@ -12,13 +12,13 @@ import useStudioDndStore from '../../stores/useStudioDndStore';
 
 function Listen() {
   const nodes = useStudioFlowStore((state) => state.nodes);
-  const dataForms = useStudioFormStore((state) => state.dataForms);
+  const formMap = useStudioFormStore((state) => state.formMap);
   const draggingData = useStudioDndStore((state) => state.draggingData);
 
   const isDragging = !!draggingData;
 
   const throttleNodes = useThrottleValue(nodes, 1000);
-  const throttleDataForms = useThrottleValue(dataForms, 500);
+  const throttleDataForms = useThrottleValue(formMap, 500);
 
   useEffect(() => {
     // sync nodes with data
@@ -32,22 +32,22 @@ function Listen() {
           .map((child) => {
             const id = child.data.id;
             const metadata = child.data.metadata;
-            const key = child.data.metadata.key;
-            const option = categoryMap[key] as StudioCategoryMap;
+            const idx = child.data.metadata.idx;
+            const option = categoryMap[idx] as StudioCategoryMap;
 
             // const id = data.id;
             if (metadata) {
               const formValue = throttleDataForms[id] || {};
 
-              if (option?.parent?.key) {
-                usedKeyCollection[option.parent.key] = option.parent.key;
+              if (option?.parent?.idx) {
+                usedKeyCollection[option.parent.idx] = option.parent.idx;
               }
 
-              usedKeyCollection[option.key] = option.key;
+              usedKeyCollection[option.idx] = option.idx;
 
               return {
                 id,
-                key,
+                idx,
                 title: option.title || 'Untitled',
                 children: [],
                 data: {
@@ -69,21 +69,21 @@ function Listen() {
       throttleNodes.forEach((node) => {
         const metadata = node.data.metadata;
         const id = node.data.id;
-        const key = node.data.metadata.key;
-        const option = categoryMap[key] as StudioCategoryMap;
+        const idx = node.data.metadata.idx;
+        const option = categoryMap[idx] as StudioCategoryMap;
 
         if (metadata) {
           const children = getChildrenDataFromChildren(metadata?.children);
           const formValue = throttleDataForms[id] || {};
 
-          if (option?.parent?.key) {
-            usedKeyCollection[option.parent.key] = option.parent.key;
+          if (option?.parent?.idx) {
+            usedKeyCollection[option.parent.idx] = option.parent.idx;
           }
 
-          usedKeyCollection[option.key] = option.key;
+          usedKeyCollection[option.idx] = option.idx;
           newData.push({
             id,
-            key: option.key,
+            idx: option.idx,
             title: option.title || 'Untitled',
             children,
             data: {
@@ -125,8 +125,8 @@ function DataSync() {
     if (!entry) {
       if (rootCategory) {
         const rootOptions = rootCategory.options as StudioCategoryMap[];
-        const rootOptionsKey = rootOptions.map((item) => item.key);
-        const newEntry = data?.find((item) => item.key === rootCategory.key || rootOptionsKey.includes(item.key));
+        const rootOptionsKey = rootOptions.map((item) => item.idx);
+        const newEntry = data?.find((item) => item.idx === rootCategory.idx || rootOptionsKey.includes(item.idx));
 
         if (newEntry) {
           // set entry

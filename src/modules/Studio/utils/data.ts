@@ -20,7 +20,7 @@ export const getFieldDataFromRawData = (data: StudioDataNode[]) => {
   let formData: Record<string, FormDataMap> = {};
   const categoryMap = useStudioCategoryStore.getState().categoryMap;
   data.forEach((item) => {
-    const defaultValues = getFormDataFromCategoryOption(categoryMap[item.key] || {});
+    const defaultValues = getFormDataFromCategoryOption(categoryMap[item.idx] || {});
 
     formData[item.id] = {
       ...defaultValues,

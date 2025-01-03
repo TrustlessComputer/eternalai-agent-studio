@@ -4,7 +4,12 @@ import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategorySto
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
-import { StudioCategory, StudioCategoryMap, StudioCategoryOption } from '@/modules/Studio/types/category';
+import {
+  StudioCategory,
+  StudioCategoryMapValue,
+  StudioCategoryOption,
+  StudioCategoryOptionMapValue,
+} from '@/modules/Studio/types/category';
 import { DndZone, DraggableData } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
 import {
@@ -62,16 +67,18 @@ function DndFlow({ children }: PropsWithChildren) {
     const fromOptionKey = fromData?.optionKey;
     const fromCategory: StudioCategory | undefined =
       useStudioCategoryStore.getState().categoryMap[fromCategoryKey || ''];
-    const fromOption: StudioCategoryOption | undefined =
-      useStudioCategoryStore.getState().categoryMap[fromOptionKey || ''];
+    const fromOption: StudioCategoryOptionMapValue | undefined =
+      useStudioCategoryStore.getState().categoryOptionMap[fromOptionKey || ''];
     const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.belongsTo);
 
     const toData = over?.data?.current as DraggableData;
     const to = toData?.type;
     const toCategoryKey = toData?.categoryKey;
     const toOptionKey = toData?.optionKey;
-    const toCategory: StudioCategory | undefined = useStudioCategoryStore.getState().categoryMap[toCategoryKey || ''];
-    const toOption: StudioCategoryOption | undefined = useStudioCategoryStore.getState().categoryMap[toOptionKey || ''];
+    const toCategory: StudioCategoryMapValue | undefined =
+      useStudioCategoryStore.getState().categoryMap[toCategoryKey || ''];
+    const toOption: StudioCategoryOptionMapValue | undefined =
+      useStudioCategoryStore.getState().categoryOptionMap[toOptionKey || ''];
     const toNode = useStudioFlowStore.getState().nodes.find((node) => node.id === toData?.belongsTo);
 
     const isTheSameNode = fromNode?.id === toNode?.id;
@@ -79,7 +86,7 @@ function DndFlow({ children }: PropsWithChildren) {
     const allFormData = useStudioFormStore.getState().formMap;
     const currentFormData = allFormData[fromData.belongsTo || ''];
 
-    const parentOption = (fromOption as StudioCategoryMap).parent;
+    const parentOption = fromOption?.parent;
 
     console.log('[DndContainer] handleDragEnd from to', {
       from,

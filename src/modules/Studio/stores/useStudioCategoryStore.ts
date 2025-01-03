@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { StudioCategory, StudioCategoryMap } from '../types/category';
+import { StudioCategory, StudioCategoryOption } from '../types/category';
 import { StudioDataNode } from '../types/graph';
 import { COLOR_PALETTES, POPULAR } from '../constants/color-palettes';
 import categoryColorDatabase from '../database/category-color-database';
@@ -10,6 +10,7 @@ const DEFAULT_VALUE = {
   rootCategory: null,
   categories: [],
   categoryMap: {},
+  categoryOptionMap: {},
   filters: [],
   usedKeyCollection: {},
 };
@@ -19,7 +20,8 @@ type Store = {
   setRootCategory: (category: StudioCategory | null) => void;
 
   categories: StudioCategory[];
-  categoryMap: Record<string, StudioCategoryMap>;
+  categoryMap: Record<string, StudioCategory>;
+  categoryOptionMap: Record<string, StudioCategoryOption>;
   setCategories: (categories: StudioCategory[]) => Promise<void>;
   updateCategory: (category: StudioCategory) => void;
 
@@ -98,27 +100,19 @@ const getCategoryColor = (colorCollection: Record<string, string>, idx: string, 
   return newColor;
 };
 
-const flatCategoriesByKey = (categories: StudioCategory[], parent?: StudioCategory) => {
-  let categoryMap: Record<string, StudioCategoryMap> = {};
+const flatCategoriesByKey = (categories: StudioCategory[]) => {
+  const categoryMap: Record<string, StudioCategory> = {};
+  const categoryOptionMap: Record<string, StudioCategoryOption> = {};
+
   categories.forEach((item) => {
-    if (item?.options?.length) {
-      const subCategories = flatCategoriesByKey(item.options as StudioCategory[], item);
-      categoryMap = {
-        ...categoryMap,
-        ...subCategories,
-      };
-    }
-    if (parent) {
-      categoryMap[item.idx] = {
-        ...item,
-        parent,
-      };
-    } else {
-      categoryMap[item.idx] = item as StudioCategoryMap;
-    }
+    categoryMap[item.idx] = item;
+
+    item.options.forEach((option) => {
+      categoryOptionMap[option.idx] = option;
+    });
   });
 
-  return categoryMap;
+  return { categoryMap, categoryOptionMap };
 };
 
 const useStudioCategoryStore = create<Store>((set, get) => ({
@@ -127,6 +121,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
   setRootCategory: (category) => {
     set({ rootCategory: category });
   },
+
   setCategories: async (categories) => {
     const existingCollection = await categoryColorDatabase.getAllItemsToMap();
 
@@ -184,12 +179,14 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
       .sort((a, b) => a.order - b.order) as StudioCategory[];
 
     const rootCategory = pipeData?.find((item) => item.isRoot);
+
     set({
       rootCategory,
       categories: pipeData,
-      categoryMap: flatCategoriesByKey(pipeData),
+      ...flatCategoriesByKey(pipeData),
     });
   },
+
   setFilters: (filter) => {
     const filters = get().filters;
     const matchedFilter = filters.find((item) => item === filter);
@@ -199,6 +196,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
       set({ filters: [...filters, filter] });
     }
   },
+
   updateCategory: (category) => {
     // just update category for render
     const { categories } = get();
@@ -212,6 +210,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
 
     set({ categories: newCategories });
   },
+
   updateCategoriesForEntry: (entry) => {
     const { rootCategory, categoryMap, categories } = get();
     if (rootCategory) {
@@ -250,6 +249,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
       }
     }
   },
+
   setUsedKeyCollection: (collection) => {
     // const { usedKeyCollection } = get();
     // set({ usedKeyCollection: { ...usedKeyCollection, ...collection } });

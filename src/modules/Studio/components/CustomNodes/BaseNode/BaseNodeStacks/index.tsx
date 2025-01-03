@@ -1,29 +1,29 @@
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
-import { StudioCategoryMap } from '@/modules/Studio/types/category';
+import { StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 import { DraggableData } from '@/modules/Studio/types/dnd';
 import { useMemo } from 'react';
 import Package from '../../../DnD/Package';
 import Product from '../../../DnD/Product';
 import BaseNodeConnection from '../BaseNodeConnection';
+import BaseNodeReadOnly from '../BaseNodeReadOnly';
 import BaseNodeWrapper from '../BaseNodeWrapper';
 import ChildBaseNode from '../ChildBaseNode';
 import DraggingFloating from '../DraggingFloating';
 import LegoRender from '../LegoRender';
 import { BaseNodeProps } from '../types';
-import BaseNodeReadOnly from '../BaseNodeReadOnly';
 
 import './BaseNodeStacks.scss';
 
 type Props = BaseNodeProps;
 const BaseNodeStacks = ({ data, ...rest }: Props) => {
   const draggingData = useStudioDndStore((state) => state.draggingData);
-  const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
+  const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
   const children = data?.metadata?.children;
 
   const idx = data.metadata.idx;
-  const option = categoryMap[idx] as StudioCategoryMap;
-  const schemadata = option.data;
+  const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
+  const schemadata = option?.data;
 
   const productData: Omit<DraggableData, 'type'> = useMemo(
     () => ({ optionKey: option.idx, belongsTo: data.id }),

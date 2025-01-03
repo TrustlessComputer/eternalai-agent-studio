@@ -3,16 +3,16 @@ import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 import { StudioFormFieldValidate } from '../types';
 
 export const useFormFunction = (idx: string) => {
-  const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
+  const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
 
   const memorizedFuncs = useMemo(() => {
     return {
       // onFormChange: categoryMap[key].onFormChange,
       // onFormValidate: categoryMap[key].onFormValidate,
       // onFieldChange: categoryMap[key].onFieldChange,
-      onFieldValidate: categoryMap[idx]?.onFieldValidate || ((() => true) as StudioFormFieldValidate),
+      onFieldValidate: categoryOptionMap[idx]?.onFieldValidate || ((() => true) as StudioFormFieldValidate),
     };
-  }, [idx, categoryMap]);
+  }, [idx, categoryOptionMap]);
 
   return memorizedFuncs;
 };

@@ -6,9 +6,9 @@ import { StudioDataNode, StudioNode } from '../../types/graph';
 
 import { useThrottleValue } from '@/hooks/useThrottleValue';
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
-import useStudioFormStore from '../../stores/useStudioFormStore';
-import { StudioCategoryMap } from '../../types/category';
 import useStudioDndStore from '../../stores/useStudioDndStore';
+import useStudioFormStore from '../../stores/useStudioFormStore';
+import { StudioCategoryMapValue, StudioCategoryOptionMapValue } from '../../types/category';
 
 function Listen() {
   const nodes = useStudioFlowStore((state) => state.nodes);
@@ -25,7 +25,7 @@ function Listen() {
 
     if (!isDragging) {
       const usedKeyCollection: Record<string, string> = {};
-      const categoryMap = useStudioCategoryStore.getState().categoryMap;
+      const categoryOptionMap = useStudioCategoryStore.getState().categoryOptionMap;
 
       const getChildrenDataFromChildren = (children: StudioNode[]) => {
         return children
@@ -33,7 +33,7 @@ function Listen() {
             const id = child.data.id;
             const metadata = child.data.metadata;
             const idx = child.data.metadata.idx;
-            const option = categoryMap[idx] as StudioCategoryMap;
+            const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
 
             // const id = data.id;
             if (metadata) {
@@ -70,7 +70,7 @@ function Listen() {
         const metadata = node.data.metadata;
         const id = node.data.id;
         const idx = node.data.metadata.idx;
-        const option = categoryMap[idx] as StudioCategoryMap;
+        const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
 
         if (metadata) {
           const children = getChildrenDataFromChildren(metadata?.children);
@@ -124,7 +124,7 @@ function DataSync() {
   useEffect(() => {
     if (!entry) {
       if (rootCategory) {
-        const rootOptions = rootCategory.options as StudioCategoryMap[];
+        const rootOptions = rootCategory.options as StudioCategoryMapValue[];
         const rootOptionsKey = rootOptions.map((item) => item.idx);
         const newEntry = data?.find((item) => item.idx === rootCategory.idx || rootOptionsKey.includes(item.idx));
 

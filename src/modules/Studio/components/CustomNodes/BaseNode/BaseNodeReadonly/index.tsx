@@ -1,5 +1,5 @@
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
-import { StudioCategoryOption } from '@/modules/Studio/types/category';
+import { StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 import LegoRender from '../LegoRender';
 import { BaseNodeProps } from '../types';
 
@@ -9,7 +9,7 @@ const BaseNodeReadonly = ({ data }: Props) => {
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
 
   const idx = data.metadata.idx;
-  const option: StudioCategoryOption | undefined = categoryOptionMap[idx];
+  const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
   const schemadata = option?.data;
 
   return (

@@ -48,11 +48,11 @@ function Board() {
         edges={renderEdges}
         edgeTypes={DEFAULT_EDGE_TYPES}
         onEdgesChange={onEdgesChange}
-        edgesFocusable={false}
-        fitViewOptions={{ padding: 1 }}
-        deleteKeyCode=""
-        defaultViewport={currentView}
         onViewportChange={setView}
+        defaultViewport={currentView}
+        edgesFocusable={false}
+        deleteKeyCode=""
+        fitViewOptions={{ padding: 1 }}
         connectionMode={ConnectionMode.Loose}
         zoomOnDoubleClick={false}
         selectNodesOnDrag={false}

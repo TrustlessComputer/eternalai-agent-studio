@@ -1,6 +1,5 @@
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
-import { StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 import { DraggableData } from '@/modules/Studio/types/dnd';
 import { useMemo } from 'react';
 import Package from '../../../DnD/Package';
@@ -14,6 +13,7 @@ import LegoRender from '../LegoRender';
 import { BaseNodeProps } from '../types';
 
 import './BaseNodeStacks.scss';
+import { StudioCategoryOption } from '@/modules/Studio/types';
 
 type Props = BaseNodeProps;
 const BaseNodeStacks = ({ data, ...rest }: Props) => {
@@ -22,7 +22,7 @@ const BaseNodeStacks = ({ data, ...rest }: Props) => {
   const children = data?.metadata?.children;
 
   const idx = data.metadata.idx;
-  const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
+  const option: StudioCategoryOption | undefined = categoryOptionMap[idx];
   const schemadata = option?.data;
 
   const productData: Omit<DraggableData, 'type'> = useMemo(

@@ -4,12 +4,7 @@ import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategorySto
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
-import {
-  StudioCategory,
-  StudioCategoryMapValue,
-  StudioCategoryOption,
-  StudioCategoryOptionMapValue,
-} from '@/modules/Studio/types/category';
+import { StudioCategory, StudioCategoryMapValue, StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 import { DndZone, DraggableData } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
 import {
@@ -53,7 +48,6 @@ function DndFlow({ children }: PropsWithChildren) {
     const { active, over } = event;
 
     const data = useStudioDataStore.getState().data;
-    const usedKeyCollection = useStudioCategoryStore.getState().usedKeyCollection;
 
     const rootCategory = useStudioCategoryStore.getState().rootCategory;
     const rootOptionKey = rootCategory?.options?.map((item) => item?.idx);

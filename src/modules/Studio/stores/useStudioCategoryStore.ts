@@ -1,10 +1,9 @@
 import { create } from 'zustand';
-
-import { StudioCategory, StudioCategoryOption } from '../types/category';
-import { StudioDataNode } from '../types/graph';
 import { COLOR_PALETTES, POPULAR } from '../constants/color-palettes';
-import categoryColorDatabase from '../database/category-color-database';
 import { DEFAULT_CATEGORY_TYPE } from '../constants/default-values';
+import categoryColorDatabase from '../database/category-color-database';
+import { StudioDataNode } from '../types/graph';
+import { StudioCategory, StudioCategoryMapValue, StudioCategoryOptionMapValue } from '../types';
 
 const DEFAULT_VALUE = {
   rootCategory: null,
@@ -20,8 +19,8 @@ type Store = {
   setRootCategory: (category: StudioCategory | null) => void;
 
   categories: StudioCategory[];
-  categoryMap: Record<string, StudioCategory>;
-  categoryOptionMap: Record<string, StudioCategoryOption>;
+  categoryMap: Record<string, StudioCategoryMapValue>;
+  categoryOptionMap: Record<string, StudioCategoryOptionMapValue>;
   setCategories: (categories: StudioCategory[]) => Promise<void>;
   updateCategory: (category: StudioCategory) => void;
 
@@ -101,14 +100,17 @@ const getCategoryColor = (colorCollection: Record<string, string>, idx: string, 
 };
 
 const flatCategoriesByKey = (categories: StudioCategory[]) => {
-  const categoryMap: Record<string, StudioCategory> = {};
-  const categoryOptionMap: Record<string, StudioCategoryOption> = {};
+  const categoryMap: Record<string, StudioCategoryMapValue> = {};
+  const categoryOptionMap: Record<string, StudioCategoryOptionMapValue> = {};
 
   categories.forEach((item) => {
     categoryMap[item.idx] = item;
 
     item.options.forEach((option) => {
-      categoryOptionMap[option.idx] = option;
+      categoryOptionMap[option.idx] = {
+        ...option,
+        parent: item,
+      };
     });
   });
 

@@ -155,3 +155,8 @@ export type StudioCategory = Omit<BaseCategory, 'value' | 'data'> & {
   multipleOption?: boolean; // default true
   customizeRenderOnNavigation?: () => ReactNode;
 };
+
+export type StudioCategoryMapValue = StudioCategory;
+export type StudioCategoryOptionMapValue = StudioCategoryOption & {
+  parent: StudioCategory;
+};

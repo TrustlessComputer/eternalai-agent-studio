@@ -1,11 +1,11 @@
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
-import { StudioCategoryMapValue, StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 import { DraggableData } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
 import { useMemo } from 'react';
 import ProductAddon from '../../../DnD/ProductAddon';
 import DraggingFloating from '../DraggingFloating';
 import LegoRender from '../LegoRender';
+import { StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 
 const ChildBaseNode = ({
   data,

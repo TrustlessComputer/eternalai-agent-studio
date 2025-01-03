@@ -1,14 +1,11 @@
-import { useEffect } from 'react';
-
-import useStudioDataStore from '../../stores/useStudioDataStore';
-import useStudioFlowStore from '../../stores/useStudioFlowStore';
-import { StudioDataNode, StudioNode } from '../../types/graph';
-
 import { useThrottleValue } from '@/hooks/useThrottleValue';
+import { useEffect } from 'react';
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
+import useStudioDataStore from '../../stores/useStudioDataStore';
 import useStudioDndStore from '../../stores/useStudioDndStore';
+import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFormStore from '../../stores/useStudioFormStore';
-import { StudioCategoryMapValue, StudioCategoryOptionMapValue } from '../../types/category';
+import { StudioNode, StudioCategoryOptionMapValue, StudioDataNode } from '../../types';
 
 function Listen() {
   const nodes = useStudioFlowStore((state) => state.nodes);
@@ -35,7 +32,6 @@ function Listen() {
             const idx = child.data.metadata.idx;
             const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
 
-            // const id = data.id;
             if (metadata) {
               const formValue = throttleDataForms[id] || {};
 
@@ -124,7 +120,7 @@ function DataSync() {
   useEffect(() => {
     if (!entry) {
       if (rootCategory) {
-        const rootOptions = rootCategory.options as StudioCategoryMapValue[];
+        const rootOptions = rootCategory.options as StudioCategoryOptionMapValue[];
         const rootOptionsKey = rootOptions.map((item) => item.idx);
         const newEntry = data?.find((item) => item.idx === rootCategory.idx || rootOptionsKey.includes(item.idx));
 

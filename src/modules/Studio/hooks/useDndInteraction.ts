@@ -7,12 +7,14 @@ import { noUndefinedElement } from '../utils/array';
 const useDndInteraction = () => {
   const updateNodes = useCallback((nodes: (StudioNode | undefined)[]) => {
     const shouldUpdatedNodes = noUndefinedElement(nodes);
-    const updatedNodes = applyNodeChanges(
-      shouldUpdatedNodes.map((node) => ({ id: node.id, type: 'position', position: node.position, positionAbsolute: node.position })),
-      shouldUpdatedNodes,
-    );
+    if (shouldUpdatedNodes.length) {
+      const updatedNodes = applyNodeChanges(
+        shouldUpdatedNodes.map((node) => ({ id: node.id, type: 'position', position: node.position, positionAbsolute: node.position })),
+        shouldUpdatedNodes,
+      );
 
-    useStudioFlowStore.getState().updateNodes(updatedNodes);
+      useStudioFlowStore.getState().updateNodes(updatedNodes);
+    }
   }, []);
 
   return { updateNodes };

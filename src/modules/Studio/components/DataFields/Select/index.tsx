@@ -6,6 +6,7 @@ import useStudioDataSourceStore from '@/modules/Studio/stores/useStudioDataSourc
 import NoDraggable from '../../DnD/NoDraggable';
 import { DataSchema } from '@/modules/Studio/types/category';
 import { useFormFunction } from '@/modules/Studio/hooks/useFormFunction';
+import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
 
 type Props = Omit<React.ComponentPropsWithoutRef<'select'>, 'defaultValue'> & {
   formId: string;
@@ -27,6 +28,7 @@ function Select({
   fieldKey,
   ...rest
 }: Props) {
+  // const data = useStudioDataStore((state) => state.data);
   const formFunctions = useFormFunction(fieldKey);
   const dataForms = useStudioFormStore((state) => state.dataForms);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
@@ -53,7 +55,18 @@ function Select({
     }
   };
 
-  const isError = !(formFunctions?.onFieldValidate?.(name, value) ?? true);
+  const isError = useMemo(() => {
+    return !(
+      formFunctions?.onFieldValidate?.(name, value, {
+        formId,
+        formData: dataForms[formId],
+        allFormData: dataForms,
+        data: useStudioDataStore.getState().data,
+      }) ?? true
+    );
+
+    // do not update dependencies
+  }, [name, value]);
 
   return (
     <NoDraggable>

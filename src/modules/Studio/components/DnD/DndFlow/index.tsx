@@ -60,22 +60,24 @@ function DndFlow({ children }: PropsWithChildren) {
     const from = fromData?.type;
     const fromCategoryKey = fromData?.categoryKey;
     const fromOptionKey = fromData?.optionKey;
-    const fromCategory = useStudioCategoryStore.getState().categoryMap[fromCategoryKey || ''] as StudioCategory;
-    const fromOption = useStudioCategoryStore.getState().categoryMap[fromOptionKey || ''] as StudioCategoryOption;
+    const fromCategory: StudioCategory | undefined =
+      useStudioCategoryStore.getState().categoryMap[fromCategoryKey || ''];
+    const fromOption: StudioCategoryOption | undefined =
+      useStudioCategoryStore.getState().categoryMap[fromOptionKey || ''];
     const fromNode = useStudioFlowStore.getState().nodes.find((node) => node.id === fromData?.belongsTo);
 
     const toData = over?.data?.current as DraggableData;
     const to = toData?.type;
     const toCategoryKey = toData?.categoryKey;
     const toOptionKey = toData?.optionKey;
-    const toCategory = useStudioCategoryStore.getState().categoryMap[toCategoryKey || ''] as StudioCategory;
-    const toOption = useStudioCategoryStore.getState().categoryMap[toOptionKey || ''] as StudioCategoryOption;
+    const toCategory: StudioCategory | undefined = useStudioCategoryStore.getState().categoryMap[toCategoryKey || ''];
+    const toOption: StudioCategoryOption | undefined = useStudioCategoryStore.getState().categoryMap[toOptionKey || ''];
     const toNode = useStudioFlowStore.getState().nodes.find((node) => node.id === toData?.belongsTo);
 
     const isTheSameNode = fromNode?.id === toNode?.id;
 
     const allFormData = useStudioFormStore.getState().dataForms;
-    const currentFormData = fromData?.belongsTo ? allFormData[fromData.belongsTo] : null;
+    const currentFormData = allFormData[fromData.belongsTo || ''];
 
     const parentOption = (fromOption as StudioCategoryMap).parent;
 
@@ -106,25 +108,24 @@ function DndFlow({ children }: PropsWithChildren) {
       parentOption,
     });
 
+    console.log('[DndContainer] handleDragEnd node', {
+      fromNode,
+      toNode,
+    });
+
     if (to === DndZone.DISTRIBUTION) {
       // Create
       if (from === DndZone.SOURCE) {
         const isValid =
           fromOption?.onDropInValidate?.({
-            id: fromData.belongsTo,
             option: fromOption,
             parentOption,
             formData: currentFormData,
             allFormData,
-            toNode,
             data,
           }) ?? true;
 
         if (!isValid) return;
-
-        // if (!fromCategory.multipleOption && usedKeyCollection[fromCategory.key]) {
-        //   return;
-        // }
 
         addProduct(rootNode, fromData, fromOption);
         updateNodes([rootNode]);
@@ -132,16 +133,16 @@ function DndFlow({ children }: PropsWithChildren) {
 
       // Split
       if (from === DndZone.PRODUCT_ADDON && !isTheSameNode && fromNode) {
+        if (!fromData.belongsTo) return;
+
         const isValid =
-          fromOption.onSnapValidate?.({
+          fromOption.onSplitValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
             parentOption,
-            toOption,
             formData: currentFormData,
             allFormData,
             fromNode,
-            toNode,
             data,
           }) ?? true;
 
@@ -156,23 +157,19 @@ function DndFlow({ children }: PropsWithChildren) {
       // Add
       if (from === DndZone.SOURCE) {
         const isValid =
-          fromOption?.onDropInValidate?.({
-            id: fromData.belongsTo,
+          fromOption?.onAddValidate?.({
             option: fromOption,
             parentOption,
             formData: currentFormData,
             allFormData,
-            toNode,
             data,
+            toNode,
+            toOption,
           }) ?? true;
 
         if (!isValid) return;
 
         const newNode = getNewNodeInfo(fromData.optionKey, fromOption);
-
-        // if (!fromOption.multipleChoice && usedKeyCollection[fromOption.key]) {
-        //   return;
-        // }
 
         addToPackage(toNode, [newNode]);
         updateNodes([toNode]);
@@ -180,17 +177,19 @@ function DndFlow({ children }: PropsWithChildren) {
 
       // Merge
       if (from === DndZone.PRODUCT && !isTheSameNode) {
+        if (!fromData.belongsTo || !fromNode || !toNode) return;
+
         const isValid =
-          fromOption.onSnapValidate?.({
+          fromOption.onMergeValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
             parentOption,
-            toOption,
             formData: currentFormData,
             allFormData,
+            data,
             fromNode,
             toNode,
-            data,
+            toOption,
           }) ?? true;
 
         if (!isValid) return;
@@ -201,6 +200,8 @@ function DndFlow({ children }: PropsWithChildren) {
 
       // Move
       if (from === DndZone.PRODUCT_ADDON && !isTheSameNode && fromNode) {
+        if (!fromData.belongsTo || !fromNode || !toNode) return;
+
         const isValid =
           fromOption.onSnapValidate?.({
             id: fromData.belongsTo,
@@ -224,6 +225,8 @@ function DndFlow({ children }: PropsWithChildren) {
     if (to === DndZone.FACTORY && !fromCategory?.isRoot) {
       // Remove the whole node
       if (from === DndZone.PRODUCT) {
+        if (!fromData.belongsTo || !fromNode) return;
+
         const isValid =
           fromOption.onDropOutValidate?.({
             id: fromData.belongsTo,
@@ -242,10 +245,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
       // Remove the node's children
       if (from === DndZone.PRODUCT_ADDON && !isTheSameNode && fromNode) {
-        console.log('___________handle drag end', {
-          to: DndZone.FACTORY,
-          from: DndZone.PRODUCT_ADDON,
-        });
+        if (!fromData.belongsTo) return;
 
         const isValid =
           fromOption.onDropOutValidate?.({
@@ -254,8 +254,8 @@ function DndFlow({ children }: PropsWithChildren) {
             parentOption,
             formData: currentFormData,
             allFormData,
-            fromNode,
             data,
+            fromNode,
           }) ?? true;
 
         if (!isValid) return;

@@ -112,24 +112,25 @@ const useDndAction = () => {
 
   const splitPackage = useCallback(
     (rootNode?: StudioNode, fromNode?: StudioNode, fromData?: DraggableData, fromOption?: StudioCategoryOption) => {
-      if (!fromNode || !fromData || !rootNode) return {};
+      if (!fromNode || !fromData) return {};
 
       const childData = !isNil(fromData.childIndex) ? fromNode.data.metadata.children[fromData.childIndex as number] : null;
 
       const newNode = getNewNodeInfo(fromData.optionKey, fromOption, childData?.id);
 
       if (newNode) {
-        const newEdge = createNewBaseEdge(rootNode.id, newNode.id, true);
-
         newNode.data.metadata.children = cloneData(fromNode.data.metadata.children)
           .filter((_, index) => index > (fromData?.childIndex || 0))
           .map((child) => getNewNodeInfo(child.data.metadata.key, fromOption, child.id))
           .filter((child) => !!child);
 
-        rootNode.data.sourceHandles.push(getSourceHandle(rootNode.id, newNode.id));
+        if (rootNode) {
+          const newEdge = createNewBaseEdge(rootNode.id, newNode.id, true);
+          rootNode.data.sourceHandles.push(getSourceHandle(rootNode.id, newNode.id));
+          useStudioFlowStore.getState().addEdge(newEdge);
+        }
 
         useStudioFlowStore.getState().addNode(newNode);
-        useStudioFlowStore.getState().addEdge(newEdge);
       }
 
       fromNode.data.metadata.children = fromNode.data.metadata.children.filter((_, index) => index < (fromData?.childIndex || 0));

@@ -1,9 +1,10 @@
 import { FunctionComponent, ReactNode } from 'react';
 import { FormDataMap, Key } from './base';
 import { StudioDataNode, StudioNode } from './graph';
+import { StudioCategoryType } from '../enums/category';
 
-type DataSchemaField = string;
-type DataSchemaValue = {
+export type DataSchemaField = string;
+export type DataSchemaValue = {
   type: 'text' | 'textarea' | 'checkbox' | 'select';
   label?: string;
   placeholder?: string;
@@ -13,7 +14,7 @@ type DataSchemaValue = {
 
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 
-type BaseCategory = {
+export type BaseCategory = {
   key: Key;
   title?: React.ReactNode | FunctionComponent;
   tooltip?: ReactNode;
@@ -26,78 +27,51 @@ type BaseCategory = {
   color?: string;
 };
 
-export enum StudioCategoryType {
-  INLINE = 'inline',
-  STANDALONE = 'standalone',
-}
-
 /**
- * onSnapValidate
- * handle drag and drop to attach or detach item
+ * handle drag and drop to interact with item
  * @param id current option item id
  * @param option current option item
- * @param toOption to option item
+ * @param parentOption parent option item
  * @param formData option form data
  * @param allFormData all form data
+ * @param data data
  * @returns
  */
-export type StudioCategoryOptionSnapValidatePayload = {
-  id?: string;
-  option?: StudioCategoryOption;
-  parentOption?: StudioCategory;
-  toOption?: StudioCategoryOption;
-  formData?: FormDataMap | null;
-  allFormData?: FormDataMap;
-  fromNode?: StudioNode;
-  toNode?: StudioNode;
+export type OnStudioInteractPayload = {
+  option: StudioCategoryOption;
+  parentOption: StudioCategory;
+  formData: FormDataMap;
+  allFormData: FormDataMap;
   data: StudioDataNode[];
 };
 
-/**
- * onDropInValidate
- * handle drag and drop to add new item from sidebar to board
- * @param id current option item id
- * @param option current option item
- * @param formData option form data
- * @param allFormData all form data
- * @returns
- */
-export type StudioCategoryOptionDropInValidatePayload = {
-  id: string | undefined;
-  option?: StudioCategoryOption;
-  parentOption?: StudioCategory;
-  formData?: FormDataMap | null;
-  allFormData?: FormDataMap;
-  toNode?: StudioNode;
-  data: StudioDataNode[];
+export type OnNodeInteractPayload = {
+  id: string;
+  fromNode: StudioNode;
 };
 
-/**
- * onDropOutValidate
- * handle drag and drop to remove exists item from board to sidebar
- * @param id current option item id
- * @param option current option item
- * @param formData option data
- * @param allFormData all form data
- * @returns
- */
-export type StudioCategoryOptionDropOutValidatePayload = {
-  id: string | undefined;
-  option?: StudioCategoryOption;
-  parentOption?: StudioCategory;
-  formData?: FormDataMap | null;
-  allFormData?: FormDataMap;
-  fromNode?: StudioNode;
-  data: StudioDataNode[];
+export type OnFlowInteractPayload = {
+  toNode: StudioNode;
+  toOption: StudioCategoryOption;
 };
+
+export type OnCreatePayload = OnStudioInteractPayload;
+export type OnDeletePayload = OnStudioInteractPayload & OnNodeInteractPayload;
+export type OnAddPayload = OnStudioInteractPayload & OnFlowInteractPayload;
+export type OnSplitPayload = OnStudioInteractPayload & OnNodeInteractPayload;
+export type OnSnapPayload = OnStudioInteractPayload & OnNodeInteractPayload & OnFlowInteractPayload;
+export type OnMergePayload = OnStudioInteractPayload & OnNodeInteractPayload & OnFlowInteractPayload;
 
 export type StudioCategoryDragDropFunction = {
-  onSnapValidate?: (data: StudioCategoryOptionSnapValidatePayload) => boolean;
-  onDropInValidate?: (data: StudioCategoryOptionDropInValidatePayload) => boolean; // add new item from sidebar to board
-  onDropOutValidate?: (data: StudioCategoryOptionDropOutValidatePayload) => boolean; // remove exist item from board to sidebar
+  onSnapValidate?: (data: OnSnapPayload) => boolean; // snap node to root node
+  onSplitValidate?: (data: OnSplitPayload) => boolean; // split items to a single node
+  onMergeValidate?: (data: OnMergePayload) => boolean; // merge items to a single node
+  onDropInValidate?: (data: OnCreatePayload) => boolean; // create new node from sidebar to board
+  onDropOutValidate?: (data: OnDeletePayload) => boolean; // remove exist node from board to sidebar
+  onAddValidate?: (data: OnAddPayload) => boolean; // add option to node directly
 };
 
-export type StudioCategoryBoxWrapperType = {
+export type StudioCategoryBoxWrapper = {
   draggable?: boolean;
   title?: React.ReactNode | FunctionComponent;
   render?: (children: React.ReactNode, option: StudioCategoryOption) => ReactNode;
@@ -160,7 +134,7 @@ export type StudioCategoryOption = BaseCategory &
   StudioCategoryFormFunction &
   StudioOptionCustomizeRender & {
     type?: StudioCategoryType; // default is inline
-    boxWrapper?: StudioCategoryBoxWrapperType;
+    boxWrapper?: StudioCategoryBoxWrapper;
     multipleChoice?: boolean; // default true
   };
 

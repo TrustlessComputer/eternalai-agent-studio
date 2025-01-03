@@ -1,7 +1,7 @@
 import { DataSource } from '../types/data-source';
 
 export const AGENT_DATA_SOURCE: Record<string, DataSource[]> = {
-  'personality-data-source': [
+  'personality_data_source': [
     {
       value: 'custom',
       label: 'New Personality',
@@ -19,7 +19,7 @@ export const AGENT_DATA_SOURCE: Record<string, DataSource[]> = {
       label: 'Import from Token',
     },
   ],
-  'network-data-source': [
+  'network_data_source': [
     {
       value: 'base',
       label: 'Base',
@@ -33,7 +33,7 @@ export const AGENT_DATA_SOURCE: Record<string, DataSource[]> = {
       label: 'BNB',
     },
   ],
-  'token-data-source': [
+  'token_data_source': [
     {
       value: 'base',
       label: 'Base',
@@ -47,7 +47,7 @@ export const AGENT_DATA_SOURCE: Record<string, DataSource[]> = {
       label: 'BNB',
     },
   ],
-  'ai-framework-data-source': [
+  'ai_framework_data_source': [
     {
       value: 'eternal-ai',
       label: 'Eternal AI',

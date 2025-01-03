@@ -13,12 +13,12 @@ class CategoryColorDatabase {
   constructor() {
     try {
       this.db = new Dexie(this.databaseName) as Dexie & {
-        category: EntityTable<PersistedStudioCategoryColorItem, 'key'>;
+        category: EntityTable<PersistedStudioCategoryColorItem, 'idx'>;
       };
 
       // for version 1
       this.db.version(1).stores({
-        category: 'key, color, createdAt',
+        category: 'idx, color, createdAt',
       });
     } catch (e) {
       //
@@ -27,7 +27,7 @@ class CategoryColorDatabase {
 
   private async getItem(idx: string) {
     try {
-      return await this.db?.category.get(key);
+      return await this.db?.category.get(idx);
     } catch (e) {
       //
     }

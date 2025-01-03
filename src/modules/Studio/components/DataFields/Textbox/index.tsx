@@ -4,6 +4,8 @@ import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import NoDraggable from '../../DnD/NoDraggable';
 import { DataSchema } from '@/modules/Studio/types/category';
 import { useFormFunction } from '@/modules/Studio/hooks/useFormFunction';
+import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
+import { useMemo } from 'react';
 
 type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
   formId: string;
@@ -14,6 +16,7 @@ type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
 };
 
 function Textbox({ formId, placeholder, className, name, readonly, fieldKey, ...rest }: Props) {
+  // const data = useStudioDataStore((state) => state.data);
   const formFunctions = useFormFunction(fieldKey);
   const dataForms = useStudioFormStore((state) => state.dataForms);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
@@ -27,7 +30,17 @@ function Textbox({ formId, placeholder, className, name, readonly, fieldKey, ...
     }
   };
 
-  const isError = !(formFunctions?.onFieldValidate?.(name, value) ?? true);
+  const isError = useMemo(() => {
+    return !(
+      formFunctions?.onFieldValidate?.(name, value, {
+        formId,
+        formData: dataForms[formId],
+        allFormData: dataForms,
+        data: useStudioDataStore.getState().data,
+      }) ?? true
+    );
+    // do not update dependencies
+  }, [name, value]);
 
   return (
     <NoDraggable>

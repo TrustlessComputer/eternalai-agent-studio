@@ -91,6 +91,16 @@ export type StudioOptionCustomizeRender = {
   customizeRenderOnBoard?: (data: StudioCategoryOptionRenderPayload) => ReactNode;
 };
 
+export type StudioFormFieldValidate = (
+  field: string,
+  value: unknown,
+  other: {
+    formId: string;
+    formData: FormDataMap;
+    allFormData: FormDataMap;
+    data: StudioDataNode[];
+  },
+) => boolean;
 export type StudioCategoryFormFunction = {
   // /**
   //  * onFormChange
@@ -126,7 +136,7 @@ export type StudioCategoryFormFunction = {
   //  * @param onUpdateToStore update form data to store
   //  * @returns
   //  */
-  onFieldValidate?: (field: string, value: unknown) => boolean;
+  onFieldValidate?: StudioFormFieldValidate;
 };
 
 export type StudioCategoryOption = BaseCategory &

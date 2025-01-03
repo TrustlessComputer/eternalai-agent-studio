@@ -58,14 +58,14 @@ const LegoRenderBase = ({ background, icon, id, schemadata, title, idx, readonly
 };
 
 const LegoRenderCustomization = ({ background, icon, id, idx, render, title }: Props) => {
-  const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
+  const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
   const allFormData = useStudioFormStore((state) => state.formMap);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
 
   const data = useStudioDataStore((state) => state.data);
 
   const formData = allFormData[id];
-  const option = categoryMap[idx];
+  const option = categoryOptionMap[idx];
 
   const specifyFormFields = useCallback(
     (fields: FormDataMap) => {

@@ -215,6 +215,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
 
   updateCategoriesForEntry: (entry) => {
     const { rootCategory, categoryMap, categories } = get();
+
     if (rootCategory) {
       if (entry) {
         const newCategories = categories.map((item) => {
@@ -223,12 +224,12 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
               ...item,
               disabled: true,
             };
-          } else {
-            return {
-              ...item,
-              disabled: categoryMap[item.idx]?.disabled ?? false,
-            };
           }
+
+          return {
+            ...item,
+            disabled: categoryMap[item.idx]?.disabled ?? false,
+          };
         });
 
         set({ categories: newCategories });

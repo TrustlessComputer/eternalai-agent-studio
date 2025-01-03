@@ -10,14 +10,16 @@ import { adjustColorShade } from '@/modules/Studio/utils/ui';
 
 import './CategoryNavigation.scss';
 
-type Props = StudioCategory;
+type Props = StudioCategory & {
+  categoryKey: string;
+};
 
-const CategoryNavigation = ({ key, icon, title, color = '#CC6234', customizeRenderOnNavigation }: Props) => {
+const CategoryNavigation = ({ categoryKey, icon, title, color = '#CC6234', customizeRenderOnNavigation }: Props) => {
   const { filters, setFilters } = useStudioCategoryStore();
 
   const isActive = useMemo(() => {
-    return filters.includes(key) || filters.length === 0;
-  }, [filters, key]);
+    return filters.includes(categoryKey) || filters.length === 0;
+  }, [filters, categoryKey]);
 
   if (customizeRenderOnNavigation && typeof customizeRenderOnNavigation === 'function') {
     return customizeRenderOnNavigation();
@@ -26,7 +28,7 @@ const CategoryNavigation = ({ key, icon, title, color = '#CC6234', customizeRend
   return (
     <div
       onClick={() => {
-        setFilters(key);
+        setFilters(categoryKey);
       }}
       className={cx('category-navigation', { 'category-navigation--active': isActive })}
       style={

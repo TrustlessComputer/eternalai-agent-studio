@@ -5,7 +5,7 @@ const AGENT: StudioCategory = {
   key: 'agent',
   title: 'Agent',
   required: true,
-  isRoot: true,
+  isRoot: false,
   options: [
     {
       key: 'agent-option-1',

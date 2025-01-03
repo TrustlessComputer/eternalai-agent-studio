@@ -6,7 +6,7 @@ const AGENT: StudioCategory = {
   title: 'Agent',
   required: true,
   icon: LegoComponentIcon,
-  isRoot: true,
+  isRoot: false,
   options: [
     {
       key: 'agent-option-1',

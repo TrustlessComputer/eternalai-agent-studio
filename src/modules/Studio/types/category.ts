@@ -24,7 +24,6 @@ type BaseCategory = {
   order?: number;
   data?: DataSchema;
   color?: string;
-  maxPlaceableAmount?: number; // -1 or undefined is unlimited
 };
 
 export enum StudioCategoryType {
@@ -165,10 +164,10 @@ export type StudioCategoryOption = BaseCategory &
     multipleChoice?: boolean; // default true
   };
 
-export type StudioCategory = Omit<BaseCategory, 'value' | 'data' | 'maxPlaceableAmount'> & {
+export type StudioCategory = Omit<BaseCategory, 'value' | 'data'> & {
   options: StudioCategoryOption[];
   isRoot?: boolean; // default is false. have only one root in entire category
-  multipleOption?: boolean; // default false
+  multipleOption?: boolean; // default true
   customizeRenderOnNavigation?: () => ReactNode;
 };
 

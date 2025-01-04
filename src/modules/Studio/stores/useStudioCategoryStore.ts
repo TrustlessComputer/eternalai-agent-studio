@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { COLOR_PALETTES, POPULAR } from '../constants/color-palettes';
 import { DEFAULT_CATEGORY_TYPE } from '../constants/default-values';
-import categoryColorDatabase from '../database/category-color-database';
+// import categoryColorDatabase from '../database/category-color-database';
 import { StudioDataNode } from '../types/graph';
 import { StudioCategory, StudioCategoryMapValue, StudioCategoryOptionMapValue } from '../types';
 
@@ -35,16 +35,16 @@ type Store = {
   clear: () => void;
 };
 
-const persistCategoryColor = async (idx: string, color: string) => {
-  try {
-    await categoryColorDatabase.upsertItem({
-      idx,
-      color,
-    });
-  } catch (e) {
-    //
-  }
-};
+// const persistCategoryColor = async (idx: string, color: string) => {
+//   try {
+//     await categoryColorDatabase.upsertItem({
+//       idx,
+//       color,
+//     });
+//   } catch (e) {
+//     //
+//   }
+// };
 
 const popularUsagedCollection: Record<string, string> = {};
 const pickFromPopularColorFirst = (idx: string, color?: string) => {
@@ -76,8 +76,7 @@ const getCategoryColor = (colorCollection: Record<string, string>, idx: string, 
   if (popularColor) {
     colorCollection[popularColor] = popularColor;
 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    persistCategoryColor(idx, popularColor);
+    // persistCategoryColor(idx, popularColor);
 
     return popularColor;
   }
@@ -93,8 +92,7 @@ const getCategoryColor = (colorCollection: Record<string, string>, idx: string, 
 
   colorCollection[newColor] = newColor;
 
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  persistCategoryColor(idx, newColor);
+  // persistCategoryColor(idx, newColor);
 
   return newColor;
 };
@@ -125,7 +123,8 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
   },
 
   setCategories: async (categories) => {
-    const existingCollection = await categoryColorDatabase.getAllItemsToMap();
+    // const existingCollection = await categoryColorDatabase.getAllItemsToMap();
+    const existingCollection: Record<string, string> = {};
 
     const colorCollection: Record<string, string> = {};
     const pipeData = (categories || [])

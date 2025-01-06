@@ -2,20 +2,20 @@ import { useMemo } from 'react';
 
 import Package from '../../../DnD/Package';
 import Product from '../../../DnD/Product';
-import BaseNodeConnection from '../BaseNodeConnection';
-import BaseNodeWrapper from '../BaseNodeWrapper';
 import LegoRender from '../LegoRender';
+import BaseNodeConnection from '../NodeBaseConnection';
+import NodeBaseWrapper from '../NodeBaseWrapper';
 import { BaseNodeProps } from '../types';
 
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 import { DraggableData } from '@/modules/Studio/types/dnd';
 
-import './BaseNodeSingleItem.scss';
+import './NodeSingle.scss';
 
 type Props = BaseNodeProps;
 
-const BaseNodeSingleItem = ({ data }: Props) => {
+const NodeSingle = ({ data }: Props) => {
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
 
   const idx = data.metadata.idx;
@@ -30,9 +30,9 @@ const BaseNodeSingleItem = ({ data }: Props) => {
   const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
-    <BaseNodeWrapper option={option}>
-      <div className="base-node-wrapper">
-        <div className="base-node-wrapper__single">
+    <NodeBaseWrapper option={option}>
+      <div className="node-base">
+        <div className="node-base__single">
           <Product id={data.id} data={productData}>
             <LegoRender
               background={option?.color}
@@ -49,8 +49,8 @@ const BaseNodeSingleItem = ({ data }: Props) => {
         <Package id={data.id} data={packageData} />
         <BaseNodeConnection />
       </div>
-    </BaseNodeWrapper>
+    </NodeBaseWrapper>
   );
 };
 
-export default BaseNodeSingleItem;
+export default NodeSingle;

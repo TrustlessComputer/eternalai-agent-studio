@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Dexie, { type EntityTable } from 'dexie';
 
 type PersistedStudioCategoryColorItem = {

@@ -17,6 +17,16 @@ type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
   fieldKey: string;
 };
 
+/**
+ * Textbox component for form input
+ * @param {Object} props - Component props
+ * @param {string} props.formId - Unique identifier for the form
+ * @param {string} props.name - Field name in the form
+ * @param {boolean} props.readonly - Whether the field is read-only
+ * @param {DataSchema} props.schemadata - Schema definition for the field
+ * @param {string} props.fieldKey - Unique key for field validation
+ * @returns {JSX.Element} Rendered textbox component
+ */
 function Textbox({ formId, placeholder, className, name, readonly, fieldKey, ...rest }: Props) {
   const formFunctions = useFormFunction(fieldKey);
 
@@ -41,7 +51,8 @@ function Textbox({ formId, placeholder, className, name, readonly, fieldKey, ...
         data: useStudioDataStore.getState().data,
       }) ?? true
     );
-    // do not update dependencies
+
+    // No need to add onFieldValidate to dependencies
   }, [name, value]);
 
   return (

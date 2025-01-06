@@ -6,7 +6,7 @@ import { StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 
 type Props = BaseNodeProps;
 
-const BaseNodeReadOnly = ({ data }: Props) => {
+const NodeBaseReadOnly = ({ data }: Props) => {
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
 
   const idx = data.metadata.idx;
@@ -27,4 +27,4 @@ const BaseNodeReadOnly = ({ data }: Props) => {
   );
 };
 
-export default BaseNodeReadOnly;
+export default NodeBaseReadOnly;

@@ -1,7 +1,7 @@
 export enum NodeType {
-  BASE_NODE = 'BaseNode',
+  NODE_BASE = 'NodeBase',
 }
 
 export enum EdgeType {
-  BASE_EDGE = 'BaseEdge',
+  EDGE_BASE = 'EdgeBase',
 }

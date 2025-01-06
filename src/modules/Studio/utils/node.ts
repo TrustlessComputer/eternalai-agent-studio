@@ -5,10 +5,17 @@ import { StudioDataNode, StudioNode, StudioNodeMetadata } from '../types/graph';
 
 import { NodeType } from '@/enums/node-type';
 
+/**
+ * Creates configuration for a new base node
+ * @param {string} id - Unique node identifier
+ * @param {XYPosition} position - Node position coordinates
+ * @param {StudioNodeMetadata} metadata - Node metadata
+ * @returns {StudioNode} New node configuration
+ */
 export const createNewBaseNode = (id: string, position: XYPosition, metadata: StudioNodeMetadata): StudioNode => {
   return {
     id,
-    type: NodeType.BASE_NODE,
+    type: NodeType.NODE_BASE,
     position,
     data: {
       sourceHandles: [],

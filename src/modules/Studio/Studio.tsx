@@ -17,7 +17,8 @@ import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
 import useStudioDataStore from './stores/useStudioDataStore';
 import { DataSource, FormDataMap, StudioCategory, StudioDataNode } from './types';
 
-export type StudioProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
+export type StudioProps = {
+  className?: string;
   data: StudioDataNode[];
   categories: StudioCategory[];
   dataSource?: Record<string, DataSource[]>;
@@ -88,7 +89,7 @@ const StudioComponent = ({
   );
 };
 
-export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioProps, ref): React.ReactNode => {
+export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioProps, ref) => {
   const { redraw, cleanup, getOptionPlaceQuantity, checkOptionIsPlaced, getFormDataById } = useStudio();
 
   useImperativeHandle(

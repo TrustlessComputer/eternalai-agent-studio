@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 type Props = {
-  data: React.ReactNode | FunctionComponent;
+  data: React.ReactNode | FunctionComponent | string;
   size?: number;
 };
 

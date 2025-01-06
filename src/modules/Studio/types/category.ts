@@ -21,7 +21,7 @@ export type BaseCategory = {
   required?: boolean;
   disabled?: boolean;
   hidden?: boolean;
-  icon?: React.ReactNode | FunctionComponent;
+  icon?: React.ReactNode | FunctionComponent | string;
   order?: number;
   data?: DataSchema;
   color?: string;

@@ -18,8 +18,8 @@ type Props = Omit<React.ComponentPropsWithoutRef<'textarea'>, 'defaultValue'> & 
 };
 
 function TextArea({ formId, placeholder, className, name, readonly, fieldKey, ...rest }: Props) {
-  // const data = useStudioDataStore((state) => state.data);
   const formFunctions = useFormFunction(fieldKey);
+
   const formMap = useStudioFormStore((state) => state.formMap);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
 
@@ -41,7 +41,8 @@ function TextArea({ formId, placeholder, className, name, readonly, fieldKey, ..
         data: useStudioDataStore.getState().data,
       }) ?? true
     );
-    // do not update dependencies
+
+    // No need to add onFieldValidate to dependencies
   }, [name, value]);
 
   return (

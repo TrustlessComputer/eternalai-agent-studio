@@ -2,23 +2,23 @@ import { useMemo } from 'react';
 
 import Package from '../../../DnD/Package';
 import Product from '../../../DnD/Product';
-import BaseNodeConnection from '../BaseNodeConnection';
-import BaseNodeReadOnly from '../BaseNodeReadOnly';
-import BaseNodeWrapper from '../BaseNodeWrapper';
-import ChildBaseNode from '../ChildBaseNode';
 import DraggingFloating from '../DraggingFloating';
 import LegoRender from '../LegoRender';
+import NodeBaseChild from '../NodeBaseChild';
+import BaseNodeConnection from '../NodeBaseConnection';
+import NodeBaseReadOnly from '../NodeBaseReadOnly';
+import NodeBaseWrapper from '../NodeBaseWrapper';
 import { BaseNodeProps } from '../types';
 
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { StudioCategoryOption } from '@/modules/Studio/types';
 import { DraggableData } from '@/modules/Studio/types/dnd';
-import './BaseNodeStacks.scss';
+import './NodeStacks.scss';
 
 type Props = BaseNodeProps;
 
-const BaseNodeStacks = ({ data, ...rest }: Props) => {
+const NodeStacks = ({ data, ...rest }: Props) => {
   const draggingData = useStudioDndStore((state) => state.draggingData);
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
   const children = data?.metadata?.children;
@@ -41,14 +41,14 @@ const BaseNodeStacks = ({ data, ...rest }: Props) => {
   const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
-    <BaseNodeWrapper option={option}>
-      <div className="base-node-wrapper">
+    <NodeBaseWrapper option={option}>
+      <div className="node-base">
         <Product
           id={data.id}
           data={productData}
           draggingFloating={
             <div>
-              <BaseNodeReadOnly {...rest} data={data} />
+              <NodeBaseReadOnly {...rest} data={data} />
               {renderChildren.map((item) => (
                 <DraggingFloating key={`dragging-floating-${data.id}-${item.id}`} data={item} />
               ))}
@@ -67,9 +67,9 @@ const BaseNodeStacks = ({ data, ...rest }: Props) => {
         </Product>
 
         {renderChildren?.map((item, index) => (
-          <ChildBaseNode
+          <NodeBaseChild
             index={index}
-            key={`base-node-child-${data.id}-${item.id}`}
+            key={`node-base-child-${data.id}-${item.id}`}
             data={item}
             items={children}
             belongsTo={data.id}
@@ -79,8 +79,8 @@ const BaseNodeStacks = ({ data, ...rest }: Props) => {
         <Package id={data.id} data={packageData} />
         <BaseNodeConnection />
       </div>
-    </BaseNodeWrapper>
+    </NodeBaseWrapper>
   );
 };
 
-export default BaseNodeStacks;
+export default NodeStacks;

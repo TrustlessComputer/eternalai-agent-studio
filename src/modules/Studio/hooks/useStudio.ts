@@ -14,11 +14,8 @@ import useStudioFormStore from '../stores/useStudioFormStore';
 import { StudioDataNode } from '../types/graph';
 import { getFieldDataFromRawData } from '../utils/data';
 import { transformDataToNodes } from '../utils/node';
-// import { useReactFlow } from '@xyflow/react';
 
 export const useStudio = () => {
-  // const { setCenter } = useReactFlow();
-
   const cleanup = useCallback(() => {
     useStudioCategoryStore.getState().clear();
     useStudioFlowStore.getState().clear();

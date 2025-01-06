@@ -6,10 +6,10 @@ import CategoryGroup from './CategoryGroup';
 import SidebarOverlay from './SidebarOverlay';
 import SidebarTab from './SidebarTab';
 import { SidebarSide } from '../../enums/side';
+import { TabBehavior } from '../../enums/tab';
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
 import useStudioConfigStore from '../../stores/useStudioConfigStore';
 import Factory from '../DnD/Factory';
-import { TabBehavior } from '../../enums/tab';
 
 const Sidebar = () => {
   const tabBehavior = useStudioConfigStore((state) => state.config.tabBehavior);

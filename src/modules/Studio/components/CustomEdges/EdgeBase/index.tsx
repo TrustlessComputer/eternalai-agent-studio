@@ -8,9 +8,9 @@ import {
 import React, { memo } from 'react';
 
 import { getEdgeParams } from '@/modules/Studio/utils/edge';
-import './BaseEdge.scss';
+import './EdgeBase.scss';
 
-const BaseEdge = ({ id, source, target, markerEnd, style, label }: EdgeProps) => {
+const EdgeBase = ({ id, source, target, markerEnd, style, label }: EdgeProps) => {
   const sourceNode = useInternalNode(source);
   const targetNode = useInternalNode(target);
   const { sx, sy, tx, ty, sourcePos, targetPos } = getEdgeParams(sourceNode, targetNode);
@@ -42,4 +42,4 @@ const BaseEdge = ({ id, source, target, markerEnd, style, label }: EdgeProps) =>
   );
 };
 
-export default memo(BaseEdge);
+export default memo(EdgeBase);

@@ -3,14 +3,33 @@ import { v4 } from 'uuid';
 
 import { EdgeType } from '@/enums/node-type';
 
+/**
+ * Generates a unique source handle ID
+ * @param {string} source - Source node ID
+ * @param {string} target - Target node ID
+ * @returns {string} Generated source handle ID
+ */
 export const generateSourceHandleId = (source: string, target: string) => {
   return `${source}-s-${target}`;
 };
 
+/**
+ * Generates a unique target handle ID
+ * @param {string} source - Source node ID
+ * @param {string} target - Target node ID
+ * @returns {string} Generated target handle ID
+ */
 export const generateTargetHandleId = (source: string, target: string) => {
   return `${target}-t-${source}`;
 };
 
+/**
+ * Creates a new base edge
+ * @param {string} source - Source node ID
+ * @param {string} target - Target node ID
+ * @param {boolean} animated - Whether the edge is animated
+ * @returns {Edge} New base edge
+ */
 export const createNewBaseEdge = (source: string, target: string, animated: boolean = false): Edge => {
   return {
     id: v4(),
@@ -18,7 +37,7 @@ export const createNewBaseEdge = (source: string, target: string, animated: bool
     sourceHandle: 'c',
     target,
     targetHandle: 'a',
-    type: EdgeType.BASE_EDGE,
+    type: EdgeType.EDGE_BASE,
     selectable: false,
     selected: false,
     focusable: false,

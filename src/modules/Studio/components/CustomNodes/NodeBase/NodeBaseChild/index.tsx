@@ -9,17 +9,14 @@ import { StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 import { DraggableData } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
 
-const ChildBaseNode = ({
-  data,
-  items,
-  index,
-  belongsTo,
-}: {
+type Props = {
   data: StudioNode;
   items: StudioNode[];
   index: number;
   belongsTo: string;
-}) => {
+};
+
+const NodeBaseChild = ({ data, items, index, belongsTo }: Props) => {
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
 
   const idx = data.data.metadata.idx;
@@ -57,4 +54,4 @@ const ChildBaseNode = ({
   );
 };
 
-export default ChildBaseNode;
+export default NodeBaseChild;

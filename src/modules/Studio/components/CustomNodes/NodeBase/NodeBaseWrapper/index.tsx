@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './BaseNodeWrapper.scss';
+import './NodeBaseWrapper.scss';
 import TextRender from '../../../Render/TextRender';
 
 import { StudioCategoryOption } from '@/modules/Studio/types/category';
@@ -9,25 +9,26 @@ type Props = {
   children: React.ReactNode;
   option: StudioCategoryOption;
 };
-function BaseNodeWrapper({ option, children }: Props) {
-  if (option?.boxWrapper) {
-    if (option.boxWrapper.title) {
-      return (
-        <div className="studio-base-node-wrapper">
-          <div className="studio-base-node-wrapper__title">
-            <TextRender data={option.boxWrapper.title} />
-          </div>
-          <div className="studio-base-node-wrapper__content">{children}</div>
-        </div>
-      );
-    }
 
+function NodeBaseWrapper({ option, children }: Props) {
+  if (option?.boxWrapper) {
     if (option.boxWrapper.render) {
       return option.boxWrapper.render(children, option);
+    }
+
+    if (option.boxWrapper.title) {
+      return (
+        <div className="node-base-wrapper">
+          <div className="node-base-wrapper__title">
+            <TextRender data={option.boxWrapper.title} />
+          </div>
+          <div className="node-base-wrapper__content">{children}</div>
+        </div>
+      );
     }
   }
 
   return <>{children}</>;
 }
 
-export default BaseNodeWrapper;
+export default NodeBaseWrapper;

@@ -96,6 +96,7 @@ const LegoRenderCustomization = ({ background, icon, id, idx, render, title }: P
           </div>
           <NoDraggable className="studio-customize-content__no-draggable">
             {render({
+              id,
               option,
               formData: formData || {},
               setFormFields: specifyFormFields,

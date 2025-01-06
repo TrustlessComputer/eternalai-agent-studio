@@ -35,64 +35,24 @@ type Store = {
   clear: () => void;
 };
 
-// const persistCategoryColor = async (idx: string, color: string) => {
-//   try {
-//     await categoryColorDatabase.upsertItem({
-//       idx,
-//       color,
-//     });
-//   } catch (e) {
-//     //
-//   }
-// };
+let colorUsedCollection: Record<string, string> = {};
 
-const popularUsagedCollection: Record<string, string> = {};
-const pickFromPopularColorFirst = (idx: string, color?: string) => {
+const COLOR_COMBINATION = [...POPULAR, ...COLOR_PALETTES];
+const pickColorFromPalettes = (colorIndex: number, color?: string) => {
   if (color) {
+    colorUsedCollection[color] = color;
+
     return color;
   }
 
-  // random color
-  const max = POPULAR.length;
-  const randomIndex = Math.floor(Math.random() * max);
-  const newColor = POPULAR[randomIndex];
+  const newColor = COLOR_COMBINATION[colorIndex];
 
   // check if color is already used
-  if (popularUsagedCollection[newColor]) {
-    return pickFromPopularColorFirst(idx);
+  if (colorUsedCollection[newColor]) {
+    return pickColorFromPalettes(colorIndex + 1);
   }
 
-  popularUsagedCollection[newColor] = newColor;
-
-  return newColor;
-};
-
-const getCategoryColor = (colorCollection: Record<string, string>, idx: string, color?: string) => {
-  if (color) {
-    return color;
-  }
-
-  const popularColor = pickFromPopularColorFirst(idx, color);
-  if (popularColor) {
-    colorCollection[popularColor] = popularColor;
-
-    // persistCategoryColor(idx, popularColor);
-
-    return popularColor;
-  }
-  // random color
-  const max = COLOR_PALETTES.length;
-  const randomIndex = Math.floor(Math.random() * max);
-  const newColor = COLOR_PALETTES[randomIndex];
-
-  // check if color is already used
-  if (colorCollection[newColor]) {
-    return getCategoryColor(colorCollection, idx);
-  }
-
-  colorCollection[newColor] = newColor;
-
-  // persistCategoryColor(idx, newColor);
+  colorUsedCollection[newColor] = newColor;
 
   return newColor;
 };
@@ -123,16 +83,13 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
   },
 
   setCategories: async (categories) => {
-    // const existingCollection = await categoryColorDatabase.getAllItemsToMap();
-    const existingCollection: Record<string, string> = {};
-
-    const colorCollection: Record<string, string> = {};
+    colorUsedCollection = {};
     const pipeData = (categories || [])
       .map((item) => {
         const options = item.options
           .map((option) => {
             if (option.color) {
-              colorCollection[option.color] = option.color;
+              colorUsedCollection[option.color] = option.color;
             }
 
             return {
@@ -146,7 +103,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
           .sort((a, b) => a.order - b.order);
 
         if (item.color) {
-          colorCollection[item.color] = item.color;
+          colorUsedCollection[item.color] = item.color;
         }
 
         return {
@@ -160,7 +117,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
         // generate color for category
         return {
           ...item,
-          color: getCategoryColor(colorCollection, item.idx, item.color || existingCollection[item.idx]),
+          color: pickColorFromPalettes(0, item.color),
         };
       })
       .map((item) => {
@@ -168,7 +125,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
         const options = item.options.map((option) => {
           return {
             ...option,
-            color: getCategoryColor(colorCollection, option.idx, option.color || existingCollection[option.idx] || item.color),
+            color: pickColorFromPalettes(0, option.color || item.color),
           };
         });
 

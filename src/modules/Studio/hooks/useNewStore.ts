@@ -37,7 +37,7 @@ const createNewStore = <T>(id: string, initialData?: T) => {
 
 type StoreWithAttributes<T> = {
   dataStore: T;
-  addData: (data: T) => void;
+  addData: (data: Partial<T>) => void;
   addDataField: (key: string, value: unknown) => void;
 };
 

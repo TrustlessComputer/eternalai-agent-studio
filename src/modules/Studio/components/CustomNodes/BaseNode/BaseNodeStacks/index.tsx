@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import Package from '../../../DnD/Package';
 import Product from '../../../DnD/Product';
 import BaseNodeConnection from '../BaseNodeConnection';
-import BaseNodeReadOnly from '../BaseNodeReadOnly';
+import BaseNodeReadOnly from '../BaseNodeReadonly';
 import BaseNodeWrapper from '../BaseNodeWrapper';
 import ChildBaseNode from '../ChildBaseNode';
 import DraggingFloating from '../DraggingFloating';

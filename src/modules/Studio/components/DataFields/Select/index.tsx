@@ -1,12 +1,14 @@
 import cs from 'clsx';
 import './Select.scss';
-import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { useMemo } from 'react';
-import useStudioDataSourceStore from '@/modules/Studio/stores/useStudioDataSourceStore';
+
 import NoDraggable from '../../DnD/NoDraggable';
-import { DataSchema } from '@/modules/Studio/types/category';
+
 import { useFormFunction } from '@/modules/Studio/hooks/useFormFunction';
+import useStudioDataSourceStore from '@/modules/Studio/stores/useStudioDataSourceStore';
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
+import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
+import { DataSchema } from '@/modules/Studio/types/category';
 
 type Props = Omit<React.ComponentPropsWithoutRef<'select'>, 'defaultValue'> & {
   formId: string;

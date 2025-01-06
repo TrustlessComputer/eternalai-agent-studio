@@ -1,21 +1,23 @@
-import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
-import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
-import { DraggableData } from '@/modules/Studio/types/dnd';
 import { useMemo } from 'react';
+
 import Package from '../../../DnD/Package';
 import Product from '../../../DnD/Product';
 import BaseNodeConnection from '../BaseNodeConnection';
-import BaseNodeReadOnly from '../BaseNodeReadonly';
+import BaseNodeReadOnly from '../BaseNodeReadOnly';
 import BaseNodeWrapper from '../BaseNodeWrapper';
 import ChildBaseNode from '../ChildBaseNode';
 import DraggingFloating from '../DraggingFloating';
 import LegoRender from '../LegoRender';
 import { BaseNodeProps } from '../types';
 
-import './BaseNodeStacks.scss';
+import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
+import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { StudioCategoryOption } from '@/modules/Studio/types';
+import { DraggableData } from '@/modules/Studio/types/dnd';
+import './BaseNodeStacks.scss';
 
 type Props = BaseNodeProps;
+
 const BaseNodeStacks = ({ data, ...rest }: Props) => {
   const draggingData = useStudioDndStore((state) => state.draggingData);
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);

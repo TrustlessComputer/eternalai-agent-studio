@@ -1,12 +1,13 @@
-import { memo, useMemo } from 'react';
 import cx from 'clsx';
-import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
-import Factory from '../DnD/Factory';
+import { memo, useMemo } from 'react';
+
 import CategoryGroup from './CategoryGroup';
 import CategoryNavigation from './CategoryNavigation';
-import './Sidebar.scss';
 import SidebarOverlay from './SidebarOverlay';
 import { SidebarSide } from '../../enums/side';
+import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
+import Factory from '../DnD/Factory';
+import './Sidebar.scss';
 
 type Props = {
   sidebarSide: SidebarSide;

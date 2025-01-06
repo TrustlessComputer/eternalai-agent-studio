@@ -1,7 +1,9 @@
-import { NodeType } from '@/enums/node-type';
 import { XYPosition } from '@xyflow/react';
-import { AreaClassName } from '../constants/area-class-name';
+
+import { AREA_CLASS_NAMES } from '../constants/area-class-names';
 import { StudioDataNode, StudioNode, StudioNodeMetadata } from '../types/graph';
+
+import { NodeType } from '@/enums/node-type';
 
 export const createNewBaseNode = (id: string, position: XYPosition, metadata: StudioNodeMetadata): StudioNode => {
   return {
@@ -14,7 +16,7 @@ export const createNewBaseNode = (id: string, position: XYPosition, metadata: St
       id,
       metadata,
     },
-    dragHandle: `.${AreaClassName.DRAG_HANDLE}`,
+    dragHandle: `.${AREA_CLASS_NAMES.DRAG_HANDLE}`,
   } satisfies StudioNode;
 };
 

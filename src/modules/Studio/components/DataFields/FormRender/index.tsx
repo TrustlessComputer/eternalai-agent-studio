@@ -1,9 +1,10 @@
-import { DataSchema } from '@/modules/Studio/types/category';
 import { useMemo } from 'react';
+
 import Select from '../Select';
 import TextArea from '../TextArea';
 import Textbox from '../Textbox';
 
+import { DataSchema } from '@/modules/Studio/types/category';
 import './FormRender.scss';
 
 type Props = React.PropsWithChildren & {

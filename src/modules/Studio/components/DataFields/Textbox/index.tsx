@@ -1,11 +1,13 @@
 import cs from 'clsx';
 import './Textbox.scss';
-import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
+import { useMemo } from 'react';
+
 import NoDraggable from '../../DnD/NoDraggable';
-import { DataSchema } from '@/modules/Studio/types/category';
+
 import { useFormFunction } from '@/modules/Studio/hooks/useFormFunction';
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
-import { useMemo } from 'react';
+import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
+import { DataSchema } from '@/modules/Studio/types/category';
 
 type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
   formId: string;
@@ -16,8 +18,8 @@ type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
 };
 
 function Textbox({ formId, placeholder, className, name, readonly, fieldKey, ...rest }: Props) {
-  // const data = useStudioDataStore((state) => state.data);
   const formFunctions = useFormFunction(fieldKey);
+
   const formMap = useStudioFormStore((state) => state.formMap);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
 

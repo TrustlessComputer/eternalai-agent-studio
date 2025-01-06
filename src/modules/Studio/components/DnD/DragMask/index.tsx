@@ -1,6 +1,7 @@
-import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { DragOverlay } from '@dnd-kit/core';
 import { memo } from 'react';
+
+import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 
 const DragMask = () => {
   const draggingElement = useStudioDndStore((state) => state.draggingElement);

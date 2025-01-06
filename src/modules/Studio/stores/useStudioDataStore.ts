@@ -1,8 +1,8 @@
-import { create } from 'zustand';
 import { v4 } from 'uuid';
+import { create } from 'zustand';
 
-import { StudioDataNode } from '../types/graph';
 import { DEFAULT_DISABLED_CONNECTION } from '../constants/default-values';
+import { StudioDataNode } from '../types/graph';
 
 type Store = {
   entry: StudioDataNode | null;

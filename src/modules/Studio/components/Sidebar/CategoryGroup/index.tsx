@@ -1,13 +1,13 @@
+import { useMemo } from 'react';
+
+import Source from '../../DnD/Source';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
 import TextRender from '../../Render/TextRender';
 
-import { StudioCategory } from '@/modules/Studio/types/category';
-
-import { useMemo } from 'react';
-import Source from '../../DnD/Source';
-import './CategoryGroup.scss';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
+import { StudioCategory } from '@/modules/Studio/types';
+import './CategoryGroup.scss';
 
 type Props = StudioCategory;
 

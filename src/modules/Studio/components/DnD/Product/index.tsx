@@ -4,7 +4,7 @@ import cx from 'clsx';
 import { HTMLAttributes, memo, useEffect, useMemo } from 'react';
 
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
-import { DndZone, DraggableData } from '@/modules/Studio/types/dnd';
+import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
 import './Draggable.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
@@ -18,7 +18,7 @@ const Product = ({ id, data, disabled = false, children, draggingFloating, ...pr
   const extendedData = useMemo(() => {
     return {
       ...data,
-      type: DndZone.PRODUCT,
+      type: StudioZone.ZONE_PRODUCT,
     } satisfies DraggableData;
   }, [data]);
 

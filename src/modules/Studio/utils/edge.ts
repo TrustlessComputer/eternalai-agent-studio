@@ -1,13 +1,13 @@
 import { Edge, InternalNode, MarkerType, Node, Position, XYPosition } from '@xyflow/react';
-
-import { EdgeType } from '@/enums/node-type';
 import { v4 } from 'uuid';
 
-export const getSourceHandle = (source: string, target: string) => {
+import { EdgeType } from '@/enums/node-type';
+
+export const generateSourceHandleId = (source: string, target: string) => {
   return `${source}-s-${target}`;
 };
 
-export const getTargetHandle = (source: string, target: string) => {
+export const generateTargetHandleId = (source: string, target: string) => {
   return `${target}-t-${source}`;
 };
 

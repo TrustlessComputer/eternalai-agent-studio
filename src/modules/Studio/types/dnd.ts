@@ -1,5 +1,5 @@
 export type DraggableData = {
-  type: DndZone;
+  type: StudioZone;
   categoryKey?: string;
   optionKey?: string;
   belongsTo?: string;
@@ -7,12 +7,11 @@ export type DraggableData = {
   isRoot?: boolean;
 };
 
-export enum DndZone {
-  FACTORY = 'factory',
-  SOURCE = 'source',
-  PRODUCT = 'product',
-  PRODUCT_ADDON = 'product_addon',
-  ADDON = 'addon',
-  PACKAGE = 'package',
-  DISTRIBUTION = 'distribution',
+export enum StudioZone {
+  ZONE_FACTORY = 'factory',
+  ZONE_SOURCE = 'source',
+  ZONE_PRODUCT = 'product',
+  ZONE_PRODUCT_ADDON = 'product_addon',
+  ZONE_PACKAGE = 'package',
+  ZONE_DISTRIBUTION = 'distribution',
 }

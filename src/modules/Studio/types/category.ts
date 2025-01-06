@@ -1,4 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react';
+
 import { FormDataMap, Key } from './base';
 import { StudioDataNode, StudioNode } from './graph';
 import { StudioCategoryType } from '../enums/category';
@@ -71,7 +72,7 @@ export type StudioCategoryDragDropFunction = {
   onAddValidate?: (data: OnAddPayload) => boolean; // add option to node directly
 };
 
-export type StudioCategoryBoxWrapper = {
+export type StudioCategoryBoxWrapperProps = {
   draggable?: boolean;
   title?: React.ReactNode | FunctionComponent;
   render?: (children: React.ReactNode, option: StudioCategoryOption) => ReactNode;
@@ -150,7 +151,7 @@ export type StudioCategoryOption = BaseCategory &
   StudioCategoryFormFunction &
   StudioOptionCustomizeRender & {
     type?: StudioCategoryType; // default is inline
-    boxWrapper?: StudioCategoryBoxWrapper;
+    boxWrapper?: StudioCategoryBoxWrapperProps;
     multipleChoice?: boolean; // default true
   };
 

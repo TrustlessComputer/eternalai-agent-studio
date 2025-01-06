@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { XYPosition } from '@xyflow/react';
+import React from 'react';
 
 type Props = {
   ref: React.RefObject<unknown | null>;

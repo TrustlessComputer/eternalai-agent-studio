@@ -1,13 +1,15 @@
-import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
-import { DndZone } from '@/modules/Studio/types/dnd';
 import { memo } from 'react';
+
 import Overlay from '../../Overlay';
+
+import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
+import { StudioZone } from '@/modules/Studio/types/dnd';
 
 const SidebarOverlay = () => {
   const { draggingData, draggingElement } = useStudioDndStore();
 
   return (
-    <Overlay active={!!draggingData && draggingData.type === DndZone.PRODUCT && !!draggingElement}>
+    <Overlay active={!!draggingData && draggingData.type === StudioZone.ZONE_PRODUCT && !!draggingElement}>
       <></>
     </Overlay>
   );

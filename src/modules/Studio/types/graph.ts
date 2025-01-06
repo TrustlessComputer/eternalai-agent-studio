@@ -1,5 +1,6 @@
 import { Node, XYPosition } from '@xyflow/react';
 import { FunctionComponent } from 'react';
+
 import { FormDataMap, Key } from './base';
 
 export type StudioNodeMetadata = Record<string, unknown> & {

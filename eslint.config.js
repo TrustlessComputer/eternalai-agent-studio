@@ -1,13 +1,14 @@
 import js from '@eslint/js';
-import globals from 'globals';
-import reactHooks from 'eslint-plugin-react-hooks';
-import reactRefresh from 'eslint-plugin-react-refresh';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
 import configPrettier from 'eslint-config-prettier';
+import pluginImport from 'eslint-plugin-import';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import pluginReact from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import pluginImport from 'eslint-plugin-import';
+
 export default tseslint.config(
   {
     ignores: ['dist', '.git', '.npmrc', '.yarnrc', 'coverage', 'storybook-static', '.storybook', '.yarn', 'node_modules'],
@@ -32,40 +33,45 @@ export default tseslint.config(
       'prettier': eslintPluginPrettier,
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
       'prettier/prettier': 'error',
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-      'newline-before-return': 'warn',
-      'no-console': [
-        'warn',
-        {
-          allow: [
-            'info',
-            'warn',
-            'dir',
-            'timeLog',
-            'assert',
-            'clear',
-            'count',
-            'countReset',
-            'group',
-            'groupEnd',
-            'table',
-            'dirxml',
-            'error',
-            'groupCollapsed',
-            'Console',
-            'profile',
-            'profileEnd',
-            'timeStamp',
-            'context',
-          ],
-        },
-      ],
-      'no-debugger': 'warn',
-      'no-warning-comments': 'warn',
-      'object-shorthand': 'error',
-      'no-param-reassign': 'off',
+      '@typescript-eslint/no-deprecated': 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/unbound-method': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-use-before-define': ['error', { functions: false }],
+      '@typescript-eslint/no-floating-promises': ['error', { ignoreVoid: true }],
+      // '@typescript-eslint/naming-convention': [
+      //   'error',
+      //   {
+      //     selector: 'interface',
+      //     format: ['PascalCase'],
+      //     prefix: ['I'],
+      //   },
+      //   {
+      //     selector: 'typeAlias',
+      //     format: ['PascalCase'],
+      //     prefix: ['T'],
+      //   },
+      //   {
+      //     selector: 'enum',
+      //     format: ['PascalCase'],
+      //     prefix: ['E'],
+      //   },
+      //   {
+      //     selector: 'variable',
+      //     format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
+      //   },
+      //   {
+      //     selector: 'function',
+      //     format: ['camelCase', 'PascalCase'],
+      //   },
+      // ],
+      ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react/display-name': 'off',
       'react/prop-types': 'off',
@@ -89,24 +95,9 @@ export default tseslint.config(
           aspects: ['invalidHref'],
         },
       ],
-      // 'sort-imports': ['error', { 'ignoreCase': true, 'ignoreDeclarationSort': true }],
-      'sort-imports': ['warn', { 'ignoreCase': true, 'ignoreDeclarationSort': true }],
+      'sort-imports': ['warn', { ignoreCase: true, ignoreDeclarationSort: true }],
       'import/no-duplicates': 'error',
       'import/no-self-import': 'error',
-      // 'import/order': [
-      //   'error',
-      //   {
-      //     'newlines-between': 'always',
-      //     pathGroups: [
-      //       {
-      //         pattern: '$/**',
-      //         group: 'internal',
-      //       },
-      //     ],
-      //     pathGroupsExcludedImportTypes: ['builtin'],
-      //     groups: [['builtin', 'external'], ['internal'], ['parent', 'sibling', 'index'], 'unknown'],
-      //   },
-      // ],
       'import/no-cycle': [
         'error',
         {
@@ -114,17 +105,55 @@ export default tseslint.config(
           ignoreExternal: true,
         },
       ],
-      '@typescript-eslint/no-deprecated': 'warn',
-      '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/no-misused-promises': 'off',
-      '@typescript-eslint/unbound-method': 'off',
-      '@typescript-eslint/no-unsafe-return': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off',
-      '@typescript-eslint/no-unsafe-argument': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-use-before-define': ['error', { functions: false }],
-      '@typescript-eslint/no-floating-promises': ['error', { ignoreVoid: true }],
+      'import/order': [
+        'error',
+        {
+          'newlines-between': 'always',
+          pathGroups: [
+            {
+              pattern: '$/**',
+              group: 'internal',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
+          groups: [['builtin', 'external'], ['internal'], ['parent', 'sibling', 'index'], 'unknown'],
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
+        },
+      ],
+      'newline-before-return': 'warn',
+      'no-console': [
+        'warn',
+        {
+          allow: [
+            'info',
+            'warn',
+            'error',
+            'dir',
+            'timeLog',
+            'assert',
+            'clear',
+            'count',
+            'countReset',
+            'group',
+            'groupEnd',
+            'table',
+            'dirxml',
+            'groupCollapsed',
+            'Console',
+            'profile',
+            'profileEnd',
+            'timeStamp',
+            'context',
+          ],
+        },
+      ],
+      'no-debugger': 'warn',
+      'no-warning-comments': 'warn',
+      'object-shorthand': 'error',
+      'no-param-reassign': 'off',
     },
   },
 );

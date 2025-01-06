@@ -1,6 +1,6 @@
+import { SECOND } from './time';
 import { StudioCategoryType } from '../enums/category';
 import { BoardConfig } from '../types/config';
-import { SECOND } from './time';
 
 export const DEFAULT_DISABLED_CONNECTION = false;
 export const DEFAULT_CATEGORY_TYPE = StudioCategoryType.INLINE;

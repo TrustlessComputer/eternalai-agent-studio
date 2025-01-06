@@ -1,12 +1,3 @@
-import useDndAction from '@/modules/Studio/hooks/useDndAction';
-import useDndInteraction from '@/modules/Studio/hooks/useDndInteraction';
-import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
-import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
-import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
-import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
-import { StudioCategory, StudioCategoryMapValue, StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
-import { DndZone, DraggableData } from '@/modules/Studio/types/dnd';
-import { StudioNode } from '@/modules/Studio/types/graph';
 import {
   DndContext,
   DragAbortEvent,
@@ -22,6 +13,16 @@ import {
 } from '@dnd-kit/core';
 import { applyNodeChanges, XYPosition } from '@xyflow/react';
 import { PropsWithChildren, useCallback, useRef } from 'react';
+
+import useDndAction from '@/modules/Studio/hooks/useDndAction';
+import useDndInteraction from '@/modules/Studio/hooks/useDndInteraction';
+import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
+import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
+import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
+import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
+import { StudioCategory, StudioCategoryMapValue, StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
+import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
+import { StudioNode } from '@/modules/Studio/types/graph';
 
 function DndFlow({ children }: PropsWithChildren) {
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }));
@@ -114,9 +115,9 @@ function DndFlow({ children }: PropsWithChildren) {
       toNode,
     });
 
-    if (to === DndZone.DISTRIBUTION) {
+    if (to === StudioZone.ZONE_DISTRIBUTION) {
       // Create
-      if (from === DndZone.SOURCE) {
+      if (from === StudioZone.ZONE_SOURCE) {
         const isValid =
           fromOption?.onDropInValidate?.({
             option: fromOption,
@@ -133,7 +134,7 @@ function DndFlow({ children }: PropsWithChildren) {
       }
 
       // Split
-      if (from === DndZone.PRODUCT_ADDON && !isTheSameNode && fromNode) {
+      if (from === StudioZone.ZONE_PRODUCT_ADDON && !isTheSameNode && fromNode) {
         if (!fromData.belongsTo) return;
 
         const isValid =
@@ -154,9 +155,9 @@ function DndFlow({ children }: PropsWithChildren) {
       }
     }
 
-    if (to === DndZone.PACKAGE && toNode) {
+    if (to === StudioZone.ZONE_PACKAGE && toNode) {
       // Add
-      if (from === DndZone.SOURCE) {
+      if (from === StudioZone.ZONE_SOURCE) {
         const isValid =
           fromOption?.onAddValidate?.({
             option: fromOption,
@@ -177,7 +178,7 @@ function DndFlow({ children }: PropsWithChildren) {
       }
 
       // Merge
-      if (from === DndZone.PRODUCT && !isTheSameNode) {
+      if (from === StudioZone.ZONE_PRODUCT && !isTheSameNode) {
         if (!fromData.belongsTo || !fromNode || !toNode) return;
 
         const isValid =
@@ -200,7 +201,7 @@ function DndFlow({ children }: PropsWithChildren) {
       }
 
       // Move
-      if (from === DndZone.PRODUCT_ADDON && !isTheSameNode && fromNode) {
+      if (from === StudioZone.ZONE_PRODUCT_ADDON && !isTheSameNode && fromNode) {
         if (!fromData.belongsTo || !fromNode || !toNode) return;
 
         const isValid =
@@ -223,9 +224,9 @@ function DndFlow({ children }: PropsWithChildren) {
       }
     }
 
-    if (to === DndZone.FACTORY && !fromCategory?.isRoot) {
+    if (to === StudioZone.ZONE_FACTORY && !fromCategory?.isRoot) {
       // Remove the whole node
-      if (from === DndZone.PRODUCT) {
+      if (from === StudioZone.ZONE_PRODUCT) {
         if (!fromData.belongsTo || !fromNode) return;
 
         const isValid =
@@ -245,7 +246,7 @@ function DndFlow({ children }: PropsWithChildren) {
       }
 
       // Remove the node's children
-      if (from === DndZone.PRODUCT_ADDON && !isTheSameNode && fromNode) {
+      if (from === StudioZone.ZONE_PRODUCT_ADDON && !isTheSameNode && fromNode) {
         if (!fromData.belongsTo) return;
 
         const isValid =

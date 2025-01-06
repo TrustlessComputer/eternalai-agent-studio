@@ -1,7 +1,7 @@
-import { isNil } from '@/utils/data';
 import { useStoreApi } from '@xyflow/react';
 import { useCallback } from 'react';
 import { v4 } from 'uuid';
+
 import useStudioDndStore from '../stores/useStudioDndStore';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
@@ -9,10 +9,12 @@ import useStudioFormStore from '../stores/useStudioFormStore';
 import { StudioCategoryOption } from '../types/category';
 import { DraggableData } from '../types/dnd';
 import { StudioNode } from '../types/graph';
-import { cloneData, getFormDataFromCategoryOption } from '../utils/data';
-import { createNewBaseEdge, getSourceHandle } from '../utils/edge';
-import { createNewBaseNode } from '../utils/node';
 import { noUndefinedElement } from '../utils/array';
+import { cloneData, getFormDataFromCategoryOption } from '../utils/data';
+import { createNewBaseEdge, generateSourceHandleId } from '../utils/edge';
+import { createNewBaseNode } from '../utils/node';
+
+import { isNil } from '@/utils/data';
 
 const useDndAction = () => {
   const flowStore = useStoreApi();
@@ -100,7 +102,7 @@ const useDndAction = () => {
     if (rootNode) {
       const newEdge = createNewBaseEdge(rootNode.id, newNode.id, true);
 
-      rootNode.data.sourceHandles.push(getSourceHandle(rootNode.id, newNode.id));
+      rootNode.data.sourceHandles.push(generateSourceHandleId(rootNode.id, newNode.id));
 
       useStudioFlowStore.getState().addEdge(newEdge);
     }
@@ -126,7 +128,7 @@ const useDndAction = () => {
 
         if (rootNode) {
           const newEdge = createNewBaseEdge(rootNode.id, newNode.id, true);
-          rootNode.data.sourceHandles.push(getSourceHandle(rootNode.id, newNode.id));
+          rootNode.data.sourceHandles.push(generateSourceHandleId(rootNode.id, newNode.id));
           useStudioFlowStore.getState().addEdge(newEdge);
         }
 

@@ -4,7 +4,7 @@ import cx from 'clsx';
 import { HTMLAttributes, memo, useEffect, useMemo, useRef } from 'react';
 
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
-import { DndZone, DraggableData } from '@/modules/Studio/types/dnd';
+import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
 import { TouchingPoint } from '@/modules/Studio/types/ui';
 import { calculateTouchingPercentage } from '@/modules/Studio/utils/ui';
 import './Draggable.scss';
@@ -22,7 +22,7 @@ const ProductAddon = ({ id, data, disabled = false, children, draggingFloating, 
   const extendedData = useMemo(() => {
     return {
       ...data,
-      type: DndZone.PRODUCT_ADDON,
+      type: StudioZone.ZONE_PRODUCT_ADDON,
     } satisfies DraggableData;
   }, [data]);
 

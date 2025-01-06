@@ -3,7 +3,6 @@ import { CSSProperties, FunctionComponent, HTMLAttributes, memo, useMemo } from 
 
 import { adjustColorShade } from '../../utils/ui';
 import './Lego.scss';
-
 import { StudIcon } from '../icons/lego';
 import ImageRender from '../Render/ImageRender';
 

@@ -1,9 +1,9 @@
 import { EdgeTypes, NodeTypes } from '@xyflow/react';
 
+import BaseEdge from '../components/CustomEdges/BaseEdge';
 import BaseNode from '../components/CustomNodes/BaseNode';
 
 import { EdgeType, NodeType } from '@/enums/node-type';
-import BaseEdge from '../components/CustomEdges/BaseEdge';
 
 export const CATEGORY_KEY_MAPPER = {};
 

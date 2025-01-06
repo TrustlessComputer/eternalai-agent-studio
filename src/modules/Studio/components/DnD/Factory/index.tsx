@@ -1,6 +1,7 @@
-import { DndZone, DraggableData } from '@/modules/Studio/types/dnd';
 import { useDroppable } from '@dnd-kit/core';
 import React, { memo } from 'react';
+
+import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
 import './Droppable.scss';
 
 type Props = Omit<React.HTMLAttributes<HTMLDivElement>, 'id'> & {
@@ -9,9 +10,9 @@ type Props = Omit<React.HTMLAttributes<HTMLDivElement>, 'id'> & {
 
 const Factory = ({ disabled, children, ...props }: Props) => {
   const { setNodeRef } = useDroppable({
-    id: DndZone.FACTORY,
+    id: StudioZone.ZONE_FACTORY,
     data: {
-      type: DndZone.FACTORY,
+      type: StudioZone.ZONE_FACTORY,
     } satisfies DraggableData,
     disabled,
   });

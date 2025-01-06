@@ -1,11 +1,13 @@
 import cs from 'clsx';
 import './TextArea.scss';
-import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
+import { useMemo } from 'react';
+
 import NoDraggable from '../../DnD/NoDraggable';
-import { DataSchema } from '@/modules/Studio/types/category';
+
 import { useFormFunction } from '@/modules/Studio/hooks/useFormFunction';
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
-import { useMemo } from 'react';
+import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
+import { DataSchema } from '@/modules/Studio/types/category';
 
 type Props = Omit<React.ComponentPropsWithoutRef<'textarea'>, 'defaultValue'> & {
   formId: string;

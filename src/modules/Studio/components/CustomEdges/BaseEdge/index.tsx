@@ -1,4 +1,3 @@
-import { getEdgeParams } from '@/modules/Studio/utils/edge';
 import {
   EdgeLabelRenderer,
   EdgeProps,
@@ -7,6 +6,8 @@ import {
   useInternalNode,
 } from '@xyflow/react';
 import React, { memo } from 'react';
+
+import { getEdgeParams } from '@/modules/Studio/utils/edge';
 import './BaseEdge.scss';
 
 const BaseEdge = ({ id, source, target, markerEnd, style, label }: EdgeProps) => {

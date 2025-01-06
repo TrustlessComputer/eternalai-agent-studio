@@ -1,14 +1,15 @@
 import { Background, ConnectionMode, Controls, MiniMap, ReactFlow, Viewport } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useEffect, useMemo, useState } from 'react';
+
+import BoardOverlay from './BoardOverlay';
 import { DEFAULT_EDGE_TYPES, DEFAULT_NODE_TYPES } from '../../constants/key-map';
 import useStudioDataStore from '../../stores/useStudioDataStore';
 import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
+import { BoardConfig } from '../../types/config';
 import Distribution from '../DnD/Distribution';
 import './Board.scss';
-import BoardOverlay from './BoardOverlay';
-import { BoardConfig } from '../../types/config';
 
 type BoardProps = {
   boardConfig?: BoardConfig;

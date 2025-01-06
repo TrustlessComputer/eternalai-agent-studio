@@ -1,7 +1,9 @@
 import React from 'react';
+
 import './BaseNodeWrapper.scss';
-import { StudioCategoryOption } from '@/modules/Studio/types/category';
 import TextRender from '../../../Render/TextRender';
+
+import { StudioCategoryOption } from '@/modules/Studio/types/category';
 
 type Props = {
   children: React.ReactNode;

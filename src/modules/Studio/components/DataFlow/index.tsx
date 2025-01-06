@@ -1,11 +1,13 @@
-import { useThrottleValue } from '@/hooks/useThrottleValue';
 import { useEffect } from 'react';
+
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
 import useStudioDataStore from '../../stores/useStudioDataStore';
 import useStudioDndStore from '../../stores/useStudioDndStore';
 import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFormStore from '../../stores/useStudioFormStore';
-import { StudioNode, StudioCategoryOptionMapValue, StudioDataNode } from '../../types';
+import { StudioCategoryOptionMapValue, StudioDataNode, StudioNode } from '../../types';
+
+import { useThrottleValue } from '@/hooks/useThrottleValue';
 
 type Props = {
   throttleNodesDelay: number;

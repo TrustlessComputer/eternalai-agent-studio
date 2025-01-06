@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { CATEGORIES } from './__mocks__/categories';
+import { DATA_SOURCE } from './__mocks__/data-source';
 import { Studio, StudioProps } from './Studio';
-import { CATEGORIES } from './mock-up/categories';
-import { DATA_SOURCE } from './mock-up/data-source';
 
 type Story = StoryObj<typeof Studio>;
 
@@ -10,7 +10,6 @@ const args = {
   categories: CATEGORIES,
   dataSource: DATA_SOURCE,
   data: [],
-  disabledConnection: true,
 } satisfies StudioProps;
 
 const meta: Meta<typeof Studio> = {

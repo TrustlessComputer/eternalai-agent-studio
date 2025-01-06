@@ -1,14 +1,16 @@
 import { FunctionComponent, useCallback, useMemo } from 'react';
-import { DataSchema, StudioCategoryOptionRenderPayload } from '@/modules/Studio/types/category';
+
+import FormRender from '../../../DataFields/FormRender';
+import NoDraggable from '../../../DnD/NoDraggable';
 import Lego from '../../../Lego';
 import LegoContent from '../../../LegoContent';
 import TextRender from '../../../Render/TextRender';
-import FormRender from '../../../DataFields/FormRender';
+
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
-import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
+import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { FormDataMap } from '@/modules/Studio/types/base';
-import NoDraggable from '../../../DnD/NoDraggable';
+import { DataSchema, StudioCategoryOptionRenderPayload } from '@/modules/Studio/types/category';
 
 import './LegoRender.scss';
 

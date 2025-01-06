@@ -1,9 +1,10 @@
-import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
-import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
-import { DndZone, DraggableData } from '@/modules/Studio/types/dnd';
 import { useDroppable } from '@dnd-kit/core';
 import cx from 'clsx';
 import React, { useMemo } from 'react';
+
+import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
+import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
+import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
 import './Droppable.scss';
 // import Lego from '../../Lego';
 
@@ -19,7 +20,7 @@ const Package = ({ id, data, disabled, className, children, ...props }: Props) =
   const extendedData = useMemo(() => {
     return {
       ...data,
-      type: DndZone.PACKAGE,
+      type: StudioZone.ZONE_PACKAGE,
     } satisfies DraggableData;
   }, [data]);
 

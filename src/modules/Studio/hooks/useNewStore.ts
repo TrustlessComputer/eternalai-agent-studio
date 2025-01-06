@@ -23,24 +23,36 @@ const createNewStore = <T>(id: string, initialData?: T) => {
   useStore.getState().addData(id, initialData || {});
 
   return {
-    data: useStore.getState().data[id] as T,
-    addData: (data: Record<string, T>) => {
+    dataStore: useStore.getState().data[id] as T,
+    addData: (data: Record<string, Partial<T>>) => {
       useStore.getState().addData(id, data);
+    },
+    addDataField: (field: string, value: unknown) => {
+      useStore.getState().addData(id, {
+        [field]: value,
+      });
     },
   } as StoreWithAttributes<T>;
 };
 
 type StoreWithAttributes<T> = {
-  data: T;
+  dataStore: T;
   addData: (data: T) => void;
+  addDataField: (key: string, value: unknown) => void;
 };
+
 const useNewStore = <T>(id: string) => {
   const data = useStore((state) => state.data[id]) as T;
 
   return {
-    data,
-    addData: (data: Record<string, T>) => {
+    dataStore: data,
+    addData: (data: Record<string, Partial<T>>) => {
       useStore.getState().addData(id, data);
+    },
+    addDataField: (field: string, value: unknown) => {
+      useStore.getState().addData(id, {
+        [field]: value,
+      });
     },
   } as StoreWithAttributes<T>;
 };

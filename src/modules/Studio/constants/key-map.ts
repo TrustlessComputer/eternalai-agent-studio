@@ -1,7 +1,7 @@
 import { EdgeTypes, NodeTypes } from '@xyflow/react';
 
 import EdgeBase from '../components/CustomEdges/EdgeBase';
-import NodeBase from '../components/CustomNodes/BaseNode';
+import NodeBase from '../components/CustomNodes/NodeBase';
 
 import { EdgeType, NodeType } from '@/enums/node-type';
 

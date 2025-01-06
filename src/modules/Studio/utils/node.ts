@@ -12,7 +12,7 @@ import { NodeType } from '@/enums/node-type';
  * @param {StudioNodeMetadata} metadata - Node metadata
  * @returns {StudioNode} New node configuration
  */
-export const createNewBaseNode = (id: string, position: XYPosition, metadata: StudioNodeMetadata): StudioNode => {
+export const createNewNodeBase = (id: string, position: XYPosition, metadata: StudioNodeMetadata): StudioNode => {
   return {
     id,
     type: NodeType.NODE_BASE,
@@ -44,7 +44,7 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
         idx: item.idx,
       } satisfies StudioNodeMetadata;
 
-      nodes.push(createNewBaseNode(item.id, position, metadata));
+      nodes.push(createNewNodeBase(item.id, position, metadata));
     }
   });
 

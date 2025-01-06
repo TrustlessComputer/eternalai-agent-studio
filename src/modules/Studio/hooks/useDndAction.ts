@@ -12,7 +12,7 @@ import { StudioNode } from '../types/graph';
 import { noUndefinedElement } from '../utils/array';
 import { cloneData, getFormDataFromCategoryOption } from '../utils/data';
 import { createNewBaseEdge, generateSourceHandleId } from '../utils/edge';
-import { createNewBaseNode } from '../utils/node';
+import { createNewNodeBase } from '../utils/node';
 
 import { isNil } from '@/utils/data';
 
@@ -38,7 +38,7 @@ const useDndAction = () => {
       y: transformedY,
     };
 
-    const newNodeInfo = createNewBaseNode(id, position, {
+    const newNodeInfo = createNewNodeBase(id, position, {
       children: [],
       idx,
     });

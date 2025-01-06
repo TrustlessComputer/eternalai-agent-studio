@@ -1,9 +1,9 @@
 import NodeSingle from './NodeSingle';
 import NodeStacks from './NodeStacks';
-import { BaseNodeProps } from './types';
+import { NodeBaseProps } from './types';
 import './NodeBase.scss';
 
-type Props = BaseNodeProps;
+type Props = NodeBaseProps;
 
 export default function NodeBase(props: Props) {
   const { data } = props;

@@ -5,10 +5,10 @@ import Product from '../../../DnD/Product';
 import DraggingFloating from '../DraggingFloating';
 import LegoRender from '../LegoRender';
 import NodeBaseChild from '../NodeBaseChild';
-import BaseNodeConnection from '../NodeBaseConnection';
+import NodeBaseConnection from '../NodeBaseConnection';
 import NodeBaseReadOnly from '../NodeBaseReadOnly';
 import NodeBaseWrapper from '../NodeBaseWrapper';
-import { BaseNodeProps } from '../types';
+import { NodeBaseProps } from '../types';
 
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
@@ -16,7 +16,7 @@ import { StudioCategoryOption } from '@/modules/Studio/types';
 import { DraggableData } from '@/modules/Studio/types/dnd';
 import './NodeStacks.scss';
 
-type Props = BaseNodeProps;
+type Props = NodeBaseProps;
 
 const NodeStacks = ({ data, ...rest }: Props) => {
   const draggingData = useStudioDndStore((state) => state.draggingData);
@@ -77,7 +77,7 @@ const NodeStacks = ({ data, ...rest }: Props) => {
         ))}
 
         <Package id={data.id} data={packageData} />
-        <BaseNodeConnection />
+        <NodeBaseConnection />
       </div>
     </NodeBaseWrapper>
   );

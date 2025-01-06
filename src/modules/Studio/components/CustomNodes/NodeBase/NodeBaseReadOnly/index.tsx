@@ -1,10 +1,10 @@
 import LegoRender from '../LegoRender';
-import { BaseNodeProps } from '../types';
+import { NodeBaseProps } from '../types';
 
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 
-type Props = BaseNodeProps;
+type Props = NodeBaseProps;
 
 const NodeBaseReadOnly = ({ data }: Props) => {
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);

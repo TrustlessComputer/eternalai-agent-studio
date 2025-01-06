@@ -3,9 +3,9 @@ import { useMemo } from 'react';
 import Package from '../../../DnD/Package';
 import Product from '../../../DnD/Product';
 import LegoRender from '../LegoRender';
-import BaseNodeConnection from '../NodeBaseConnection';
+import NodeBaseConnection from '../NodeBaseConnection';
 import NodeBaseWrapper from '../NodeBaseWrapper';
-import { BaseNodeProps } from '../types';
+import { NodeBaseProps } from '../types';
 
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
@@ -13,7 +13,7 @@ import { DraggableData } from '@/modules/Studio/types/dnd';
 
 import './NodeSingle.scss';
 
-type Props = BaseNodeProps;
+type Props = NodeBaseProps;
 
 const NodeSingle = ({ data }: Props) => {
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
@@ -47,7 +47,7 @@ const NodeSingle = ({ data }: Props) => {
         </div>
 
         <Package id={data.id} data={packageData} />
-        <BaseNodeConnection />
+        <NodeBaseConnection />
       </div>
     </NodeBaseWrapper>
   );

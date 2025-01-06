@@ -1,7 +1,7 @@
 import { Handle, Position } from '@xyflow/react';
 import './NodeBaseConnection.scss';
 
-const BaseNodeConnection = () => {
+const NodeBaseConnection = () => {
   return (
     <>
       <Handle
@@ -36,4 +36,4 @@ const BaseNodeConnection = () => {
   );
 };
 
-export default BaseNodeConnection;
+export default NodeBaseConnection;

@@ -10,7 +10,7 @@ const args = {
   categories: CATEGORIES,
   dataSource: DATA_SOURCE,
   data: [],
-  showConnectLine: true,
+  disabledConnection: true,
 } satisfies StudioProps;
 
 const meta: Meta<typeof Studio> = {

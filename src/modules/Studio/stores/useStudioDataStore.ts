@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { v4 } from 'uuid';
 
 import { StudioDataNode } from '../types/graph';
-import { DEFAULT_SHOW_CONNECT_LINE } from '../constants/default-values';
+import { DEFAULT_DISABLED_CONNECTION } from '../constants/default-values';
 
 type Store = {
   entry: StudioDataNode | null;
@@ -12,8 +12,8 @@ type Store = {
   setData: (data: StudioDataNode[]) => void;
   clear: () => void;
 
-  showConnectLine?: boolean;
-  setShowConnectLine: (showConnectLine: boolean) => void;
+  disabledConnection?: boolean;
+  setDisabledConnection: (disabledConnection: boolean) => void;
 };
 
 const useStudioDataStore = create<Store>((set) => ({
@@ -40,9 +40,9 @@ const useStudioDataStore = create<Store>((set) => ({
     set({ data: [], entry: null });
   },
 
-  showConnectLine: DEFAULT_SHOW_CONNECT_LINE,
-  setShowConnectLine: (showConnectLine) => {
-    set({ showConnectLine });
+  disabledConnection: DEFAULT_DISABLED_CONNECTION,
+  setDisabledConnection: (disabledConnection) => {
+    set({ disabledConnection });
   },
 }));
 

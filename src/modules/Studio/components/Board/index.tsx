@@ -8,9 +8,14 @@ import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
 import Distribution from '../DnD/Distribution';
 import './Board.scss';
 import BoardOverlay from './BoardOverlay';
+import { BoardConfig } from '../../types/config';
 
-function Board() {
-  const showConnectLine = useStudioDataStore((state) => state.showConnectLine);
+type BoardProps = {
+  boardConfig?: BoardConfig;
+};
+
+function Board({ boardConfig }: BoardProps) {
+  const disabledConnection = useStudioDataStore((state) => state.disabledConnection);
   const nodes = useStudioFlowStore((state) => state.nodes);
   const edges = useStudioFlowStore((state) => state.edges);
 
@@ -27,12 +32,12 @@ function Board() {
   });
 
   const renderEdges = useMemo(() => {
-    if (showConnectLine) {
+    if (!disabledConnection) {
       return edges;
     }
 
     return [];
-  }, [edges, showConnectLine]);
+  }, [edges, disabledConnection]);
 
   useEffect(() => {
     setCurrentView(useStudioFlowViewStore.getState().view);
@@ -57,8 +62,7 @@ function Board() {
         zoomOnDoubleClick={false}
         selectNodesOnDrag={false}
         disableKeyboardA11y
-        minZoom={1}
-        maxZoom={1}
+        {...boardConfig}
       >
         <Controls fitViewOptions={{ padding: 1 }} />
         <Background />

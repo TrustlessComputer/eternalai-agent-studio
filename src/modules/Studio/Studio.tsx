@@ -2,7 +2,7 @@ import '../../styles/global.scss';
 import './Studio.scss';
 
 import cx from 'clsx';
-import { ReactFlowProvider } from '@xyflow/react';
+import { ReactFlowProps, ReactFlowProvider } from '@xyflow/react';
 import React, { useEffect, useImperativeHandle } from 'react';
 import Board from './components/Board';
 import DataFlow from './components/DataFlow';
@@ -10,19 +10,28 @@ import DndFlow from './components/DnD/DndFlow';
 import DragMask from './components/DnD/DragMask';
 import EventHandler from './components/EventHandler';
 import Sidebar from './components/Sidebar';
-import { DEFAULT_SHOW_CONNECT_LINE } from './constants/default-values';
+import { DEFAULT_BOARD_CONFIG, DEFAULT_DISABLED_CONNECTION } from './constants/default-values';
 import { useStudio } from './hooks/useStudio';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
 import useStudioDataStore from './stores/useStudioDataStore';
 import { DataSource, FormDataMap, StudioCategory, StudioDataNode } from './types';
+import { SidebarSide } from './enums/side';
+import { BoardConfig } from './types/config';
 
 export type StudioProps = {
   className?: string;
-  data: StudioDataNode[];
+
+  // Data
   categories: StudioCategory[];
   dataSource?: Record<string, DataSource[]>;
-  showConnectLine?: boolean;
+  data: StudioDataNode[];
+
+  // Configs
+  sidebarSide?: SidebarSide;
+  boardConfig?: BoardConfig;
+
+  // Events
   onChange?: (data: StudioDataNode[]) => void;
 };
 
@@ -40,7 +49,8 @@ const StudioComponent = ({
   categories,
   onChange,
   dataSource,
-  showConnectLine = DEFAULT_SHOW_CONNECT_LINE,
+  boardConfig = DEFAULT_BOARD_CONFIG,
+  sidebarSide = SidebarSide.LEFT,
   ...rest
 }: StudioProps): React.ReactNode => {
   const { redraw, cleanup } = useStudio();
@@ -57,8 +67,8 @@ const StudioComponent = ({
   }, [dataSource]);
 
   useEffect(() => {
-    useStudioDataStore.getState().setShowConnectLine(showConnectLine);
-  }, [showConnectLine]);
+    useStudioDataStore.getState().setDisabledConnection(!!boardConfig.disabledConnection);
+  }, [boardConfig.disabledConnection]);
 
   useEffect(() => {
     if (data.length) {
@@ -82,7 +92,7 @@ const StudioComponent = ({
         </div>
 
         <EventHandler className="studio__right">
-          <Board />
+          <Board boardConfig={boardConfig} />
         </EventHandler>
       </div>
     </DndFlow>

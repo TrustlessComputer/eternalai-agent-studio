@@ -7,15 +7,21 @@ import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFormStore from '../../stores/useStudioFormStore';
 import { StudioNode, StudioCategoryOptionMapValue, StudioDataNode } from '../../types';
 
-function Listen() {
+type Props = {
+  throttleNodesDelay: number;
+  throttleDataDelay: number;
+  onChange?: (data: StudioDataNode[]) => void;
+};
+
+function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
   const nodes = useStudioFlowStore((state) => state.nodes);
   const formMap = useStudioFormStore((state) => state.formMap);
   const draggingData = useStudioDndStore((state) => state.draggingData);
 
   const isDragging = !!draggingData;
 
-  const throttleNodes = useThrottleValue(nodes, 1000);
-  const throttleDataForms = useThrottleValue(formMap, 500);
+  const throttleNodes = useThrottleValue(nodes, throttleNodesDelay);
+  const throttleDataForms = useThrottleValue(formMap, throttleDataDelay);
 
   useEffect(() => {
     // sync nodes with data
@@ -146,10 +152,10 @@ function DataSync() {
   return <></>;
 }
 
-function DataFlow({ onChange }: { onChange?: (data: StudioDataNode[]) => void }) {
+function DataFlow({ throttleNodesDelay, throttleDataDelay, onChange }: Props) {
   return (
     <>
-      <Listen />
+      <Listen throttleNodesDelay={throttleNodesDelay} throttleDataDelay={throttleDataDelay} />
       <Publish onChange={onChange} />
       <DataSync />
     </>

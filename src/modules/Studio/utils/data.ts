@@ -40,3 +40,6 @@ export const getFieldDataFromRawData = (data: StudioDataNode[]) => {
 };
 
 export const cloneData = <T>(data: T): T => JSON.parse(JSON.stringify(data));
+
+export const min = (...args: number[]) => Math.min(...args);
+export const max = (...args: number[]) => Math.max(...args);

@@ -9,12 +9,15 @@ const useStore = create<Store>((set, get) => ({
   data: {},
   addData: (id, data) => {
     const latestData = get().data;
-    set({
+    const newUpdated = {
       ...latestData,
       [id]: {
         ...(latestData[id] || {}),
         ...data,
       },
+    };
+    set({
+      data: newUpdated,
     });
   },
 }));

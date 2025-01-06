@@ -1,7 +1,7 @@
 import { FunctionComponent, useCallback, useMemo } from 'react';
 
 import FormRender from '../../../DataFields/FormRender';
-import NoDraggable from '../../../DnD/NoDraggable';
+import NoDraggable from '../../../DnD/base/NoDraggable';
 import Lego from '../../../Lego';
 import LegoContent from '../../../LegoContent';
 import TextRender from '../../../Render/TextRender';

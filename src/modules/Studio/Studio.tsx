@@ -7,8 +7,8 @@ import React, { useEffect, useImperativeHandle } from 'react';
 
 import Board from './components/Board';
 import DataFlow from './components/DataFlow';
+import DragMask from './components/DnD/base/DragMask';
 import DndFlow from './components/DnD/DndFlow';
-import DragMask from './components/DnD/DragMask';
 import EventHandler from './components/EventHandler';
 import Sidebar from './components/Sidebar';
 import { MIN_THROTTLE_DATA_DELAY, MIN_THROTTLE_NODES_DELAY } from './constants/configs';

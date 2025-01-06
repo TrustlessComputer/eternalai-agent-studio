@@ -5,8 +5,7 @@ import React, { useMemo } from 'react';
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
-import './Droppable.scss';
-// import Lego from '../../Lego';
+import './Package.scss';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   id: string;

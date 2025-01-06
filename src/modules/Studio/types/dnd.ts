@@ -1,11 +1,16 @@
-export type DraggableData = {
+export type DragAndDropData = {
   type: StudioZone;
+};
+
+export type DraggableData = DragAndDropData & {
   categoryKey?: string;
   optionKey?: string;
   belongsTo?: string;
   childIndex?: number;
   isRoot?: boolean;
 };
+
+export type DroppableData = DragAndDropData & {};
 
 export enum StudioZone {
   ZONE_FACTORY = 'factory',

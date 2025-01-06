@@ -2,7 +2,7 @@ import cs from 'clsx';
 import './Textbox.scss';
 import { useMemo } from 'react';
 
-import NoDraggable from '../../DnD/NoDraggable';
+import NoDraggable from '../../DnD/base/NoDraggable';
 
 import { useFormFunction } from '@/modules/Studio/hooks/useFormFunction';
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';

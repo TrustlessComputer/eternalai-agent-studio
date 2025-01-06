@@ -1,11 +1,10 @@
-import { useDraggable } from '@dnd-kit/core';
-import { CSS } from '@dnd-kit/utilities';
-import cx from 'clsx';
-import { HTMLAttributes, memo, useEffect, useMemo } from 'react';
+import { HTMLAttributes, memo, useCallback, useMemo } from 'react';
 
+import Draggable from '../base/Draggable';
+
+import { DomRect } from '@/modules/index';
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
-import './Draggable.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   id: string;
@@ -22,45 +21,32 @@ const Product = ({ id, data, disabled = false, children, draggingFloating, ...pr
     } satisfies DraggableData;
   }, [data]);
 
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
-    id,
-    disabled,
-    data: extendedData,
-  });
-
-  const style = useMemo(
-    () => ({
-      ...props.style,
-      transform: CSS.Translate.toString(transform),
-      opacity: isDragging ? 0 : 1,
-    }),
-    [transform, isDragging, props.style],
+  const handleOnDrag = useCallback(
+    (data: DraggableData, touchingPoint: DomRect | null) => {
+      if (draggingFloating) {
+        useStudioDndStore.getState().setDragging(draggingFloating, extendedData, touchingPoint);
+      } else {
+        useStudioDndStore.getState().setDragging(children, extendedData, touchingPoint);
+      }
+    },
+    [extendedData, draggingFloating],
   );
 
-  useEffect(() => {
-    if (isDragging) {
-      if (draggingFloating) {
-        useStudioDndStore.getState().setDragging(draggingFloating, extendedData);
-      } else {
-        useStudioDndStore.getState().setDragging(children, extendedData);
-      }
-    } else {
-      useStudioDndStore.getState().setDragging();
-    }
-    // no need push children to dependency array
-  }, [isDragging, extendedData]);
+  const handleOnDrop = useCallback((data: DraggableData) => {
+    useStudioDndStore.getState().setDragging();
+  }, []);
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
+    <Draggable
       {...props}
-      {...listeners}
-      {...attributes}
-      className={cx('draggable', { 'draggable--disabled': disabled })}
+      id={id}
+      data={extendedData}
+      disabled={disabled}
+      handleOnDrag={handleOnDrag}
+      handleOnDrop={handleOnDrop}
     >
       {children}
-    </div>
+    </Draggable>
   );
 };
 

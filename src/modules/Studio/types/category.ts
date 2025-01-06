@@ -79,6 +79,7 @@ export type StudioCategoryBoxWrapperProps = {
 };
 
 export type StudioCategoryOptionRenderPayload = {
+  id: string;
   option: StudioCategoryOption;
   formData: FormDataMap;
   setFormFields: (fields: FormDataMap) => void;

@@ -3,9 +3,10 @@ import { create } from 'zustand';
 type Store = {
   data: Record<string, Record<string, unknown>>;
   addData: (id: string, data: Record<string, unknown>) => void;
+  clear: () => void;
 };
 
-const useStore = create<Store>((set, get) => ({
+export const useMultipleStore = create<Store>((set, get) => ({
   data: {},
   addData: (id, data) => {
     const latestData = get().data;
@@ -20,18 +21,21 @@ const useStore = create<Store>((set, get) => ({
       data: newUpdated,
     });
   },
+  clear: () => {
+    set({ data: {} });
+  },
 }));
 
 const createNewStore = <T>(id: string, initialData?: T) => {
-  useStore.getState().addData(id, initialData || {});
+  useMultipleStore.getState().addData(id, initialData || {});
 
   return {
-    dataStore: useStore.getState().data[id] as T,
+    dataStore: useMultipleStore.getState().data[id] as T,
     addData: (data: Record<string, Partial<T>>) => {
-      useStore.getState().addData(id, data);
+      useMultipleStore.getState().addData(id, data);
     },
     addDataField: (field: string, value: unknown) => {
-      useStore.getState().addData(id, {
+      useMultipleStore.getState().addData(id, {
         [field]: value,
       });
     },
@@ -45,15 +49,15 @@ type StoreWithAttributes<T> = {
 };
 
 const useNewStore = <T>(id: string) => {
-  const data = useStore((state) => state.data[id]) as T;
+  const data = useMultipleStore((state) => state.data[id]) as T;
 
   return {
     dataStore: data,
     addData: (data: Record<string, Partial<T>>) => {
-      useStore.getState().addData(id, data);
+      useMultipleStore.getState().addData(id, data);
     },
     addDataField: (field: string, value: unknown) => {
-      useStore.getState().addData(id, {
+      useMultipleStore.getState().addData(id, {
         [field]: value,
       });
     },

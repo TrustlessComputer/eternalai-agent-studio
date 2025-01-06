@@ -12,7 +12,9 @@ import './CategoryNavigation.scss';
 
 type Props = StudioCategory;
 
-const CategoryNavigation = ({ idx, icon, title, color = '#CC6234', customizeRenderOnNavigation }: Props) => {
+const CategoryNavigation = (props: Props) => {
+  const { idx, icon, title, color = '#CC6234', customizeRenderOnNavigation } = props;
+
   const { filters, setFilters } = useStudioCategoryStore();
 
   const isActive = useMemo(() => {
@@ -20,7 +22,7 @@ const CategoryNavigation = ({ idx, icon, title, color = '#CC6234', customizeRend
   }, [filters, idx]);
 
   if (customizeRenderOnNavigation && typeof customizeRenderOnNavigation === 'function') {
-    return customizeRenderOnNavigation();
+    return customizeRenderOnNavigation(props);
   }
 
   return (

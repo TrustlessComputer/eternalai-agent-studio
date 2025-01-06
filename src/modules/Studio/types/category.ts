@@ -21,7 +21,7 @@ export type BaseCategory = {
   required?: boolean;
   disabled?: boolean;
   hidden?: boolean;
-  icon?: React.ReactNode | FunctionComponent;
+  icon?: React.ReactNode | FunctionComponent | string;
   order?: number;
   data?: DataSchema;
   color?: string;
@@ -87,8 +87,13 @@ export type StudioCategoryOptionRenderPayload = {
 
 export type StudioOptionCustomizeRender = {
   // render?: (data: StudioCategoryOptionRenderPayload) => ReactNode;
-  customizeRenderOnSideBar?: () => ReactNode;
+  customizeRenderOnSideBar?: (props: StudioCategoryOption) => ReactNode;
   customizeRenderOnBoard?: (data: StudioCategoryOptionRenderPayload) => ReactNode;
+};
+
+export type StudioCategoryCustomizeRender = {
+  customizeRenderOnNavigation?: (props: StudioCategory) => ReactNode;
+  customizeRenderOnSidebar?: (props: StudioCategory) => ReactNode;
 };
 
 export type StudioFormFieldValidate = (
@@ -153,8 +158,7 @@ export type StudioCategory = Omit<BaseCategory, 'value' | 'data'> & {
   options: StudioCategoryOption[];
   isRoot?: boolean; // default is false. have only one root in entire category
   multipleOption?: boolean; // default true
-  customizeRenderOnNavigation?: () => ReactNode;
-};
+} & StudioCategoryCustomizeRender;
 
 export type StudioCategoryMapValue = StudioCategory;
 export type StudioCategoryOptionMapValue = StudioCategoryOption & {

@@ -55,9 +55,11 @@ const Lego = ({
       </div>
 
       <div className="lego__body">
-        <div className="lego__icon">
-          <ImageRender data={icon} size={20} />
-        </div>
+        {icon && (
+          <div className="lego__icon">
+            <ImageRender data={icon} size={20} />
+          </div>
+        )}
 
         <div className="lego__content">{children}</div>
       </div>

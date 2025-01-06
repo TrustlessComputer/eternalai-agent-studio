@@ -4,7 +4,6 @@ import { DEFAULT_CATEGORY_TYPE } from '../constants/default-values';
 // import categoryColorDatabase from '../database/category-color-database';
 import { StudioDataNode } from '../types/graph';
 import { StudioCategory, StudioCategoryMapValue, StudioCategoryOptionMapValue } from '../types';
-import categoryColorDatabase from '../database/category-color-database';
 
 const DEFAULT_VALUE = {
   rootCategory: null,
@@ -36,19 +35,18 @@ type Store = {
   clear: () => void;
 };
 
-const persistCategoryColor = async (idx: string, color: string) => {
-  try {
-    await categoryColorDatabase.upsertItem({
-      idx,
-      color,
-    });
-  } catch (e) {
-    //
-  }
-};
+// const persistCategoryColor = async (idx: string, color: string) => {
+//   try {
+//     await categoryColorDatabase.upsertItem({
+//       idx,
+//       color,
+//     });
+//   } catch (e) {
+//     //
+//   }
+// };
 
 const popularUsagedCollection: Record<string, string> = {};
-
 const pickFromPopularColorFirst = (idx: string, color?: string) => {
   if (color) {
     return color;
@@ -75,16 +73,13 @@ const getCategoryColor = (colorCollection: Record<string, string>, idx: string, 
   }
 
   const popularColor = pickFromPopularColorFirst(idx, color);
-
   if (popularColor) {
     colorCollection[popularColor] = popularColor;
 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    persistCategoryColor(idx, popularColor);
+    // persistCategoryColor(idx, popularColor);
 
     return popularColor;
   }
-
   // random color
   const max = COLOR_PALETTES.length;
   const randomIndex = Math.floor(Math.random() * max);
@@ -97,7 +92,7 @@ const getCategoryColor = (colorCollection: Record<string, string>, idx: string, 
 
   colorCollection[newColor] = newColor;
 
-  persistCategoryColor(idx, newColor);
+  // persistCategoryColor(idx, newColor);
 
   return newColor;
 };
@@ -128,10 +123,10 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
   },
 
   setCategories: async (categories) => {
-    const existingCollection = await categoryColorDatabase.getAllItemsToMap();
-    // const existingCollection: Record<string, string> = {};
-    const colorCollection: Record<string, string> = {};
+    // const existingCollection = await categoryColorDatabase.getAllItemsToMap();
+    const existingCollection: Record<string, string> = {};
 
+    const colorCollection: Record<string, string> = {};
     const pipeData = (categories || [])
       .map((item) => {
         const options = item.options

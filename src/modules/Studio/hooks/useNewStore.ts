@@ -30,7 +30,7 @@ const createNewStore = <T>(id: string, initialData?: T) => {
   useMultipleStore.getState().addData(id, initialData || {});
 
   return {
-    dataStore: useMultipleStore.getState().data[id] as T,
+    dataStore: (useMultipleStore.getState().data[id] || {}) as T,
     addData: (data: Record<string, Partial<T>>) => {
       useMultipleStore.getState().addData(id, data);
     },
@@ -52,7 +52,7 @@ const useNewStore = <T>(id: string) => {
   const data = useMultipleStore((state) => state.data[id]) as T;
 
   return {
-    dataStore: data,
+    dataStore: (data || {}) as T,
     addData: (data: Record<string, Partial<T>>) => {
       useMultipleStore.getState().addData(id, data);
     },

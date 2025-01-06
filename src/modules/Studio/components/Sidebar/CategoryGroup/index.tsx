@@ -11,11 +11,17 @@ import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategorySto
 
 type Props = StudioCategory;
 
-const CategoryGroup = ({ idx, title, color, options, required, disabled, isRoot, multipleOption }: Props) => {
+const CategoryGroup = (props: Props) => {
+  const { idx, title, color, options, required, disabled, isRoot, multipleOption, customizeRenderOnSidebar } = props;
+
   const usedKeyCollection = useStudioCategoryStore((state) => state.usedKeyCollection);
   const filteredOptions = useMemo(() => {
     return options.filter((item) => !item.hidden);
   }, [options]);
+
+  if (customizeRenderOnSidebar && typeof customizeRenderOnSidebar === 'function') {
+    return customizeRenderOnSidebar(props);
+  }
 
   return (
     <div className="category-group">
@@ -26,7 +32,7 @@ const CategoryGroup = ({ idx, title, color, options, required, disabled, isRoot,
       <div className="category-group__options">
         {filteredOptions.map((option) => {
           if (option.customizeRenderOnSideBar && typeof option.customizeRenderOnSideBar === 'function') {
-            return option.customizeRenderOnSideBar();
+            return option.customizeRenderOnSideBar(option);
           }
 
           let isDisabled = disabled || option.disabled;

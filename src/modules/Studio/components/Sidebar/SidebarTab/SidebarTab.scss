@@ -1,4 +1,4 @@
-.category-navigation {
+.sidebar-tab {
   cursor: pointer;
   width: 100%;
   display: flex;
@@ -11,7 +11,7 @@
   padding: 4px;
   opacity: 0.2;
 
-  &.category-navigation--active {
+  &.sidebar-tab--active {
     opacity: 1;
   }
 
@@ -35,13 +35,13 @@
   }
 }
 
-.category-navigation__title {
+.sidebar-tab__title {
   font-size: 12px;
   font-weight: 500;
   text-align: center;
 }
 
-.category-navigation__required {
+.sidebar-tab__required {
   color: red;
   font-size: 18px;
   line-height: 0;

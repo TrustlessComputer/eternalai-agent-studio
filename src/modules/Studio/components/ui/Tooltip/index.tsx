@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+
 import './Tooltip.scss';
 import { TooltipPlacement } from '@/modules/Studio/enums/side';
 
@@ -60,6 +61,7 @@ const Tooltip = ({
           y: triggerRect.top + (triggerRect.height - tooltipRect.height) / 2,
         },
       };
+
       return positions[place];
     };
 

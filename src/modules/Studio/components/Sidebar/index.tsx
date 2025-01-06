@@ -1,50 +1,50 @@
 import cx from 'clsx';
 import { memo, useMemo } from 'react';
 
+import './Sidebar.scss';
 import CategoryGroup from './CategoryGroup';
-import CategoryNavigation from './CategoryNavigation';
 import SidebarOverlay from './SidebarOverlay';
+import SidebarTab from './SidebarTab';
 import { SidebarSide } from '../../enums/side';
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
+import useStudioConfigStore from '../../stores/useStudioConfigStore';
 import Factory from '../DnD/Factory';
-import './Sidebar.scss';
+import { TabBehavior } from '../../enums/tab';
 
-type Props = {
-  sidebarSide: SidebarSide;
-};
+const Sidebar = () => {
+  const tabBehavior = useStudioConfigStore((state) => state.config.tabBehavior);
+  const sidebarSide = useStudioConfigStore((state) => state.config.sidebarSide);
 
-const Sidebar = ({ sidebarSide }: Props) => {
   const categories = useStudioCategoryStore((state) => state.categories);
   const filters = useStudioCategoryStore((state) => state.filters);
 
-  // check data have contains isRoot or not
-  const renderNavigationCategories = useMemo(() => {
+  const processedCategoryTabs = useMemo(() => {
     return categories.filter((item) => !item.hidden);
   }, [categories]);
 
-  const renderGroupCategories = useMemo(() => {
-    if (!filters.length) {
-      return renderNavigationCategories;
+  const processCategoryGroups = useMemo(() => {
+    if (!filters.length || tabBehavior !== TabBehavior.FILTER) {
+      return processedCategoryTabs;
     }
 
-    return renderNavigationCategories.filter((item) => filters.includes(item.idx));
-  }, [renderNavigationCategories, filters]);
+    return processedCategoryTabs.filter((item) => filters.includes(item.idx));
+  }, [processedCategoryTabs, filters, tabBehavior]);
 
   return (
     <Factory className={cx('sidebar', sidebarSide === SidebarSide.LEFT ? 'sidebar--left' : 'sidebar--right')}>
-      <div className="sidebar__left">
-        <div className="sidebar__left__inner">
-          {renderNavigationCategories.map((category) => (
-            <CategoryNavigation {...category} key={`sidebar-navigation-${category.idx}`} />
+      <div className="sidebar__tabs">
+        <div className="sidebar__tabs__inner">
+          {processedCategoryTabs.map((category) => (
+            <SidebarTab {...category} key={`sidebar-tab-${category.idx}`} />
           ))}
         </div>
       </div>
 
-      <div className="sidebar__right">
+      <div className="sidebar__groups">
         <SidebarOverlay />
 
-        <div className="sidebar__right__inner">
-          {renderGroupCategories.map((category) => (
+        <div className="sidebar__groups__inner" id="sidebar-groups">
+          {processCategoryGroups.map((category) => (
             <CategoryGroup {...category} key={`sidebar-group-${category.idx}`} />
           ))}
         </div>

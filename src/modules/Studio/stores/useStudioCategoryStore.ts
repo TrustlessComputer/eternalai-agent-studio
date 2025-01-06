@@ -2,7 +2,6 @@ import { create } from 'zustand';
 
 import { COLOR_PALETTES, POPULAR } from '../constants/color-palettes';
 import { DEFAULT_CATEGORY_TYPE } from '../constants/default-values';
-// import categoryColorDatabase from '../database/category-color-database';
 import { StudioCategory, StudioCategoryMapValue, StudioCategoryOptionMapValue } from '../types';
 import { StudioDataNode } from '../types/graph';
 

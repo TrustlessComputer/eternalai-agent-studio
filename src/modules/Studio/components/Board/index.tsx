@@ -4,18 +4,16 @@ import { useEffect, useMemo, useState } from 'react';
 
 import BoardOverlay from './BoardOverlay';
 import { DEFAULT_EDGE_TYPES, DEFAULT_NODE_TYPES } from '../../constants/key-map';
+import useStudioConfigStore from '../../stores/useStudioConfigStore';
 import useStudioDataStore from '../../stores/useStudioDataStore';
 import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
-import { BoardConfig } from '../../types/config';
 import Distribution from '../DnD/Distribution';
 import './Board.scss';
 
-type BoardProps = {
-  boardConfig?: BoardConfig;
-};
+function Board() {
+  const boardConfig = useStudioConfigStore((state) => state.config.boardConfig);
 
-function Board({ boardConfig }: BoardProps) {
   const disabledConnection = useStudioDataStore((state) => state.disabledConnection);
   const nodes = useStudioFlowStore((state) => state.nodes);
   const edges = useStudioFlowStore((state) => state.edges);

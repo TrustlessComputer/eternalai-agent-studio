@@ -12,18 +12,15 @@ import DndFlow from './components/DnD/DndFlow';
 import EventHandler from './components/EventHandler';
 import Sidebar from './components/Sidebar';
 import { MIN_THROTTLE_DATA_DELAY, MIN_THROTTLE_NODES_DELAY } from './constants/configs';
-import {
-  DEFAULT_BOARD_CONFIG,
-  DEFAULT_THROTTLE_DATA_DELAY,
-  DEFAULT_THROTTLE_NODES_DELAY,
-} from './constants/default-values';
+import { DEFAULT_THROTTLE_DATA_DELAY, DEFAULT_THROTTLE_NODES_DELAY } from './constants/default-values';
 import { SidebarSide } from './enums/side';
 import { useStudio } from './hooks/useStudio';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
+import useStudioConfigStore from './stores/useStudioConfigStore';
 import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
 import useStudioDataStore from './stores/useStudioDataStore';
 import { DataSource, FormDataMap, StudioCategory, StudioDataNode } from './types';
-import { BoardConfig } from './types/config';
+import { StudioConfig } from './types/config';
 import { min } from './utils/data';
 
 export type StudioProps = {
@@ -34,12 +31,11 @@ export type StudioProps = {
   dataSource?: Record<string, DataSource[]>;
   data: StudioDataNode[];
 
-  // Configs
-  sidebarSide?: SidebarSide;
-  boardConfig?: BoardConfig;
-
   throttleNodesDelay?: number;
   throttleDataDelay?: number;
+
+  // Configs
+  config?: StudioConfig;
 
   // Events
   onChange?: (data: StudioDataNode[]) => void;
@@ -58,14 +54,15 @@ const StudioComponent = ({
   categories,
   dataSource,
   data,
-  boardConfig = DEFAULT_BOARD_CONFIG,
-  sidebarSide = SidebarSide.LEFT,
   throttleNodesDelay = DEFAULT_THROTTLE_NODES_DELAY,
   throttleDataDelay = DEFAULT_THROTTLE_DATA_DELAY,
+  config,
   onChange,
   ...rest
 }: StudioProps): React.ReactNode => {
   const { redraw, cleanup } = useStudio();
+
+  const sidebarSide = useStudioConfigStore((state) => state.config.sidebarSide);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -79,8 +76,10 @@ const StudioComponent = ({
   }, [dataSource]);
 
   useEffect(() => {
-    useStudioDataStore.getState().setDisabledConnection(!!boardConfig.disabledConnection);
-  }, [boardConfig.disabledConnection]);
+    useStudioConfigStore.getState().setConfig(config);
+
+    useStudioDataStore.getState().setDisabledConnection(!!config?.boardConfig.disabledConnection);
+  }, [config]);
 
   useEffect(() => {
     if (data.length) {
@@ -107,11 +106,11 @@ const StudioComponent = ({
         <DragMask />
 
         <div className="studio__sidebar">
-          <Sidebar sidebarSide={sidebarSide} />
+          <Sidebar />
         </div>
 
         <EventHandler className="studio__board">
-          <Board boardConfig={boardConfig} />
+          <Board />
         </EventHandler>
       </div>
     </DndFlow>

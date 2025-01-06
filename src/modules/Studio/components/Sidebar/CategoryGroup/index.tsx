@@ -24,9 +24,9 @@ const CategoryGroup = (props: Props) => {
   }
 
   return (
-    <div className="category-group">
+    <div className="category-group" id={`category-group-${idx}`}>
       <h5 className="category-group__title">
-        <TextRender data={title} /> {required ? <span className="category-navigation__required">*</span> : ''}
+        <TextRender data={title} /> {required ? <span className="sidebar-tab__required">*</span> : ''}
       </h5>
 
       <div className="category-group__options">

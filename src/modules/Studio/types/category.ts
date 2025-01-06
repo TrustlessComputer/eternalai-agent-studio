@@ -93,7 +93,7 @@ export type StudioOptionCustomizeRender = {
 };
 
 export type StudioCategoryCustomizeRender = {
-  customizeRenderOnNavigation?: (props: StudioCategory) => ReactNode;
+  customizeRenderOnTab?: (props: StudioCategory) => ReactNode;
   customizeRenderOnSidebar?: (props: StudioCategory) => ReactNode;
 };
 

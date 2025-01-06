@@ -9,11 +9,12 @@ import { StudioCategory } from '@/modules/Studio/types/category';
 import { adjustColorShade } from '@/modules/Studio/utils/ui';
 
 import './CategoryNavigation.scss';
+import Tooltip from '../../ui/Tooltip';
 
 type Props = StudioCategory;
 
 const CategoryNavigation = (props: Props) => {
-  const { idx, icon, title, color = '#CC6234', customizeRenderOnNavigation } = props;
+  const { idx, icon, title, color = '#CC6234', customizeRenderOnNavigation, tooltip } = props;
 
   const { filters, setFilters } = useStudioCategoryStore();
 
@@ -26,23 +27,26 @@ const CategoryNavigation = (props: Props) => {
   }
 
   return (
-    <div
-      onClick={() => {
-        setFilters(idx);
-      }}
-      className={cx('category-navigation', { 'category-navigation--active': isActive })}
-      style={
-        {
-          '--color': color,
-          '--border-color': adjustColorShade(color, -20),
-        } as CSSProperties
-      }
-    >
-      <ImageRender data={icon} />
-      <span className="category-navigation__title">
-        <TextRender data={title} />
-      </span>
-    </div>
+    <Tooltip label={tooltip}>
+      <div
+        onClick={() => {
+          setFilters(idx);
+        }}
+        className={cx('category-navigation', { 'category-navigation--active': isActive })}
+        style={
+          {
+            '--color': color,
+            '--border-color': adjustColorShade(color, -20),
+          } as CSSProperties
+        }
+      >
+        <ImageRender data={icon} />
+
+        <span className="category-navigation__title">
+          <TextRender data={title} />
+        </span>
+      </div>
+    </Tooltip>
   );
 };
 

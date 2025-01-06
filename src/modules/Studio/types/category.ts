@@ -18,7 +18,7 @@ export type DataSchema = Record<DataSchemaField, DataSchemaValue>;
 export type BaseCategory = {
   idx: Key;
   title?: React.ReactNode | FunctionComponent;
-  tooltip?: ReactNode;
+  tooltip?: string;
   required?: boolean;
   disabled?: boolean;
   hidden?: boolean;

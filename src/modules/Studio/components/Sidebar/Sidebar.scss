@@ -1,4 +1,6 @@
 .sidebar {
+  --border: 1px solid rgba(0, 0, 0, 0.1);
+
   position: relative;
   width: 100%;
   height: 100%;
@@ -7,7 +9,7 @@
   .sidebar__left {
     width: 20%;
     max-height: 100%;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-right: var(--border);
     overflow-y: auto;
 
     .sidebar__left__inner {
@@ -21,7 +23,7 @@
 
   .sidebar__right {
     position: relative;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-right: var(--border);
     width: 80%;
     max-height: 100%;
     height: 100%;
@@ -36,6 +38,36 @@
       overflow-x: hidden;
       display: flex;
       flex-direction: column;
+    }
+  }
+
+  &.sidebar--left {
+    .sidebar__left {
+      order: 1;
+    }
+
+    .sidebar__right {
+      order: 2;
+    }
+  }
+
+  &.sidebar--right {
+    .sidebar__left {
+      order: 2;
+
+      .sidebar__left__inner {
+        border-right: none;
+        border-left: var(--border);
+      }
+    }
+
+    .sidebar__right {
+      order: 1;
+
+      .sidebar__right__inner {
+        border-right: none;
+        border-left: var(--border);
+      }
     }
   }
 }

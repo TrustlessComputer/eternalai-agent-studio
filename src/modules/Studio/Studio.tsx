@@ -99,14 +99,17 @@ const StudioComponent = ({
         onChange={onChange}
       />
 
-      <div className={cx('studio', className)} {...rest}>
+      <div
+        className={cx('studio', sidebarSide === SidebarSide.LEFT ? 'studio--left' : 'studio--right', className)}
+        {...rest}
+      >
         <DragMask />
 
-        <div className="studio__left">
-          <Sidebar />
+        <div className="studio__sidebar">
+          <Sidebar sidebarSide={sidebarSide} />
         </div>
 
-        <EventHandler className="studio__right">
+        <EventHandler className="studio__board">
           <Board boardConfig={boardConfig} />
         </EventHandler>
       </div>

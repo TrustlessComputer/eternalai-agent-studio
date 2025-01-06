@@ -7,11 +7,31 @@
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.1);
 
-  .studio__left {
+  &.studio--left {
+    .studio__sidebar {
+      order: 1;
+    }
+
+    .studio__board {
+      order: 2;
+    }
+  }
+
+  &.studio--right {
+    .studio__sidebar {
+      order: 2;
+    }
+
+    .studio__board {
+      order: 1;
+    }
+  }
+
+  .studio__sidebar {
     width: 25%;
   }
 
-  .studio__right {
+  .studio__board {
     width: 75%;
   }
 }

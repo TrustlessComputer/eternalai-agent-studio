@@ -1,14 +1,18 @@
 import { memo, useMemo } from 'react';
-
+import cx from 'clsx';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
-
 import Factory from '../DnD/Factory';
 import CategoryGroup from './CategoryGroup';
 import CategoryNavigation from './CategoryNavigation';
 import './Sidebar.scss';
 import SidebarOverlay from './SidebarOverlay';
+import { SidebarSide } from '../../enums/side';
 
-const Sidebar = () => {
+type Props = {
+  sidebarSide: SidebarSide;
+};
+
+const Sidebar = ({ sidebarSide }: Props) => {
   const categories = useStudioCategoryStore((state) => state.categories);
   const filters = useStudioCategoryStore((state) => state.filters);
 
@@ -26,7 +30,7 @@ const Sidebar = () => {
   }, [renderNavigationCategories, filters]);
 
   return (
-    <Factory className="sidebar">
+    <Factory className={cx('sidebar', sidebarSide === SidebarSide.LEFT ? 'sidebar--left' : 'sidebar--right')}>
       <div className="sidebar__left">
         <div className="sidebar__left__inner">
           {renderNavigationCategories.map((category) => (

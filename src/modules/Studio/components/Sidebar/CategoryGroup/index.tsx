@@ -6,15 +6,127 @@ import LegoContent from '../../LegoContent';
 import TextRender from '../../Render/TextRender';
 
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
-import { StudioCategory } from '@/modules/Studio/types';
+import { StudioCategory, StudioCategoryOption } from '@/modules/Studio/types';
+
 import './CategoryGroup.scss';
 
 type Props = StudioCategory;
 
-const CategoryGroup = (props: Props) => {
-  const { idx, title, color, options, required, disabled, isRoot, multipleOption, customizeRenderOnSidebar } = props;
-
+const CategoryOption = ({
+  idx,
+  isRoot,
+  color,
+  option,
+  disabled,
+  multipleOption,
+  multipleOptionInSingleTreeRoot,
+}: {
+  idx: string;
+  isRoot?: boolean;
+  color?: string;
+  option: StudioCategoryOption;
+  disabled?: boolean;
+  multipleOption?: boolean;
+  multipleOptionInSingleTreeRoot?: boolean;
+}) => {
   const usedKeyCollection = useStudioCategoryStore((state) => state.usedKeyCollection);
+  const usedCategoryKey = usedKeyCollection[idx];
+  const usedOptionKey = usedKeyCollection[option.idx];
+
+  const isDisabled = useMemo(() => {
+    let returnVal = disabled || option.disabled;
+
+    // check parent first
+    if (!returnVal) {
+      if (!multipleOption) {
+        if (usedCategoryKey) {
+          returnVal = true;
+        }
+      }
+    }
+
+    if (!returnVal) {
+      if (!option.multipleChoice) {
+        if (usedOptionKey) {
+          returnVal = true;
+        }
+      }
+    }
+
+    return returnVal;
+  }, [disabled, multipleOption, option.disabled, option.multipleChoice, usedCategoryKey, usedOptionKey]);
+
+  // const usedCategoryKey = usedKeyCollection[idx];
+
+  // const throttleCategoryValue = useThrottleValue(
+  //   {
+  //     isDisabled,
+  //     multipleOptionInSingleTreeRoot,
+  //     usedCategoryKey,
+  //   },
+  //   1000,
+  // );
+
+  // useEffect(() => {
+  //   if (
+  //     !throttleCategoryValue.isDisabled &&
+  //     !throttleCategoryValue.multipleOptionInSingleTreeRoot &&
+  //     !throttleCategoryValue.usedCategoryKey
+  //   ) {
+  //     // getOptionNodesSameCategoryExistInNode(nodeId, optionKey);
+  //   }
+  // }, [throttleCategoryValue]);
+
+  // const usedOptionKey = usedKeyCollection[option.idx];
+  // const throttleOptionValue = useThrottleValue(
+  //   {
+  //     isDisabled,
+  //     multipleChoiceInSingleTreeRoot: option.multipleChoiceInSingleTreeRoot,
+  //     usedOptionKey,
+  //   },
+  //   1000,
+  // );
+
+  // useEffect(() => {
+  //   if (
+  //     !throttleOptionValue.isDisabled &&
+  //     !throttleOptionValue.multipleChoiceInSingleTreeRoot &&
+  //     !throttleOptionValue.usedOptionKey
+  //   ) {
+  //     // getOptionNodesExistInNode(nodeId, optionKey);
+  //   }
+  // }, [throttleOptionValue]);
+
+  return (
+    <Source
+      id={option.idx}
+      key={`sidebar-source-${idx}-${option.idx}`}
+      data={{ categoryKey: idx, optionKey: option.idx, isRoot }}
+      disabled={isDisabled}
+    >
+      <Lego background={color} icon={option.icon} disabled={isDisabled}>
+        <LegoContent>
+          <TextRender data={option.title} />
+        </LegoContent>
+      </Lego>
+    </Source>
+  );
+};
+
+const CategoryGroup = (props: Props) => {
+  const {
+    idx,
+    title,
+    color,
+    options,
+    required,
+    disabled,
+    isRoot,
+    multipleOption,
+    multipleOptionInSingleTreeRoot,
+    customizeRenderOnSidebar,
+  } = props;
+
   const filteredOptions = useMemo(() => {
     return options.filter((item) => !item.hidden);
   }, [options]);
@@ -35,37 +147,17 @@ const CategoryGroup = (props: Props) => {
             return option.customizeRenderOnSideBar(option);
           }
 
-          let isDisabled = disabled || option.disabled;
-          // check parent first
-          if (!isDisabled) {
-            if (!multipleOption) {
-              if (usedKeyCollection[idx]) {
-                isDisabled = true;
-              }
-            }
-          }
-
-          if (!isDisabled) {
-            if (!option.multipleChoice) {
-              if (usedKeyCollection[option.idx]) {
-                isDisabled = true;
-              }
-            }
-          }
-
           return (
-            <Source
-              id={option.idx}
+            <CategoryOption
               key={`sidebar-source-${idx}-${option.idx}`}
-              data={{ categoryKey: idx, optionKey: option.idx, isRoot }}
-              disabled={isDisabled}
-            >
-              <Lego background={color} icon={option.icon} disabled={isDisabled}>
-                <LegoContent>
-                  <TextRender data={option.title} />
-                </LegoContent>
-              </Lego>
-            </Source>
+              idx={idx}
+              isRoot={isRoot}
+              color={color}
+              option={option}
+              disabled={disabled}
+              multipleOption={multipleOption}
+              multipleOptionInSingleTreeRoot={multipleOptionInSingleTreeRoot}
+            />
           );
         })}
       </div>

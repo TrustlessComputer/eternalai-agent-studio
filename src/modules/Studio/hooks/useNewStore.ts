@@ -3,6 +3,7 @@ import { create } from 'zustand';
 type Store = {
   data: Record<string, Record<string, unknown>>;
   addData: (id: string, data: Record<string, unknown>) => void;
+  resetData: (id: string) => void;
   clear: () => void;
 };
 
@@ -16,6 +17,16 @@ export const useMultipleStore = create<Store>((set, get) => ({
         ...(latestData[id] || {}),
         ...data,
       },
+    };
+    set({
+      data: newUpdated,
+    });
+  },
+  resetData: (id) => {
+    const latestData = get().data;
+    const newUpdated = {
+      ...latestData,
+      [id]: {},
     };
     set({
       data: newUpdated,
@@ -39,6 +50,9 @@ const createNewStore = <T>(id: string, initialData?: T) => {
         [field]: value,
       });
     },
+    resetData: () => {
+      useMultipleStore.getState().resetData(id);
+    },
   } as StoreWithAttributes<T>;
 };
 
@@ -46,6 +60,7 @@ type StoreWithAttributes<T> = {
   dataStore: T;
   addData: (data: Partial<T>) => void;
   addDataField: (key: string, value: unknown) => void;
+  resetData: () => void;
 };
 
 const useNewStore = <T>(id: string) => {
@@ -60,6 +75,9 @@ const useNewStore = <T>(id: string) => {
       useMultipleStore.getState().addData(id, {
         [field]: value,
       });
+    },
+    resetData: () => {
+      useMultipleStore.getState().resetData(id);
     },
   } as StoreWithAttributes<T>;
 };

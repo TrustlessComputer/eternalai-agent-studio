@@ -104,6 +104,7 @@ const useDndAction = () => {
 
       rootNode.data.sourceHandles.push(generateSourceHandleId(rootNode.id, newNode.id));
 
+      useStudioFlowStore.getState().addLinkedNode(rootNode.id, newNode.id);
       useStudioFlowStore.getState().addEdge(newEdge);
     }
 
@@ -128,8 +129,11 @@ const useDndAction = () => {
 
         if (rootNode) {
           const newEdge = createNewBaseEdge(rootNode.id, newNode.id, true);
+
           rootNode.data.sourceHandles.push(generateSourceHandleId(rootNode.id, newNode.id));
+
           useStudioFlowStore.getState().addEdge(newEdge);
+          useStudioFlowStore.getState().addLinkedNode(rootNode.id, newNode.id);
         }
 
         useStudioFlowStore.getState().addNode(newNode);

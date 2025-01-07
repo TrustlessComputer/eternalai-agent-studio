@@ -1,18 +1,17 @@
-import { LegoComponentIcon } from '../components/icons/lego';
-import { StudioCategory } from '../types/category';
+import { LegoComponentIcon } from '../components';
+import { StudioCategoryType } from '../enums/category';
+import { StudioCategory } from '../types';
 
 const AGENT_CATEGORY: StudioCategory = {
   idx: 'agent',
   title: 'Agent',
   required: true,
   icon: LegoComponentIcon,
-  isRoot: false,
   options: [
     {
-      idx: 'agent_option_1',
+      idx: 'agent_new',
       title: 'New Agent',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       data: {
         agentName: {
           type: 'text',
@@ -32,71 +31,28 @@ const PERSONALITY_CATEGORY: StudioCategory = {
   tooltip:
     'Create an agent for your NFT, Ordinals, token, —or start fresh with a new idea. This section defines your agent’s lore and backstory.',
   icon: LegoComponentIcon,
+  color: '#12DAC2',
   options: [
     {
-      idx: 'personality_option_1',
+      idx: 'personality_customize',
       title: 'New personality',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
-      data: {
-        personality: {
-          type: 'textarea',
-          label: 'Personality',
-          placeholder: 'Personality',
-          defaultValue: '',
-        },
-      },
-      customizeRenderOnBoard: () => {
-        return (
-          <div
-            style={{
-              width: 400,
-              height: 400,
-            }}
-          >
-            Test
-          </div>
-        );
-      },
     },
     {
-      idx: 'personality_option_2',
+      idx: 'personality_nft',
       title: 'Import from NFT',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
-      data: {
-        nftId: {
-          type: 'text',
-          label: 'NFT ID',
-          placeholder: 'NFT ID',
-          defaultValue: '',
-        },
-      },
     },
     {
-      idx: 'personality_option_3',
+      idx: 'personality_ordinals',
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
-      data: {
-        ordinalsId: {
-          type: 'text',
-          label: 'Ordinals ID',
-          placeholder: 'Ordinals ID',
-          defaultValue: '',
-        },
-      },
     },
     {
-      idx: 'personality_option_4',
+      idx: 'personality_token',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
-      data: {
-        tokenId: {
-          type: 'text',
-          label: 'Token ID',
-          placeholder: 'Token ID',
-          defaultValue: '',
-        },
-      },
     },
   ],
 };
@@ -106,25 +62,24 @@ const AI_FRAMEWORK_CATEGORY: StudioCategory = {
   title: 'AI Framework',
   required: true,
   tooltip:
-    'Create an agent for your NFT, Ordinals, token, —or start fresh with a new idea. This section defines your agent’s lore and backstory.',
+    'Pick the blockchain where your agent lives. Each option has unique deployment fees, performance, and ongoing costs. Choose what best fits your needs.',
   icon: LegoComponentIcon,
+  color: '#12DAC2',
   options: [
     {
-      idx: 'ai_framework_option_1',
-      title: 'Eternal Ai',
+      idx: 'ai_framework_eternal_ai',
+      title: 'Eternal AI',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
     },
     {
-      idx: 'ai_framework_option_2',
+      idx: 'ai_framework_eliza',
       title: 'Eliza',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       disabled: true,
     },
     {
-      idx: 'ai_framework_option_3',
+      idx: 'ai_framework_zerepy',
       title: 'ZerePy',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       disabled: true,
     },
   ],
@@ -132,97 +87,109 @@ const AI_FRAMEWORK_CATEGORY: StudioCategory = {
 
 const BLOCKCHAIN_CATEGORY: StudioCategory = {
   idx: 'blockchain',
-  title: 'Blockchain',
+  title: 'Blockchains',
   required: true,
   icon: LegoComponentIcon,
-  tooltip:
-    'Choose the blockchain where your agent will live. Each option comes with different deployment fees, performance levels, and ongoing costs. Pick the one that best suits your goals and budget.',
+  color: '#368cdc',
+  tooltip: '',
   options: [
     {
-      idx: 'blockchain_option_1',
+      idx: 'blockchain_base',
       title: 'Base',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      icon: '/icons/blockchains/ic_base.svg',
     },
     {
-      idx: 'blockchain_option_2',
+      idx: 'blockchain_arbitrum',
       title: 'Arbitrum',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
+      icon: '/icons/blockchains/ic_arbitrum.svg',
     },
     {
-      idx: 'blockchain_option_3',
+      idx: 'blockchain_bnb',
       title: 'BNB',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
+      icon: '/icons/blockchains/ic-bsc.png',
     },
     {
-      idx: 'blockchain_option_4',
+      idx: 'blockchain_bitcoin',
       title: 'Bitcoin',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
+      icon: '/icons/blockchains/ic_bitcoin.svg',
     },
     {
-      idx: 'blockchain_option_5',
-      title: 'Symbiosis',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
+      idx: 'blockchain_bittensor',
+      title: 'Bittensor',
+      icon: '/icons/blockchains/ic-tao.svg',
     },
     {
-      idx: 'blockchain_option_6',
+      idx: 'blockchain_ape_chain',
+      title: 'Ape Chain',
+      icon: '/icons/blockchains/ic-ape.png',
+    },
+    {
+      idx: 'blockchain_solana',
       title: 'Solana',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
+      icon: '/icons/blockchains/ic_solana.svg',
     },
     {
-      idx: 'blockchain_option_7',
+      idx: 'blockchain_polygon',
       title: 'Polygon',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
+      icon: '/icons/blockchains/ic_polygon.svg',
     },
     {
-      idx: 'blockchain_option_8',
+      idx: 'blockchain_zksync_era',
       title: 'ZKsync Era',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
+      icon: '/icons/blockchains/ic_zksync.svg',
     },
     {
-      idx: 'blockchain_option_9',
+      idx: 'blockchain_avalanche',
       title: 'Avalanche C-Chain',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
+      icon: '/icons/blockchains/ic_avax.svg',
     },
     {
-      idx: 'blockchain_option_10',
+      idx: 'blockchain_abstract_testnet',
       title: 'Abstract Testnet',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
+      icon: '/icons/blockchains/ic-abs.png',
+    },
+    {
+      idx: 'blockchain_duck_chain',
+      title: 'DuckChain',
+      icon: '/icons/blockchains/ic-duck.svg',
+    },
+    {
+      idx: 'blockchain_symbiosis',
+      title: 'Symbiosis',
+      icon: '/icons/blockchains/ic_nbs.svg',
     },
   ],
 };
 
-const DECENTRALIZE_CATEGORY: StudioCategory = {
-  idx: 'decentralize_inference',
+const DECENTRALIZED_CATEGORY: StudioCategory = {
+  idx: 'decentralized',
   title: 'Decentralize Inference',
   required: true,
   tooltip:
     'Create an agent for your NFT, Ordinals, token, —or start fresh with a new idea. This section defines your agent’s lore and backstory.',
   icon: LegoComponentIcon,
+  color: '#15C888',
   options: [
     {
-      idx: 'decentralize_inference_option_1',
+      idx: 'decentralize_inference_hermes_3_70b',
       title: 'Hermes 3 70B',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
     },
     {
-      idx: 'decentralize_inference_option_2',
+      idx: 'decentralize_inference_intellect_1_10b',
       title: 'INTELLECT 1 10B',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
     },
     {
-      idx: 'decentralize_inference_option_3',
+      idx: 'decentralize_inference_llama_3_1_405b',
       title: 'Llama 3.1 405B',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
     },
     {
-      idx: 'decentralize_inference_option_5',
+      idx: 'decentralize_inference_llama_3_3_470b',
       title: 'Llama 3.3 470B',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       disabled: true,
     },
   ],
@@ -230,35 +197,36 @@ const DECENTRALIZE_CATEGORY: StudioCategory = {
 
 const TOKEN_CATEGORY: StudioCategory = {
   idx: 'token',
-  title: 'Token',
+  title: 'Tokens',
   required: false,
   tooltip:
-    'Create an agent for your NFT, Ordinals, token, —or start fresh with a new idea. This section defines your agent’s lore and backstory.',
+    'Select the blockchain to issue your agent’s token. Consider factors like accessibility, liquidity, and trading volume.',
   icon: LegoComponentIcon,
+  color: '#A041FF',
   options: [
     {
-      idx: 'token_option_1',
+      idx: 'token_base',
       title: 'Base',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      icon: '/icons/blockchains/ic_base.svg',
     },
     {
-      idx: 'token_option_2',
+      idx: 'token_solana',
       title: 'Solana',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      icon: '/icons/blockchains/ic_solana.svg',
     },
     {
-      idx: 'token_option_3',
+      idx: 'token_arbitrum',
       title: 'Arbitrum',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      icon: '/icons/blockchains/ic_arbitrum.svg',
     },
     {
-      idx: 'token_option_4',
+      idx: 'token_bnb',
       title: 'BNB',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      icon: '/icons/blockchains/ic-bsc.png',
     },
   ],
 };
@@ -267,33 +235,37 @@ const MISSION_ON_X_CATEGORY: StudioCategory = {
   idx: 'mission_on_x',
   title: 'X',
   required: false,
-  tooltip:
-    'Create an agent for your NFT, Ordinals, token, —or start fresh with a new idea. This section defines your agent’s lore and backstory.',
+  tooltip: 'Set your agent’s activities on X. Choose what it does (e.g., posts, replies) and how often it does them.',
   icon: LegoComponentIcon,
+  color: '#6B39F9',
   options: [
     {
-      idx: 'mission_on_x_option_1',
+      idx: 'mission_on_x_post',
       title: 'Post on X',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_abilities_post.svg',
+      type: StudioCategoryType.LINK,
     },
     {
-      idx: 'mission_on_x_option_2',
+      idx: 'mission_on_x_reply',
       title: 'Reply on X',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_abilities_reply.svg',
+      type: StudioCategoryType.LINK,
     },
     {
-      idx: 'mission_on_x_option_3',
+      idx: 'mission_on_x_engage',
       title: 'Engage on X',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_abilities_engage.svg',
+      type: StudioCategoryType.LINK,
     },
     {
-      idx: 'mission_on_x_option_4',
+      idx: 'mission_on_x_follow',
       title: 'Follow on X',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_abilities_follow.svg',
+      type: StudioCategoryType.LINK,
     },
   ],
 };
@@ -302,32 +274,36 @@ const MISSION_ON_FARCASTER_CATEGORY: StudioCategory = {
   idx: 'mission_on_farcaster',
   title: 'Farcaster',
   required: false,
-  tooltip:
-    'Create an agent for your NFT, Ordinals, token, —or start fresh with a new idea. This section defines your agent’s lore and backstory.',
+  tooltip: 'Set your agent’s activities on X. Choose what it does (e.g., posts, replies) and how often it does them.',
   icon: LegoComponentIcon,
+  color: '#6B39F9',
   options: [
     {
-      idx: 'mission_on_farcaster_option_1',
+      idx: 'mission_on_farcaster_post',
       title: 'Post on Farcaster',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_abilities_post.svg',
+      type: StudioCategoryType.LINK,
     },
     {
-      idx: 'mission_on_farcaster_option_2',
+      idx: 'mission_on_farcaster_reply',
       title: 'Reply on Farcaster',
       tooltip: '',
-      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_abilities_reply.svg',
+      type: StudioCategoryType.LINK,
     },
   ],
 };
 
-export const AGENT_MODEL_CATEGORIES: StudioCategory[] = [
+const AGENT_MODEL_CATEGORIES: StudioCategory[] = [
   AGENT_CATEGORY,
   PERSONALITY_CATEGORY,
   AI_FRAMEWORK_CATEGORY,
   BLOCKCHAIN_CATEGORY,
-  DECENTRALIZE_CATEGORY,
+  DECENTRALIZED_CATEGORY,
   TOKEN_CATEGORY,
   MISSION_ON_X_CATEGORY,
   MISSION_ON_FARCASTER_CATEGORY,
 ];
+
+export default AGENT_MODEL_CATEGORIES;

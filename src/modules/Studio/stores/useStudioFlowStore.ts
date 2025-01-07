@@ -8,6 +8,7 @@ const DEFAULT_VALUE = {
   nodes: [],
   edges: [],
   hiddenNodes: [],
+  linkedNodes: {},
 };
 
 type Store = {
@@ -18,6 +19,10 @@ type Store = {
   setNodes: (nodes: StudioNode[]) => void;
   addNode: (node: StudioNode) => void;
   addNodes: (nodes: StudioNode[]) => void;
+
+  addLinkedNode: (nodeId: string, linkedNodeId: string) => void;
+  linkedNodes: Record<string, string[]>;
+  setLinkedNodes: (nodes: Record<string, string[]>) => void;
 
   updateNode: (node: StudioNode) => void;
   updateNodes: (nodes: StudioNode[]) => void;
@@ -51,6 +56,17 @@ const useStudioFlowStore = create<Store>((set, get) => ({
   addNode: (node) => set({ nodes: [...get().nodes, node] }),
   addNodes: (nodes) => set({ nodes: [...get().nodes, ...nodes] }),
 
+  addLinkedNode: (nodeId, linkedNodeId) => {
+    set({
+      linkedNodes: {
+        ...get().linkedNodes,
+        [nodeId]: [...(get().linkedNodes[nodeId] || []), linkedNodeId],
+      },
+    });
+  },
+
+  setLinkedNodes: (nodes) => set({ linkedNodes: nodes }),
+
   updateNode: (node) => {
     const updatedNodes = get().nodes.map((n) => (n.id === node.id ? node : n));
     set({ nodes: updatedNodes });
@@ -69,13 +85,29 @@ const useStudioFlowStore = create<Store>((set, get) => ({
     const updatedNodes = get().nodes.filter((node) => node.id !== id);
     const updatedEdges = get().edges.filter((edge) => edge.source !== id && edge.target !== id);
 
-    set({ nodes: updatedNodes, edges: updatedEdges });
+    const updatedLinkedNodes = Object.fromEntries(Object.entries(get().linkedNodes).filter(([key]) => key !== id));
+
+    Object.keys(updatedLinkedNodes).forEach((key) => {
+      if (updatedLinkedNodes[key]?.length > 0) {
+        updatedLinkedNodes[key] = updatedLinkedNodes[key].filter((id) => id !== id);
+      }
+    });
+
+    set({ nodes: updatedNodes, edges: updatedEdges, linkedNodes: updatedLinkedNodes });
   },
   removeNodes: (ids) => {
     const updatedNodes = get().nodes.filter((node) => !ids.includes(node.id));
     const updatedEdges = get().edges.filter((edge) => !ids.includes(edge.source) && !ids.includes(edge.target));
 
-    set({ nodes: updatedNodes, edges: updatedEdges });
+    const updatedLinkedNodes = Object.fromEntries(Object.entries(get().linkedNodes).filter(([key]) => !ids.includes(key)));
+
+    Object.keys(updatedLinkedNodes).forEach((key) => {
+      if (updatedLinkedNodes[key]?.length > 0) {
+        updatedLinkedNodes[key] = updatedLinkedNodes[key].filter((id) => !ids.includes(id));
+      }
+    });
+
+    set({ nodes: updatedNodes, edges: updatedEdges, linkedNodes: updatedLinkedNodes });
   },
 
   onNodesChange: (changes) => {

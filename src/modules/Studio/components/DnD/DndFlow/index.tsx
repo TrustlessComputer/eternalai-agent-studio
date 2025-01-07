@@ -25,6 +25,7 @@ import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { StudioCategory, StudioCategoryMapValue, StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
+import { StudioCategoryType } from '@/modules/Studio/enums/category';
 
 function DndFlow({ children }: PropsWithChildren) {
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }));
@@ -119,7 +120,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
     if (to === StudioZone.ZONE_DISTRIBUTION) {
       // Create
-      if (from === StudioZone.ZONE_SOURCE) {
+      if (from === StudioZone.ZONE_SOURCE && fromOption?.type !== StudioCategoryType.LINK) {
         const isValid =
           fromOption?.onDropInValidate?.({
             option: fromOption,
@@ -133,10 +134,16 @@ function DndFlow({ children }: PropsWithChildren) {
 
         addProduct(rootNode, fromData, fromOption);
         updateNodes([rootNode]);
+        return;
       }
 
       // Split
-      if (from === StudioZone.ZONE_PRODUCT_ADDON && !isTheSameNode && fromNode) {
+      if (
+        from === StudioZone.ZONE_PRODUCT_ADDON &&
+        !isTheSameNode &&
+        fromNode &&
+        fromOption?.type !== StudioCategoryType.LINK
+      ) {
         if (!fromData.belongsTo) return;
 
         const isValid =
@@ -154,12 +161,25 @@ function DndFlow({ children }: PropsWithChildren) {
 
         splitPackage(rootNode, fromNode, fromData, fromOption);
         updateNodes([rootNode, fromNode]);
+        return;
       }
     }
 
     if (to === StudioZone.ZONE_PACKAGE && toNode) {
+      // Link
+      if (from === StudioZone.ZONE_SOURCE && fromOption?.type === StudioCategoryType.LINK) {
+        // toNode become a root for now
+        addProduct(toNode, fromData, fromOption);
+        updateNodes([toNode]);
+        return;
+      }
+
       // Add
-      if (from === StudioZone.ZONE_SOURCE) {
+      if (
+        from === StudioZone.ZONE_SOURCE &&
+        fromOption?.type !== StudioCategoryType.LINK &&
+        toOption?.type !== StudioCategoryType.LINK
+      ) {
         const isValid =
           fromOption?.onAddValidate?.({
             option: fromOption,
@@ -177,10 +197,16 @@ function DndFlow({ children }: PropsWithChildren) {
 
         addToPackage(toNode, [newNode]);
         updateNodes([toNode]);
+        return;
       }
 
       // Merge
-      if (from === StudioZone.ZONE_PRODUCT && !isTheSameNode) {
+      if (
+        from === StudioZone.ZONE_PRODUCT &&
+        !isTheSameNode &&
+        toOption?.type !== StudioCategoryType.LINK &&
+        fromOption?.type !== StudioCategoryType.LINK
+      ) {
         if (!fromData.belongsTo || !fromNode || !toNode) return;
 
         const isValid =
@@ -200,6 +226,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
         mergeProducts(fromNode, toNode, fromData);
         updateNodes([fromNode, toNode]);
+        return;
       }
 
       // Move
@@ -223,6 +250,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
         movePartOfPackage(fromNode, toNode, fromData);
         updateNodes([fromNode, toNode]);
+        return;
       }
     }
 
@@ -245,6 +273,7 @@ function DndFlow({ children }: PropsWithChildren) {
         if (!isValid) return;
 
         removeProduct(fromData?.belongsTo);
+        return;
       }
 
       // Remove the node's children
@@ -266,6 +295,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
         removePartOfPackage(fromNode, fromData?.childIndex || 0);
         updateNodes([fromNode]);
+        return;
       }
     }
 

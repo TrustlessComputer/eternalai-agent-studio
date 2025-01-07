@@ -46,3 +46,11 @@ export const getOptionNodesSameCategoryExistInNode = (nodeId: string, optionKey:
     return [];
   }
 };
+
+export const getRelatedNodes = (nodeId: string) => {
+  const linkedNodes = useStudioFlowStore.getState().linkedNodes;
+  const relatedNodes = linkedNodes[nodeId] || [];
+
+  const nodes = useStudioFlowStore.getState().nodes;
+  return nodes.filter((node) => relatedNodes.includes(node.id));
+};

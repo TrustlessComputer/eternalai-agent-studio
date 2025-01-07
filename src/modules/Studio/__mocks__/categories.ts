@@ -14,7 +14,6 @@ const AGENT: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: StudioCategoryType.INLINE,
       data: {
         agentName: {
           type: 'text',
@@ -53,28 +52,24 @@ const PERSONALITY: StudioCategory = {
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
       data: {},
-      type: StudioCategoryType.INLINE,
     },
     {
       idx: 'personality_option_2',
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       order: 1,
-      type: StudioCategoryType.INLINE,
     },
     {
       idx: 'personality_option_3',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
       order: 2,
-      type: StudioCategoryType.INLINE,
     },
     {
       idx: 'personality_option_4',
       title: 'New personality',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
       order: 3,
-      type: StudioCategoryType.INLINE,
     },
   ],
   icon: LegoComponentIcon,
@@ -93,7 +88,6 @@ const NETWORK: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: StudioCategoryType.INLINE,
       data: {
         network: {
           type: 'text',
@@ -111,7 +105,6 @@ const NETWORK: StudioCategory = {
       title: 'Import from Ordinals',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
       order: 1,
-      type: StudioCategoryType.INLINE,
       data: {
         network: {
           type: 'textarea',
@@ -134,14 +127,12 @@ const NETWORK: StudioCategory = {
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
       order: 2,
-      type: StudioCategoryType.INLINE,
     },
     {
       idx: 'network_option_4',
       title: 'New personality',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
       order: 3,
-      type: StudioCategoryType.INLINE,
       data: {
         network: {
           type: 'select',

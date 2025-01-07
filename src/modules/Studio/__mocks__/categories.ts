@@ -159,7 +159,7 @@ export const STANDALONE: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: StudioCategoryType.STANDALONE,
+
       data: {
         field1: {
           type: 'text',
@@ -194,7 +194,7 @@ export const CAN_NOT_ADD: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: StudioCategoryType.STANDALONE,
+
       data: {
         field1: {
           type: 'text',
@@ -223,7 +223,7 @@ export const CAN_NOT_ADD: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: StudioCategoryType.STANDALONE,
+
       data: {
         field1: {
           type: 'text',
@@ -251,7 +251,7 @@ export const CAN_NOT_ADD: StudioCategory = {
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
       order: 0,
-      type: StudioCategoryType.STANDALONE,
+
       data: {
         field1: {
           type: 'text',

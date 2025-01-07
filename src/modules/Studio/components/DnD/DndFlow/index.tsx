@@ -16,6 +16,7 @@ import {
 import { applyNodeChanges, XYPosition } from '@xyflow/react';
 import { PropsWithChildren, useCallback, useRef } from 'react';
 
+import { StudioCategoryType } from '@/modules/Studio/enums/category';
 import useDndAction from '@/modules/Studio/hooks/useDndAction';
 import useDndInteraction from '@/modules/Studio/hooks/useDndInteraction';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
@@ -25,7 +26,6 @@ import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { StudioCategory, StudioCategoryMapValue, StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
-import { StudioCategoryType } from '@/modules/Studio/enums/category';
 
 function DndFlow({ children }: PropsWithChildren) {
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }));
@@ -41,6 +41,7 @@ function DndFlow({ children }: PropsWithChildren) {
     splitPackage,
     mergeProducts,
     getNewNodeInfo,
+    updateFieldValidate,
   } = useDndAction();
   const { updateNodes } = useDndInteraction();
 
@@ -134,6 +135,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
         addProduct(rootNode, fromData, fromOption);
         updateNodes([rootNode]);
+
         return;
       }
 
@@ -161,6 +163,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
         splitPackage(rootNode, fromNode, fromData, fromOption);
         updateNodes([rootNode, fromNode]);
+
         return;
       }
     }
@@ -171,6 +174,7 @@ function DndFlow({ children }: PropsWithChildren) {
         // toNode become a root for now
         addProduct(toNode, fromData, fromOption);
         updateNodes([toNode]);
+
         return;
       }
 
@@ -197,6 +201,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
         addToPackage(toNode, [newNode]);
         updateNodes([toNode]);
+
         return;
       }
 
@@ -226,6 +231,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
         mergeProducts(fromNode, toNode, fromData);
         updateNodes([fromNode, toNode]);
+
         return;
       }
 
@@ -250,6 +256,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
         movePartOfPackage(fromNode, toNode, fromData);
         updateNodes([fromNode, toNode]);
+
         return;
       }
     }
@@ -273,6 +280,7 @@ function DndFlow({ children }: PropsWithChildren) {
         if (!isValid) return;
 
         removeProduct(fromData?.belongsTo);
+
         return;
       }
 
@@ -295,6 +303,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
         removePartOfPackage(fromNode, fromData?.childIndex || 0);
         updateNodes([fromNode]);
+
         return;
       }
     }
@@ -302,6 +311,11 @@ function DndFlow({ children }: PropsWithChildren) {
     useStudioFlowStore.getState().reloadFlow();
 
     movingNodeRef.current = null;
+
+    updateFieldValidate({
+      fromCategory,
+      fromOption,
+    });
   }, []);
 
   const handleDragMove = useCallback((event: DragMoveEvent) => {

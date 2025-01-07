@@ -19,7 +19,6 @@ const CategoryOption = ({
   option,
   disabled,
   multipleOption,
-  multipleOptionInSingleTreeRoot,
 }: {
   idx: string;
   isRoot?: boolean;
@@ -27,7 +26,6 @@ const CategoryOption = ({
   option: StudioCategoryOption;
   disabled?: boolean;
   multipleOption?: boolean;
-  multipleOptionInSingleTreeRoot?: boolean;
 }) => {
   const usedKeyCollection = useStudioCategoryStore((state) => state.usedKeyCollection);
   const usedCategoryKey = usedKeyCollection[idx];
@@ -56,47 +54,6 @@ const CategoryOption = ({
     return returnVal;
   }, [disabled, multipleOption, option.disabled, option.multipleChoice, usedCategoryKey, usedOptionKey]);
 
-  // const usedCategoryKey = usedKeyCollection[idx];
-
-  // const throttleCategoryValue = useThrottleValue(
-  //   {
-  //     isDisabled,
-  //     multipleOptionInSingleTreeRoot,
-  //     usedCategoryKey,
-  //   },
-  //   1000,
-  // );
-
-  // useEffect(() => {
-  //   if (
-  //     !throttleCategoryValue.isDisabled &&
-  //     !throttleCategoryValue.multipleOptionInSingleTreeRoot &&
-  //     !throttleCategoryValue.usedCategoryKey
-  //   ) {
-  //     // getOptionNodesSameCategoryExistInNode(nodeId, optionKey);
-  //   }
-  // }, [throttleCategoryValue]);
-
-  // const usedOptionKey = usedKeyCollection[option.idx];
-  // const throttleOptionValue = useThrottleValue(
-  //   {
-  //     isDisabled,
-  //     multipleChoiceInSingleTreeRoot: option.multipleChoiceInSingleTreeRoot,
-  //     usedOptionKey,
-  //   },
-  //   1000,
-  // );
-
-  // useEffect(() => {
-  //   if (
-  //     !throttleOptionValue.isDisabled &&
-  //     !throttleOptionValue.multipleChoiceInSingleTreeRoot &&
-  //     !throttleOptionValue.usedOptionKey
-  //   ) {
-  //     // getOptionNodesExistInNode(nodeId, optionKey);
-  //   }
-  // }, [throttleOptionValue]);
-
   return (
     <Source
       id={option.idx}
@@ -114,18 +71,7 @@ const CategoryOption = ({
 };
 
 const CategoryGroup = (props: Props) => {
-  const {
-    idx,
-    title,
-    color,
-    options,
-    required,
-    disabled,
-    isRoot,
-    multipleOption,
-    multipleOptionInSingleTreeRoot,
-    customizeRenderOnSidebar,
-  } = props;
+  const { idx, title, color, options, required, disabled, isRoot, multipleOption, customizeRenderOnSidebar } = props;
 
   const filteredOptions = useMemo(() => {
     return options.filter((item) => !item.hidden);
@@ -156,7 +102,6 @@ const CategoryGroup = (props: Props) => {
               option={option}
               disabled={disabled}
               multipleOption={multipleOption}
-              multipleOptionInSingleTreeRoot={multipleOptionInSingleTreeRoot}
             />
           );
         })}

@@ -120,13 +120,13 @@ export type StudioCategoryOption = BaseCategory &
   StudioOptionCustomizeRender & {
     type?: StudioCategoryType; // default is inline
     boxWrapper?: StudioCategoryBoxWrapperProps;
-    multipleChoice?: boolean; // default true
+    multipleChoice?: boolean; // default true, this field apply for all
   };
 
 export type StudioCategory = Omit<BaseCategory, 'value' | 'data'> & {
   options: StudioCategoryOption[];
   isRoot?: boolean; // default is false. have only one root in entire category
-  multipleOption?: boolean; // default true
+  multipleOption?: boolean; // default true, this field apply for all
 } & StudioCategoryCustomizeRender;
 
 export type StudioCategoryMapValue = StudioCategory;

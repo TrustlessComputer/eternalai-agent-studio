@@ -6,7 +6,7 @@ import useStudioDndStore from '../stores/useStudioDndStore';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
 import useStudioFormStore from '../stores/useStudioFormStore';
-import { StudioCategoryOption } from '../types/category';
+import { StudioCategory, StudioCategoryOption, StudioCategoryOptionMapValue } from '../types/category';
 import { DraggableData } from '../types/dnd';
 import { StudioNode } from '../types/graph';
 import { noUndefinedElement } from '../utils/array';
@@ -165,6 +165,13 @@ const useDndAction = () => {
     };
   }, []);
 
+  const updateFieldValidate = useCallback(
+    ({ fromCategory, fromOption }: { fromCategory: StudioCategory | undefined; fromOption: StudioCategoryOptionMapValue | undefined }) => {
+      if (!fromCategory || !fromOption) return;
+    },
+    [],
+  );
+
   return {
     removeProduct,
     addProduct,
@@ -174,6 +181,7 @@ const useDndAction = () => {
     splitPackage,
     mergeProducts,
     getNewNodeInfo,
+    updateFieldValidate,
   };
 };
 

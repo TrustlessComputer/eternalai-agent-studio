@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { create } from 'zustand';
 
 type Store = {
@@ -63,8 +64,16 @@ type StoreWithAttributes<T> = {
   resetData: () => void;
 };
 
-const useNewStore = <T>(id: string) => {
+const useNewStore = <T>(id: string, onChange?: (d: T) => void) => {
   const data = useMultipleStore((state) => state.data[id]) as T;
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(data);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   return {
     dataStore: (data || {}) as T,

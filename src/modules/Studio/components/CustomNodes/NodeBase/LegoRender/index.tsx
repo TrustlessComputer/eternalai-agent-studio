@@ -89,23 +89,14 @@ const LegoRenderCustomization = ({ background, icon, id, idx, render, title }: P
         width: '100%',
       }}
     >
-      <LegoContent>
-        <div className="studio-customize-content">
-          <div className="studio-customize-content__title">
-            <TextRender data={title} />
-          </div>
-          <NoDraggable className="studio-customize-content__no-draggable">
-            {render({
-              id,
-              option,
-              formData: formData || {},
-              setFormFields: specifyFormFields,
-              allFormData,
-              data,
-            })}
-          </NoDraggable>
-        </div>
-      </LegoContent>
+      {render({
+        id,
+        option,
+        formData: formData || {},
+        setFormFields: specifyFormFields,
+        allFormData,
+        data,
+      })}
     </Lego>
   );
 };

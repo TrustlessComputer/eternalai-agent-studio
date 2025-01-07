@@ -132,7 +132,12 @@ const Tooltip = ({
 
   return (
     <>
-      <div ref={triggerRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="tooltip-trigger">
+      <div
+        ref={triggerRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className="studio-tooltip-trigger"
+      >
         {children}
       </div>
 
@@ -140,7 +145,7 @@ const Tooltip = ({
         label && isVisible && (
           <div
             ref={tooltipRef}
-            className={`tooltip-content tooltip-${placement}`}
+            className={`studio-tooltip-content tooltip-${placement}`}
             style={{
               backgroundColor,
               color,

@@ -98,6 +98,13 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
               order: option.order ?? Number.MAX_SAFE_INTEGER,
               type: option.type ?? DEFAULT_CATEGORY_TYPE,
               multipleChoice: option.multipleChoice ?? true,
+              onLinkValidate: option.onLinkValidate || item.onLinkValidate,
+              onSnapValidate: option.onSnapValidate || item.onSnapValidate,
+              onSplitValidate: option.onSplitValidate || item.onSplitValidate,
+              onMergeValidate: option.onMergeValidate || item.onMergeValidate,
+              onDropInValidate: option.onDropInValidate || item.onDropInValidate,
+              onDropOutValidate: option.onDropOutValidate || item.onDropOutValidate,
+              onAddValidate: option.onAddValidate || item.onAddValidate,
             };
           })
           .sort((a, b) => a.order - b.order);

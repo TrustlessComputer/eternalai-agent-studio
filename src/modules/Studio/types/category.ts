@@ -123,11 +123,12 @@ export type StudioCategoryOption = BaseCategory &
     multipleChoice?: boolean; // default true, this field apply for all
   };
 
-export type StudioCategory = Omit<BaseCategory, 'value' | 'data'> & {
-  options: StudioCategoryOption[];
-  isRoot?: boolean; // default is false. have only one root in entire category
-  multipleOption?: boolean; // default true, this field apply for all
-} & StudioCategoryCustomizeRender;
+export type StudioCategory = Omit<BaseCategory, 'value' | 'data'> &
+  StudioCategoryDragDropFunction & {
+    options: StudioCategoryOption[];
+    isRoot?: boolean; // default is false. have only one root in entire category
+    multipleOption?: boolean; // default true, this field apply for all
+  } & StudioCategoryCustomizeRender;
 
 export type StudioCategoryMapValue = StudioCategory;
 export type StudioCategoryOptionMapValue = StudioCategoryOption & {

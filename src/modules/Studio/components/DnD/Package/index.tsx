@@ -13,7 +13,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   disabled?: boolean; // means the droppable do not accept any droppable
 };
 
-const Package = ({ id, data, disabled, className, children, ...props }: Props) => {
+const PackageComponent = ({ id, data, disabled, className, children, ...props }: Props) => {
   const draggingElement = useStudioDndStore((state) => state.draggingElement);
 
   const extendedData = useMemo(() => {
@@ -78,4 +78,12 @@ const Package = ({ id, data, disabled, className, children, ...props }: Props) =
   );
 };
 
-export default Package;
+export default function Package(props: Props) {
+  const draggingData = useStudioDndStore((state) => state.draggingData);
+
+  if (draggingData?.belongsTo === props.id) {
+    return <></>;
+  }
+
+  return <PackageComponent {...props} />;
+}

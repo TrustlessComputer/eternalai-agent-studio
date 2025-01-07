@@ -111,40 +111,6 @@ export type StudioFormFieldValidate = (
 ) => boolean;
 
 export type StudioCategoryFormFunction = {
-  // /**
-  //  * onFormChange
-  //  * handle form change event
-  //  * @param value form data
-  //  * @returns
-  //  */
-  // onFormChange?: <T extends FormDataMap>(value: T) => void;
-
-  // /**
-  //  * onFormValidate
-  //  * handle form validate event
-  //  * @param value form data
-  //  * @param onUpdateToStore update form data to store
-  //  * @returns
-  //  */
-  // onFormValidate?: <T extends FormDataMap>(value: T) => boolean;
-
-  // /**
-  //  * onFieldChange
-  //  * handle field change event
-  //  * @param field field name
-  //  * @param value field value
-  //  * @returns
-  //  */
-  // onFieldChange?: (field: string, value: unknown) => void;
-
-  // /**
-  //  * onFieldValidate
-  //  * handle field validate event
-  //  * @param field field name
-  //  * @param value field value
-  //  * @param onUpdateToStore update form data to store
-  //  * @returns
-  //  */
   onFieldValidate?: StudioFormFieldValidate;
 };
 

@@ -7,7 +7,6 @@ const DEFAULT_VALUE = {
   reloadFlowCounter: 0,
   nodes: [],
   edges: [],
-  hiddenNodes: [],
   linkedNodes: {},
 };
 
@@ -38,9 +37,6 @@ type Store = {
   onNodesChange: OnNodesChange<StudioNode>;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-
-  hiddenNodes: StudioNode[];
-  setHiddenNodes: (nodes: StudioNode[]) => void;
 
   clear: () => void;
 };
@@ -125,8 +121,6 @@ const useStudioFlowStore = create<Store>((set, get) => ({
       edges: addEdge(connection, get().edges),
     });
   },
-
-  setHiddenNodes: (nodes) => set({ hiddenNodes: nodes }),
 
   clear: () => set(DEFAULT_VALUE),
 }));

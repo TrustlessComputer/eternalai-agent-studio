@@ -17,8 +17,8 @@ export const getOptionNodesExistInNode = (nodeId: string, optionKey: string) => 
     }
 
     // check children
-    const childrenOption = matchedNode.data.metadata.children.find((node) => node.data.metadata.idx === optionKey);
-    foundItem.push(childrenOption);
+    const childrenOption = matchedNode.data.metadata.children.filter((node) => node.data.metadata.idx === optionKey);
+    foundItem.push(...childrenOption);
 
     return foundItem;
   } catch (e) {

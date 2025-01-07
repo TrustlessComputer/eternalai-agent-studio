@@ -1,4 +1,6 @@
 import {
+  closestCenter,
+  closestCorners,
   DndContext,
   DragAbortEvent,
   DragCancelEvent,
@@ -316,7 +318,9 @@ function DndFlow({ children }: PropsWithChildren) {
     }
   }, []);
 
-  const handleDragOver = useCallback((_event: DragOverEvent) => {}, []);
+  const handleDragOver = useCallback((_event: DragOverEvent) => {
+    console.log('[DndContainer] handleDragOver', _event.over?.id);
+  }, []);
 
   const handleDragCancel = useCallback((_event: DragCancelEvent) => {}, []);
 
@@ -327,6 +331,7 @@ function DndFlow({ children }: PropsWithChildren) {
   return (
     <DndContext
       sensors={sensors}
+      collisionDetection={closestCenter}
       onDragStart={handleDragStart}
       onDragMove={handleDragMove}
       onDragOver={handleDragOver}

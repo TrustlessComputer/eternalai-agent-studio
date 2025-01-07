@@ -46,6 +46,18 @@ const PERSONALITY_CATEGORY: StudioCategory = {
           defaultValue: '',
         },
       },
+      customizeRenderOnBoard: () => {
+        return (
+          <div
+            style={{
+              width: 400,
+              height: 400,
+            }}
+          >
+            Test
+          </div>
+        );
+      },
     },
     {
       idx: 'personality_option_2',

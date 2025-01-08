@@ -6,7 +6,7 @@ import { StudioCategoryType } from '../enums/category';
 
 export type DataSchemaField = string;
 export type DataSchemaValue = {
-  type: 'text' | 'textarea' | 'checkbox' | 'select';
+  type: 'text' | 'textarea' | 'checkbox' | 'select' | 'hidden';
   label?: string;
   placeholder?: string;
   defaultValue?: string | number | boolean;

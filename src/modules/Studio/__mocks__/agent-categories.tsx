@@ -223,24 +223,56 @@ const TOKEN_CATEGORY: StudioCategory = {
       title: 'Base',
       tooltip: '',
       icon: '/icons/blockchains/ic_base.svg',
+      data: {
+        value: {
+          type: 'hidden',
+          label: 'Token Name',
+          placeholder: 'Token Name',
+          defaultValue: '8453',
+        },
+      },
     },
     {
       idx: 'token_solana',
       title: 'Solana',
       tooltip: '',
       icon: '/icons/blockchains/ic_solana.svg',
+      data: {
+        value: {
+          type: 'hidden',
+          label: 'Token Name',
+          placeholder: 'Token Name',
+          defaultValue: '8454',
+        },
+      },
     },
     {
       idx: 'token_arbitrum',
       title: 'Arbitrum',
       tooltip: '',
       icon: '/icons/blockchains/ic_arbitrum.svg',
+      data: {
+        value: {
+          type: 'hidden',
+          label: 'Token Name',
+          placeholder: 'Token Name',
+          defaultValue: '8455',
+        },
+      },
     },
     {
       idx: 'token_bnb',
       title: 'BNB',
       tooltip: '',
       icon: '/icons/blockchains/ic-bsc.png',
+      data: {
+        value: {
+          type: 'hidden',
+          label: 'Token Name',
+          placeholder: 'Token Name',
+          defaultValue: '8456',
+        },
+      },
     },
   ],
 };

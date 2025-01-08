@@ -46,8 +46,6 @@ export const useStudio = () => {
     const nodes = useStudioFlowStore.getState().nodes;
     const formMap = useStudioFormStore.getState().formMap;
 
-    console.log('[useStudio] getOptionPlaceQuantity', { optionId, nodes, formMap });
-
     nodes.forEach((node) => {
       const formId = node.id;
       const formData = formMap[formId];

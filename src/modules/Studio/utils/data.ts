@@ -5,6 +5,7 @@ import { StudioDataNode } from '../types/graph';
 
 export const getFormDataFromCategoryOption = (category: StudioCategoryOption) => {
   const categoryData = category?.data || {};
+
   const defaultValues = Object.keys(categoryData).reduce(
     (acc, key) => ({
       ...acc,
@@ -19,9 +20,10 @@ export const getFormDataFromCategoryOption = (category: StudioCategoryOption) =>
 export const getFieldDataFromRawData = (data: StudioDataNode[]) => {
   let formData: Record<string, FormDataMap> = {};
   const categoryMap = useStudioCategoryStore.getState().categoryMap;
+  const categoryOptionMap = useStudioCategoryStore.getState().categoryOptionMap;
 
   data.forEach((item) => {
-    const defaultValues = getFormDataFromCategoryOption(categoryMap[item.idx] || {});
+    const defaultValues = getFormDataFromCategoryOption(categoryOptionMap[item.idx] || categoryMap[item.idx] || {});
 
     formData[item.id] = {
       ...defaultValues,

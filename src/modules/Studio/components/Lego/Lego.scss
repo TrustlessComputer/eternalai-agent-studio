@@ -1,19 +1,19 @@
 .lego {
   position: relative;
   width: max-content !important;
-  height: 41px;
+  height: 43px;
 
   &:before {
     content: '';
     position: absolute;
     top: 0;
-    left: 42px;
-    transform: translateY(-0.65px);
-    width: calc(100% - 42px);
-    height: 41px;
+    left: 43px;
+    // transform: translateY(-0.65px);
+    width: calc(100% - 43px);
+    height: calc(100% - 1px);
     border-radius: 0 4px 4px 0;
     border: 1px solid var(--border-color);
-    border-left: none;
+    border-left: 1px solid transparent;
     background-color: var(--background-color);
     pointer-events: none;
     user-select: none;
@@ -36,7 +36,7 @@
       top: 50%;
       left: 0;
       transform: translateY(-50%);
-      width: 42px;
+      width: 43px;
       height: calc(100% - 20px);
       border-left: 1px solid var(--border-color);
       background-color: var(--background-color);
@@ -59,8 +59,8 @@
 
   .lego__stud {
     position: absolute;
-    top: -1px;
-    left: -1px;
+    top: 0;
+    left: 0;
     height: 50px;
 
     &.lego__stud--bottom {

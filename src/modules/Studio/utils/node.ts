@@ -1,6 +1,10 @@
 import { XYPosition } from '@xyflow/react';
 
+import { createNewBaseEdge, generateSourceHandleId } from './edge';
 import { AREA_CLASS_NAMES } from '../constants/area-class-names';
+import { StudioCategoryType } from '../enums/category';
+import useStudioCategoryStore from '../stores/useStudioCategoryStore';
+import useStudioFlowStore from '../stores/useStudioFlowStore';
 import { StudioDataNode, StudioNode, StudioNodeMetadata } from '../types/graph';
 
 import { NodeType } from '@/enums/node-type';
@@ -27,8 +31,33 @@ export const createNewNodeBase = (id: string, position: XYPosition, metadata: St
   } satisfies StudioNode;
 };
 
+const createLinkedNode = (linkedChild: StudioDataNode, parentNode: StudioNode) => {
+  const metadata = {
+    children: [],
+    idx: linkedChild.idx,
+  } satisfies StudioNodeMetadata;
+
+  const position = linkedChild.rect?.position || { x: 0, y: 0 };
+  const linkedNode = createNewNodeBase(linkedChild.id, position, metadata);
+
+  const newEdge = createNewBaseEdge(parentNode.id, linkedNode.id, true);
+  parentNode.data.sourceHandles.push(generateSourceHandleId(parentNode.id, linkedNode.id));
+  useStudioFlowStore.getState().addLinkedNode(parentNode.id, linkedNode.id);
+  useStudioFlowStore.getState().addEdge(newEdge);
+
+  if (linkedChild.children.length) {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    const childrenOfLinkedNode = transformDataToNodes([linkedChild]);
+
+    return childrenOfLinkedNode;
+  }
+
+  return [linkedNode];
+};
+
 export const transformDataToNodes = (data: StudioDataNode[]) => {
   const nodes: StudioNode[] = [];
+  const categoryOptionMap = useStudioCategoryStore.getState().categoryOptionMap;
 
   data.forEach((item) => {
     if (item.idx) {
@@ -36,7 +65,10 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
 
       const childrenNode: StudioNode[] = [];
       if (item.children.length) {
-        childrenNode.push(...transformDataToNodes(item.children));
+        // for directly children
+        const directlyChildren = item.children.filter((child) => categoryOptionMap[child.idx].type === StudioCategoryType.INLINE);
+
+        childrenNode.push(...transformDataToNodes(directlyChildren));
       }
 
       const metadata = {
@@ -44,7 +76,18 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
         idx: item.idx,
       } satisfies StudioNodeMetadata;
 
-      nodes.push(createNewNodeBase(item.id, position, metadata));
+      const node = createNewNodeBase(item.id, position, metadata);
+      nodes.push(node);
+
+      if (item.children.length) {
+        // for linked children
+        const linkedChildren = item.children.filter((child) => categoryOptionMap[child.idx].type === StudioCategoryType.LINK);
+
+        linkedChildren.forEach((linkedChild) => {
+          const newLinkedNodes = createLinkedNode(linkedChild, node);
+          nodes.push(...newLinkedNodes);
+        });
+      }
     }
   });
 

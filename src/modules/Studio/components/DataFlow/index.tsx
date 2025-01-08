@@ -29,10 +29,11 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
     // sync nodes with data
 
     if (!isDragging) {
+      const linkedNodes = useStudioFlowStore.getState().linkedNodes;
       const usedKeyCollection: Record<string, string> = {};
       const categoryOptionMap = useStudioCategoryStore.getState().categoryOptionMap;
 
-      const getChildrenDataFromChildren = (children: StudioNode[]) => {
+      const getChildrenDataFromChildren = (children: StudioNode[]): StudioDataNode[] => {
         return children
           .map((child) => {
             const id = child.data.id;
@@ -41,6 +42,7 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
             const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
 
             if (metadata) {
+              const directlyChildren = getChildrenDataFromChildren(metadata?.children);
               const formValue = throttleDataForms[id] || {};
 
               if (option?.parent?.idx) {
@@ -53,7 +55,7 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
                 id,
                 idx,
                 title: option.title || 'Untitled',
-                children: [],
+                children: [...directlyChildren],
                 data: {
                   ...formValue,
                 },
@@ -68,16 +70,48 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
           .filter((item) => !!item) as StudioDataNode[];
       };
 
+      const getDataFromLinkedNodes = (node: StudioNode): StudioDataNode[] => {
+        let linkedNodeChildren: StudioNode[] = [];
+        const linkedChildrenIds = linkedNodes[node.id] || [];
+        if (linkedChildrenIds.length) {
+          linkedNodeChildren = linkedChildrenIds
+            .map((linkedId) => throttleNodes.find((node) => node.id === linkedId))
+            .filter((item) => !!item);
+          if (linkedNodeChildren.length) {
+            const dataFromLinkedChildren = getChildrenDataFromChildren(linkedNodeChildren);
+            dataFromLinkedChildren.forEach((item) => {
+              if (linkedNodes[item.id]?.length) {
+                const linkedNode = linkedNodeChildren.find((linkedNode) => item.id === linkedNode.id);
+                if (linkedNode) {
+                  item.children = getDataFromLinkedNodes(linkedNode);
+                }
+              }
+            });
+
+            return dataFromLinkedChildren;
+          }
+        }
+
+        return [];
+      };
+
       const newData: StudioDataNode[] = [];
 
-      throttleNodes.forEach((node) => {
+      const nodeIdsShouldIgnore = Object.values(linkedNodes)
+        .map((ids) => ids)
+        .flat();
+
+      const filterNodes = throttleNodes.filter((node) => !nodeIdsShouldIgnore.includes(node.id));
+
+      filterNodes.forEach((node) => {
         const metadata = node.data.metadata;
         const id = node.data.id;
         const idx = node.data.metadata.idx;
         const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
 
         if (metadata) {
-          const children = getChildrenDataFromChildren(metadata?.children);
+          const directlyChildren = getChildrenDataFromChildren(metadata?.children);
+          const inDirectlyChildren = getDataFromLinkedNodes(node);
           const formValue = throttleDataForms[id] || {};
 
           if (option?.parent?.idx) {
@@ -89,7 +123,7 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
             id,
             idx: option.idx,
             title: option.title || 'Untitled',
-            children,
+            children: [...directlyChildren, ...inDirectlyChildren],
             data: {
               ...formValue,
             },

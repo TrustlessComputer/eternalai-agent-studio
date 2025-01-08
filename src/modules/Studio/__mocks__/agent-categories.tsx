@@ -38,11 +38,13 @@ const PERSONALITY_CATEGORY: StudioCategory = {
       title: 'New personality',
       tooltip: '',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+      type: StudioCategoryType.LINK,
     },
     {
       idx: 'personality_nft',
       title: 'Import from NFT',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
+      type: StudioCategoryType.LINK,
     },
     {
       idx: 'personality_ordinals',

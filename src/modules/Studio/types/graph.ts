@@ -8,12 +8,13 @@ export type StudioNodeMetadata = Record<string, unknown> & {
   idx: Key;
 };
 
-export type StudioNode = Node<{
+export type StudioInternalDataNode = {
   sourceHandles: string[];
   targetHandles: string[];
   id: string;
   metadata: StudioNodeMetadata;
-}>;
+};
+export type StudioNode = Node<StudioInternalDataNode>;
 
 export type StudioDataNode = {
   id: string;

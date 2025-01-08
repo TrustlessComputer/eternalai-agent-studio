@@ -55,6 +55,18 @@ const PERSONALITY_CATEGORY: StudioCategory = {
       idx: 'personality_token',
       title: 'Import from Token',
       icon: 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
+      customizeRenderOnBoard: () => {
+        return (
+          <div
+            style={{
+              width: 400,
+              height: 400,
+            }}
+          >
+            custom
+          </div>
+        );
+      },
     },
   ],
 };

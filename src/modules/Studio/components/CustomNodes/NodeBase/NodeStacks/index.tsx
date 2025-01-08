@@ -41,7 +41,7 @@ const NodeStacks = ({ data, ...rest }: Props) => {
   const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
-    <NodeBaseWrapper option={option}>
+    <NodeBaseWrapper data={data} id={data.id} option={option}>
       <div className="node-base">
         <Product
           id={data.id}

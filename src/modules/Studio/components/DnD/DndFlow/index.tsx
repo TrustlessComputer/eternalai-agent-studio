@@ -10,6 +10,7 @@ import {
   DragPendingEvent,
   DragStartEvent,
   MouseSensor,
+  rectIntersection,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';

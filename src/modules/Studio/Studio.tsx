@@ -25,6 +25,7 @@ import { min } from './utils/data';
 
 export type StudioProps = {
   className?: string;
+  sidebarWidth?: string | number;
 
   // Data
   categories: StudioCategory[];
@@ -58,6 +59,7 @@ const StudioComponent = ({
   throttleDataDelay = DEFAULT_THROTTLE_DATA_DELAY,
   config,
   onChange,
+  sidebarWidth = 400,
   ...rest
 }: StudioProps): React.ReactNode => {
   const [isFirstDraw, setIsFirstDraw] = React.useState(false);
@@ -112,7 +114,13 @@ const StudioComponent = ({
       >
         <DragMask />
 
-        <div className="studio__sidebar">
+        <div
+          className="studio__sidebar"
+          style={{
+            minWidth: 300,
+            width: sidebarWidth,
+          }}
+        >
           <Sidebar />
         </div>
 

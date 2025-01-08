@@ -2,6 +2,7 @@ import { addEdge, applyEdgeChanges, applyNodeChanges, Edge, OnConnect, OnEdgesCh
 import { create } from 'zustand';
 
 import { StudioNode } from '../types/graph';
+import { removeItemFromArray, removeItemsFromArray } from '../utils/array';
 
 const DEFAULT_VALUE = {
   reloadFlowCounter: 0,
@@ -32,7 +33,6 @@ type Store = {
   addEdges: (edges: Edge[]) => void;
 
   removeNode: (id: string) => void;
-  removeNodes: (ids: string[]) => void;
 
   onNodesChange: OnNodesChange<StudioNode>;
   onEdgesChange: OnEdgesChange;
@@ -50,7 +50,19 @@ const useStudioFlowStore = create<Store>((set, get) => ({
 
   setNodes: (nodes) => set({ nodes }),
   addNode: (node) => set({ nodes: [...get().nodes, node] }),
-  addNodes: (nodes) => set({ nodes: [...get().nodes, ...nodes] }),
+  addNodes: (nodes) => {
+    set((state) => {
+      // Prevent duplicate nodes
+      const existingNodeIds = new Set(state.nodes.map((n) => n.id));
+      const newNodes = nodes.filter((node) => !existingNodeIds.has(node.id));
+
+      if (newNodes.length === 0) return state;
+
+      return {
+        nodes: [...state.nodes, ...newNodes],
+      };
+    });
+  },
 
   addLinkedNode: (nodeId, linkedNodeId) => {
     set({
@@ -77,33 +89,54 @@ const useStudioFlowStore = create<Store>((set, get) => ({
   addEdge: (edge) => set({ edges: [...get().edges, edge] }),
   addEdges: (edges) => set({ edges: [...get().edges, ...edges] }),
 
-  removeNode: (id) => {
-    const updatedNodes = get().nodes.filter((node) => node.id !== id);
-    const updatedEdges = get().edges.filter((edge) => edge.source !== id && edge.target !== id);
+  removeNode: (id: string) => {
+    set((state) => {
+      const nodesToRemove = new Set<string>();
 
-    const updatedLinkedNodes = Object.fromEntries(Object.entries(get().linkedNodes).filter(([key]) => key !== id));
+      // Recursive function to collect all related nodes
+      const collectNodesToRemove = (nodeId: string, visited = new Set<string>()) => {
+        if (visited.has(nodeId)) return;
 
-    Object.keys(updatedLinkedNodes).forEach((key) => {
-      if (updatedLinkedNodes[key]?.length > 0) {
-        updatedLinkedNodes[key] = updatedLinkedNodes[key].filter((id) => id !== id);
-      }
+        visited.add(nodeId);
+        nodesToRemove.add(nodeId);
+
+        // Get direct linked nodes
+        const directLinkedNodes = state.linkedNodes[nodeId] || [];
+
+        // Get nodes that have edges to/from this node
+        const connectedNodes = state.edges
+          .filter((edge) => edge.source === nodeId || edge.target === nodeId)
+          .map((edge) => (edge.source === nodeId ? edge.target : edge.source));
+
+        // Process all related nodes
+        [...directLinkedNodes, ...connectedNodes].forEach((relatedId) => {
+          collectNodesToRemove(relatedId, visited);
+        });
+      };
+
+      // Start recursive collection
+      collectNodesToRemove(id);
+
+      // Filter out removed nodes
+      const updatedNodes = state.nodes.filter((node) => !nodesToRemove.has(node.id));
+
+      // Filter out edges connected to removed nodes
+      const updatedEdges = state.edges.filter((edge) => !nodesToRemove.has(edge.source) && !nodesToRemove.has(edge.target));
+
+      // Clean up linked nodes references
+      const updatedLinkedNodes = Object.fromEntries(
+        Object.entries(state.linkedNodes)
+          .filter(([nodeId]) => !nodesToRemove.has(nodeId))
+          .map(([nodeId, linkedIds]) => [nodeId, linkedIds.filter((linkedId) => !nodesToRemove.has(linkedId))])
+          .filter(([, linkedIds]) => linkedIds.length > 0),
+      );
+
+      return {
+        nodes: updatedNodes,
+        edges: updatedEdges,
+        linkedNodes: updatedLinkedNodes,
+      };
     });
-
-    set({ nodes: updatedNodes, edges: updatedEdges, linkedNodes: updatedLinkedNodes });
-  },
-  removeNodes: (ids) => {
-    const updatedNodes = get().nodes.filter((node) => !ids.includes(node.id));
-    const updatedEdges = get().edges.filter((edge) => !ids.includes(edge.source) && !ids.includes(edge.target));
-
-    const updatedLinkedNodes = Object.fromEntries(Object.entries(get().linkedNodes).filter(([key]) => !ids.includes(key)));
-
-    Object.keys(updatedLinkedNodes).forEach((key) => {
-      if (updatedLinkedNodes[key]?.length > 0) {
-        updatedLinkedNodes[key] = updatedLinkedNodes[key].filter((id) => !ids.includes(id));
-      }
-    });
-
-    set({ nodes: updatedNodes, edges: updatedEdges, linkedNodes: updatedLinkedNodes });
   },
 
   onNodesChange: (changes) => {
@@ -117,8 +150,22 @@ const useStudioFlowStore = create<Store>((set, get) => ({
     });
   },
   onConnect: (connection) => {
-    set({
-      edges: addEdge(connection, get().edges),
+    set((state) => {
+      // Prevent self-connections
+      if (connection.source === connection.target) {
+        return state;
+      }
+
+      // Prevent duplicate connections
+      const isDuplicate = state.edges.some((edge) => edge.source === connection.source && edge.target === connection.target);
+
+      if (isDuplicate) {
+        return state;
+      }
+
+      return {
+        edges: addEdge(connection, state.edges),
+      };
     });
   },
 

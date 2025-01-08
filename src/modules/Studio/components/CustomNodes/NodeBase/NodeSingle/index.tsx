@@ -30,7 +30,7 @@ const NodeSingle = ({ data }: Props) => {
   const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
-    <NodeBaseWrapper option={option}>
+    <NodeBaseWrapper data={data} id={data.id} option={option}>
       <div className="node-base">
         <div className="node-base__single">
           <Product id={data.id} data={productData}>

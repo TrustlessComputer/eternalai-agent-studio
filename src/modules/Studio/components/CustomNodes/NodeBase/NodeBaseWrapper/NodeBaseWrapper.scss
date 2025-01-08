@@ -4,6 +4,10 @@
   padding: 4px;
   position: relative;
 
+  &.node-base-wrapper--linked {
+    border: 1px solid #ccc;
+  }
+
   .node-base-wrapper__title {
     padding: 8px;
   }

@@ -1,4 +1,5 @@
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
+import useStudioDataStore from '../stores/useStudioDataStore';
 import { FormDataMap } from '../types/base';
 import { StudioCategoryOption } from '../types/category';
 import { StudioDataNode } from '../types/graph';
@@ -43,3 +44,23 @@ export const cloneData = <T>(data: T): T => JSON.parse(JSON.stringify(data));
 
 export const min = (...args: number[]) => Math.min(...args);
 export const max = (...args: number[]) => Math.max(...args);
+
+export const findDataByOptionKey = (optionKey: string, nodeId?: string) => {
+  const data = useStudioDataStore.getState().data;
+
+  const matchedNode = data.find((node) => node.id === nodeId);
+
+  const dataShouldBeFind = matchedNode ? [matchedNode] : data;
+
+  const returnVal: StudioDataNode[] = [];
+  dataShouldBeFind.forEach((dataNode) => {
+    if (dataNode.idx === optionKey) {
+      returnVal.push(dataNode);
+    }
+    if (dataNode.children.length) {
+      returnVal.push(...findDataByOptionKey(optionKey, dataNode.id));
+    }
+  });
+
+  return returnVal;
+};

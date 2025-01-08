@@ -6,5 +6,6 @@ export * from './Studio/hooks/useNewStore';
 export * from './Studio/types';
 export * from './Studio/utils/validates';
 export * from './Studio/enums';
+export * from './Studio/utils/data';
 
 export { NoDraggable };

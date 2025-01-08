@@ -60,6 +60,7 @@ const StudioComponent = ({
   onChange,
   ...rest
 }: StudioProps): React.ReactNode => {
+  const [isFirstDraw, setIsFirstDraw] = React.useState(false);
   const { redraw, cleanup } = useStudio();
 
   const sidebarSide = useStudioConfigStore((state) => state.config.sidebarSide);
@@ -81,15 +82,21 @@ const StudioComponent = ({
     useStudioDataStore.getState().setDisabledConnection(!!config?.boardConfig.disabledConnection);
   }, [config]);
 
+  // for mounted
   useEffect(() => {
-    if (data.length) {
-      redraw(data);
-    }
+    redraw([]);
 
     return () => {
       cleanup();
     };
   }, []);
+
+  useEffect(() => {
+    if (!isFirstDraw && data.length) {
+      redraw(data);
+      setIsFirstDraw(true);
+    }
+  }, [data.length, isFirstDraw]);
 
   return (
     <DndFlow>

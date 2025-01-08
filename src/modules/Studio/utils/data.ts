@@ -64,3 +64,28 @@ export const findDataByOptionKey = (optionKey: string, nodeId?: string) => {
 
   return returnVal;
 };
+
+export const findDataByCategoryKey = (categoryKey: string, nodeId?: string) => {
+  const data = useStudioDataStore.getState().data;
+  const categoryMap = useStudioCategoryStore.getState().categoryMap;
+
+  const matchedNode = data.find((node) => node.id === nodeId);
+
+  const dataShouldBeFind = matchedNode ? [matchedNode] : data;
+
+  const returnVal: StudioDataNode[] = [];
+
+  const categoryOptionKeys = categoryMap[categoryKey].options.map((option) => option.idx);
+  categoryOptionKeys.forEach((optionKey) => {
+    dataShouldBeFind.forEach((dataNode) => {
+      if (dataNode.idx === optionKey) {
+        returnVal.push(dataNode);
+      }
+      if (dataNode.children.length) {
+        returnVal.push(...findDataByOptionKey(optionKey, dataNode.id));
+      }
+    });
+  });
+
+  return returnVal;
+};

@@ -45,10 +45,30 @@ export const cloneData = <T>(data: T): T => JSON.parse(JSON.stringify(data));
 export const min = (...args: number[]) => Math.min(...args);
 export const max = (...args: number[]) => Math.max(...args);
 
+export const findDataById = (id: string, data: StudioDataNode[]) => {
+  for (const item of data) {
+    if (item.id === id) {
+      return item;
+    }
+    if (item.children.length > 0) {
+      const foundNode = findDataById(id, item.children) as StudioDataNode;
+      if (foundNode) {
+        return foundNode;
+      }
+    }
+  }
+
+  return null;
+};
+
 export const findDataByOptionKey = (optionKey: string, nodeId?: string) => {
   const data = useStudioDataStore.getState().data;
 
-  const matchedNode = data.find((node) => node.id === nodeId);
+  const matchedNode = nodeId ? findDataById(nodeId, data) : null;
+
+  if (!matchedNode) {
+    return [];
+  }
 
   const dataShouldBeFind = matchedNode ? [matchedNode] : data;
 
@@ -69,7 +89,11 @@ export const findDataByCategoryKey = (categoryKey: string, nodeId?: string) => {
   const data = useStudioDataStore.getState().data;
   const categoryMap = useStudioCategoryStore.getState().categoryMap;
 
-  const matchedNode = data.find((node) => node.id === nodeId);
+  const matchedNode = nodeId ? findDataById(nodeId, data) : null;
+
+  if (!matchedNode) {
+    return [];
+  }
 
   const dataShouldBeFind = matchedNode ? [matchedNode] : data;
 

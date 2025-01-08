@@ -10,7 +10,7 @@
   line-height: 1.4;
   z-index: 1000;
   pointer-events: none;
-  white-space: nowrap;
+  white-space: wrap;
   text-wrap: wrap;
   animation: tooltipFade 0.2s ease-in-out;
 }

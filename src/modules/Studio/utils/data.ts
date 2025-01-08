@@ -64,10 +64,13 @@ export const findDataById = (id: string, data: StudioDataNode[]) => {
 export const findDataByOptionKey = (optionKey: string, nodeId?: string) => {
   const data = useStudioDataStore.getState().data;
 
-  const matchedNode = nodeId ? findDataById(nodeId, data) : null;
+  let matchedNode;
+  if (nodeId) {
+    matchedNode = findDataById(nodeId, data);
 
-  if (!matchedNode) {
-    return [];
+    if (!matchedNode) {
+      return [];
+    }
   }
 
   const dataShouldBeFind = matchedNode ? [matchedNode] : data;
@@ -89,10 +92,13 @@ export const findDataByCategoryKey = (categoryKey: string, nodeId?: string) => {
   const data = useStudioDataStore.getState().data;
   const categoryMap = useStudioCategoryStore.getState().categoryMap;
 
-  const matchedNode = nodeId ? findDataById(nodeId, data) : null;
+  let matchedNode;
+  if (nodeId) {
+    matchedNode = findDataById(nodeId, data);
 
-  if (!matchedNode) {
-    return [];
+    if (!matchedNode) {
+      return [];
+    }
   }
 
   const dataShouldBeFind = matchedNode ? [matchedNode] : data;

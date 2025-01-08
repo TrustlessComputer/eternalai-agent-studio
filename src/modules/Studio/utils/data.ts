@@ -1,5 +1,4 @@
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
-import useStudioDataStore from '../stores/useStudioDataStore';
 import { FormDataMap } from '../types/base';
 import { StudioCategoryOption } from '../types/category';
 import { StudioDataNode } from '../types/graph';
@@ -61,9 +60,7 @@ export const findDataById = (id: string, data: StudioDataNode[]) => {
   return null;
 };
 
-export const findDataByOptionKey = (optionKey: string, nodeId?: string) => {
-  const data = useStudioDataStore.getState().data;
-
+export const findDataByOptionKey = (optionKey: string, data: StudioDataNode[], nodeId?: string) => {
   let matchedNode;
   if (nodeId) {
     matchedNode = findDataById(nodeId, data);
@@ -81,15 +78,16 @@ export const findDataByOptionKey = (optionKey: string, nodeId?: string) => {
       returnVal.push(dataNode);
     }
     if (dataNode.children.length) {
-      returnVal.push(...findDataByOptionKey(optionKey, dataNode.id));
+      dataNode.children.forEach((child) => {
+        returnVal.push(...findDataByOptionKey(optionKey, [child], child.id));
+      });
     }
   });
 
   return returnVal;
 };
 
-export const findDataByCategoryKey = (categoryKey: string, nodeId?: string) => {
-  const data = useStudioDataStore.getState().data;
+export const findDataByCategoryKey = (categoryKey: string, data: StudioDataNode[], nodeId?: string) => {
   const categoryMap = useStudioCategoryStore.getState().categoryMap;
 
   let matchedNode;
@@ -112,7 +110,9 @@ export const findDataByCategoryKey = (categoryKey: string, nodeId?: string) => {
         returnVal.push(dataNode);
       }
       if (dataNode.children.length) {
-        returnVal.push(...findDataByOptionKey(optionKey, dataNode.id));
+        dataNode.children.forEach((child) => {
+          returnVal.push(...findDataByOptionKey(optionKey, [child], child.id));
+        });
       }
     });
   });

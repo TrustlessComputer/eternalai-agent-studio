@@ -1,15 +1,15 @@
 .lego {
   position: relative;
   width: max-content !important;
-  height: 43px;
+  height: 41px;
 
   &:before {
     content: '';
     position: absolute;
     top: 0;
-    left: 43px;
+    left: 42.75px;
     // transform: translateY(-0.65px);
-    width: calc(100% - 43px);
+    width: calc(100% - 42.75px);
     height: 100%;
     border-radius: 0 4px 4px 0;
     border: 1px solid var(--border-color);
@@ -36,7 +36,7 @@
       top: 50%;
       left: 0;
       transform: translateY(-50%);
-      width: 43px;
+      width: 42px;
       height: calc(100% - 20px);
       border-left: 1px solid var(--border-color);
       background-color: var(--background-color);
@@ -62,10 +62,11 @@
     top: 0;
     left: 0;
     height: 50px;
+    transform: translateY(-0.5px);
 
     &.lego__stud--bottom {
       top: auto;
-      bottom: -11px;
+      bottom: -8px;
       display: none;
     }
 

@@ -4,6 +4,7 @@ import { createNewBaseEdge, generateSourceHandleId } from './edge';
 import { AREA_CLASS_NAMES } from '../constants/area-class-names';
 import { StudioCategoryType } from '../enums/category';
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
+import useStudioDataStore from '../stores/useStudioDataStore';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import { StudioDataNode, StudioNode, StudioNodeMetadata } from '../types/graph';
 
@@ -92,4 +93,20 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
   });
 
   return nodes;
+};
+
+export const findAncestorNodeIdOfNodeId = (graph: StudioDataNode[], nodeId: string) => {
+  for (const node of graph) {
+    if (node.id === nodeId) {
+      return node.id;
+    }
+    if (node.children.length > 0) {
+      const ancestorId = findAncestorNodeIdOfNodeId(node.children, nodeId);
+      if (ancestorId) {
+        return node.id;
+      }
+    }
+  }
+
+  return null;
 };

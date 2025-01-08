@@ -104,9 +104,7 @@ const useStudioFlowStore = create<Store>((set, get) => ({
         const directLinkedNodes = state.linkedNodes[nodeId] || [];
 
         // Get nodes that have edges to/from this node
-        const connectedNodes = state.edges
-          .filter((edge) => edge.source === nodeId || edge.target === nodeId)
-          .map((edge) => (edge.source === nodeId ? edge.target : edge.source));
+        const connectedNodes = state.edges.filter((edge) => edge.source === nodeId).map((edge) => edge.target);
 
         // Process all related nodes
         [...directLinkedNodes, ...connectedNodes].forEach((relatedId) => {

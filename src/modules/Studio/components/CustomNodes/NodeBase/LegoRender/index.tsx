@@ -1,7 +1,6 @@
 import { FunctionComponent, useCallback, useMemo } from 'react';
 
 import FormRender from '../../../DataFields/FormRender';
-import NoDraggable from '../../../DnD/base/NoDraggable';
 import Lego from '../../../Lego';
 import LegoContent from '../../../LegoContent';
 import TextRender from '../../../Render/TextRender';
@@ -14,7 +13,7 @@ import { DataSchema, StudioCategoryOptionRenderPayload } from '@/modules/Studio/
 
 import './LegoRender.scss';
 
-type Props = {
+type Props<T> = {
   background?: string;
   icon: React.ReactNode | FunctionComponent;
   id: string;
@@ -22,10 +21,10 @@ type Props = {
   title: React.ReactNode | FunctionComponent;
   idx: string;
   readonly?: boolean;
-  render?: (data: StudioCategoryOptionRenderPayload) => React.ReactNode;
+  render?: (data: StudioCategoryOptionRenderPayload<T>) => React.ReactNode;
 };
 
-const LegoRenderBase = ({ background, icon, id, schemadata, title, idx, readonly }: Omit<Props, 'render'>) => {
+const LegoRenderBase = <T,>({ background, icon, id, schemadata, title, idx, readonly }: Omit<Props<T>, 'render'>) => {
   const fields = useMemo(() => Object.keys(schemadata || {}), [schemadata]);
 
   const isDynamicHeight = useMemo(() => {
@@ -59,7 +58,7 @@ const LegoRenderBase = ({ background, icon, id, schemadata, title, idx, readonly
   );
 };
 
-const LegoRenderCustomization = ({ background, icon, id, idx, render, title }: Props) => {
+const LegoRenderCustomization = <T,>({ background, icon, id, idx, render, title }: Props<T>) => {
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
   const allFormData = useStudioFormStore((state) => state.formMap);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
@@ -107,7 +106,7 @@ const LegoRenderCustomization = ({ background, icon, id, idx, render, title }: P
   );
 };
 
-export default function LegoRender({ render, ...rest }: Props) {
+export default function LegoRender<T>({ render, ...rest }: Props<T>) {
   if (render) {
     return <LegoRenderCustomization render={render} {...rest} />;
   }

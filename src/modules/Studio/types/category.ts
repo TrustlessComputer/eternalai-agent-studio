@@ -79,10 +79,10 @@ export type StudioCategoryBoxWrapperProps = {
   render?: (children: React.ReactNode, option: StudioCategoryOption) => ReactNode;
 };
 
-export type StudioCategoryOptionRenderPayload = {
+export type StudioCategoryOptionRenderPayload<T> = {
   id: string;
   option: StudioCategoryOption;
-  formData: FormDataMap;
+  formData: T | FormDataMap;
   setFormFields: (fields: FormDataMap) => void;
   allFormData: FormDataMap;
   data: StudioDataNode[];
@@ -92,7 +92,7 @@ export type StudioCategoryOptionRenderPayload = {
 export type StudioOptionCustomizeRender = {
   // render?: (data: StudioCategoryOptionRenderPayload) => ReactNode;
   customizeRenderOnSideBar?: (props: StudioCategoryOption) => ReactNode;
-  customizeRenderOnBoard?: (data: StudioCategoryOptionRenderPayload) => ReactNode;
+  customizeRenderOnBoard?: <T>(data: StudioCategoryOptionRenderPayload<T>) => ReactNode;
 };
 
 export type StudioCategoryCustomizeRender = {

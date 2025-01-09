@@ -18,7 +18,7 @@ type Props = StudioCategory;
 const SidebarTab = (props: Props) => {
   const { idx, icon, title, color = '#CC6234', customizeRenderOnTab, tooltip } = props;
 
-  const tabBehavior = useStudioConfigStore((state) => state.config.tabBehavior);
+  const tabBehavior = useStudioConfigStore((state) => state.config.tab.behavior);
 
   const { filters, setFilters } = useStudioCategoryStore();
 

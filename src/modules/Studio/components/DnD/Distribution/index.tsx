@@ -1,4 +1,3 @@
-import cx from 'clsx';
 import React, { memo } from 'react';
 
 import StaticDroppable from '../base/StaticDroppable';

@@ -1,5 +1,4 @@
 import { LegoComponentIcon } from '../components/icons/lego';
-import { StudioCategoryType } from '../enums/category';
 import { StudioCategory } from '../types/category';
 
 const AGENT: StudioCategory = {

@@ -65,7 +65,7 @@ const StudioComponent = ({
   const [isFirstDraw, setIsFirstDraw] = React.useState(false);
   const { redraw, cleanup } = useStudio();
 
-  const sidebarSide = useStudioConfigStore((state) => state.config.sidebarSide);
+  const sidebarSide = useStudioConfigStore((state) => state.config.sidebar.side);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -81,7 +81,7 @@ const StudioComponent = ({
   useEffect(() => {
     useStudioConfigStore.getState().setConfig(config);
 
-    useStudioDataStore.getState().setDisabledConnection(!!config?.boardConfig.disabledConnection);
+    useStudioDataStore.getState().setDisabledConnection(!!config?.board.disabledConnection);
   }, [config]);
 
   // for mounted

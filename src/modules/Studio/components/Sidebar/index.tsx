@@ -12,8 +12,8 @@ import useStudioConfigStore from '../../stores/useStudioConfigStore';
 import Factory from '../DnD/Factory';
 
 const Sidebar = () => {
-  const tabBehavior = useStudioConfigStore((state) => state.config.tabBehavior);
-  const sidebarSide = useStudioConfigStore((state) => state.config.sidebarSide);
+  const tabBehavior = useStudioConfigStore((state) => state.config.tab.behavior);
+  const sidebarSide = useStudioConfigStore((state) => state.config.sidebar.side);
 
   const categories = useStudioCategoryStore((state) => state.categories);
   const filters = useStudioCategoryStore((state) => state.filters);

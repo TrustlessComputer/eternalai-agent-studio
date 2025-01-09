@@ -8,6 +8,7 @@ export type BoardConfig = {
     padding?: number;
   };
 
+  disabledDrag?: boolean;
   disabledConnection?: boolean;
   disabledZoom?: boolean;
   disabledMiniMap?: boolean;
@@ -15,8 +16,17 @@ export type BoardConfig = {
   disabledBackground?: boolean;
 };
 
+export type SidebarConfig = {
+  side: SidebarSide;
+  width?: string | number;
+};
+
+export type TabConfig = {
+  behavior: TabBehavior;
+};
+
 export type StudioConfig = {
-  sidebarSide: SidebarSide;
-  tabBehavior: TabBehavior;
-  boardConfig: BoardConfig;
+  sidebar: SidebarConfig;
+  tab: TabConfig;
+  board: BoardConfig;
 };

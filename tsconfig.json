@@ -6,7 +6,7 @@
     "module": "ESNext",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["@testing-library/jest-dom"],
+    "types": ["@testing-library/jest-dom", "node"],
     "skipLibCheck": true,
     "sourceMap": true,
     "outDir": "dist",

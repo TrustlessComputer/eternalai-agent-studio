@@ -12,7 +12,7 @@ import Distribution from '../DnD/Distribution';
 import './Board.scss';
 
 function Board() {
-  const boardConfig = useStudioConfigStore((state) => state.config.boardConfig);
+  const boardConfig = useStudioConfigStore((state) => state.config.board);
 
   const disabledConnection = useStudioDataStore((state) => state.disabledConnection);
   const nodes = useStudioFlowStore((state) => state.nodes);

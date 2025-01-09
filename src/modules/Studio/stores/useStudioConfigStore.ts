@@ -5,9 +5,13 @@ import { StudioConfig } from '../types/config';
 
 const DEFAULT_VALUE = {
   config: {
-    sidebarSide: DEFAULT_SIDEBAR_SIDE,
-    tabBehavior: DEFAULT_TAB_BEHAVIOR,
-    boardConfig: DEFAULT_BOARD_CONFIG,
+    sidebar: {
+      side: DEFAULT_SIDEBAR_SIDE,
+    },
+    tab: {
+      behavior: DEFAULT_TAB_BEHAVIOR,
+    },
+    board: DEFAULT_BOARD_CONFIG,
   } satisfies StudioConfig,
 };
 

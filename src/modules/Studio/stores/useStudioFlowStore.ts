@@ -2,7 +2,6 @@ import { addEdge, applyEdgeChanges, applyNodeChanges, Edge, OnConnect, OnEdgesCh
 import { create } from 'zustand';
 
 import { StudioNode } from '../types/graph';
-import { removeItemFromArray, removeItemsFromArray } from '../utils/array';
 
 const DEFAULT_VALUE = {
   reloadFlowCounter: 0,

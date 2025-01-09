@@ -27,7 +27,6 @@ const Tooltip = ({
 }: Props) => {
   const [isVisible, setIsVisible] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [actualPlacement, setActualPlacement] = useState(placement);
 
   const triggerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -105,10 +104,9 @@ const Tooltip = ({
     };
 
     const initialPosition = getInitialPosition(placement);
-    const { position: adjustedPosition, placement: adjustedPlacement } = adjustPosition(initialPosition, placement);
+    const { position: adjustedPosition } = adjustPosition(initialPosition, placement);
 
     setPosition(adjustedPosition);
-    setActualPlacement(adjustedPlacement);
   };
 
   const handleMouseEnter = () => {

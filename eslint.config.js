@@ -6,6 +6,7 @@ import eslintPluginPrettier from 'eslint-plugin-prettier';
 import pluginReact from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import unusedImports from 'eslint-plugin-unused-imports';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -31,11 +32,22 @@ export default tseslint.config(
       'import': pluginImport,
       'jsx-a11y': jsxA11y,
       'prettier': eslintPluginPrettier,
+      'unused-imports': unusedImports,
     },
     rules: {
       'prettier/prettier': 'error',
       '@typescript-eslint/no-deprecated': 'warn',
-      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-parameters': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          'argsIgnorePattern': '^_',
+          'varsIgnorePattern': '^_',
+          'caughtErrorsIgnorePattern': '^_',
+          'destructuredArrayIgnorePattern': '^_',
+          'ignoreRestSiblings': true,
+        },
+      ],
       '@typescript-eslint/no-misused-promises': 'off',
       '@typescript-eslint/unbound-method': 'off',
       '@typescript-eslint/no-unsafe-return': 'off',
@@ -95,7 +107,13 @@ export default tseslint.config(
           aspects: ['invalidHref'],
         },
       ],
-      'sort-imports': ['warn', { ignoreCase: true, ignoreDeclarationSort: true }],
+      'sort-imports': [
+        'warn',
+        {
+          ignoreCase: true,
+          ignoreDeclarationSort: true,
+        },
+      ],
       'import/no-duplicates': 'error',
       'import/no-self-import': 'error',
       'import/no-cycle': [
@@ -154,6 +172,18 @@ export default tseslint.config(
       'no-warning-comments': 'warn',
       'object-shorthand': 'error',
       'no-param-reassign': 'off',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          'vars': 'all',
+          'varsIgnorePattern': '^_',
+          'args': 'after-used',
+          'argsIgnorePattern': '^_',
+        },
+      ],
     },
   },
 );

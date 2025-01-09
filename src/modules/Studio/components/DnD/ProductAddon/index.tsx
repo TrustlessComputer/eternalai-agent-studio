@@ -5,6 +5,7 @@ import Draggable from '../base/Draggable';
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
 import { DomRect } from '@/modules/Studio/types/ui';
+import useStudioConfigStore from '@/modules/Studio/stores/useStudioConfigStore';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   id: string;
@@ -14,6 +15,8 @@ type Props = HTMLAttributes<HTMLDivElement> & {
 };
 
 const ProductAddon = ({ id, data, disabled = false, children, draggingFloating, ...props }: Props) => {
+  const disabledDrag = useStudioConfigStore((state) => state.config.board.disabledDrag);
+
   const extendedData = useMemo(() => {
     return {
       ...data,
@@ -22,7 +25,7 @@ const ProductAddon = ({ id, data, disabled = false, children, draggingFloating, 
   }, [data]);
 
   const handleOnDrag = useCallback(
-    (data: DraggableData, touchingPoint: DomRect | null) => {
+    (_data: DraggableData, touchingPoint: DomRect | null) => {
       if (draggingFloating) {
         useStudioDndStore.getState().setDragging(draggingFloating, extendedData, touchingPoint);
       } else {
@@ -32,7 +35,7 @@ const ProductAddon = ({ id, data, disabled = false, children, draggingFloating, 
     [extendedData, draggingFloating],
   );
 
-  const handleOnDrop = useCallback((data: DraggableData) => {
+  const handleOnDrop = useCallback((_data: DraggableData) => {
     useStudioDndStore.getState().setDragging();
   }, []);
 
@@ -41,7 +44,7 @@ const ProductAddon = ({ id, data, disabled = false, children, draggingFloating, 
       {...props}
       id={id}
       data={extendedData}
-      disabled={disabled}
+      disabled={disabled || disabledDrag}
       handleOnDrag={handleOnDrag}
       handleOnDrop={handleOnDrop}
     >

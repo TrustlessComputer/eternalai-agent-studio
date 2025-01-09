@@ -20,6 +20,7 @@ export const DEFAULT_BOARD_CONFIG: BoardConfig = {
     padding: 1,
   },
 
+  disabledDrag: false,
   disabledConnection: false,
   disabledZoom: false,
   disabledMiniMap: false,

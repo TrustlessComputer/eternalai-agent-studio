@@ -63,6 +63,7 @@ const LegoRenderCustomization = ({ background, icon, id, idx, render, title }: P
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
   const allFormData = useStudioFormStore((state) => state.formMap);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
+  const resetFormById = useStudioFormStore((state) => state.resetFormById);
 
   const data = useStudioDataStore((state) => state.data);
 
@@ -75,6 +76,10 @@ const LegoRenderCustomization = ({ background, icon, id, idx, render, title }: P
     },
     [id, setFormFields],
   );
+
+  const resetFormData = useCallback(() => {
+    return resetFormById(id);
+  }, [id, resetFormById]);
 
   if (!render) {
     return <></>;
@@ -96,6 +101,7 @@ const LegoRenderCustomization = ({ background, icon, id, idx, render, title }: P
         setFormFields: specifyFormFields,
         allFormData,
         data,
+        resetFormData,
       })}
     </Lego>
   );

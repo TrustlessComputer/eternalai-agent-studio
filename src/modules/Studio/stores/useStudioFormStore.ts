@@ -14,7 +14,7 @@ type Store = {
   setFormFields: (id: string, fields: FormDataMap) => void;
   removeForm: (id: string) => void;
   getFormById: (id: string) => FormDataMap | undefined;
-
+  resetFormById: (id: string) => void;
   clear: () => void;
 };
 
@@ -60,7 +60,14 @@ const useStudioFormStore = create<Store>((set, get) => ({
     });
   },
   getFormById: (id) => get().formMap[id],
-
+  resetFormById: (id) => {
+    set((state) => ({
+      formMap: {
+        ...state.formMap,
+        [id]: {},
+      },
+    }));
+  },
   clear: () => set(DEFAULT_VALUE),
 }));
 

@@ -57,7 +57,7 @@ const LegoRenderBase = <T,>({ background, icon, id, schemadata, title, idx, read
   );
 };
 
-const LegoRenderCustomization = <T,>({ background, icon, id, idx, render, title }: Props<T>) => {
+const LegoRenderCustomization = <T,>({ background, icon, id, idx, render }: Props<T>) => {
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
   const allFormData = useStudioFormStore((state) => state.formMap);
   const setFormFields = useStudioFormStore((state) => state.setFormFields);
@@ -86,7 +86,7 @@ const LegoRenderCustomization = <T,>({ background, icon, id, idx, render, title 
   return (
     <Lego
       background={background}
-      icon={icon}
+      icon={!!render ? undefined : icon}
       fixedHeight={false}
       style={{
         width: '100%',

@@ -238,6 +238,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
       // Move
       if (from === StudioZone.ZONE_PRODUCT_ADDON && !isTheSameNode && fromNode) {
+        console.log('_____________________-');
         if (!fromData.belongsTo || !fromNode || !toNode) return;
 
         const isValid =

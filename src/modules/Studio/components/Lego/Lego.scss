@@ -35,7 +35,7 @@
       position: absolute;
       top: 50%;
       left: 0;
-      transform: translateY(-50%);
+      transform: translateY(-50%) translateX(0.55px);
       width: 43px;
       height: calc(100% - 20px);
       border-left: 1px solid var(--border-color);

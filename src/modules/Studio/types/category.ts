@@ -83,7 +83,7 @@ export type StudioCategoryOptionRenderPayload<T> = {
   id: string;
   option: StudioCategoryOption;
   formData: T | FormDataMap;
-  setFormFields: (fields: FormDataMap) => void;
+  setFormFields: (fields: T | FormDataMap) => void;
   allFormData: FormDataMap;
   data: StudioDataNode[];
   resetFormData: () => void;

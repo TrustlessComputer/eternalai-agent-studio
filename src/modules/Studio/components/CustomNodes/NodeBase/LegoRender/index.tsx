@@ -70,8 +70,8 @@ const LegoRenderCustomization = <T,>({ background, icon, id, idx, render, title 
   const option = categoryOptionMap[idx];
 
   const specifyFormFields = useCallback(
-    (fields: FormDataMap) => {
-      return setFormFields(id, fields);
+    (fields: T | FormDataMap) => {
+      return setFormFields(id, fields as FormDataMap);
     },
     [id, setFormFields],
   );

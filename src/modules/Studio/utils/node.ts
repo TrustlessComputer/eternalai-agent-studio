@@ -5,6 +5,8 @@ import { AREA_CLASS_NAMES } from '../constants/area-class-names';
 import { StudioCategoryType } from '../enums/category';
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
+import useStudioFormStore from '../stores/useStudioFormStore';
+import { FormDataMap } from '../types';
 import { StudioDataNode, StudioNode, StudioNodeMetadata } from '../types/graph';
 
 import { NodeType } from '@/enums/node-type';
@@ -108,4 +110,10 @@ export const findAncestorNodeIdOfNodeId = (graph: StudioDataNode[], nodeId: stri
   }
 
   return null;
+};
+
+export const updateNodeFormData = (nodeId: string, formData: FormDataMap) => {
+  if (!!nodeId) {
+    useStudioFormStore.getState().editForm(nodeId, formData);
+  }
 };

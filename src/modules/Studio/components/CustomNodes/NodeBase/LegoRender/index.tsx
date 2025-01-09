@@ -8,7 +8,6 @@ import TextRender from '../../../Render/TextRender';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
-import { FormDataMap } from '@/modules/Studio/types/base';
 import { DataSchema, StudioCategoryOptionRenderPayload } from '@/modules/Studio/types/category';
 
 import './LegoRender.scss';
@@ -70,8 +69,8 @@ const LegoRenderCustomization = <T,>({ background, icon, id, idx, render, title 
   const option = categoryOptionMap[idx];
 
   const specifyFormFields = useCallback(
-    (fields: T | FormDataMap) => {
-      return setFormFields(id, fields as FormDataMap);
+    (fields: Partial<T>) => {
+      return setFormFields(id, fields as Partial<T>);
     },
     [id, setFormFields],
   );
@@ -96,7 +95,7 @@ const LegoRenderCustomization = <T,>({ background, icon, id, idx, render, title 
       {render({
         id,
         option,
-        formData: formData || {},
+        formData: (formData || {}) as T,
         setFormFields: specifyFormFields,
         allFormData,
         data,

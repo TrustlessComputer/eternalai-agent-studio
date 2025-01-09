@@ -79,11 +79,11 @@ export type StudioCategoryBoxWrapperProps = {
   render?: (children: React.ReactNode, option: StudioCategoryOption) => ReactNode;
 };
 
-export type StudioCategoryOptionRenderPayload<T> = {
+export type StudioCategoryOptionRenderPayload<T = FormDataMap> = {
   id: string;
   option: StudioCategoryOption;
-  formData: T | FormDataMap;
-  setFormFields: (fields: T | FormDataMap) => void;
+  formData: T;
+  setFormFields: (fields: Partial<T>) => void;
   allFormData: FormDataMap;
   data: StudioDataNode[];
   resetFormData: () => void;

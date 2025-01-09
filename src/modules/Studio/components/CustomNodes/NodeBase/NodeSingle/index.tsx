@@ -16,18 +16,18 @@ import './NodeSingle.scss';
 type Props = NodeBaseProps;
 
 const NodeSingle = ({ data }: Props) => {
+  const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
 
   const idx = data.metadata.idx;
   const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
+  const category = Object.values(categoryMap).find((category) => category.options.some((option) => option.idx === idx));
   const schemadata = option?.data;
 
   const productData: Omit<DraggableData, 'type'> = useMemo(
-    () => ({ optionKey: option?.idx, belongsTo: data.id }),
-    [data.id, option?.idx],
+    () => ({ optionKey: option?.idx, belongsTo: data.id, categoryKey: category?.idx }),
+    [data.id, option?.idx, category?.idx],
   );
-
-  const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
     <NodeBaseWrapper data={data} id={data.id} option={option}>
@@ -46,7 +46,7 @@ const NodeSingle = ({ data }: Props) => {
           </Product>
         </div>
 
-        <Package id={data.id} data={packageData} />
+        <Package id={data.id} data={productData} />
         <NodeBaseConnection />
       </div>
     </NodeBaseWrapper>

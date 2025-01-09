@@ -13,14 +13,14 @@ import './CategoryGroup.scss';
 type Props = StudioCategory;
 
 const CategoryOption = ({
-  idx,
+  categoryKey,
   isRoot,
   color,
   option,
   disabled,
   multipleOption,
 }: {
-  idx: string;
+  categoryKey: string;
   isRoot?: boolean;
   color?: string;
   option: StudioCategoryOption;
@@ -28,7 +28,7 @@ const CategoryOption = ({
   multipleOption?: boolean;
 }) => {
   const usedKeyCollection = useStudioCategoryStore((state) => state.usedKeyCollection);
-  const usedCategoryKey = usedKeyCollection[idx];
+  const usedCategoryKey = usedKeyCollection[categoryKey];
   const usedOptionKey = usedKeyCollection[option.idx];
 
   const isDisabled = useMemo(() => {
@@ -57,8 +57,8 @@ const CategoryOption = ({
   return (
     <Source
       id={option.idx}
-      key={`sidebar-source-${idx}-${option.idx}`}
-      data={{ categoryKey: idx, optionKey: option.idx, isRoot }}
+      key={`sidebar-source-${categoryKey}-${option.idx}`}
+      data={{ categoryKey, optionKey: option.idx, isRoot }}
       disabled={isDisabled}
     >
       <Lego background={color} icon={option.icon} disabled={isDisabled}>
@@ -71,7 +71,17 @@ const CategoryOption = ({
 };
 
 const CategoryGroup = (props: Props) => {
-  const { idx, title, color, options, required, disabled, isRoot, multipleOption, customizeRenderOnSidebar } = props;
+  const {
+    idx: categoryKey,
+    title,
+    color,
+    options,
+    required,
+    disabled,
+    isRoot,
+    multipleOption,
+    customizeRenderOnSidebar,
+  } = props;
 
   const filteredOptions = useMemo(() => {
     return options.filter((item) => !item.hidden);
@@ -82,7 +92,7 @@ const CategoryGroup = (props: Props) => {
   }
 
   return (
-    <div className="category-group" id={`category-group-${idx}`}>
+    <div className="category-group" id={`category-group-${categoryKey}`}>
       <h5 className="category-group__title">
         <TextRender data={title} /> {required ? <span className="sidebar-tab__required">*</span> : ''}
       </h5>
@@ -95,8 +105,8 @@ const CategoryGroup = (props: Props) => {
 
           return (
             <CategoryOption
-              key={`sidebar-source-${idx}-${option.idx}`}
-              idx={idx}
+              key={`sidebar-source-${categoryKey}-${option.idx}`}
+              categoryKey={categoryKey}
               isRoot={isRoot}
               color={color}
               option={option}

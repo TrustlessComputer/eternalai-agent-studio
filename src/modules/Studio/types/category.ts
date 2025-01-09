@@ -53,7 +53,8 @@ export type OnNodeInteractPayload = {
 
 export type OnFlowInteractPayload = {
   toNode: StudioNode;
-  toOption: StudioCategoryOption;
+  toOption: StudioCategoryOptionMapValue;
+  toCategory: StudioCategoryMapValue;
 };
 
 export type OnCreatePayload = OnStudioInteractPayload;

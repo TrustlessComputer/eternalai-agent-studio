@@ -49,6 +49,11 @@ function DndFlow({ children }: PropsWithChildren) {
   }, []);
 
   const handleDragEnd = useCallback((event: DragEndEvent) => {
+    console.log('[DndContainer] handleDragEnd', {
+      categoryMap: useStudioCategoryStore.getState().categoryMap,
+      categoryOptionMap: useStudioCategoryStore.getState().categoryOptionMap,
+    });
+
     const { active, over } = event;
 
     const data = useStudioDataStore.getState().data;
@@ -170,17 +175,27 @@ function DndFlow({ children }: PropsWithChildren) {
     if (to === StudioZone.ZONE_PACKAGE && toNode) {
       // Link
       if (from === StudioZone.ZONE_SOURCE && fromOption?.type === StudioCategoryType.LINK) {
+        console.log('[DndContainer] handleDragEnd link', {
+          fromOption,
+          toOption,
+          toNode,
+        });
+
         if (!toOption || !toNode) return;
 
-        fromOption.onLinkValidate?.({
-          option: fromOption,
-          parentOption,
-          formData: currentFormData,
-          allFormData,
-          data,
-          toNode,
-          toOption,
-        });
+        const isValid =
+          fromOption.onLinkValidate?.({
+            option: fromOption,
+            parentOption,
+            formData: currentFormData,
+            allFormData,
+            data,
+            toNode,
+            toOption,
+            toCategory,
+          }) ?? true;
+
+        if (!isValid) return;
 
         // toNode become a root for now
         addProduct(toNode, fromData, fromOption);
@@ -204,6 +219,7 @@ function DndFlow({ children }: PropsWithChildren) {
             data,
             toNode,
             toOption,
+            toCategory,
           }) ?? true;
 
         if (!isValid) return;
@@ -236,6 +252,7 @@ function DndFlow({ children }: PropsWithChildren) {
             fromNode,
             toNode,
             toOption,
+            toCategory,
           }) ?? true;
 
         if (!isValid) return;
@@ -248,7 +265,6 @@ function DndFlow({ children }: PropsWithChildren) {
 
       // Move
       if (from === StudioZone.ZONE_PRODUCT_ADDON && !isTheSameNode && fromNode) {
-        console.log('_____________________-');
         if (!fromData.belongsTo || !fromNode || !toNode) return;
 
         const isValid =
@@ -262,6 +278,7 @@ function DndFlow({ children }: PropsWithChildren) {
             fromNode,
             toNode,
             data,
+            toCategory,
           }) ?? true;
 
         if (!isValid) return;

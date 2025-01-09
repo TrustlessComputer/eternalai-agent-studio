@@ -20,16 +20,18 @@ type Props = NodeBaseProps;
 
 const NodeStacks = ({ data, ...rest }: Props) => {
   const draggingData = useStudioDndStore((state) => state.draggingData);
+  const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
   const children = data?.metadata?.children;
 
   const idx = data.metadata.idx;
   const option: StudioCategoryOption | undefined = categoryOptionMap[idx];
+  const category = Object.values(categoryMap).find((category) => category.options.some((option) => option.idx === idx));
   const schemadata = option?.data;
 
   const productData: Omit<DraggableData, 'type'> = useMemo(
-    () => ({ optionKey: option.idx, belongsTo: data.id }),
-    [data.id, option.idx],
+    () => ({ optionKey: option.idx, belongsTo: data.id, categoryKey: category?.idx }),
+    [data.id, option.idx, category?.idx],
   );
 
   const renderChildren = useMemo(() => {
@@ -37,8 +39,6 @@ const NodeStacks = ({ data, ...rest }: Props) => {
 
     return children.slice(0, draggingData.childIndex + 1);
   }, [draggingData, data.id, children]);
-
-  const packageData = useMemo(() => ({ belongsTo: data.id }), [data.id]);
 
   return (
     <NodeBaseWrapper data={data} id={data.id} option={option}>
@@ -76,7 +76,7 @@ const NodeStacks = ({ data, ...rest }: Props) => {
           />
         ))}
 
-        <Package id={data.id} data={packageData} />
+        <Package id={data.id} data={productData} />
         <NodeBaseConnection />
       </div>
     </NodeBaseWrapper>

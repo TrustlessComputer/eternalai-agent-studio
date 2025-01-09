@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, JSX, ReactNode } from 'react';
 
 import { FormDataMap, Key } from './base';
 import { StudioDataNode, StudioNode } from './graph';
@@ -92,7 +92,7 @@ export type StudioCategoryOptionRenderPayload<T> = {
 export type StudioOptionCustomizeRender = {
   // render?: (data: StudioCategoryOptionRenderPayload) => ReactNode;
   customizeRenderOnSideBar?: (props: StudioCategoryOption) => ReactNode;
-  customizeRenderOnBoard?: <T>(data: StudioCategoryOptionRenderPayload<T>) => ReactNode;
+  customizeRenderOnBoard?: <T>(data: StudioCategoryOptionRenderPayload<T>) => ReactNode | JSX.Element;
 };
 
 export type StudioCategoryCustomizeRender = {

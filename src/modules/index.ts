@@ -8,5 +8,6 @@ export * from './Studio/utils/validates';
 export * from './Studio/enums';
 export * from './Studio/utils/data';
 export * from './Studio/utils/category';
+export * from './Studio/utils/node';
 
 export { NoDraggable };

@@ -1,6 +1,5 @@
 import {
   closestCenter,
-  closestCorners,
   DndContext,
   DragAbortEvent,
   DragCancelEvent,
@@ -10,7 +9,6 @@ import {
   DragPendingEvent,
   DragStartEvent,
   MouseSensor,
-  rectIntersection,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -172,6 +170,18 @@ function DndFlow({ children }: PropsWithChildren) {
     if (to === StudioZone.ZONE_PACKAGE && toNode) {
       // Link
       if (from === StudioZone.ZONE_SOURCE && fromOption?.type === StudioCategoryType.LINK) {
+        if (!toOption || !toNode) return;
+
+        fromOption.onLinkValidate?.({
+          option: fromOption,
+          parentOption,
+          formData: currentFormData,
+          allFormData,
+          data,
+          toNode,
+          toOption,
+        });
+
         // toNode become a root for now
         addProduct(toNode, fromData, fromOption);
         updateNodes([toNode]);
@@ -343,8 +353,6 @@ function DndFlow({ children }: PropsWithChildren) {
           x: movingNode.position.x + delta.x,
           y: movingNode.position.y + delta.y,
         };
-
-        updateNodes([movingNode]);
 
         const updatedNode = applyNodeChanges(
           [

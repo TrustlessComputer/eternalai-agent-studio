@@ -64,13 +64,13 @@ export type OnSplitPayload = OnStudioInteractPayload & OnNodeInteractPayload;
 export type OnSnapPayload = OnStudioInteractPayload & OnNodeInteractPayload & OnFlowInteractPayload;
 export type OnMergePayload = OnStudioInteractPayload & OnNodeInteractPayload & OnFlowInteractPayload;
 export type StudioCategoryDragDropFunction = {
-  onLinkValidate?: (data: OnLinkPayload) => boolean; // link option to node
-  onSnapValidate?: (data: OnSnapPayload) => boolean; // snap node to root node
-  onSplitValidate?: (data: OnSplitPayload) => boolean; // split items to a single node
-  onMergeValidate?: (data: OnMergePayload) => boolean; // merge items to a single node
-  onDropInValidate?: (data: OnCreatePayload) => boolean; // create new node from sidebar to board
-  onDropOutValidate?: (data: OnDeletePayload) => boolean; // remove exist node from board to sidebar
-  onAddValidate?: (data: OnAddPayload) => boolean; // add option to node directly
+  onLinkValidate?: (data: OnLinkPayload) => boolean; // Link an option to node
+  onSnapValidate?: (data: OnSnapPayload) => boolean; // Snap a part of node to another node
+  onSplitValidate?: (data: OnSplitPayload) => boolean; // Split items to a single node
+  onMergeValidate?: (data: OnMergePayload) => boolean; // Snap a whole node to another node
+  onDropInValidate?: (data: OnCreatePayload) => boolean; // Create new node from sidebar to board
+  onDropOutValidate?: (data: OnDeletePayload) => boolean; // Remove exist node from board to sidebar
+  onAddValidate?: (data: OnAddPayload) => boolean; // Add an option to node directly
 };
 
 export type StudioCategoryBoxWrapperProps = {

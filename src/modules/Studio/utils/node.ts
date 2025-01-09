@@ -113,5 +113,7 @@ export const findAncestorNodeIdOfNodeId = (graph: StudioDataNode[], nodeId: stri
 };
 
 export const updateNodeFormData = (nodeId: string, formData: FormDataMap) => {
-  useStudioFormStore.getState().editForm(nodeId, formData);
+  if (!!nodeId) {
+    useStudioFormStore.getState().editForm(nodeId, formData);
+  }
 };

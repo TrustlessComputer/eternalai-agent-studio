@@ -41,7 +41,7 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
             const idx = child.data.metadata.idx;
             const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
 
-            if (metadata) {
+            if (metadata && option) {
               const directlyChildren = getChildrenDataFromChildren(metadata?.children);
               const formValue = throttleDataForms[id] || {};
 
@@ -109,7 +109,7 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
         const idx = node.data.metadata.idx;
         const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
 
-        if (metadata) {
+        if (metadata && option) {
           const directlyChildren = getChildrenDataFromChildren(metadata?.children);
           const inDirectlyChildren = getDataFromLinkedNodes(node);
           const formValue = throttleDataForms[id] || {};

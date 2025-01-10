@@ -127,10 +127,13 @@ export const findDataByCategoryKey = (categoryKey: string, data: StudioDataNode[
 export const createNodeData = (
   id: string,
   option: StudioCategoryOption,
-  children: StudioDataNode[],
-  data: FormDataMap,
-  position: XYPosition,
-) => {
+  children: StudioDataNode[] = [],
+  data: FormDataMap = {},
+  position: XYPosition = {
+    x: 0,
+    y: 0,
+  },
+): StudioDataNode => {
   return {
     id: id,
     idx: option.idx,
@@ -140,10 +143,7 @@ export const createNodeData = (
       ...data,
     },
     rect: {
-      position: position || {
-        x: 0,
-        y: 0,
-      },
+      position: position,
     },
   } satisfies StudioDataNode;
 };

@@ -13,7 +13,7 @@ type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
   formId: string;
   name: string;
   readonly?: boolean;
-  schemadata?: DataSchema;
+  schemaData?: DataSchema;
   fieldKey: string;
 };
 
@@ -27,7 +27,7 @@ type Props = Omit<React.ComponentPropsWithoutRef<'input'>, 'defaultValue'> & {
  * @param {string} props.fieldKey - Unique key for field validation
  * @returns {JSX.Element} Rendered textbox component
  */
-function Textbox({ formId, placeholder, className, name, readonly, fieldKey, ...rest }: Props) {
+function Textbox({ formId, placeholder, className, name, readonly, fieldKey, schemaData, ...rest }: Props) {
   const formFunctions = useFormFunction(fieldKey);
 
   const formMap = useStudioFormStore((state) => state.formMap);
@@ -55,6 +55,7 @@ function Textbox({ formId, placeholder, className, name, readonly, fieldKey, ...
     // No need to add onFieldValidate to dependencies
   }, [name, value]);
 
+  const fieldData = schemaData?.[fieldKey];
   return (
     <NoDraggable>
       <input
@@ -63,6 +64,7 @@ function Textbox({ formId, placeholder, className, name, readonly, fieldKey, ...
         type="text"
         placeholder={placeholder}
         name={name}
+        disabled={!!fieldData?.disabled}
         className={cs('studio-field-input', className, {
           'studio-field-input__error': isError,
         })}

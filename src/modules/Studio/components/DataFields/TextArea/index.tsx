@@ -13,11 +13,11 @@ type Props = Omit<React.ComponentPropsWithoutRef<'textarea'>, 'defaultValue'> & 
   formId: string;
   name: string;
   readonly?: boolean;
-  schemadata?: DataSchema;
+  schemaData?: DataSchema;
   fieldKey: string;
 };
 
-function TextArea({ formId, placeholder, className, name, readonly, fieldKey, ...rest }: Props) {
+function TextArea({ formId, placeholder, className, name, readonly, fieldKey, schemaData, ...rest }: Props) {
   const formFunctions = useFormFunction(fieldKey);
 
   const formMap = useStudioFormStore((state) => state.formMap);
@@ -45,12 +45,14 @@ function TextArea({ formId, placeholder, className, name, readonly, fieldKey, ..
     // No need to add onFieldValidate to dependencies
   }, [name, value]);
 
+  const fieldData = schemaData?.[fieldKey];
   return (
     <NoDraggable>
       <textarea
         {...rest}
         onChange={handleOnChange}
         placeholder={placeholder}
+        disabled={fieldData?.disabled}
         name={name}
         className={cs('studio-field-text-area', className, {
           'studio-field-text-area__error': isError,

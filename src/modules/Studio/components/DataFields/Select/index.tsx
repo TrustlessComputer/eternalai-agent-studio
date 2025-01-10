@@ -16,7 +16,7 @@ type Props = Omit<React.ComponentPropsWithoutRef<'select'>, 'defaultValue'> & {
   placeholder?: string;
   dataSourceKey?: string;
   readonly?: boolean;
-  schemadata?: DataSchema;
+  schemaData?: DataSchema;
   fieldKey: string;
 };
 
@@ -28,6 +28,7 @@ function Select({
   dataSourceKey,
   readonly,
   fieldKey,
+  schemaData,
   ...rest
 }: Props) {
   // const data = useStudioDataStore((state) => state.data);
@@ -71,6 +72,7 @@ function Select({
     // do not update dependencies
   }, [name, value]);
 
+  const fieldData = schemaData?.[fieldKey];
   return (
     <NoDraggable>
       <select
@@ -86,6 +88,7 @@ function Select({
           className,
         )}
         value={value as string}
+        disabled={!!fieldData?.disabled}
       >
         <option value="" className="studio-field-select__placeholder">
           {placeholder}

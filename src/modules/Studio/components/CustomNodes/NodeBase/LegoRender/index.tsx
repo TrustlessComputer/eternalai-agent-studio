@@ -16,15 +16,15 @@ type Props<T> = {
   background?: string;
   icon: React.ReactNode | FunctionComponent;
   id: string;
-  schemadata?: DataSchema;
+  schemaData?: DataSchema;
   title: React.ReactNode | FunctionComponent;
   idx: string;
   readonly?: boolean;
   render?: (data: StudioCategoryOptionRenderPayload<T>) => React.ReactNode;
 };
 
-const LegoRenderBase = <T,>({ background, icon, id, schemadata, title, idx, readonly }: Omit<Props<T>, 'render'>) => {
-  const fields = useMemo(() => Object.keys(schemadata || {}), [schemadata]);
+const LegoRenderBase = <T,>({ background, icon, id, schemaData, title, idx, readonly }: Omit<Props<T>, 'render'>) => {
+  const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
 
   const isDynamicHeight = useMemo(() => {
     if (fields.length > 1) {
@@ -32,10 +32,10 @@ const LegoRenderBase = <T,>({ background, icon, id, schemadata, title, idx, read
     }
 
     const field = fields[0];
-    const fieldData = (schemadata || {})[field];
+    const fieldData = (schemaData || {})[field];
 
     return fieldData?.type === 'textarea';
-  }, [fields, schemadata]);
+  }, [fields, schemaData]);
 
   const isFixedHeight = !isDynamicHeight;
 
@@ -49,7 +49,7 @@ const LegoRenderBase = <T,>({ background, icon, id, schemadata, title, idx, read
       }}
     >
       <LegoContent>
-        <FormRender readonly={readonly} idx={idx} id={id} schemadata={schemadata}>
+        <FormRender readonly={readonly} idx={idx} id={id} schemaData={schemaData}>
           <TextRender data={title} />
         </FormRender>
       </LegoContent>

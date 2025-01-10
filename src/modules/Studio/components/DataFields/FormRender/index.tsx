@@ -9,20 +9,20 @@ import './FormRender.scss';
 
 type Props = React.PropsWithChildren & {
   id: string;
-  schemadata?: DataSchema;
+  schemaData?: DataSchema;
   idx: string;
   readonly?: boolean;
 };
 
-function FormRender({ id, schemadata, children, readonly, idx }: Props) {
-  const fields = useMemo(() => Object.keys(schemadata || {}), [schemadata]);
+function FormRender({ id, schemaData, children, readonly, idx }: Props) {
+  const fields = useMemo(() => Object.keys(schemaData || {}), [schemaData]);
 
   const renderForm = () => {
-    if (fields.length && schemadata) {
+    if (fields.length && schemaData) {
       if (fields.length === 1) {
         // render single field
         const field = fields[0];
-        const fieldData = schemadata[field];
+        const fieldData = schemaData[field];
 
         if (fieldData.type === 'text') {
           return (
@@ -34,7 +34,7 @@ function FormRender({ id, schemadata, children, readonly, idx }: Props) {
                   formId={id}
                   name={field}
                   placeholder={fieldData.placeholder}
-                  schemadata={schemadata}
+                  schemaData={schemaData}
                   fieldKey={idx}
                 />
               </div>
@@ -60,7 +60,7 @@ function FormRender({ id, schemadata, children, readonly, idx }: Props) {
                           formId={id}
                           name={field}
                           placeholder={fieldData.placeholder}
-                          schemadata={schemadata}
+                          schemaData={schemaData}
                           fieldKey={idx}
                         />
                       </div>
@@ -82,8 +82,8 @@ function FormRender({ id, schemadata, children, readonly, idx }: Props) {
                   formId={id}
                   name={field}
                   placeholder={fieldData.placeholder}
-                  dataSourceKey={schemadata[field].dataSourceKey}
-                  schemadata={schemadata}
+                  dataSourceKey={schemaData[field].dataSourceKey}
+                  schemaData={schemaData}
                   fieldKey={idx}
                 />
               </div>
@@ -100,36 +100,36 @@ function FormRender({ id, schemadata, children, readonly, idx }: Props) {
               {fields.map((field) => {
                 return (
                   <div className="studio-form-multiple-field-row" key={`studio-form-multiple-field-row-${id}-${field}`}>
-                    <span>{schemadata[field].label}</span>
+                    <span>{schemaData[field].label}</span>
 
                     <div>
-                      {schemadata[field].type === 'text' && (
+                      {schemaData[field].type === 'text' && (
                         <Textbox
                           readonly={readonly}
                           formId={id}
                           name={field}
-                          placeholder={schemadata[field].placeholder}
+                          placeholder={schemaData[field].placeholder}
                           fieldKey={idx}
                         />
                       )}
 
-                      {schemadata[field].type === 'textarea' && (
+                      {schemaData[field].type === 'textarea' && (
                         <TextArea
                           readonly={readonly}
                           formId={id}
                           name={field}
-                          placeholder={schemadata[field].placeholder}
+                          placeholder={schemaData[field].placeholder}
                           fieldKey={idx}
                         />
                       )}
 
-                      {schemadata[field].type === 'select' && (
+                      {schemaData[field].type === 'select' && (
                         <Select
                           readonly={readonly}
                           formId={id}
                           name={field}
-                          placeholder={schemadata[field].placeholder}
-                          dataSourceKey={schemadata[field].dataSourceKey}
+                          placeholder={schemaData[field].placeholder}
+                          dataSourceKey={schemaData[field].dataSourceKey}
                           fieldKey={idx}
                         />
                       )}

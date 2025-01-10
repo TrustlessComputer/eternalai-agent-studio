@@ -11,6 +11,7 @@ export type DataSchemaValue = {
   placeholder?: string;
   defaultValue?: string | number | boolean;
   dataSourceKey?: string;
+  disabled?: boolean; // default false
 };
 
 export type DataSchema = Record<DataSchemaField, DataSchemaValue>;

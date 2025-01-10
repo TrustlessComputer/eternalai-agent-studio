@@ -1,3 +1,5 @@
+import { XYPosition } from '@xyflow/react';
+
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 import { FormDataMap } from '../types/base';
 import { StudioCategoryOption } from '../types/category';
@@ -120,4 +122,28 @@ export const findDataByCategoryKey = (categoryKey: string, data: StudioDataNode[
   });
 
   return returnVal;
+};
+
+export const createNodeData = (
+  id: string,
+  option: StudioCategoryOption,
+  children: StudioDataNode[],
+  data: FormDataMap,
+  position: XYPosition,
+) => {
+  return {
+    id: id,
+    idx: option.idx,
+    title: option.title || 'Untitled',
+    children: [...children],
+    data: {
+      ...data,
+    },
+    rect: {
+      position: position || {
+        x: 0,
+        y: 0,
+      },
+    },
+  } satisfies StudioDataNode;
 };

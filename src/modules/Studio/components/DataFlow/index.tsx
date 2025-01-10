@@ -8,6 +8,7 @@ import useStudioFormStore from '../../stores/useStudioFormStore';
 import { StudioCategoryOptionMapValue, StudioDataNode, StudioNode } from '../../types';
 
 import { useThrottleValue } from '@/hooks/useThrottleValue';
+import { createNodeData } from '../../utils/data';
 
 type Props = {
   throttleNodesDelay: number;
@@ -51,18 +52,7 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
 
               usedKeyCollection[option.idx] = option.idx;
 
-              return {
-                id,
-                idx,
-                title: option.title || 'Untitled',
-                children: [...directlyChildren],
-                data: {
-                  ...formValue,
-                },
-                rect: {
-                  position: child.position,
-                },
-              };
+              return createNodeData(id, option, directlyChildren, formValue, child.position);
             }
 
             return null;
@@ -119,18 +109,9 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
           }
 
           usedKeyCollection[option.idx] = option.idx;
-          newData.push({
-            id,
-            idx: option.idx,
-            title: option.title || 'Untitled',
-            children: [...directlyChildren, ...inDirectlyChildren],
-            data: {
-              ...formValue,
-            },
-            rect: {
-              position: node.position,
-            },
-          });
+          newData.push(
+            createNodeData(id, option, [...directlyChildren, ...inDirectlyChildren], formValue, node.position),
+          );
         }
       });
 

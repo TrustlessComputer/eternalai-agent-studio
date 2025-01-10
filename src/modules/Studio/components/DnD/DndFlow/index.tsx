@@ -9,6 +9,7 @@ import {
   DragPendingEvent,
   DragStartEvent,
   MouseSensor,
+  rectIntersection,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -402,7 +403,7 @@ function DndFlow({ children }: PropsWithChildren) {
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={rectIntersection}
       onDragStart={handleDragStart}
       onDragMove={handleDragMove}
       onDragOver={handleDragOver}

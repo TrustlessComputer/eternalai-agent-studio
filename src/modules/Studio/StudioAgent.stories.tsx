@@ -63,6 +63,7 @@ const args = {
               'label': 'Agent Name',
               'placeholder': 'Agent Name',
               'defaultValue': '',
+              disabled: true,
             },
           },
         },

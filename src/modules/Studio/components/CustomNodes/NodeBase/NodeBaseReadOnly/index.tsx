@@ -11,7 +11,7 @@ const NodeBaseReadOnly = ({ data }: Props) => {
 
   const idx = data.metadata.idx;
   const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
-  const schemadata = option?.data;
+  const schemaData = option?.data;
 
   return (
     <LegoRender
@@ -19,7 +19,7 @@ const NodeBaseReadOnly = ({ data }: Props) => {
       icon={option?.icon}
       title={option?.title}
       id={data.id}
-      schemadata={schemadata}
+      schemaData={schemaData}
       idx={option?.idx}
       readonly
       render={option?.customizeRenderOnBoard}

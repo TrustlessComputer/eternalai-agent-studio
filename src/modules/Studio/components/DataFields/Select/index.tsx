@@ -72,7 +72,7 @@ function Select({
     // do not update dependencies
   }, [name, value]);
 
-  const fieldData = schemaData?.[fieldKey];
+  const fieldData = schemaData?.[name];
   return (
     <NoDraggable>
       <select

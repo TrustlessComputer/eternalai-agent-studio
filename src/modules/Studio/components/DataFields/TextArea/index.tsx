@@ -45,7 +45,7 @@ function TextArea({ formId, placeholder, className, name, readonly, fieldKey, sc
     // No need to add onFieldValidate to dependencies
   }, [name, value]);
 
-  const fieldData = schemaData?.[fieldKey];
+  const fieldData = schemaData?.[name];
   return (
     <NoDraggable>
       <textarea

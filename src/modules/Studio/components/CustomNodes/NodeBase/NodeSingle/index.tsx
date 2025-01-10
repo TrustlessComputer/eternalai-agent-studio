@@ -22,7 +22,7 @@ const NodeSingle = ({ data }: Props) => {
   const idx = data.metadata.idx;
   const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
   const category = Object.values(categoryMap).find((category) => category.options.some((option) => option.idx === idx));
-  const schemadata = option?.data;
+  const schemaData = option?.data;
 
   const productData: Omit<DraggableData, 'type'> = useMemo(
     () => ({ optionKey: option?.idx, belongsTo: data.id, categoryKey: category?.idx }),
@@ -39,7 +39,7 @@ const NodeSingle = ({ data }: Props) => {
               icon={option?.icon}
               title={option?.title}
               id={data.id}
-              schemadata={schemadata}
+              schemaData={schemaData}
               idx={option?.idx}
               render={option?.customizeRenderOnBoard}
             />

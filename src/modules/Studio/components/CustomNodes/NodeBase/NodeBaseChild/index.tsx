@@ -46,7 +46,7 @@ const NodeBaseChild = ({ data, items, index, belongsTo }: Props) => {
         icon={option.icon}
         title={option.title}
         id={data.id}
-        schemadata={option.data}
+        schemaData={option.data}
         idx={option.idx}
         render={option.customizeRenderOnBoard}
       />

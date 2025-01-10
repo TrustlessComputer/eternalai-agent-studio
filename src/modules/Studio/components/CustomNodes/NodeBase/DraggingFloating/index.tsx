@@ -16,7 +16,7 @@ const DraggingFloating = ({ data }: { data: StudioNode }) => {
       icon={option?.icon}
       title={option?.title}
       id={data.id}
-      schemadata={option?.data}
+      schemaData={option?.data}
       idx={option?.idx}
       readonly
       render={option?.customizeRenderOnBoard}

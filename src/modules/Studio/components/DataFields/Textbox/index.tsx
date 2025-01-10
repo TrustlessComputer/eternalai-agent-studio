@@ -55,7 +55,7 @@ function Textbox({ formId, placeholder, className, name, readonly, fieldKey, sch
     // No need to add onFieldValidate to dependencies
   }, [name, value]);
 
-  const fieldData = schemaData?.[fieldKey];
+  const fieldData = schemaData?.[name];
   return (
     <NoDraggable>
       <input

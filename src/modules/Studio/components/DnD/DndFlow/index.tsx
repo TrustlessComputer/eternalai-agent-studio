@@ -1,5 +1,4 @@
 import {
-  closestCenter,
   DndContext,
   DragAbortEvent,
   DragCancelEvent,
@@ -13,7 +12,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { applyNodeChanges, XYPosition } from '@xyflow/react';
+import { applyNodeChanges, useStoreApi, XYPosition } from '@xyflow/react';
 import { PropsWithChildren, useCallback, useRef } from 'react';
 
 import { StudioCategoryType } from '@/modules/Studio/enums/category';
@@ -26,9 +25,12 @@ import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { StudioCategory, StudioCategoryMapValue, StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
+import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 
 function DndFlow({ children }: PropsWithChildren) {
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }));
+
+  const flowStore = useStoreApi();
 
   const movingNodeRef = useRef<StudioNode>(null);
 
@@ -351,12 +353,21 @@ function DndFlow({ children }: PropsWithChildren) {
   const handleDragMove = useCallback((event: DragMoveEvent) => {
     const { active, delta } = event;
 
+    useStudioDndStore.getState().setDraggingPosition({
+      x: event.delta.x,
+      y: event.delta.y,
+    });
+
     if (active) {
+      const {
+        transform: [transformX, transformY, zoomLevel],
+      } = flowStore.getState();
       const id = active.id as string;
       let movingNode = movingNodeRef.current;
 
       if (!movingNode) {
         const nodes = useStudioFlowStore.getState().nodes;
+
         const movingNodeIndex = nodes.findIndex((node) => node.id === id);
 
         movingNode = movingNodeRef.current || nodes[movingNodeIndex];
@@ -368,8 +379,8 @@ function DndFlow({ children }: PropsWithChildren) {
         movingNodeRef.current = movingNode;
 
         const newPosition: XYPosition = {
-          x: movingNode.position.x + delta.x,
-          y: movingNode.position.y + delta.y,
+          x: movingNode.position.x + delta.x / zoomLevel,
+          y: movingNode.position.y + delta.y / zoomLevel,
         };
 
         const updatedNode = applyNodeChanges(

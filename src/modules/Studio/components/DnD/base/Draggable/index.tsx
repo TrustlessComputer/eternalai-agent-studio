@@ -1,11 +1,12 @@
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import cx from 'clsx';
-import { HTMLAttributes, useEffect, useMemo, useRef } from 'react';
+import { HTMLAttributes, useEffect, useRef } from 'react';
 
 import { DraggableData } from '@/modules/Studio/types/dnd';
 import { DomRect, TouchingPoint } from '@/modules/Studio/types/ui';
 import { calculateTouchingPercentage } from '@/modules/Studio/utils/ui';
+import { useStoreApi } from '@xyflow/react';
 import './Draggable.scss';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
@@ -28,20 +29,35 @@ const Draggable = ({
 }: Props) => {
   const touchingPointRef = useRef<TouchingPoint>({ clientX: 0, clientY: 0 });
 
+  const {
+    transform: [transformX, transformY, zoomLevel],
+  } = useStoreApi().getState();
+
   const { attributes, listeners, setNodeRef, transform, isDragging, node } = useDraggable({
     id,
     disabled,
     data,
   });
 
-  const style = useMemo(
-    () => ({
-      ...props.style,
-      transform: CSS.Translate.toString(transform),
-      opacity: isDragging ? 0 : 1,
-    }),
-    [transform, isDragging, props.style],
-  );
+  const processTransform = (_transform: typeof transform) => {
+    if (!_transform) return;
+
+    const { x, y } = _transform;
+
+    const transformString = CSS.Translate.toString({
+      ..._transform,
+      x: x + x / zoomLevel,
+      y: y + y / zoomLevel,
+    });
+
+    return transformString;
+  };
+
+  const style = {
+    ...props.style,
+    transform: processTransform(transform),
+    opacity: isDragging ? 0 : 1,
+  };
 
   useEffect(() => {
     if (isDragging) {

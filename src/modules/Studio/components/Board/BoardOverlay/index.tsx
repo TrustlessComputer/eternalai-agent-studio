@@ -5,7 +5,8 @@ import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { StudioZone } from '@/modules/Studio/types/dnd';
 
 const BoardOverlay = () => {
-  const { draggingData, draggingElement } = useStudioDndStore();
+  const draggingData = useStudioDndStore((state) => state.draggingData);
+  const draggingElement = useStudioDndStore((state) => state.draggingElement);
 
   return (
     <Overlay active={draggingData?.type === StudioZone.ZONE_SOURCE && !!draggingElement}>

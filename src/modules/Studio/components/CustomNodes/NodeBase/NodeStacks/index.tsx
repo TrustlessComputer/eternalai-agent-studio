@@ -14,11 +14,14 @@ import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategorySto
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { StudioCategoryOption } from '@/modules/Studio/types';
 import { DraggableData } from '@/modules/Studio/types/dnd';
+import useNodeSelected from '@/modules/Studio/hooks/useNodeSelected';
 import './NodeStacks.scss';
 
 type Props = NodeBaseProps;
 
 const NodeStacks = ({ data, ...rest }: Props) => {
+  const { isSelected } = useNodeSelected({ id: data.id });
+
   const draggingData = useStudioDndStore((state) => state.draggingData);
   const categoryMap = useStudioCategoryStore((state) => state.categoryMap);
   const categoryOptionMap = useStudioCategoryStore((state) => state.categoryOptionMap);
@@ -40,6 +43,11 @@ const NodeStacks = ({ data, ...rest }: Props) => {
     return children.slice(0, draggingData.childIndex + 1);
   }, [draggingData, data.id, children]);
 
+  const highlightColor = useMemo(
+    () => option?.highlightColor || category?.highlightColor || option?.color,
+    [option, category],
+  );
+
   return (
     <NodeBaseWrapper data={data} id={data.id} option={option}>
       <div className="node-base">
@@ -56,7 +64,7 @@ const NodeStacks = ({ data, ...rest }: Props) => {
           }
         >
           <LegoRender
-            background={option.color}
+            background={isSelected ? highlightColor : option.color}
             icon={option.icon}
             title={option.title}
             id={data.id}

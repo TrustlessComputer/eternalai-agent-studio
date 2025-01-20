@@ -27,6 +27,7 @@ export type BaseCategory = {
   order?: number;
   data?: DataSchema;
   color?: string;
+  highlightColor?: string;
 };
 
 /**

@@ -81,7 +81,7 @@ const NodeStacks = ({ data, ...rest }: Props) => {
             data={item}
             items={children}
             belongsTo={data.id}
-            isHidden={draggingData?.belongsTo === data.id}
+            isHidden={draggingData?.belongsTo === data.id && draggingData?.optionKey === option?.idx}
           />
         ))}
 

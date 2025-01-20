@@ -42,6 +42,7 @@ function DndFlow({ children }: PropsWithChildren) {
     mergeProducts,
     getNewNodeInfo,
     link,
+    unlinkAll,
     updateFieldValidate,
   } = useDndAction();
   const { updateNodes } = useDndInteraction();
@@ -193,6 +194,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
         if (!isValid) return;
 
+        unlinkAll(fromNode);
         link(fromNode, toNode);
         updateNodes([fromNode, toNode]);
 

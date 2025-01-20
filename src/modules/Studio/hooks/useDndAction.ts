@@ -54,14 +54,37 @@ const useDndAction = () => {
   }, []);
 
   const link = useCallback((fromNode?: StudioNode, toNode?: StudioNode) => {
-    if (!fromNode || !toNode) return {};
+    if (!fromNode || !toNode) return;
 
-    const newEdge = createNewBaseEdge(fromNode.id, toNode.id, true);
+    const newEdge = createNewBaseEdge(toNode.id, fromNode.id, true);
 
-    fromNode.data.sourceHandles.push(generateSourceHandleId(fromNode.id, toNode.id));
+    toNode.data.sourceHandles.push(generateSourceHandleId(toNode.id, fromNode.id));
 
     useStudioFlowStore.getState().addEdge(newEdge);
-    useStudioFlowStore.getState().addLinkedNode(fromNode.id, toNode.id);
+    useStudioFlowStore.getState().addLinkedNode(toNode.id, fromNode.id);
+  }, []);
+
+  const unlink = useCallback((fromNode?: StudioNode, toNode?: StudioNode) => {
+    if (!fromNode || !toNode) return;
+
+    toNode.data.sourceHandles = toNode.data.sourceHandles.filter((handle) => handle !== generateSourceHandleId(toNode.id, fromNode.id));
+
+    const edge = useStudioFlowStore.getState().edges.find((edge) => edge.source === fromNode.id && edge.target === toNode.id);
+
+    if (edge) {
+      useStudioFlowStore.getState().removeEdge(edge.id);
+      useStudioFlowStore.getState().removeLinkedNode(fromNode.id, toNode.id);
+    }
+  }, []);
+
+  const unlinkAll = useCallback((node?: StudioNode) => {
+    if (!node) return;
+
+    const edges = useStudioFlowStore.getState().edges.filter((edge) => edge.source === node.id || edge.target === node.id);
+    edges.forEach((edge) => {
+      useStudioFlowStore.getState().removeEdge(edge.id);
+      useStudioFlowStore.getState().removeLinkedNode(edge.source, edge.target);
+    });
   }, []);
 
   const removePartOfPackage = useCallback((node?: StudioNode, index?: number) => {
@@ -184,6 +207,8 @@ const useDndAction = () => {
     getNewNodeInfo,
     updateFieldValidate,
     link,
+    unlink,
+    unlinkAll,
   };
 };
 

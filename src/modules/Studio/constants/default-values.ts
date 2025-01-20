@@ -14,8 +14,8 @@ export const DEFAULT_TAB_BEHAVIOR = TabBehavior.SCROLL;
 export const DEFAULT_SIDEBAR_SIDE = SidebarSide.LEFT;
 
 export const DEFAULT_BOARD_CONFIG: BoardConfig = {
-  minZoom: 1,
-  maxZoom: 1,
+  minZoom: 0.5,
+  maxZoom: 2,
   fitViewOptions: {
     padding: 1,
   },

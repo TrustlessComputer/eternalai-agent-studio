@@ -41,6 +41,7 @@ function DndFlow({ children }: PropsWithChildren) {
     splitPackage,
     mergeProducts,
     getNewNodeInfo,
+    link,
     updateFieldValidate,
   } = useDndAction();
   const { updateNodes } = useDndInteraction();
@@ -126,7 +127,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
     if (to === StudioZone.ZONE_DISTRIBUTION) {
       // Create
-      if (from === StudioZone.ZONE_SOURCE && fromOption?.type !== StudioCategoryType.LINK) {
+      if (from === StudioZone.ZONE_SOURCE) {
         const isValid =
           fromOption?.onDropInValidate?.({
             option: fromOption,
@@ -175,13 +176,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
     if (to === StudioZone.ZONE_PACKAGE && toNode) {
       // Link
-      if (from === StudioZone.ZONE_SOURCE && fromOption?.type === StudioCategoryType.LINK) {
-        console.log('[DndContainer] handleDragEnd link', {
-          fromOption,
-          toOption,
-          toNode,
-        });
-
+      if (from === StudioZone.ZONE_PRODUCT && fromOption?.type === StudioCategoryType.LINK) {
         if (!toOption || !toNode) return;
 
         const isValid =
@@ -198,9 +193,12 @@ function DndFlow({ children }: PropsWithChildren) {
 
         if (!isValid) return;
 
+        link(fromNode, toNode);
+        updateNodes([fromNode, toNode]);
+
         // toNode become a root for now
-        addProduct(toNode, fromData, fromOption);
-        updateNodes([toNode]);
+        // addProduct(toNode, fromData, fromOption);
+        // updateNodes([toNode]);
 
         return;
       }

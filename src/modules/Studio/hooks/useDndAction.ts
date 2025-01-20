@@ -53,6 +53,17 @@ const useDndAction = () => {
     return newNodeInfo;
   }, []);
 
+  const link = useCallback((fromNode?: StudioNode, toNode?: StudioNode) => {
+    if (!fromNode || !toNode) return {};
+
+    const newEdge = createNewBaseEdge(fromNode.id, toNode.id, true);
+
+    fromNode.data.sourceHandles.push(generateSourceHandleId(fromNode.id, toNode.id));
+
+    useStudioFlowStore.getState().addEdge(newEdge);
+    useStudioFlowStore.getState().addLinkedNode(fromNode.id, toNode.id);
+  }, []);
+
   const removePartOfPackage = useCallback((node?: StudioNode, index?: number) => {
     if (!node) return {};
 
@@ -100,12 +111,7 @@ const useDndAction = () => {
     if (!newNode) return {};
 
     if (rootNode) {
-      const newEdge = createNewBaseEdge(rootNode.id, newNode.id, true);
-
-      rootNode.data.sourceHandles.push(generateSourceHandleId(rootNode.id, newNode.id));
-
-      useStudioFlowStore.getState().addLinkedNode(rootNode.id, newNode.id);
-      useStudioFlowStore.getState().addEdge(newEdge);
+      link(rootNode, newNode);
     }
 
     useStudioFlowStore.getState().addNode(newNode);
@@ -128,12 +134,7 @@ const useDndAction = () => {
           .filter((child) => !!child);
 
         if (rootNode) {
-          const newEdge = createNewBaseEdge(rootNode.id, newNode.id, true);
-
-          rootNode.data.sourceHandles.push(generateSourceHandleId(rootNode.id, newNode.id));
-
-          useStudioFlowStore.getState().addEdge(newEdge);
-          useStudioFlowStore.getState().addLinkedNode(rootNode.id, newNode.id);
+          link(rootNode, newNode);
         }
 
         useStudioFlowStore.getState().addNode(newNode);
@@ -182,6 +183,7 @@ const useDndAction = () => {
     mergeProducts,
     getNewNodeInfo,
     updateFieldValidate,
+    link,
   };
 };
 

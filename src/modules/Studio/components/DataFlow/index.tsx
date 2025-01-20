@@ -52,7 +52,7 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
 
               usedKeyCollection[option.idx] = option.idx;
 
-              return createNodeData(id, option, directlyChildren, formValue, child.position);
+              return createNodeData(id, option, directlyChildren, formValue, child.position, option?.parent?.idx);
             }
 
             return null;
@@ -110,7 +110,14 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
 
           usedKeyCollection[option.idx] = option.idx;
           newData.push(
-            createNodeData(id, option, [...directlyChildren, ...inDirectlyChildren], formValue, node.position),
+            createNodeData(
+              id,
+              option,
+              [...directlyChildren, ...inDirectlyChildren],
+              formValue,
+              node.position,
+              option?.parent?.idx,
+            ),
           );
         }
       });

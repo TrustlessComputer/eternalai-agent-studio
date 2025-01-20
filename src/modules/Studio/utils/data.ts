@@ -2,7 +2,7 @@ import { XYPosition } from '@xyflow/react';
 
 import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 import { FormDataMap } from '../types/base';
-import { StudioCategoryOption, StudioCategoryOptionMapValue } from '../types/category';
+import { StudioCategoryOption } from '../types/category';
 import { StudioDataNode } from '../types/graph';
 
 export const getFormDataFromCategoryOption = (category: StudioCategoryOption) => {
@@ -126,18 +126,18 @@ export const findDataByCategoryKey = (categoryKey: string, data: StudioDataNode[
 
 export const createNodeData = (
   id: string,
-  option: StudioCategoryOptionMapValue,
+  option: StudioCategoryOption,
   children: StudioDataNode[] = [],
   data: FormDataMap = {},
   position: XYPosition = {
     x: 0,
     y: 0,
   },
+  categoryIdx?: string,
 ): StudioDataNode => {
   return {
     id,
     idx: option.idx,
-    categoryIdx: option?.parent?.idx || '',
     title: option.title || 'Untitled',
     children: [...children],
     data: {
@@ -146,5 +146,6 @@ export const createNodeData = (
     rect: {
       position,
     },
+    categoryIdx,
   } satisfies StudioDataNode;
 };

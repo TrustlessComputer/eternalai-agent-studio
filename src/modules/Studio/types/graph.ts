@@ -19,7 +19,7 @@ export type StudioNode = Node<StudioInternalDataNode>;
 export type StudioDataNode = {
   id: string;
   idx: Key;
-  categoryIdx: Key;
+  categoryIdx?: Key;
   title: React.ReactNode | FunctionComponent;
   children: StudioDataNode[];
   data?: FormDataMap; // this field can be used to store additional data or form input data

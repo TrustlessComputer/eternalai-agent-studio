@@ -70,6 +70,64 @@ const CategoryOption = ({
   );
 };
 
+const CustomCategoryOption = ({
+  categoryKey,
+  isRoot,
+  color,
+  option,
+  disabled,
+  multipleOption,
+  children,
+}: {
+  categoryKey: string;
+  isRoot?: boolean;
+  color?: string;
+  option: StudioCategoryOption;
+  disabled?: boolean;
+  multipleOption?: boolean;
+  children: React.ReactNode;
+}) => {
+  const usedKeyCollection = useStudioCategoryStore((state) => state.usedKeyCollection);
+  const usedCategoryKey = usedKeyCollection[categoryKey];
+  const usedOptionKey = usedKeyCollection[option.idx];
+
+  const isDisabled = useMemo(() => {
+    let returnVal = disabled || option.disabled;
+
+    // check parent first
+    if (!returnVal) {
+      if (!multipleOption) {
+        if (usedCategoryKey) {
+          returnVal = true;
+        }
+      }
+    }
+
+    if (!returnVal) {
+      if (!option.multipleChoice) {
+        if (usedOptionKey) {
+          returnVal = true;
+        }
+      }
+    }
+
+    return returnVal;
+  }, [disabled, multipleOption, option.disabled, option.multipleChoice, usedCategoryKey, usedOptionKey]);
+
+  return (
+    <Source
+      id={option.idx}
+      key={`sidebar-source-${categoryKey}-${option.idx}`}
+      data={{ categoryKey, optionKey: option.idx, isRoot }}
+      disabled={isDisabled}
+    >
+      <Lego background={color} icon={option.icon} disabled={isDisabled}>
+        <LegoContent>{children}</LegoContent>
+      </Lego>
+    </Source>
+  );
+};
+
 const CategoryGroup = (props: Props) => {
   const {
     idx: categoryKey,
@@ -100,7 +158,19 @@ const CategoryGroup = (props: Props) => {
       <div className="category-group__options">
         {filteredOptions.map((option) => {
           if (option.customizeRenderOnSideBar && typeof option.customizeRenderOnSideBar === 'function') {
-            return option.customizeRenderOnSideBar(option);
+            return (
+              <CustomCategoryOption
+                key={`sidebar-source-${categoryKey}-${option.idx}`}
+                categoryKey={categoryKey}
+                isRoot={isRoot}
+                color={color}
+                option={option}
+                disabled={disabled}
+                multipleOption={multipleOption}
+              >
+                {option.customizeRenderOnSideBar(option)}
+              </CustomCategoryOption>
+            );
           }
 
           return (

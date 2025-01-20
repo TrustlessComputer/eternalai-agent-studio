@@ -6,9 +6,9 @@ import useStudioDndStore from '../../stores/useStudioDndStore';
 import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFormStore from '../../stores/useStudioFormStore';
 import { StudioCategoryOptionMapValue, StudioDataNode, StudioNode } from '../../types';
+import { createNodeData } from '../../utils/data';
 
 import { useThrottleValue } from '@/hooks/useThrottleValue';
-import { createNodeData } from '../../utils/data';
 
 type Props = {
   throttleNodesDelay: number;

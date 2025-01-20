@@ -86,7 +86,7 @@ const LegoRenderCustomization = <T,>({ background, icon, id, idx, render }: Prop
   return (
     <Lego
       background={background}
-      icon={!!render ? undefined : icon}
+      icon={render ? undefined : icon}
       fixedHeight={false}
       style={{
         width: '100%',

@@ -14,6 +14,7 @@ type Props = HTMLAttributes<HTMLDivElement> & {
   disabled?: boolean;
   handleOnDrag: (data: DraggableData, touchingPoint: DomRect | null) => void;
   handleOnDrop: (data: DraggableData) => void;
+  isHidden?: boolean;
 };
 
 const Draggable = ({
@@ -24,6 +25,7 @@ const Draggable = ({
   className,
   handleOnDrag,
   handleOnDrop,
+  isHidden,
   ...props
 }: Props) => {
   const touchingPointRef = useRef<TouchingPoint>({ clientX: 0, clientY: 0 });
@@ -38,9 +40,9 @@ const Draggable = ({
     () => ({
       ...props.style,
       transform: CSS.Translate.toString(transform),
-      opacity: isDragging ? 0 : 1,
+      opacity: isDragging || isHidden ? 0 : 1,
     }),
-    [transform, isDragging, props.style],
+    [transform, isDragging, props.style, isHidden],
   );
 
   useEffect(() => {

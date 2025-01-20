@@ -10,11 +10,11 @@ import NodeBaseReadOnly from '../NodeBaseReadOnly';
 import NodeBaseWrapper from '../NodeBaseWrapper';
 import { NodeBaseProps } from '../types';
 
+import useNodeSelected from '@/modules/Studio/hooks/useNodeSelected';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import { StudioCategoryOption } from '@/modules/Studio/types';
 import { DraggableData } from '@/modules/Studio/types/dnd';
-import useNodeSelected from '@/modules/Studio/hooks/useNodeSelected';
 import './NodeStacks.scss';
 
 type Props = NodeBaseProps;
@@ -81,6 +81,7 @@ const NodeStacks = ({ data, ...rest }: Props) => {
             data={item}
             items={children}
             belongsTo={data.id}
+            isHidden={draggingData?.belongsTo === data.id}
           />
         ))}
 

@@ -12,9 +12,10 @@ type Props = HTMLAttributes<HTMLDivElement> & {
   data: Omit<DraggableData, 'type'>;
   disabled?: boolean;
   draggingFloating?: React.ReactNode;
+  isHidden?: boolean;
 };
 
-const ProductAddon = ({ id, data, disabled = false, children, draggingFloating, ...props }: Props) => {
+const ProductAddon = ({ id, data, disabled = false, children, draggingFloating, isHidden, ...props }: Props) => {
   const disabledDrag = useStudioConfigStore((state) => state.config.board.disabledDrag);
 
   const extendedData = useMemo(() => {
@@ -43,6 +44,7 @@ const ProductAddon = ({ id, data, disabled = false, children, draggingFloating, 
     <Draggable
       {...props}
       id={id}
+      isHidden={isHidden}
       data={extendedData}
       disabled={disabled || disabledDrag}
       handleOnDrag={handleOnDrag}

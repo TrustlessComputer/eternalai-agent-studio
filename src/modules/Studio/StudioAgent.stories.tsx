@@ -3,47 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import { AGENT_DATA_SOURCE } from './__mocks__/agent-data-source';
 import { Studio, StudioProps, StudioRef } from './Studio';
-import { OnAddPayload, OnSnapPayload } from './types';
-import { getOptionNodesExistInNode, getOptionNodesSameCategoryExistInNode } from './utils/validates';
 
 type Story = StoryObj<typeof Studio>;
-
-const onAddValidate = (data: OnAddPayload) => {
-  const { toNode, option } = data;
-  if (!toNode) {
-    return false;
-  }
-  const optionNodesExistInToNode = getOptionNodesExistInNode(toNode.id, option.idx, true);
-  if (optionNodesExistInToNode.length) {
-    return false;
-  }
-
-  const optionNodesSameCategoryInToNode = getOptionNodesSameCategoryExistInNode(toNode.id, option.idx, true);
-  if (optionNodesSameCategoryInToNode.length) {
-    return false;
-  }
-
-  return true;
-};
-
-const onSnapValidate = (data: OnSnapPayload) => {
-  console.log('___________onSnapValidate');
-  const { toNode, option } = data;
-  if (!toNode) {
-    return false;
-  }
-  const optionNodesExistInToNode = getOptionNodesExistInNode(toNode.id, option.idx);
-  if (optionNodesExistInToNode.length) {
-    return false;
-  }
-
-  const optionNodesSameCategoryInToNode = getOptionNodesSameCategoryExistInNode(toNode.id, option.idx);
-  if (optionNodesSameCategoryInToNode.length) {
-    return false;
-  }
-
-  return true;
-};
 
 const args = {
   categories: [
@@ -52,6 +13,7 @@ const args = {
       'title': 'Agent',
       'required': true,
       'multipleOption': false,
+      'disabled': false,
       'options': [
         {
           'idx': 'agent_new',
@@ -63,7 +25,7 @@ const args = {
               'label': 'Agent Name',
               'placeholder': 'Agent Name',
               'defaultValue': '',
-              disabled: true,
+              'disabled': false,
             },
           },
         },
@@ -76,35 +38,78 @@ const args = {
       'tooltip':
         'Create an agent for your NFT, Ordinals, token, —or start fresh with a new idea. This section defines your agent’s lore and backstory.',
       'color': '#12DAC2',
+      'disabled': false,
       'options': [
         {
           'idx': 'personality_customize',
           'title': 'New personality',
           'tooltip': '',
-          'icon': 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
-          onSnapValidate,
+          'icon': 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
+          customizeRenderOnBoard: () => {
+            return (
+              <div
+                style={{
+                  width: 400,
+                  height: 400,
+                }}
+              >
+                Customize
+              </div>
+            );
+          },
         },
         {
           'idx': 'personality_nft',
           'title': 'Import from NFT',
-          'icon': 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
-          onSnapValidate,
+          'icon': 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+          customizeRenderOnBoard: () => {
+            return (
+              <div
+                style={{
+                  width: 400,
+                  height: 400,
+                }}
+              >
+                Customize
+              </div>
+            );
+          },
         },
         {
           'idx': 'personality_ordinals',
           'title': 'Import from Ordinals',
-          'icon': 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
-          onSnapValidate,
+          'icon': 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_ordinals.svg',
+          customizeRenderOnBoard: () => {
+            return (
+              <div
+                style={{
+                  width: 400,
+                  height: 400,
+                }}
+              >
+                Customize
+              </div>
+            );
+          },
         },
         {
           'idx': 'personality_token',
           'title': 'Import from Token',
-          'icon': 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
-          onSnapValidate,
+          'icon': 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_token.svg',
+          customizeRenderOnBoard: () => {
+            return (
+              <div
+                style={{
+                  width: 400,
+                  height: 400,
+                }}
+              >
+                Customize
+              </div>
+            );
+          },
         },
       ],
-      onAddValidate,
-      onSnapValidate,
     },
     {
       'idx': 'ai_framework',
@@ -113,12 +118,13 @@ const args = {
       'tooltip':
         'Pick the blockchain where your agent lives. Each option has unique deployment fees, performance, and ongoing costs. Choose what best fits your needs.',
       'color': '#12DAC2',
+      'disabled': false,
       'options': [
         {
           'idx': 'ai_framework_eternal_ai',
           'title': 'Eternal AI',
           'tooltip': '',
-          'icon': 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_nft.svg',
+          'icon': 'https://storage.googleapis.com/eternal-ai/agent-studio/ic_eternal_ai.svg',
           'data': {
             'aiFrameworkId': {
               'type': 'hidden',
@@ -146,6 +152,7 @@ const args = {
       'required': true,
       'color': '#368cdc',
       'tooltip': '',
+      'disabled': false,
       'options': [
         {
           'idx': 'blockchain_base',
@@ -210,6 +217,19 @@ const args = {
               'label': 'Chain Id',
               'placeholder': 'Chain Id',
               'defaultValue': 'tao',
+            },
+          },
+        },
+        {
+          'idx': 'blockchain_ape_chain',
+          'title': 'Ape Chain',
+          'icon': '/icons/blockchains/ic-ape.png',
+          'data': {
+            'chainId': {
+              'type': 'hidden',
+              'label': 'Chain Id',
+              'placeholder': 'Chain Id',
+              'defaultValue': 'ape',
             },
           },
         },
@@ -279,6 +299,19 @@ const args = {
           },
         },
         {
+          'idx': 'blockchain_duck_chain',
+          'title': 'DuckChain',
+          'icon': '/icons/blockchains/ic-duck.svg',
+          'data': {
+            'chainId': {
+              'type': 'hidden',
+              'label': 'Chain Id',
+              'placeholder': 'Chain Id',
+              'defaultValue': 'duck',
+            },
+          },
+        },
+        {
           'idx': 'blockchain_symbiosis',
           'title': 'Symbiosis',
           'icon': '/icons/blockchains/ic_nbs.svg',
@@ -300,6 +333,7 @@ const args = {
       'tooltip':
         'Create an agent for your NFT, Ordinals, token, —or start fresh with a new idea. This section defines your agent’s lore and backstory.',
       'color': '#15C888',
+      'disabled': false,
       'options': [
         {
           'idx': 'decentralize_inference_hermes_3_70b',
@@ -363,10 +397,11 @@ const args = {
       'tooltip':
         'Select the blockchain to issue your agent’s token. Consider factors like accessibility, liquidity, and trading volume.',
       'color': '#A041FF',
+      'disabled': false,
       'options': [
         {
           'idx': 'token_base',
-          'title': 'Base',
+          'title': 'Token on Base',
           'tooltip': '',
           'icon': '/icons/blockchains/ic_base.svg',
           'data': {
@@ -380,7 +415,7 @@ const args = {
         },
         {
           'idx': 'token_solana',
-          'title': 'Solana',
+          'title': 'Token on Solana',
           'tooltip': '',
           'icon': '/icons/blockchains/ic_solana.svg',
           'data': {
@@ -394,7 +429,7 @@ const args = {
         },
         {
           'idx': 'token_arbitrum',
-          'title': 'Arbitrum',
+          'title': 'Token on Arbitrum',
           'tooltip': '',
           'icon': '/icons/blockchains/ic_arbitrum.svg',
           'data': {
@@ -408,7 +443,7 @@ const args = {
         },
         {
           'idx': 'token_bnb',
-          'title': 'BNB',
+          'title': 'Token on BNB',
           'tooltip': '',
           'icon': '/icons/blockchains/ic-bsc.png',
           'data': {
@@ -417,6 +452,34 @@ const args = {
               'label': 'Token Name',
               'placeholder': 'Token Name',
               'defaultValue': '56',
+            },
+          },
+        },
+        {
+          'idx': 'token_ape',
+          'title': 'Token on ApeChain',
+          'tooltip': '',
+          'icon': '/icons/blockchains/ic-ape.png',
+          'data': {
+            'tokenId': {
+              'type': 'hidden',
+              'label': 'Token Name',
+              'placeholder': 'Token Name',
+              'defaultValue': '33139',
+            },
+          },
+        },
+        {
+          'idx': 'token_avax',
+          'title': 'Token on Avalance C-Chain',
+          'tooltip': '',
+          'icon': '/icons/blockchains/ic_avax.svg',
+          'data': {
+            'tokenId': {
+              'type': 'hidden',
+              'label': 'Token Name',
+              'placeholder': 'Token Name',
+              'defaultValue': '43114',
             },
           },
         },

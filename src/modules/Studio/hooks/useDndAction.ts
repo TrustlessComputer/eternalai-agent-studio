@@ -134,7 +134,7 @@ const useDndAction = () => {
     if (!newNode) return {};
 
     if (rootNode) {
-      link(rootNode, newNode);
+      link(newNode, rootNode);
     }
 
     useStudioFlowStore.getState().addNode(newNode);

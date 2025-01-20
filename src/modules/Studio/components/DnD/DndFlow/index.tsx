@@ -176,7 +176,32 @@ function DndFlow({ children }: PropsWithChildren) {
     }
 
     if (to === StudioZone.ZONE_PACKAGE && toNode) {
-      // Link
+      // Link directly
+      if (from === StudioZone.ZONE_SOURCE && fromOption?.type === StudioCategoryType.LINK) {
+        if (!toOption || !toNode) return;
+
+        const isValid =
+          fromOption.onLinkValidate?.({
+            option: fromOption,
+            parentOption,
+            formData: currentFormData,
+            allFormData,
+            data,
+            toNode,
+            toOption,
+            toCategory,
+          }) ?? true;
+
+        if (!isValid) return;
+
+        // toNode become a root for now
+        addProduct(toNode, fromData, fromOption);
+        updateNodes([toNode]);
+
+        return;
+      }
+
+      // Link manually
       if (from === StudioZone.ZONE_PRODUCT && fromOption?.type === StudioCategoryType.LINK) {
         if (!toOption || !toNode) return;
 

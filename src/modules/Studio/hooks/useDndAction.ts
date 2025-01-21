@@ -124,7 +124,7 @@ const useDndAction = () => {
   const removeProduct = useCallback((nodeId?: string) => {
     if (!nodeId) return;
 
-    useStudioFlowStore.getState().removeNode(nodeId);
+    useStudioFlowStore.getState().removeNodeAndAllBelong(nodeId);
   }, []);
 
   const addProduct = useCallback((rootNode?: StudioNode, fromData?: DraggableData, fromOption?: StudioCategoryOption) => {

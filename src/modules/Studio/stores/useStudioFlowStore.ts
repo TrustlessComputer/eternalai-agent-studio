@@ -32,7 +32,7 @@ type Store = {
   addEdges: (edges: Edge[]) => void;
 
   removeEdge: (edgeId: string) => void;
-  removeNode: (id: string) => void;
+  removeNodeAndAllBelong: (id: string) => void;
 
   removeLinkedNode: (nodeId: string, linkedNodeId: string) => void;
 
@@ -91,7 +91,7 @@ const useStudioFlowStore = create<Store>((set, get) => ({
   addEdge: (edge) => set({ edges: [...get().edges, edge] }),
   addEdges: (edges) => set({ edges: [...get().edges, ...edges] }),
 
-  removeNode: (id: string) => {
+  removeNodeAndAllBelong: (id: string) => {
     set((state) => {
       const nodesToRemove = new Set<string>();
 

@@ -9,7 +9,9 @@ type Story = StoryObj<typeof Studio>;
 const args = {
   categories: CATEGORIES,
   dataSource: DATA_SOURCE,
-  data: [],
+  graphData: {
+    data: [],
+  },
 } satisfies StudioProps;
 
 const meta: Meta<typeof Studio> = {

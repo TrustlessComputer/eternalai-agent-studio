@@ -11,7 +11,7 @@ import useStudioDndStore from '../stores/useStudioDndStore';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../stores/useStudioFlowViewStore';
 import useStudioFormStore from '../stores/useStudioFormStore';
-import { StudioDataNode } from '../types/graph';
+import { GraphData } from '../types/graph';
 import { getFieldDataFromRawData } from '../utils/data';
 import { transformDataToNodes } from '../utils/node';
 
@@ -26,16 +26,18 @@ export const useStudio = () => {
     useMultipleStore.getState().clear();
   }, []);
 
-  const data = useStudioDataStore((state) => state.data);
+  //
 
-  const redraw = useCallback((data: StudioDataNode[]) => {
-    useStudioDataStore.getState().setData(data);
+  const redraw = useCallback((graphData: GraphData) => {
+    useStudioDataStore.getState().setData(graphData.data);
 
-    const initNodes = transformDataToNodes(data);
+    const initNodes = transformDataToNodes(graphData.data);
     useStudioFlowStore.getState().addNodes(initNodes);
 
-    const formData = getFieldDataFromRawData(data);
+    const formData = getFieldDataFromRawData(graphData.data);
     useStudioFormStore.getState().initDataForms(formData);
+
+    // set zoom
   }, []);
 
   const getFormDataById = useCallback(<T>(id: string): T => {
@@ -46,6 +48,7 @@ export const useStudio = () => {
     return useStudioFormStore.getState().setFormFields(id, fields);
   }, []);
 
+  const data = useStudioDataStore((state) => state.data);
   const memorizedValue = useMemo(() => {
     return {
       cleanup,

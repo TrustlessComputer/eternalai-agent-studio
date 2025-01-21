@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 
 import { AGENT_DATA_SOURCE } from './__mocks__/agent-data-source';
 import { Studio, StudioProps, StudioRef } from './Studio';
+import { GraphData } from './types';
 
 type Story = StoryObj<typeof Studio>;
 
@@ -549,7 +550,9 @@ const args = {
     },
   ],
   dataSource: AGENT_DATA_SOURCE,
-  data: [],
+  graphData: {
+    data: [],
+  } satisfies GraphData,
 } satisfies StudioProps;
 
 const meta: Meta<typeof Studio> = {

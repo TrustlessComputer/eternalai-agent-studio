@@ -121,8 +121,8 @@ const CustomCategoryOption = ({
       data={{ categoryKey, optionKey: option.idx, isRoot }}
       disabled={isDisabled}
     >
-      <Lego background={color} icon={option.icon} disabled={isDisabled}>
-        <LegoContent>{children}</LegoContent>
+      <Lego background={color} disabled={isDisabled}>
+        {children}
       </Lego>
     </Source>
   );

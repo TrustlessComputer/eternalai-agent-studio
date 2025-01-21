@@ -1,9 +1,9 @@
+import { Viewport } from '@xyflow/react';
 import { v4 } from 'uuid';
 import { create } from 'zustand';
 
 import { DEFAULT_DISABLED_CONNECTION } from '../constants/default-values';
 import { StudioDataNode } from '../types/graph';
-import { Viewport } from '@xyflow/react';
 
 type Store = {
   entry: StudioDataNode | null;

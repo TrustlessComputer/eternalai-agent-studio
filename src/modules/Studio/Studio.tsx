@@ -26,6 +26,7 @@ import useStudioDataStore from './stores/useStudioDataStore';
 import { DataSource, GraphData, StudioCategory } from './types';
 import { StudioConfig } from './types/config';
 import { min } from './utils/data';
+
 import useStudioStore from '@/modules/Studio/stores/useStudioStore';
 
 export type StudioProps = {

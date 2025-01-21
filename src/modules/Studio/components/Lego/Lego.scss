@@ -17,6 +17,7 @@
     background-color: var(--background-color);
     pointer-events: none;
     user-select: none;
+    box-sizing: unset !important;
   }
 
   &.lego--disabled {

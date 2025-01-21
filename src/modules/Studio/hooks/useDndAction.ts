@@ -121,10 +121,16 @@ const useDndAction = () => {
     };
   }, []);
 
-  const removeProduct = useCallback((nodeId?: string) => {
+  const removeProductAndAllBelong = useCallback((nodeId?: string) => {
     if (!nodeId) return;
 
     useStudioFlowStore.getState().removeNodeAndAllBelong(nodeId);
+  }, []);
+
+  const removeProduct = useCallback((nodeId?: string) => {
+    if (!nodeId) return;
+
+    useStudioFlowStore.getState().removeNode(nodeId);
   }, []);
 
   const addProduct = useCallback((rootNode?: StudioNode, fromData?: DraggableData, fromOption?: StudioCategoryOption) => {
@@ -180,8 +186,17 @@ const useDndAction = () => {
     const clonedFromNode = cloneData(fromNode);
     clonedFromNode.data.metadata.children = [];
 
+    const fromNodeLinkedNodes = useStudioFlowStore.getState().linkedNodes[fromNode.id];
+
     addToPackage(toNode, [clonedFromNode, ...fromNode.data.metadata.children]);
     removeProduct(fromNode.id);
+
+    fromNodeLinkedNodes.forEach((linkedNodeId) => {
+      link(
+        toNode,
+        useStudioFlowStore.getState().nodes.find((node) => node.id === linkedNodeId),
+      );
+    });
 
     return {
       sourceNode: fromNode,
@@ -197,6 +212,7 @@ const useDndAction = () => {
   );
 
   return {
+    removeProductAndAllBelong,
     removeProduct,
     addProduct,
     removePartOfPackage,

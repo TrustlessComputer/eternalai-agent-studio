@@ -36,7 +36,7 @@ function DndFlow({ children }: PropsWithChildren) {
   const {
     addProduct,
     movePartOfPackage,
-    removeProduct,
+    removeProductAndAllBelong,
     removePartOfPackage,
     addToPackage,
     splitPackage,
@@ -228,10 +228,6 @@ function DndFlow({ children }: PropsWithChildren) {
         link(fromNode, toNode);
         updateNodes([fromNode, toNode]);
 
-        // toNode become a root for now
-        // addProduct(toNode, fromData, fromOption);
-        // updateNodes([toNode]);
-
         return;
       }
 
@@ -376,7 +372,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
         if (!isValid) return;
 
-        removeProduct(fromData?.belongsTo);
+        removeProductAndAllBelong(fromData?.belongsTo);
 
         return;
       }

@@ -286,6 +286,8 @@ function DndFlow({ children }: PropsWithChildren) {
             toCategory,
           }) ?? true;
 
+        if (!isValid) return;
+
         // check children in fromNode
         const categoryOptionMap = useStudioCategoryStore.getState().categoryOptionMap;
         const nodes = useStudioFlowStore.getState().nodes;

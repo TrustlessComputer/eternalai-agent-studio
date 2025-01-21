@@ -294,7 +294,9 @@ function DndFlow({ children }: PropsWithChildren) {
         isValid = fromNode.data.metadata.children.every((item) => {
           const optionIdx = item.data.metadata.idx;
           const option = categoryOptionMap[optionIdx];
-          const fromItemNode = nodes.find((node) => node.id === item.id);
+          const fromItemNode = nodes.find(
+            (node) => node.id === item.id || node.data.metadata.children.find((child) => child.id === item.id),
+          );
           const itemFormData = allFormData[item.id || ''];
           const itemFromData = {
             categoryKey: option.parent?.idx,

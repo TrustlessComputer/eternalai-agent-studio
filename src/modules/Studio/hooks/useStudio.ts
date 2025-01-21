@@ -30,6 +30,8 @@ export const useStudio = () => {
 
   const redraw = useCallback((graphData: GraphData) => {
     useStudioDataStore.getState().setData(graphData.data);
+    useStudioDataStore.getState().setViewport(graphData.viewport);
+    useStudioFlowViewStore.getState().setView(graphData.viewport);
 
     const initNodes = transformDataToNodes(graphData.data);
     useStudioFlowStore.getState().addNodes(initNodes);
@@ -37,7 +39,7 @@ export const useStudio = () => {
     const formData = getFieldDataFromRawData(graphData.data);
     useStudioFormStore.getState().initDataForms(formData);
 
-    // set zoom
+    useStudioFlowStore.getState().reloadFlow();
   }, []);
 
   const getFormDataById = useCallback(<T>(id: string): T => {

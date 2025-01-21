@@ -9,22 +9,26 @@ import { GraphData, StudioCategoryOptionMapValue, StudioDataNode, StudioNode } f
 import { createNodeData } from '../../utils/data';
 
 import { useThrottleValue } from '@/hooks/useThrottleValue';
+import useStudioFlowViewStore from '@/modules/Studio/stores/useStudioFlowViewStore';
 
 type Props = {
   throttleNodesDelay: number;
   throttleDataDelay: number;
+  throttleViewDelay: number;
   onChange?: (graphData: GraphData) => void;
 };
 
-function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
+function Listen({ throttleNodesDelay, throttleDataDelay, throttleViewDelay }: Props) {
   const nodes = useStudioFlowStore((state) => state.nodes);
   const formMap = useStudioFormStore((state) => state.formMap);
   const draggingData = useStudioDndStore((state) => state.draggingData);
+  const view = useStudioFlowViewStore((state) => state.view);
 
   const isDragging = !!draggingData;
 
   const throttleNodes = useThrottleValue(nodes, throttleNodesDelay);
   const throttleDataForms = useThrottleValue(formMap, throttleDataDelay);
+  const throttleView = useThrottleValue(view, throttleViewDelay);
 
   useEffect(() => {
     // sync nodes with data
@@ -123,23 +127,25 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
       });
 
       useStudioDataStore.getState().setData(newData);
+      useStudioDataStore.getState().setViewport(throttleView);
       useStudioCategoryStore.getState().setUsedKeyCollection(usedKeyCollection);
     }
-  }, [throttleNodes, throttleDataForms, isDragging]);
+  }, [throttleNodes, throttleDataForms, throttleView, isDragging]);
 
   return <></>;
 }
 
 function Publish({ onChange }: { onChange?: (graphData: GraphData) => void }) {
-  const { data } = useStudioDataStore();
+  const { data, viewport } = useStudioDataStore();
 
   useEffect(() => {
     if (onChange) {
       onChange({
         data,
+        viewport,
       } satisfies GraphData);
     }
-  }, [data, onChange]);
+  }, [data, viewport, onChange]);
 
   return <></>;
 }
@@ -178,10 +184,14 @@ function DataSync() {
   return <></>;
 }
 
-function DataFlow({ throttleNodesDelay, throttleDataDelay, onChange }: Props) {
+function DataFlow({ throttleNodesDelay, throttleDataDelay, throttleViewDelay, onChange }: Props) {
   return (
     <>
-      <Listen throttleNodesDelay={throttleNodesDelay} throttleDataDelay={throttleDataDelay} />
+      <Listen
+        throttleNodesDelay={throttleNodesDelay}
+        throttleDataDelay={throttleDataDelay}
+        throttleViewDelay={throttleViewDelay}
+      />
       <Publish onChange={onChange} />
       <DataSync />
     </>

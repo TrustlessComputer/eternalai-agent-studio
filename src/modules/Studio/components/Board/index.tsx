@@ -10,8 +10,11 @@ import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFlowViewStore from '../../stores/useStudioFlowViewStore';
 import Distribution from '../DnD/Distribution';
 import './Board.scss';
+import useStudioStore from '@/modules/Studio/stores/useStudioStore';
 
 function Board() {
+  const { isDrew } = useStudioStore();
+  const initialViewport = useStudioDataStore((state) => state.viewport);
   const boardConfig = useStudioConfigStore((state) => state.config.board);
 
   const disabledConnection = useStudioDataStore((state) => state.disabledConnection);
@@ -46,6 +49,7 @@ function Board() {
     <Distribution className="board">
       <BoardOverlay />
       <ReactFlow
+        key={isDrew ? JSON.stringify(currentView) : JSON.stringify(initialViewport)}
         nodes={nodes}
         nodeTypes={DEFAULT_NODE_TYPES}
         onNodesChange={onNodesChange}
@@ -53,7 +57,7 @@ function Board() {
         edgeTypes={DEFAULT_EDGE_TYPES}
         onEdgesChange={onEdgesChange}
         onViewportChange={setView}
-        defaultViewport={currentView}
+        defaultViewport={isDrew ? currentView : initialViewport}
         edgesFocusable={false}
         deleteKeyCode=""
         fitViewOptions={{ padding: 1 }}

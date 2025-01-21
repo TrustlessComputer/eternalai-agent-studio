@@ -551,7 +551,43 @@ const args = {
   ],
   dataSource: AGENT_DATA_SOURCE,
   graphData: {
-    data: [],
+    'data': [
+      {
+        'id': '721c2948-ccab-4425-9779-936172fb01f2',
+        'idx': 'agent_new',
+        'title': 'New Agent',
+        'children': [],
+        'data': {
+          'agentName': '',
+        },
+        'rect': {
+          'position': {
+            'x': 85,
+            'y': 111.5,
+          },
+        },
+        'categoryIdx': 'agent',
+      },
+      {
+        'id': '12e9dea7-ecab-40f8-8dd1-c8f1da61e80a',
+        'idx': 'personality_customize',
+        'title': 'New personality',
+        'children': [],
+        'data': {},
+        'rect': {
+          'position': {
+            'x': 73,
+            'y': 212.5,
+          },
+        },
+        'categoryIdx': 'personality',
+      },
+    ],
+    'viewport': {
+      'x': 473.5,
+      'y': -8.5,
+      'zoom': 0.5,
+    },
   } satisfies GraphData,
 } satisfies StudioProps;
 

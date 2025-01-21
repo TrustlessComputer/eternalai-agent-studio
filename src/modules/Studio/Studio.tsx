@@ -11,8 +11,12 @@ import DragMask from './components/DnD/base/DragMask';
 import DndFlow from './components/DnD/DndFlow';
 import EventHandler from './components/EventHandler';
 import Sidebar from './components/Sidebar';
-import { MIN_THROTTLE_DATA_DELAY, MIN_THROTTLE_NODES_DELAY } from './constants/configs';
-import { DEFAULT_THROTTLE_DATA_DELAY, DEFAULT_THROTTLE_NODES_DELAY } from './constants/default-values';
+import { MIN_THROTTLE_DATA_DELAY, MIN_THROTTLE_NODES_DELAY, MIN_THROTTLE_VIEW_DELAY } from './constants/configs';
+import {
+  DEFAULT_THROTTLE_DATA_DELAY,
+  DEFAULT_THROTTLE_NODES_DELAY,
+  DEFAULT_THROTTLE_VIEW_DELAY,
+} from './constants/default-values';
 import { SidebarSide } from './enums/side';
 import { useStudio } from './hooks/useStudio';
 import useStudioCategoryStore from './stores/useStudioCategoryStore';
@@ -22,6 +26,7 @@ import useStudioDataStore from './stores/useStudioDataStore';
 import { DataSource, GraphData, StudioCategory } from './types';
 import { StudioConfig } from './types/config';
 import { min } from './utils/data';
+import useStudioStore from '@/modules/Studio/stores/useStudioStore';
 
 export type StudioProps = {
   className?: string;
@@ -34,7 +39,7 @@ export type StudioProps = {
 
   throttleNodesDelay?: number;
   throttleDataDelay?: number;
-
+  throttleViewDelay?: number;
   // Configs
   config?: StudioConfig;
 
@@ -54,12 +59,13 @@ const StudioComponent = ({
   graphData,
   throttleNodesDelay = DEFAULT_THROTTLE_NODES_DELAY,
   throttleDataDelay = DEFAULT_THROTTLE_DATA_DELAY,
+  throttleViewDelay = DEFAULT_THROTTLE_VIEW_DELAY,
   config,
   onChange,
   sidebarWidth = 400,
   ...rest
 }: StudioProps): React.ReactNode => {
-  const [isFirstDraw, setIsFirstDraw] = React.useState(false);
+  const { isDrew, setIsDrew } = useStudioStore();
   const { redraw, cleanup } = useStudio();
 
   const sidebarSide = useStudioConfigStore((state) => state.config.sidebar.side);
@@ -83,7 +89,7 @@ const StudioComponent = ({
 
   // for mounted
   useEffect(() => {
-    redraw({ data: [] } satisfies GraphData);
+    redraw({ data: [], viewport: { x: 0, y: 0, zoom: 1 } } satisfies GraphData);
 
     return () => {
       cleanup();
@@ -91,17 +97,18 @@ const StudioComponent = ({
   }, []);
 
   useEffect(() => {
-    if (!isFirstDraw && graphData.data.length) {
+    if (!isDrew && graphData.data.length) {
       redraw(graphData);
-      setIsFirstDraw(true);
+      setIsDrew(true);
     }
-  }, [graphData, graphData.data.length, isFirstDraw, redraw]);
+  }, [graphData, graphData.data.length, isDrew, redraw]);
 
   return (
     <DndFlow>
       <DataFlow
         throttleNodesDelay={min(throttleNodesDelay, MIN_THROTTLE_NODES_DELAY)}
         throttleDataDelay={min(throttleDataDelay, MIN_THROTTLE_DATA_DELAY)}
+        throttleViewDelay={min(throttleViewDelay, MIN_THROTTLE_VIEW_DELAY)}
         onChange={onChange}
       />
 

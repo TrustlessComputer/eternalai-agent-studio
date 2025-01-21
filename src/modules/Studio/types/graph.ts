@@ -1,4 +1,4 @@
-import { Node, XYPosition } from '@xyflow/react';
+import { Node, Viewport, XYPosition } from '@xyflow/react';
 import { FunctionComponent } from 'react';
 
 import { FormDataMap, Key } from './base';
@@ -30,4 +30,5 @@ export type StudioDataNode = {
 
 export type GraphData = {
   data: StudioDataNode[];
+  viewport: Viewport;
 };

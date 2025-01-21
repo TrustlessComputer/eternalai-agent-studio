@@ -272,7 +272,7 @@ function DndFlow({ children }: PropsWithChildren) {
       ) {
         if (!fromData.belongsTo || !fromNode || !toNode) return;
 
-        const isValid =
+        let isValid =
           fromOption.onMergeValidate?.({
             id: fromData.belongsTo,
             option: fromOption,
@@ -285,6 +285,39 @@ function DndFlow({ children }: PropsWithChildren) {
             toOption,
             toCategory,
           }) ?? true;
+
+        // check children in fromNode
+        const categoryOptionMap = useStudioCategoryStore.getState().categoryOptionMap;
+        const nodes = useStudioFlowStore.getState().nodes;
+        isValid = fromNode.data.metadata.children.every((item) => {
+          const optionIdx = item.data.metadata.idx;
+          const option = categoryOptionMap[optionIdx];
+          const fromItemNode = nodes.find((node) => node.id === item.id);
+          const itemFormData = allFormData[item.id || ''];
+          const itemFromData = {
+            categoryKey: option.parent?.idx,
+            optionKey: option.idx,
+            belongsTo: item.id,
+            type: StudioZone.ZONE_PRODUCT,
+          } satisfies DraggableData;
+
+          if (!itemFromData.belongsTo || !fromItemNode || !toNode) return true;
+
+          return (
+            option?.onMergeValidate?.({
+              id: item.id,
+              option,
+              parentOption: option.parent,
+              formData: itemFormData,
+              allFormData,
+              data,
+              fromNode: fromItemNode,
+              toNode,
+              toOption,
+              toCategory,
+            }) ?? true
+          );
+        });
 
         if (!isValid) return;
 

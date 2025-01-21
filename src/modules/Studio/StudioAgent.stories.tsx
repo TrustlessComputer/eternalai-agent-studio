@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { AGENT_DATA_SOURCE } from './__mocks__/agent-data-source';
 import { Studio, StudioProps, StudioRef } from './Studio';
+import { GraphData } from './types';
 
 type Story = StoryObj<typeof Studio>;
 
@@ -549,7 +550,9 @@ const args = {
     },
   ],
   dataSource: AGENT_DATA_SOURCE,
-  data: [],
+  graphData: {
+    data: [],
+  } satisfies GraphData,
 } satisfies StudioProps;
 
 const meta: Meta<typeof Studio> = {
@@ -562,14 +565,6 @@ export const AgentStudio: Story = {
   render: function useTabs(args) {
     const ref = useRef<StudioRef>(null);
     const [cate, setCate] = useState(args.categories);
-
-    useEffect(() => {
-      const timeout = setTimeout(() => {
-        ref.current?.getOptionPlaceQuantity('personality_option_1');
-      }, 10_000);
-
-      return () => clearTimeout(timeout);
-    }, []);
 
     return (
       <div style={{ width: 'calc(100vw - 3rem)', height: 'calc(100vh - 3rem)' }}>

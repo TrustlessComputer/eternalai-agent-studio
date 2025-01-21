@@ -27,3 +27,7 @@ export type StudioDataNode = {
     position: XYPosition;
   };
 };
+
+export type GraphData = {
+  data: StudioDataNode[];
+};

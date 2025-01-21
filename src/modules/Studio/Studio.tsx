@@ -19,7 +19,7 @@ import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioConfigStore from './stores/useStudioConfigStore';
 import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
 import useStudioDataStore from './stores/useStudioDataStore';
-import { DataSource, FormDataMap, StudioCategory, StudioDataNode } from './types';
+import { DataSource, GraphData, StudioCategory } from './types';
 import { StudioConfig } from './types/config';
 import { min } from './utils/data';
 
@@ -30,7 +30,7 @@ export type StudioProps = {
   // Data
   categories: StudioCategory[];
   dataSource?: Record<string, DataSource[]>;
-  data: StudioDataNode[];
+  graphData: GraphData;
 
   throttleNodesDelay?: number;
   throttleDataDelay?: number;
@@ -39,22 +39,19 @@ export type StudioProps = {
   config?: StudioConfig;
 
   // Events
-  onChange?: (data: StudioDataNode[]) => void;
+  onChange?: (graphData: GraphData) => void;
 };
 
 export type StudioRef = {
   cleanup: () => void;
-  redraw: (data: StudioDataNode[]) => void;
-  getOptionPlaceQuantity: (optionId: string) => number;
-  checkOptionIsPlaced: (optionId: string) => boolean;
-  getFormDataById: (id: string) => FormDataMap | undefined;
+  redraw: (graphData: GraphData) => void;
 };
 
 const StudioComponent = ({
   className,
   categories,
   dataSource,
-  data,
+  graphData,
   throttleNodesDelay = DEFAULT_THROTTLE_NODES_DELAY,
   throttleDataDelay = DEFAULT_THROTTLE_DATA_DELAY,
   config,
@@ -86,7 +83,7 @@ const StudioComponent = ({
 
   // for mounted
   useEffect(() => {
-    redraw([]);
+    redraw({ data: [] } satisfies GraphData);
 
     return () => {
       cleanup();
@@ -94,11 +91,11 @@ const StudioComponent = ({
   }, []);
 
   useEffect(() => {
-    if (!isFirstDraw && data.length) {
-      redraw(data);
+    if (!isFirstDraw && graphData.data.length) {
+      redraw(graphData);
       setIsFirstDraw(true);
     }
-  }, [data.length, isFirstDraw]);
+  }, [graphData, graphData.data.length, isFirstDraw, redraw]);
 
   return (
     <DndFlow>
@@ -133,7 +130,7 @@ const StudioComponent = ({
 };
 
 export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioProps, ref) => {
-  const { redraw, cleanup, getOptionPlaceQuantity, checkOptionIsPlaced, getFormDataById } = useStudio();
+  const { redraw, cleanup } = useStudio();
 
   useImperativeHandle(
     ref,
@@ -141,20 +138,11 @@ export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioPro
       cleanup: () => {
         cleanup();
       },
-      redraw: (data: StudioDataNode[]) => {
-        redraw(data);
-      },
-      getOptionPlaceQuantity: (optionId: string) => {
-        return getOptionPlaceQuantity(optionId);
-      },
-      checkOptionIsPlaced: (optionId: string) => {
-        return checkOptionIsPlaced(optionId);
-      },
-      getFormDataById: (id: string) => {
-        return getFormDataById(id);
+      redraw: (graphData: GraphData) => {
+        redraw(graphData);
       },
     }),
-    [cleanup, redraw, getOptionPlaceQuantity, checkOptionIsPlaced, getFormDataById],
+    [cleanup, redraw],
   );
 
   return (

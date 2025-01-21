@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   // closestCenter,
   DndContext,
@@ -52,10 +53,12 @@ function DndFlow({ children }: PropsWithChildren) {
   }, []);
 
   const handleDragEnd = useCallback((event: DragEndEvent) => {
-    console.log('[DndContainer] handleDragEnd', {
-      categoryMap: useStudioCategoryStore.getState().categoryMap,
-      categoryOptionMap: useStudioCategoryStore.getState().categoryOptionMap,
-    });
+    if ((window as any)?.studioLogger) {
+      console.log('[DndContainer] handleDragEnd', {
+        categoryMap: useStudioCategoryStore.getState().categoryMap,
+        categoryOptionMap: useStudioCategoryStore.getState().categoryOptionMap,
+      });
+    }
 
     const { active, over } = event;
 
@@ -94,37 +97,39 @@ function DndFlow({ children }: PropsWithChildren) {
 
     const parentOption = fromOption?.parent;
 
-    console.log('[DndContainer] handleDragEnd from to', {
-      from,
-      to,
-    });
+    if ((window as any)?.studioLogger) {
+      console.log('[DndContainer] handleDragEnd from to', {
+        from,
+        to,
+      });
 
-    console.log('[DndContainer] handleDragEnd option', {
-      fromOption,
-      toOption,
-    });
+      console.log('[DndContainer] handleDragEnd option', {
+        fromOption,
+        toOption,
+      });
 
-    console.log('[DndContainer] handleDragEnd data', {
-      fromData,
-      toData,
-    });
+      console.log('[DndContainer] handleDragEnd data', {
+        fromData,
+        toData,
+      });
 
-    console.log('[DndContainer] handleDragEnd category', {
-      fromCategory,
-      toCategory,
-    });
+      console.log('[DndContainer] handleDragEnd category', {
+        fromCategory,
+        toCategory,
+      });
 
-    console.log('[DndContainer] handleDragEnd root', {
-      rootCategory,
-      rootNode,
-      rootData,
-      parentOption,
-    });
+      console.log('[DndContainer] handleDragEnd root', {
+        rootCategory,
+        rootNode,
+        rootData,
+        parentOption,
+      });
 
-    console.log('[DndContainer] handleDragEnd node', {
-      fromNode,
-      toNode,
-    });
+      console.log('[DndContainer] handleDragEnd node', {
+        fromNode,
+        toNode,
+      });
+    }
 
     if (to === StudioZone.ZONE_DISTRIBUTION) {
       // Create
@@ -416,7 +421,9 @@ function DndFlow({ children }: PropsWithChildren) {
   }, []);
 
   const handleDragOver = useCallback((_event: DragOverEvent) => {
-    console.log('[DndContainer] handleDragOver', _event.over?.id);
+    if ((window as any)?.studioLogger) {
+      console.log('[DndContainer] handleDragOver', _event.over?.id);
+    }
   }, []);
 
   const handleDragCancel = useCallback((_event: DragCancelEvent) => {}, []);

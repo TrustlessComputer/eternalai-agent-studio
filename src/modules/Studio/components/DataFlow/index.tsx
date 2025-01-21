@@ -5,7 +5,7 @@ import useStudioDataStore from '../../stores/useStudioDataStore';
 import useStudioDndStore from '../../stores/useStudioDndStore';
 import useStudioFlowStore from '../../stores/useStudioFlowStore';
 import useStudioFormStore from '../../stores/useStudioFormStore';
-import { StudioCategoryOptionMapValue, StudioDataNode, StudioNode } from '../../types';
+import { GraphData, StudioCategoryOptionMapValue, StudioDataNode, StudioNode } from '../../types';
 import { createNodeData } from '../../utils/data';
 
 import { useThrottleValue } from '@/hooks/useThrottleValue';
@@ -13,7 +13,7 @@ import { useThrottleValue } from '@/hooks/useThrottleValue';
 type Props = {
   throttleNodesDelay: number;
   throttleDataDelay: number;
-  onChange?: (data: StudioDataNode[]) => void;
+  onChange?: (graphData: GraphData) => void;
 };
 
 function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
@@ -130,12 +130,14 @@ function Listen({ throttleNodesDelay, throttleDataDelay }: Props) {
   return <></>;
 }
 
-function Publish({ onChange }: { onChange?: (data: StudioDataNode[]) => void }) {
+function Publish({ onChange }: { onChange?: (graphData: GraphData) => void }) {
   const { data } = useStudioDataStore();
 
   useEffect(() => {
     if (onChange) {
-      onChange(data);
+      onChange({
+        data,
+      } satisfies GraphData);
     }
   }, [data, onChange]);
 

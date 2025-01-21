@@ -26,6 +26,8 @@ export const useStudio = () => {
     useMultipleStore.getState().clear();
   }, []);
 
+  const data = useStudioDataStore((state) => state.data);
+
   const redraw = useCallback((data: StudioDataNode[]) => {
     useStudioDataStore.getState().setData(data);
 
@@ -36,63 +38,23 @@ export const useStudio = () => {
     useStudioFormStore.getState().initDataForms(formData);
   }, []);
 
-  const getFormDataById = useCallback((id: string) => {
-    return useStudioFormStore.getState().getFormById(id);
+  const getFormDataById = useCallback(<T>(id: string): T => {
+    return useStudioFormStore.getState().getFormById(id) as T;
   }, []);
 
-  const getOptionPlaceQuantity = useCallback((optionId: string): number => {
-    let quantity = 0;
-
-    const nodes = useStudioFlowStore.getState().nodes;
-    const formMap = useStudioFormStore.getState().formMap;
-
-    nodes.forEach((node) => {
-      const formId = node.id;
-      const formData = formMap[formId];
-
-      if (formData[optionId]) {
-        quantity++;
-      }
-    });
-
-    return quantity;
-  }, []);
-
-  const checkOptionIsPlaced = useCallback((optionId: string): boolean => {
-    return getOptionPlaceQuantity(optionId) > 0;
-  }, []);
-
-  const changeFormFields = useCallback((id: string, fields: Record<string, unknown>) => {
+  const setFormFields = useCallback(<T>(id: string, fields: Partial<T> & Record<string, unknown>) => {
     return useStudioFormStore.getState().setFormFields(id, fields);
   }, []);
-
-  // const focusNode = useCallback((id: string) => {
-  //   const node = useStudioFlowStore.getState().nodes.find((node) => node.id === id);
-  //   if (!node) return;
-
-  //   const { position, measured } = node;
-  //   if (!measured) return;
-
-  //   const { x, y } = position;
-  //   const { width = 0, height = 0 } = measured;
-
-  //   const centerX = x + width / 2;
-  //   const centerY = y + height / 2;
-
-  //   setCenter(centerX, centerY);
-  // }, []);
 
   const memorizedValue = useMemo(() => {
     return {
       cleanup,
       redraw,
       getFormDataById,
-      changeFormFields,
-      getOptionPlaceQuantity,
-      checkOptionIsPlaced,
-      // focusNode,
+      setFormFields,
+      data,
     };
-  }, [cleanup, redraw, getFormDataById, changeFormFields, getOptionPlaceQuantity, checkOptionIsPlaced]);
+  }, [cleanup, redraw, getFormDataById, setFormFields, data]);
 
   return memorizedValue;
 };

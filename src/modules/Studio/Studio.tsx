@@ -19,7 +19,7 @@ import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioConfigStore from './stores/useStudioConfigStore';
 import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
 import useStudioDataStore from './stores/useStudioDataStore';
-import { DataSource, FormDataMap, StudioCategory, StudioDataNode } from './types';
+import { DataSource, StudioCategory, StudioDataNode } from './types';
 import { StudioConfig } from './types/config';
 import { min } from './utils/data';
 
@@ -45,9 +45,6 @@ export type StudioProps = {
 export type StudioRef = {
   cleanup: () => void;
   redraw: (data: StudioDataNode[]) => void;
-  getOptionPlaceQuantity: (optionId: string) => number;
-  checkOptionIsPlaced: (optionId: string) => boolean;
-  getFormDataById: (id: string) => FormDataMap | undefined;
 };
 
 const StudioComponent = ({
@@ -133,7 +130,7 @@ const StudioComponent = ({
 };
 
 export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioProps, ref) => {
-  const { redraw, cleanup, getOptionPlaceQuantity, checkOptionIsPlaced, getFormDataById } = useStudio();
+  const { redraw, cleanup } = useStudio();
 
   useImperativeHandle(
     ref,
@@ -144,17 +141,8 @@ export const Studio = React.forwardRef<StudioRef, StudioProps>((props: StudioPro
       redraw: (data: StudioDataNode[]) => {
         redraw(data);
       },
-      getOptionPlaceQuantity: (optionId: string) => {
-        return getOptionPlaceQuantity(optionId);
-      },
-      checkOptionIsPlaced: (optionId: string) => {
-        return checkOptionIsPlaced(optionId);
-      },
-      getFormDataById: (id: string) => {
-        return getFormDataById(id);
-      },
     }),
-    [cleanup, redraw, getOptionPlaceQuantity, checkOptionIsPlaced, getFormDataById],
+    [cleanup, redraw],
   );
 
   return (

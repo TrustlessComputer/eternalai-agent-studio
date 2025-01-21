@@ -51,7 +51,7 @@ const args = {
               <div
                 style={{
                   width: 400,
-                  height: 400,
+                  height: 28,
                 }}
               >
                 Customize

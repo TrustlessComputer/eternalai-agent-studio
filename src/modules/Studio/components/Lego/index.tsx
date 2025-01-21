@@ -45,11 +45,14 @@ const Lego = ({
         } as CSSProperties
       }
     >
-      <div className="lego__stud lego__stud--bottom">
-        <StudIcon />
-      </div>
       <div className="lego__stud">
         <StudIcon />
+      </div>
+      <div className="lego__stud lego__stud--bottom">
+        <StudIcon />
+
+        <div className="lego__stud__mask" />
+        <div className="lego__stud__mask" />
       </div>
 
       <div className="lego__body">

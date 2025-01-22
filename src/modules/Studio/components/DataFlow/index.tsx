@@ -127,10 +127,15 @@ function Listen({ throttleNodesDelay, throttleDataDelay, throttleViewDelay }: Pr
       });
 
       useStudioDataStore.getState().setData(newData);
-      useStudioDataStore.getState().setViewport(throttleView);
       useStudioCategoryStore.getState().setUsedKeyCollection(usedKeyCollection);
     }
-  }, [throttleNodes, throttleDataForms, throttleView, isDragging]);
+  }, [throttleNodes, throttleDataForms, isDragging]);
+
+  useEffect(() => {
+    if (!isDragging) {
+      useStudioDataStore.getState().setViewport(throttleView);
+    }
+  }, [throttleView, isDragging]);
 
   return <></>;
 }

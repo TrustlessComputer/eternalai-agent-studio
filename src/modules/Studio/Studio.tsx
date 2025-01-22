@@ -27,8 +27,6 @@ import { DataSource, GraphData, StudioCategory } from './types';
 import { StudioConfig } from './types/config';
 import { min } from './utils/data';
 
-import useStudioStore from '@/modules/Studio/stores/useStudioStore';
-
 export type StudioProps = {
   className?: string;
   sidebarWidth?: string | number;
@@ -66,7 +64,6 @@ const StudioComponent = ({
   sidebarWidth = 400,
   ...rest
 }: StudioProps): React.ReactNode => {
-  const { isDrew, setIsDrew } = useStudioStore();
   const { redraw, cleanup } = useStudio();
 
   const sidebarSide = useStudioConfigStore((state) => state.config.sidebar.side);
@@ -98,12 +95,11 @@ const StudioComponent = ({
   }, []);
 
   useEffect(() => {
-    if (!isDrew && graphData.data.length) {
+    if (graphData.data.length) {
       redraw(graphData);
-      setIsDrew(true);
     }
     // dont push graphData to deps
-  }, [graphData.data.length, isDrew, redraw]);
+  }, [graphData.data.length]);
 
   return (
     <DndFlow>

@@ -8,7 +8,11 @@ const DragMask = () => {
 
   if (!draggingElement) return null;
 
-  return <DragOverlay zIndex={10000}>{draggingElement}</DragOverlay>;
+  return (
+    <DragOverlay zIndex={10000} style={{ opacity: 0.7 }}>
+      {draggingElement}
+    </DragOverlay>
+  );
 };
 
 export default memo(DragMask);

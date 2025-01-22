@@ -50,6 +50,10 @@ export const useStudio = () => {
     return useStudioFormStore.getState().setFormFields(id, fields);
   }, []);
 
+  const draggingData = useStudioDndStore((state) => state.draggingData);
+
+  const isDragging = !!draggingData;
+
   const data = useStudioDataStore((state) => state.data);
   const memorizedValue = useMemo(() => {
     return {
@@ -58,8 +62,9 @@ export const useStudio = () => {
       getFormDataById,
       setFormFields,
       data,
+      isDragging,
     };
-  }, [cleanup, redraw, getFormDataById, setFormFields, data]);
+  }, [cleanup, redraw, getFormDataById, setFormFields, data, isDragging]);
 
   return memorizedValue;
 };

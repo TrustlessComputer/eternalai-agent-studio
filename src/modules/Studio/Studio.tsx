@@ -27,6 +27,7 @@ import useStudioDataStore from './stores/useStudioDataStore';
 import { DataSource, GraphData, StudioCategory } from './types';
 import { StudioConfig } from './types/config';
 import { min } from './utils/data';
+import DragMaskV2 from '@/modules/Studio/components/DnD/base/DragMaskV2';
 
 export type StudioProps = {
   className?: string;
@@ -132,11 +133,9 @@ const StudioComponent = ({
         onChange={onChange}
       />
 
-      <div
-        className={cx('studio', sidebarSide === SidebarSide.LEFT ? 'studio--left' : 'studio--right', className)}
-        {...rest}
-      >
-        <DragMask />
+      <div className={cx('studio', `studio--${sidebarSide}`, className)} {...rest}>
+        {/* <DragMask /> */}
+        <DragMaskV2 />
 
         <div
           className="studio__sidebar"

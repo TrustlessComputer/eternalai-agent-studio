@@ -14,7 +14,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { applyNodeChanges, XYPosition } from '@xyflow/react';
+import { applyNodeChanges, useStoreApi, XYPosition } from '@xyflow/react';
 import { PropsWithChildren, useCallback, useRef } from 'react';
 
 import { StudioCategoryType } from '@/modules/Studio/enums/category';
@@ -27,9 +27,12 @@ import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { StudioCategory, StudioCategoryMapValue, StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
+import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 
 function DndFlow({ children }: PropsWithChildren) {
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }));
+
+  const flowStore = useStoreApi();
 
   const movingNodeRef = useRef<StudioNode>(null);
 
@@ -430,9 +433,16 @@ function DndFlow({ children }: PropsWithChildren) {
       if (movingNode) {
         movingNodeRef.current = movingNode;
 
+        const touchingPoint = useStudioDndStore.getState().draggingPoint;
+        const {
+          transform: [transformX, transformY, zoomLevel],
+        } = flowStore.getState();
+
+        if (!touchingPoint) return;
+
         const newPosition: XYPosition = {
-          x: movingNode.position.x + delta.x,
-          y: movingNode.position.y + delta.y,
+          x: movingNode.position.x + (delta.x - touchingPoint.x) / zoomLevel,
+          y: movingNode.position.y + (delta.y - touchingPoint.y) / zoomLevel,
         };
 
         const updatedNode = applyNodeChanges(

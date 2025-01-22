@@ -1,12 +1,15 @@
 import cs from 'clsx';
 import React, { useMemo } from 'react';
 
-import './NodeBaseWrapper.scss';
 import TextRender from '../../../Render/TextRender';
+import './NodeBaseWrapper.scss';
 
+import Package from '@/modules/Studio/components/DnD/Package';
+import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import { StudioInternalDataNode } from '@/modules/Studio/types';
 import { StudioCategoryOption } from '@/modules/Studio/types/category';
+import { DraggableData } from '@/modules/Studio/types/dnd';
 
 type Props = {
   id: string;
@@ -21,6 +24,14 @@ function NodeBaseWrapper({ id, data, option, children }: Props) {
   const isHaveLinkedChildren = useMemo(() => {
     return !!data?.metadata?.children?.length && linkedNodes[id]?.length > 0;
   }, [linkedNodes, id, data?.metadata?.children?.length]);
+
+  const extendedData = useMemo(() => {
+    return {
+      belongsTo: id,
+      optionKey: option.idx,
+      categoryKey: useStudioCategoryStore.getState().findCategoryByOptionKey(option.idx)?.idx,
+    } satisfies Omit<DraggableData, 'type'>;
+  }, [data, option]);
 
   if (option?.boxWrapper) {
     if (option.boxWrapper.render) {
@@ -42,13 +53,21 @@ function NodeBaseWrapper({ id, data, option, children }: Props) {
 
   if (isHaveLinkedChildren) {
     return (
-      <div className={cs('node-base-wrapper', { 'node-base-wrapper--linked': isHaveLinkedChildren })}>
+      <Package
+        id={option.idx}
+        data={extendedData}
+        className={cs('node-base-wrapper', { 'node-base-wrapper--linked': isHaveLinkedChildren })}
+      >
         <div className="node-base-wrapper__content">{children}</div>
-      </div>
+      </Package>
     );
   }
 
-  return <div className="node-base-wrapper">{children}</div>;
+  return (
+    <Package id={option.idx} data={extendedData} className="node-base-wrapper">
+      {children}
+    </Package>
+  );
 }
 
 export default NodeBaseWrapper;

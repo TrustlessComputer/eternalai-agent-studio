@@ -193,8 +193,8 @@ const useDndAction = () => {
 
     fromNodeLinkedNodes.forEach((linkedNodeId) => {
       link(
-        toNode,
         useStudioFlowStore.getState().nodes.find((node) => node.id === linkedNodeId),
+        toNode,
       );
     });
 

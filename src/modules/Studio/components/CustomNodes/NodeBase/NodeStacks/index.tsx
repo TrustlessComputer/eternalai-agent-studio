@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import Package from '../../../DnD/Package';
+import ProductPlaceholder from '../../../DnD/ProductPlaceholder';
 import Product from '../../../DnD/Product';
 import DraggingFloating from '../DraggingFloating';
 import LegoRender from '../LegoRender';
@@ -85,7 +85,7 @@ const NodeStacks = ({ data, ...rest }: Props) => {
           />
         ))}
 
-        <Package id={data.id} data={productData} />
+        <ProductPlaceholder id={data.id} data={productData} />
         <NodeBaseConnection />
       </div>
     </NodeBaseWrapper>

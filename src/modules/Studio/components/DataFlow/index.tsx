@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import useStudioCategoryStore from '../../stores/useStudioCategoryStore';
 import useStudioDataStore from '../../stores/useStudioDataStore';
@@ -144,14 +144,20 @@ function Publish({ onChange }: { onChange?: (graphData: GraphData) => void }) {
   const data = useStudioDataStore((state) => state.data);
   const viewport = useStudioDataStore((state) => state.viewport);
 
+  const onChangeRef = useRef(onChange);
+
   useEffect(() => {
-    if (onChange) {
-      onChange({
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
+  useEffect(() => {
+    if (onChangeRef.current) {
+      onChangeRef.current({
         data,
         viewport,
       } satisfies GraphData);
     }
-  }, [data, viewport, onChange]);
+  }, [data, viewport]);
 
   return <></>;
 }

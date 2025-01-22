@@ -5,7 +5,6 @@
 import { useCallback, useMemo } from 'react';
 
 import { useMultipleStore } from './useNewStore';
-import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 import useStudioDataStore from '../stores/useStudioDataStore';
 import useStudioDndStore from '../stores/useStudioDndStore';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
@@ -23,7 +22,7 @@ export const useStudio = () => {
     useStudioFlowViewStore.getState().clear();
     useStudioDndStore.getState().clear();
     useMultipleStore.getState().clear();
-    useStudioCategoryStore.getState().clear();
+    // useStudioCategoryStore.getState().clear();
   }, []);
 
   const redraw = useCallback((graphData: GraphData) => {

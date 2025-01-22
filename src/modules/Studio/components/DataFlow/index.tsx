@@ -141,7 +141,8 @@ function Listen({ throttleNodesDelay, throttleDataDelay, throttleViewDelay }: Pr
 }
 
 function Publish({ onChange }: { onChange?: (graphData: GraphData) => void }) {
-  const { data, viewport } = useStudioDataStore();
+  const data = useStudioDataStore((state) => state.data);
+  const viewport = useStudioDataStore((state) => state.viewport);
 
   useEffect(() => {
     if (onChange) {

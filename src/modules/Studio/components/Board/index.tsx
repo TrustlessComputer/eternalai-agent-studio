@@ -13,6 +13,9 @@ import Distribution from '../DnD/Distribution';
 import './Board.scss';
 
 function Board() {
+  const [isRendered, setIsRendered] = useState(false);
+
+  const initialViewport = useStudioDataStore((state) => state.viewport);
   const boardConfig = useStudioConfigStore((state) => state.config.board);
 
   const disabledConnection = useStudioDataStore((state) => state.disabledConnection);
@@ -43,10 +46,20 @@ function Board() {
     setCurrentView(useStudioFlowViewStore.getState().view);
   }, [reloadFlowCounter]);
 
+  useEffect(() => {
+    if (isRendered) return;
+
+    setIsRendered(true);
+    setCurrentView(initialViewport);
+
+    useStudioFlowStore.getState().reloadFlow();
+  }, [isRendered, initialViewport]);
+
   return (
     <Distribution className="board">
       <BoardOverlay />
       <ReactFlow
+        key={JSON.stringify(currentView)}
         nodes={nodes}
         nodeTypes={DEFAULT_NODE_TYPES}
         onNodesChange={onNodesChange}

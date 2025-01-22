@@ -556,37 +556,54 @@ const args = {
         'id': '721c2948-ccab-4425-9779-936172fb01f2',
         'idx': 'agent_new',
         'title': 'New Agent',
-        'children': [],
+        'children': [
+          {
+            'id': '12e9dea7-ecab-40f8-8dd1-c8f1da61e80a',
+            'idx': 'personality_customize',
+            'title': 'New personality',
+            'children': [],
+            'data': {},
+            'rect': {
+              'position': {
+                'x': 130,
+                'y': 99.5,
+              },
+            },
+            'categoryIdx': 'personality',
+          },
+        ],
         'data': {
           'agentName': '',
         },
         'rect': {
           'position': {
             'x': 85,
-            'y': 111.5,
+            'y': 143.5,
           },
         },
         'categoryIdx': 'agent',
       },
       {
-        'id': '12e9dea7-ecab-40f8-8dd1-c8f1da61e80a',
-        'idx': 'personality_customize',
-        'title': 'New personality',
+        'id': '307e60ef-cf1e-4584-b343-830cac55035f',
+        'idx': 'decentralize_inference_hermes_3_70b',
+        'title': 'Hermes 3 70B',
         'children': [],
-        'data': {},
+        'data': {
+          'decentralizeId': 'NousResearch/Hermes-3-Llama-3.1-70B-FP8',
+        },
         'rect': {
           'position': {
-            'x': 73,
-            'y': 212.5,
+            'x': 94.67416972160802,
+            'y': 375.7615898194902,
           },
         },
-        'categoryIdx': 'personality',
+        'categoryIdx': 'decentralized_inference',
       },
     ],
     'viewport': {
-      'x': 473.5,
-      'y': -8.5,
-      'zoom': 0.5,
+      'x': 700,
+      'y': -149,
+      'zoom': 1,
     },
   } satisfies GraphData,
 } satisfies StudioProps;

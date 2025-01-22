@@ -17,16 +17,14 @@ import { transformDataToNodes } from '../utils/node';
 
 export const useStudio = () => {
   const cleanup = useCallback(() => {
-    useStudioCategoryStore.getState().clear();
     useStudioFlowStore.getState().clear();
     useStudioFormStore.getState().clear();
     useStudioDataStore.getState().clear();
     useStudioFlowViewStore.getState().clear();
     useStudioDndStore.getState().clear();
     useMultipleStore.getState().clear();
+    useStudioCategoryStore.getState().clear();
   }, []);
-
-  //
 
   const redraw = useCallback((graphData: GraphData) => {
     useStudioDataStore.getState().setData(graphData.data);

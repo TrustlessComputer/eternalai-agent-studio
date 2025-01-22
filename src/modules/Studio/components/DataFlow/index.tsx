@@ -145,19 +145,24 @@ function Publish({ onChange }: { onChange?: (graphData: GraphData) => void }) {
   const viewport = useStudioDataStore((state) => state.viewport);
 
   const onChangeRef = useRef(onChange);
+  const draggingData = useStudioDndStore((state) => state.draggingData);
+
+  const isDragging = !!draggingData;
 
   useEffect(() => {
     onChangeRef.current = onChange;
   }, [onChange]);
 
   useEffect(() => {
-    if (onChangeRef.current) {
-      onChangeRef.current({
-        data,
-        viewport,
-      } satisfies GraphData);
+    if (!isDragging) {
+      if (onChangeRef.current) {
+        onChangeRef.current({
+          data,
+          viewport,
+        } satisfies GraphData);
+      }
     }
-  }, [data, viewport]);
+  }, [data, viewport, isDragging]);
 
   return <></>;
 }
@@ -166,32 +171,37 @@ function DataSync() {
   const entry = useStudioDataStore((state) => state.entry);
   const data = useStudioDataStore((state) => state.data);
   const rootCategory = useStudioCategoryStore((state) => state.rootCategory);
+  const draggingData = useStudioDndStore((state) => state.draggingData);
+
+  const isDragging = !!draggingData;
 
   useEffect(() => {
-    if (!entry) {
-      if (rootCategory) {
-        const rootOptions = rootCategory.options as StudioCategoryOptionMapValue[];
-        const rootOptionsKey = rootOptions.map((item) => item.idx);
-        const newEntry = data?.find((item) => item.idx === rootCategory.idx || rootOptionsKey.includes(item.idx));
+    if (!isDragging) {
+      if (!entry) {
+        if (rootCategory) {
+          const rootOptions = rootCategory.options as StudioCategoryOptionMapValue[];
+          const rootOptionsKey = rootOptions.map((item) => item.idx);
+          const newEntry = data?.find((item) => item.idx === rootCategory.idx || rootOptionsKey.includes(item.idx));
 
-        if (newEntry) {
-          // set entry
-          useStudioDataStore.getState().setEntry(newEntry);
-          useStudioCategoryStore.getState().updateCategoriesForEntry(newEntry);
-        } else {
+          if (newEntry) {
+            // set entry
+            useStudioDataStore.getState().setEntry(newEntry);
+            useStudioCategoryStore.getState().updateCategoriesForEntry(newEntry);
+          } else {
+            useStudioCategoryStore.getState().updateCategoriesForEntry(null);
+          }
+        }
+      } else {
+        const existEntry = data.find((item) => item.id === entry.id);
+        if (!existEntry) {
+          // remove entry
+          useStudioDataStore.getState().setEntry(null);
           useStudioCategoryStore.getState().updateCategoriesForEntry(null);
         }
       }
-    } else {
-      const existEntry = data.find((item) => item.id === entry.id);
-      if (!existEntry) {
-        // remove entry
-        useStudioDataStore.getState().setEntry(null);
-        useStudioCategoryStore.getState().updateCategoriesForEntry(null);
-      }
     }
     // useStudioCategoryStore.getState().updateCategoriesForEntry(entry);
-  }, [entry, data, rootCategory]);
+  }, [entry, data, rootCategory, isDragging]);
 
   return <></>;
 }

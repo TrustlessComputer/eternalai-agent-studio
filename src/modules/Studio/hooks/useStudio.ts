@@ -43,7 +43,7 @@ export const useStudio = () => {
   }, []);
 
   const getFormDataById = useCallback(<T>(id: string): T => {
-    return useStudioFormStore.getState().getFormById(id) as T;
+    return (useStudioFormStore.getState().getFormById(id) || {}) as T;
   }, []);
 
   const setFormFields = useCallback(<T>(id: string, fields: Partial<T> & Record<string, unknown>) => {

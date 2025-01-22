@@ -102,7 +102,8 @@ const StudioComponent = ({
       redraw(graphData);
       setIsDrew(true);
     }
-  }, [graphData, graphData.data.length, isDrew, redraw]);
+    // dont push graphData to deps
+  }, [graphData.data.length, isDrew, redraw]);
 
   return (
     <DndFlow>

@@ -33,6 +33,7 @@ function NodeBaseWrapper({ id, data, option, children }: Props) {
           <div className="node-base-wrapper__title">
             <TextRender data={option.boxWrapper.title} />
           </div>
+
           <div className="node-base-wrapper__content">{children}</div>
         </div>
       );
@@ -47,7 +48,7 @@ function NodeBaseWrapper({ id, data, option, children }: Props) {
     );
   }
 
-  return <>{children}</>;
+  return <div className="node-base-wrapper">{children}</div>;
 }
 
 export default NodeBaseWrapper;

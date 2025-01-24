@@ -191,7 +191,7 @@ const useDndAction = () => {
     addToPackage(toNode, [clonedFromNode, ...fromNode.data.metadata.children]);
     removeProduct(fromNode.id);
 
-    fromNodeLinkedNodes.forEach((linkedNodeId) => {
+    fromNodeLinkedNodes?.forEach((linkedNodeId) => {
       link(
         useStudioFlowStore.getState().nodes.find((node) => node.id === linkedNodeId),
         toNode,

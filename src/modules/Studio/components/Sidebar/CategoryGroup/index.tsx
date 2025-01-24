@@ -81,6 +81,7 @@ const CustomCategoryOption = ({
   disabled,
   multipleOption,
   children,
+  tooltip,
 }: {
   categoryKey: string;
   isRoot?: boolean;
@@ -89,6 +90,7 @@ const CustomCategoryOption = ({
   disabled?: boolean;
   multipleOption?: boolean;
   children: React.ReactNode;
+  tooltip?: string;
 }) => {
   const usedKeyCollection = useStudioCategoryStore((state) => state.usedKeyCollection);
   const usedCategoryKey = usedKeyCollection[categoryKey];
@@ -124,7 +126,7 @@ const CustomCategoryOption = ({
       data={{ categoryKey, optionKey: option.idx, isRoot }}
       disabled={isDisabled}
     >
-      <Lego background={color} disabled={isDisabled}>
+      <Lego background={color} disabled={isDisabled} tooltip={tooltip}>
         {children}
       </Lego>
     </Source>
@@ -179,6 +181,7 @@ const CategoryGroup = (props: Props) => {
                 option={option}
                 disabled={disabled}
                 multipleOption={multipleOption}
+                tooltip={option.tooltip}
               >
                 {option.customizeRenderOnSideBar(option)}
               </CustomCategoryOption>

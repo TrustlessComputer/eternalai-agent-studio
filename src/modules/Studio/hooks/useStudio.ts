@@ -5,6 +5,7 @@
 import { useCallback, useMemo } from 'react';
 
 import { useMultipleStore } from './useNewStore';
+import useStudioCategoryStore from '../stores/useStudioCategoryStore';
 import useStudioDataStore from '../stores/useStudioDataStore';
 import useStudioDndStore from '../stores/useStudioDndStore';
 import useStudioFlowStore from '../stores/useStudioFlowStore';
@@ -26,6 +27,8 @@ export const useStudio = () => {
   }, []);
 
   const redraw = useCallback((graphData: GraphData) => {
+    // scan all categories and push if not exist
+    useStudioCategoryStore.getState().scanFromData(graphData.data);
     useStudioDataStore.getState().setData(graphData.data);
     useStudioDataStore.getState().setViewport(graphData.viewport);
     useStudioFlowViewStore.getState().setView(graphData.viewport);

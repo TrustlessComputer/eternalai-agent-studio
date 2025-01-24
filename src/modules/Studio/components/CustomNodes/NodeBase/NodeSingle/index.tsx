@@ -1,17 +1,17 @@
 import { useMemo } from 'react';
 
-import ProductPlaceholder from '../../../DnD/ProductPlaceholder';
 import Product from '../../../DnD/Product';
+import ProductPlaceholder from '../../../DnD/ProductPlaceholder';
 import LegoRender from '../LegoRender';
 import NodeBaseConnection from '../NodeBaseConnection';
 import NodeBaseWrapper from '../NodeBaseWrapper';
 import { NodeBaseProps } from '../types';
 
+import useNodeSelected from '@/modules/Studio/hooks/useNodeSelected';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
 import { DraggableData } from '@/modules/Studio/types/dnd';
 
-import useNodeSelected from '@/modules/Studio/hooks/useNodeSelected';
 import './NodeSingle.scss';
 
 type Props = NodeBaseProps;

@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import Source from '../../DnD/Source';
-import { TooltipIcon } from '../../icons/common';
 import Lego from '../../Lego';
 import LegoContent from '../../LegoContent';
 import TextRender from '../../Render/TextRender';
@@ -159,13 +158,12 @@ const CategoryGroup = (props: Props) => {
       {tooltip ? (
         <Tooltip label={tooltip}>
           <h5 className="category-group__title">
-            <TextRender data={title} /> {required ? <span className="sidebar-tab__required">*</span> : ''}{' '}
-            <TooltipIcon color="black" />
+            <TextRender data={title} /> {!!required && <span className="sidebar-tab__required">*</span>}
           </h5>
         </Tooltip>
       ) : (
         <h5 className="category-group__title">
-          <TextRender data={title} /> {required ? <span className="sidebar-tab__required">*</span> : ''}
+          <TextRender data={title} /> {!!required && <span className="sidebar-tab__required">*</span>}
         </h5>
       )}
 

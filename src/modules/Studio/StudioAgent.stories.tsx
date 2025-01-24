@@ -45,7 +45,7 @@ const args = {
         {
           'idx': 'personality_customize',
           'title': 'New personality',
-          'tooltip': '',
+          'tooltip': 'New Agent',
           'icon': 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_personality_custom.svg',
           customizeRenderOnBoard: () => {
             return (

@@ -15,11 +15,12 @@ const args = {
       'required': true,
       'multipleOption': false,
       'disabled': false,
+      'tooltip': 'New Agent',
       'options': [
         {
           'idx': 'agent_new',
           'title': 'New Agent',
-          'tooltip': '',
+          'tooltip': 'New Agent',
           'data': {
             'agentName': {
               'type': 'text',

@@ -3,8 +3,10 @@ import { CSSProperties, FunctionComponent, HTMLAttributes, memo, useMemo } from 
 
 import { adjustColorShade } from '../../utils/ui';
 import './Lego.scss';
+import { TooltipIcon } from '../icons/common';
 import { StudIcon } from '../icons/lego';
 import ImageRender from '../Render/ImageRender';
+import Tooltip from '../ui/Tooltip';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   background?: string; // HEX color
@@ -16,6 +18,7 @@ type Props = HTMLAttributes<HTMLDivElement> & {
   fixedHeight?: boolean;
 
   title?: React.ReactNode | FunctionComponent;
+  tooltip?: string;
 };
 
 const Lego = ({
@@ -26,6 +29,7 @@ const Lego = ({
   style,
   icon,
   children,
+  tooltip,
   ...props
 }: Props) => {
   const borderColor = useMemo(() => adjustColorShade(background, -20), [background]);
@@ -63,6 +67,11 @@ const Lego = ({
         )}
 
         <div className="lego__content">{children}</div>
+        {tooltip && (
+          <Tooltip label={tooltip}>
+            <TooltipIcon />
+          </Tooltip>
+        )}
       </div>
     </div>
   );

@@ -235,61 +235,65 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
   clear: () => set(DEFAULT_VALUE),
 
   scanFromData: (data) => {
-    const { categoryMap, categoryOptionMap } = get();
-    const addNewCategories: Record<string, StudioCategory> = {};
-    const addNewOptions: Record<string, StudioCategoryOptionMapValue> = {};
+    try {
+      const { categoryMap, categoryOptionMap } = get();
+      const addNewCategories: Record<string, StudioCategory> = {};
+      const addNewOptions: Record<string, StudioCategoryOptionMapValue> = {};
 
-    const addNewCategoryAndOption = (optionIdx: string, categoryIdx?: string) => {
-      if (categoryIdx) {
-        const existedCategory = categoryMap[categoryIdx];
-        if (!existedCategory) {
-          // add new category
-          addNewCategories[categoryIdx] = {
-            idx: categoryIdx,
-            title: '',
-            options: [],
-            disabled: true,
-            hidden: true,
-          } satisfies StudioCategory;
-        }
-
-        if (optionIdx) {
-          const parentCategory = categoryMap[categoryIdx] || addNewCategories[categoryIdx];
-          const existedOption = categoryOptionMap[optionIdx];
-          if (!existedOption) {
-            // add new option
-            addNewOptions[optionIdx] = {
-              idx: optionIdx,
+      const addNewCategoryAndOption = (optionIdx: string, categoryIdx?: string) => {
+        if (categoryIdx) {
+          const existedCategory = categoryMap[categoryIdx];
+          if (!existedCategory) {
+            // add new category
+            addNewCategories[categoryIdx] = {
+              idx: categoryIdx,
               title: '',
+              options: [],
               disabled: true,
               hidden: true,
-              parent: parentCategory,
-            } satisfies StudioCategoryOptionMapValue;
+            } satisfies StudioCategory;
+          }
 
-            parentCategory.options.push(addNewOptions[optionIdx]);
+          if (optionIdx) {
+            const parentCategory = categoryMap[categoryIdx] || addNewCategories[categoryIdx];
+            const existedOption = categoryOptionMap[optionIdx];
+            if (!existedOption) {
+              // add new option
+              addNewOptions[optionIdx] = {
+                idx: optionIdx,
+                title: '',
+                disabled: true,
+                hidden: true,
+                parent: parentCategory,
+              } satisfies StudioCategoryOptionMapValue;
+
+              parentCategory.options.push(addNewOptions[optionIdx]);
+            }
           }
         }
+      };
+
+      const runLoopData = (dataNodes: StudioDataNode[]) => {
+        dataNodes.forEach((item) => {
+          addNewCategoryAndOption(item.idx, item.categoryIdx);
+
+          if (item.children.length) {
+            runLoopData(item.children);
+          }
+        });
+      };
+
+      if (data) {
+        runLoopData(data);
+
+        set({
+          categories: [...get().categories, ...Object.values(addNewCategories)],
+          categoryMap: { ...categoryMap, ...addNewCategories },
+          categoryOptionMap: { ...categoryOptionMap, ...addNewOptions },
+        });
       }
-    };
-
-    const runLoopData = (dataNodes: StudioDataNode[]) => {
-      dataNodes.forEach((item) => {
-        addNewCategoryAndOption(item.idx, item.categoryIdx);
-
-        if (item.children.length) {
-          runLoopData(item.children);
-        }
-      });
-    };
-
-    if (data) {
-      runLoopData(data);
-
-      set({
-        categories: [...get().categories, ...Object.values(addNewCategories)],
-        categoryMap: { ...categoryMap, ...addNewCategories },
-        categoryOptionMap: { ...categoryOptionMap, ...addNewOptions },
-      });
+    } catch (error) {
+      console.error('Error while scanning data', error);
     }
   },
 }));

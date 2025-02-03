@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import '../../styles/global.scss';
 import './Studio.scss';
 
 import { ReactFlowProvider } from '@xyflow/react';
 import cx from 'clsx';
-import React, { useEffect, useImperativeHandle } from 'react';
+import React, { useEffect, useImperativeHandle, useMemo } from 'react';
 
 import Board from './components/Board';
 import DataFlow from './components/DataFlow';
@@ -30,6 +31,7 @@ import { min } from './utils/data';
 export type StudioProps = {
   className?: string;
   sidebarWidth?: string | number;
+  sidebarMinWidth?: string | number;
 
   // Data
   categories: StudioCategory[];
@@ -44,6 +46,8 @@ export type StudioProps = {
 
   // Events
   onChange?: (graphData: GraphData) => void;
+
+  isDebugger?: boolean;
 };
 
 export type StudioRef = {
@@ -61,12 +65,20 @@ const StudioComponent = ({
   throttleViewDelay = DEFAULT_THROTTLE_VIEW_DELAY,
   config,
   onChange,
-  sidebarWidth = 400,
+  sidebarWidth = 'min-content',
+  sidebarMinWidth = 300,
+  isDebugger = false,
   ...rest
 }: StudioProps): React.ReactNode => {
   const { redraw, cleanup } = useStudio();
 
   const sidebarSide = useStudioConfigStore((state) => state.config.sidebar.side);
+
+  useEffect(() => {
+    if (window as any) {
+      (window as any).studioLogger = isDebugger;
+    }
+  }, [isDebugger]);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -92,6 +104,7 @@ const StudioComponent = ({
     return () => {
       cleanup();
     };
+    // dont push any to deps
   }, []);
 
   useEffect(() => {
@@ -101,12 +114,21 @@ const StudioComponent = ({
     // dont push graphData to deps
   }, [graphData.data.length]);
 
+  const throttleNodesDelayValue = useMemo(
+    () => min(throttleNodesDelay, MIN_THROTTLE_NODES_DELAY),
+    [throttleNodesDelay],
+  );
+
+  const throttleDataDelayValue = useMemo(() => min(throttleDataDelay, MIN_THROTTLE_DATA_DELAY), [throttleDataDelay]);
+
+  const throttleViewDelayValue = useMemo(() => min(throttleViewDelay, MIN_THROTTLE_VIEW_DELAY), [throttleViewDelay]);
+
   return (
     <DndFlow>
       <DataFlow
-        throttleNodesDelay={min(throttleNodesDelay, MIN_THROTTLE_NODES_DELAY)}
-        throttleDataDelay={min(throttleDataDelay, MIN_THROTTLE_DATA_DELAY)}
-        throttleViewDelay={min(throttleViewDelay, MIN_THROTTLE_VIEW_DELAY)}
+        throttleNodesDelay={throttleNodesDelayValue}
+        throttleDataDelay={throttleDataDelayValue}
+        throttleViewDelay={throttleViewDelayValue}
         onChange={onChange}
       />
 
@@ -119,7 +141,7 @@ const StudioComponent = ({
         <div
           className="studio__sidebar"
           style={{
-            minWidth: 300,
+            minWidth: sidebarMinWidth,
             width: sidebarWidth,
           }}
         >

@@ -24,7 +24,6 @@ import useStudioCategoryStore from './stores/useStudioCategoryStore';
 import useStudioConfigStore from './stores/useStudioConfigStore';
 import useStudioDataSourceStore from './stores/useStudioDataSourceStore';
 import useStudioDataStore from './stores/useStudioDataStore';
-import useStudioFlowStore, { EdgeType } from './stores/useStudioFlowStore';
 import { DataSource, GraphData, StudioCategory } from './types';
 import { StudioConfig } from './types/config';
 import { min } from './utils/data';
@@ -49,8 +48,6 @@ export type StudioProps = {
   onChange?: (graphData: GraphData) => void;
 
   isDebugger?: boolean;
-
-  edgeType?: EdgeType;
 };
 
 export type StudioRef = {
@@ -71,7 +68,6 @@ const StudioComponent = ({
   sidebarWidth = 'min-content',
   sidebarMinWidth = 300,
   isDebugger = false,
-  edgeType = 'smoothstep',
   ...rest
 }: StudioProps): React.ReactNode => {
   const { redraw, cleanup } = useStudio();
@@ -83,10 +79,6 @@ const StudioComponent = ({
       (window as any).studioLogger = isDebugger;
     }
   }, [isDebugger]);
-
-  useEffect(() => {
-    useStudioFlowStore.getState().setEdgeType(edgeType);
-  }, [edgeType]);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises

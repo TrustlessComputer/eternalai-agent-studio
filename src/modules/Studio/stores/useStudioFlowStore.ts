@@ -10,8 +10,6 @@ const DEFAULT_VALUE = {
   linkedNodes: {},
 };
 
-export type EdgeType = 'straight' | 'step' | 'smoothstep' | 'bezier';
-
 type Store = {
   reloadFlowCounter: number;
   reloadFlow: () => void;
@@ -44,9 +42,6 @@ type Store = {
   onConnect: OnConnect;
 
   clear: () => void;
-
-  edgeType?: EdgeType;
-  setEdgeType: (edgeType: EdgeType) => void;
 };
 
 const useStudioFlowStore = create<Store>((set, get) => ({
@@ -94,8 +89,8 @@ const useStudioFlowStore = create<Store>((set, get) => ({
   },
 
   setEdges: (edges) => set({ edges }),
-  addEdge: (edge) => set({ edges: [...get().edges, { ...edge, type: get().edgeType }] }),
-  addEdges: (edges) => set({ edges: [...get().edges, ...{ ...edges, type: get().edgeType }] }),
+  addEdge: (edge) => set({ edges: [...get().edges, edge] }),
+  addEdges: (edges) => set({ edges: [...get().edges, ...edges] }),
 
   removeNode: (id: string) => {
     set((state) => {
@@ -212,9 +207,6 @@ const useStudioFlowStore = create<Store>((set, get) => ({
   },
 
   clear: () => set(DEFAULT_VALUE),
-
-  edgeType: 'smoothstep',
-  setEdgeType: (edgeType) => set({ edgeType }),
 }));
 
 export default useStudioFlowStore;

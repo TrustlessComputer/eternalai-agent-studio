@@ -125,6 +125,7 @@ export type StudioCategoryOption = BaseCategory &
     type?: StudioCategoryType; // default is inline
     boxWrapper?: StudioCategoryBoxWrapperProps;
     multipleChoice?: boolean; // default true, this field apply for all
+    zIndex?: number; // default 0, the element index ui on white board
   };
 
 export type StudioCategory = Omit<BaseCategory, 'value' | 'data'> &

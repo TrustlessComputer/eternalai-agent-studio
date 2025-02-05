@@ -143,7 +143,10 @@ const useDndAction = () => {
       link(newNode, rootNode);
     }
 
-    useStudioFlowStore.getState().addNode(newNode);
+    useStudioFlowStore.getState().addNode({
+      ...newNode,
+      zIndex: fromOption?.zIndex || 0,
+    });
 
     return { rootNode, targetNode: newNode };
   }, []);
@@ -166,7 +169,10 @@ const useDndAction = () => {
           link(rootNode, newNode);
         }
 
-        useStudioFlowStore.getState().addNode(newNode);
+        useStudioFlowStore.getState().addNode({
+          ...newNode,
+          zIndex: fromOption?.zIndex || 0,
+        });
       }
 
       fromNode.data.metadata.children = fromNode.data.metadata.children.filter((_, index) => index < (fromData?.childIndex || 0));

@@ -21,6 +21,7 @@ const args = {
           'idx': 'agent_new',
           'title': 'New Agent',
           'tooltip': 'New Agent',
+          'zIndex': 100,
           'data': {
             'agentName': {
               'type': 'text',

@@ -97,6 +97,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
 
             return {
               ...option,
+              zIndex: option.zIndex ?? 0,
               color: option.color || item.color,
               order: option.order ?? Number.MAX_SAFE_INTEGER,
               type: option.type ?? DEFAULT_CATEGORY_TYPE,

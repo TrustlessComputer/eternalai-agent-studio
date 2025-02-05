@@ -79,7 +79,10 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
       } satisfies StudioNodeMetadata;
 
       const node = createNewNodeBase(item.id, position, metadata);
-      nodes.push(node);
+      nodes.push({
+        ...node,
+        zIndex: categoryOptionMap?.[item.idx]?.zIndex || 0,
+      });
 
       if (item.children.length) {
         // for linked children

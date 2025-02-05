@@ -42,6 +42,7 @@ const Source = ({ id, data, disabled = false, children, ...props }: Props) => {
       disabled={disabled || disabledDrag}
       handleOnDrag={handleOnDrag}
       handleOnDrop={handleOnDrop}
+      data-draggable-type="source"
     >
       {children}
     </Draggable>

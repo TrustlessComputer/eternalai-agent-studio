@@ -9,19 +9,21 @@ import {
   DragOverEvent,
   DragPendingEvent,
   DragStartEvent,
+  MeasuringConfiguration,
   MouseSensor,
   pointerWithin,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { applyNodeChanges, XYPosition } from '@xyflow/react';
-import { PropsWithChildren, useCallback, useRef } from 'react';
+import { applyNodeChanges, useReactFlow, XYPosition } from '@xyflow/react';
+import { PropsWithChildren, useCallback, useMemo, useRef } from 'react';
 
 import { StudioCategoryType } from '@/modules/Studio/enums/category';
 import useDndAction from '@/modules/Studio/hooks/useDndAction';
 import useDndInteraction from '@/modules/Studio/hooks/useDndInteraction';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioDataStore from '@/modules/Studio/stores/useStudioDataStore';
+import useStudioDndStore from '@/modules/Studio/stores/useStudioDndStore';
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import useStudioFormStore from '@/modules/Studio/stores/useStudioFormStore';
 import { StudioCategory, StudioCategoryMapValue, StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
@@ -29,6 +31,7 @@ import { DraggableData, StudioZone } from '@/modules/Studio/types/dnd';
 import { StudioNode } from '@/modules/Studio/types/graph';
 
 function DndFlow({ children }: PropsWithChildren) {
+  const { getZoom } = useReactFlow();
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }));
 
   const movingNodeRef = useRef<StudioNode>(null);
@@ -411,47 +414,69 @@ function DndFlow({ children }: PropsWithChildren) {
     });
   }, []);
 
-  const handleDragMove = useCallback((event: DragMoveEvent) => {
-    const { active, delta } = event;
+  const handleDragMove = useCallback(
+    (event: DragMoveEvent) => {
+      const { active, delta } = event;
 
-    if (active) {
-      const id = active.id as string;
-      let movingNode = movingNodeRef.current;
+      if (active) {
+        const id = active.id as string;
+        let movingNode = movingNodeRef.current;
 
-      if (!movingNode) {
-        const nodes = useStudioFlowStore.getState().nodes;
-        const movingNodeIndex = nodes.findIndex((node) => node.id === id);
+        if (!movingNode) {
+          const nodes = useStudioFlowStore.getState().nodes;
+          const movingNodeIndex = nodes.findIndex((node) => node.id === id);
 
-        movingNode = movingNodeRef.current || nodes[movingNodeIndex];
+          movingNode = movingNodeRef.current || nodes[movingNodeIndex];
 
-        movingNodeRef.current = movingNode;
+          movingNodeRef.current = movingNode;
+        }
+
+        if (movingNode) {
+          movingNodeRef.current = movingNode;
+          const zoom = getZoom();
+          const transform = useStudioDndStore.getState().transform;
+
+          const x = transform?.x || 0;
+          const y = transform?.y || 0;
+
+          let normalizedX = x;
+          let normalizedY = y;
+
+          if (zoom < 1) {
+            normalizedX = (1 - zoom) * x - (zoom - 1) * x;
+            normalizedY = (1 - zoom) * y - (zoom - 1) * y;
+          } else if (zoom > 1) {
+            normalizedX = ((1 - zoom) * x) / zoom;
+            normalizedY = ((1 - zoom) * y) / zoom;
+          } else {
+            normalizedX = (1 - zoom) * x;
+            normalizedY = (1 - zoom) * y;
+          }
+
+          const newPosition: XYPosition = {
+            x: movingNode.position.x + delta.x + normalizedX,
+            y: movingNode.position.y + delta.y + normalizedY,
+          };
+
+          const updatedNode = applyNodeChanges(
+            [
+              {
+                id,
+                type: 'position',
+                position: newPosition,
+                positionAbsolute: newPosition,
+                dragging: true,
+              },
+            ],
+            [movingNode],
+          );
+
+          useStudioFlowStore.getState().updateNode(updatedNode[0]);
+        }
       }
-
-      if (movingNode) {
-        movingNodeRef.current = movingNode;
-
-        const newPosition: XYPosition = {
-          x: movingNode.position.x + delta.x,
-          y: movingNode.position.y + delta.y,
-        };
-
-        const updatedNode = applyNodeChanges(
-          [
-            {
-              id,
-              type: 'position',
-              position: newPosition,
-              positionAbsolute: newPosition,
-              dragging: true,
-            },
-          ],
-          [movingNode],
-        );
-
-        useStudioFlowStore.getState().updateNode(updatedNode[0]);
-      }
-    }
-  }, []);
+    },
+    [getZoom],
+  );
 
   const handleDragOver = useCallback((_event: DragOverEvent) => {
     if ((window as any)?.studioLogger) {
@@ -465,6 +490,16 @@ function DndFlow({ children }: PropsWithChildren) {
 
   const handleDragPending = useCallback((_event: DragPendingEvent) => {}, []);
 
+  const measuring = useMemo((): MeasuringConfiguration => {
+    return {
+      draggable: {
+        measure: (node) => {
+          return node.getBoundingClientRect();
+        },
+      },
+    };
+  }, []);
+
   return (
     <DndContext
       sensors={sensors}
@@ -476,6 +511,7 @@ function DndFlow({ children }: PropsWithChildren) {
       onDragCancel={handleDragCancel}
       onDragAbort={handleDragAbort}
       onDragPending={handleDragPending}
+      measuring={measuring}
     >
       {children}
     </DndContext>

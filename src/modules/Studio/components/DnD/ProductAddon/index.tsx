@@ -49,6 +49,7 @@ const ProductAddon = ({ id, data, disabled = false, children, draggingFloating, 
       disabled={disabled || disabledDrag}
       handleOnDrag={handleOnDrag}
       handleOnDrop={handleOnDrop}
+      data-draggable-type="product-addon"
     >
       {children}
     </Draggable>

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import ProductPlaceholder from '../../../DnD/ProductPlaceholder';
 import Product from '../../../DnD/Product';
+import ProductPlaceholder from '../../../DnD/ProductPlaceholder';
 import DraggingFloating from '../DraggingFloating';
 import LegoRender from '../LegoRender';
 import NodeBaseChild from '../NodeBaseChild';

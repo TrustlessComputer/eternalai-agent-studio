@@ -35,7 +35,7 @@ const Product = ({ id, data, disabled = false, children, draggingFloating, ...pr
     [extendedData, draggingFloating],
   );
 
-  const handleOnDrop = useCallback((_data: DraggableData) => {
+  const handleOnDrop = useCallback(() => {
     useStudioDndStore.getState().setDragging();
   }, []);
 
@@ -47,6 +47,7 @@ const Product = ({ id, data, disabled = false, children, draggingFloating, ...pr
       disabled={disabled || disabledDrag}
       handleOnDrag={handleOnDrag}
       handleOnDrop={handleOnDrop}
+      data-draggable-type="product"
     >
       {children}
     </Draggable>

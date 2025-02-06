@@ -18,6 +18,7 @@ const DragMask = () => {
       <div
         style={{
           transform: `scale(${zoom})`,
+          transformOrigin: 'top left',
         }}
       >
         {draggingElement}

@@ -6,7 +6,7 @@ type Store = {
   clear: () => void;
 };
 
-const useStudioStore = create<Store>((set, get) => ({
+const useStudioStore = create<Store>((set) => ({
   ...DEFAULT_VALUE,
 
   clear: () => set(DEFAULT_VALUE),

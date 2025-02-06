@@ -62,14 +62,20 @@ function Board() {
         key={JSON.stringify(currentView)}
         nodes={nodes}
         nodeTypes={DEFAULT_NODE_TYPES}
-        onNodesChange={onNodesChange}
+        onNodesChange={(changes) => {
+          if (changes.some((change) => change.type === 'remove')) {
+            return;
+          }
+
+          onNodesChange(changes);
+        }}
         edges={renderEdges}
         edgeTypes={DEFAULT_EDGE_TYPES}
         onEdgesChange={onEdgesChange}
         onViewportChange={setView}
         defaultViewport={currentView}
         edgesFocusable={false}
-        deleteKeyCode=""
+        deleteKeyCode="Backspace"
         fitViewOptions={{ padding: 1 }}
         connectionMode={ConnectionMode.Loose}
         zoomOnDoubleClick={false}

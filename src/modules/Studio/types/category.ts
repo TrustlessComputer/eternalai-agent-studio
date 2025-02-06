@@ -66,8 +66,10 @@ export type OnLinkPayload = OnStudioInteractPayload & OnFlowInteractPayload;
 export type OnSplitPayload = OnStudioInteractPayload & OnNodeInteractPayload;
 export type OnSnapPayload = OnStudioInteractPayload & OnNodeInteractPayload & OnFlowInteractPayload;
 export type OnMergePayload = OnStudioInteractPayload & OnNodeInteractPayload & OnFlowInteractPayload;
+export type OnUnlinkPayload = OnStudioInteractPayload & OnNodeInteractPayload & OnFlowInteractPayload;
 export type StudioCategoryDragDropFunction = {
   onLinkValidate?: (data: OnLinkPayload) => boolean; // Link an option to node
+  onUnlinkValidate?: (data: OnUnlinkPayload) => boolean; // Unlink an option from node
   onSnapValidate?: (data: OnSnapPayload) => boolean; // Snap a part of node to another node
   onSplitValidate?: (data: OnSplitPayload) => boolean; // Split items to a single node
   onMergeValidate?: (data: OnMergePayload) => boolean; // Snap a whole node to another node
@@ -103,6 +105,13 @@ export type StudioCategoryCustomizeRender = {
   customizeRenderOnSidebar?: (props: StudioCategory) => ReactNode;
 };
 
+export type StudioCategoryOptionCustomizeRender = {
+  fromOption?: StudioCategoryOption;
+  toOption?: StudioCategoryOption;
+  fromCategory?: StudioCategory;
+  toCategory?: StudioCategory;
+};
+
 export type StudioFormFieldValidate = (
   field: string,
   value: unknown,
@@ -126,6 +135,9 @@ export type StudioCategoryOption = BaseCategory &
     boxWrapper?: StudioCategoryBoxWrapperProps;
     multipleChoice?: boolean; // default true, this field apply for all
     zIndex?: number; // default 0, the element index ui on white board
+  } & {
+    type?: StudioCategoryType.LINK;
+    customizeRenderLabel?: (props: StudioCategoryOptionCustomizeRender) => ReactNode;
   };
 
 export type StudioCategory = Omit<BaseCategory, 'value' | 'data'> &

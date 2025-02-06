@@ -439,19 +439,8 @@ function DndFlow({ children }: PropsWithChildren) {
           const x = transform?.x || 0;
           const y = transform?.y || 0;
 
-          let normalizedX = x;
-          let normalizedY = y;
-
-          if (zoom < 1) {
-            normalizedX = (1 - zoom) * x - (zoom - 1) * x;
-            normalizedY = (1 - zoom) * y - (zoom - 1) * y;
-          } else if (zoom > 1) {
-            normalizedX = ((1 - zoom) * x) / zoom;
-            normalizedY = ((1 - zoom) * y) / zoom;
-          } else {
-            normalizedX = (1 - zoom) * x;
-            normalizedY = (1 - zoom) * y;
-          }
+          const normalizedX = ((1 - zoom) * x) / zoom;
+          const normalizedY = ((1 - zoom) * y) / zoom;
 
           const newPosition: XYPosition = {
             x: movingNode.position.x + delta.x + normalizedX,

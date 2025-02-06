@@ -161,3 +161,19 @@ export const createNodeData = (
     categoryIdx,
   } satisfies StudioDataNode;
 };
+
+export const getAllItemData = (data: StudioDataNode[]) => {
+  try {
+    const allData: FormDataMap[] = [];
+    data.forEach((item) => {
+      allData.push(item.data || {});
+      if (item.children.length) {
+        allData.push(...getAllItemData(item.children));
+      }
+    });
+
+    return allData;
+  } catch (e) {
+    return [];
+  }
+};

@@ -68,7 +68,9 @@ export const transformDataToNodes = (data: StudioDataNode[]) => {
       const childrenNode: StudioNode[] = [];
       if (item.children.length) {
         // for directly children
-        const directlyChildren = item.children.filter((child) => categoryOptionMap[child.idx].type === StudioCategoryType.INLINE);
+        const directlyChildren = item.children.filter(
+          (child) => (categoryOptionMap[child.idx].type as StudioCategoryType) === StudioCategoryType.INLINE,
+        );
 
         childrenNode.push(...transformDataToNodes(directlyChildren));
       }

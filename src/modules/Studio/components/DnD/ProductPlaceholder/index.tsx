@@ -36,7 +36,7 @@ const ProductPlaceholderComponent = ({ id, data, disabled, className, children, 
     }
 
     return isOver;
-  }, [active, isOver, id]);
+  }, [active?.id, isOver, id]);
 
   const isParent = useMemo(() => {
     const matchedData = useStudioDataStore.getState().data.find((item) => item.id === id);

@@ -148,6 +148,7 @@ function Publish({ onChange }: { onChange?: (graphData: GraphData) => void }) {
   const draggingData = useStudioDndStore((state) => state.draggingData);
 
   const isDragging = !!draggingData;
+  const viewportDelay = useThrottleValue(viewport, 500);
 
   useEffect(() => {
     onChangeRef.current = onChange;
@@ -158,11 +159,11 @@ function Publish({ onChange }: { onChange?: (graphData: GraphData) => void }) {
       if (onChangeRef.current) {
         onChangeRef.current({
           data,
-          viewport,
+          viewport: viewportDelay,
         } satisfies GraphData);
       }
     }
-  }, [data, viewport, isDragging]);
+  }, [data, viewportDelay, isDragging]);
 
   return <></>;
 }

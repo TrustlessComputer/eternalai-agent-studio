@@ -368,7 +368,7 @@ function DndFlow({ children }: PropsWithChildren) {
 
       // Move
       if (from === StudioZone.ZONE_PRODUCT_ADDON && !isTheSameNode && fromNode) {
-        if (!fromData.belongsTo || !fromNode || !toNode) return;
+        if (!fromData.belongsTo || !fromNode || !toNode || toOption.type === StudioCategoryType.LINK) return;
 
         const isValid =
           fromOption.onSnapValidate?.({

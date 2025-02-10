@@ -62,11 +62,16 @@ const NodeStacks = ({ data, ...rest }: Props) => {
   return (
     <NodeBaseWrapper data={data} id={data.id} option={option}>
       <div className="node-base">
-        <div
+        <NodeBaseWrapper
           style={{
             position: 'relative',
             width: 'fit-content',
+            padding: 0,
           }}
+          data={data}
+          id={data.id}
+          option={option}
+          isDroppable
         >
           <Product
             id={data.id}
@@ -90,8 +95,7 @@ const NodeStacks = ({ data, ...rest }: Props) => {
               render={option.customizeRenderOnBoard}
             />
           </Product>
-          {/* <ProductPlaceholder id={data.id} data={productData} hidden={isDraggingOver} /> */}
-        </div>
+        </NodeBaseWrapper>
 
         {isDraggingOver && <DraggingPlaceholder />}
 

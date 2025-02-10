@@ -9,9 +9,10 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   id: string;
   data: Omit<DraggableData, 'type'>;
   disabled?: boolean; // means the droppable do not accept any droppable
+  style?: React.CSSProperties;
 };
 
-const Package = ({ id, data, disabled, children, ...props }: Props) => {
+const Package = ({ id, data, disabled, children, style, ...props }: Props) => {
   const extendedData = useMemo(() => {
     return {
       ...data,
@@ -26,14 +27,7 @@ const Package = ({ id, data, disabled, children, ...props }: Props) => {
   });
 
   return (
-    <div
-      ref={setNodeRef}
-      id={`node-base-${data.belongsTo}`}
-      style={{
-        padding: '16px',
-      }}
-      {...props}
-    >
+    <div ref={setNodeRef} id={`node-base-${data.belongsTo}`} style={style} {...props}>
       {children}
     </div>
   );

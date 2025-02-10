@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   // closestCenter,
+  rectIntersection,
   DndContext,
   DragAbortEvent,
   DragCancelEvent,
@@ -14,7 +15,10 @@ import {
   pointerWithin,
   useSensor,
   useSensors,
+  Active,
 } from '@dnd-kit/core';
+import { DroppableContainer, RectMap } from '@dnd-kit/core/dist/store';
+import { Coordinates } from '@dnd-kit/core/dist/types';
 import { applyNodeChanges, useReactFlow, XYPosition } from '@xyflow/react';
 import { PropsWithChildren, useCallback, useMemo, useRef } from 'react';
 
@@ -558,10 +562,28 @@ function DndFlow({ children }: PropsWithChildren) {
     };
   }, []);
 
+  const collisionDetection = useCallback(
+    (args: {
+      active: Active;
+      collisionRect: ClientRect;
+      droppableRects: RectMap;
+      droppableContainers: DroppableContainer[];
+      pointerCoordinates: Coordinates | null;
+    }) => {
+      const pointers = pointerWithin(args);
+      if (pointers.length) {
+        return pointers;
+      }
+
+      return rectIntersection(args);
+    },
+    [],
+  );
+
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={pointerWithin}
+      collisionDetection={collisionDetection as any}
       onDragStart={handleDragStart}
       onDragMove={handleDragMove}
       onDragOver={handleDragOver}

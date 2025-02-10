@@ -10,6 +10,7 @@ function DraggingPlaceholder({ showDraggingFloating = false }: { showDraggingFlo
       <div
         style={{
           opacity: 0.2,
+          transition: 'all 200ms',
         }}
       >
         {showDraggingFloating ? (

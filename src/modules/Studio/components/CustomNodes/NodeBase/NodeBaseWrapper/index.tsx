@@ -16,9 +16,11 @@ type Props = {
   data: StudioInternalDataNode;
   children: React.ReactNode;
   option: StudioCategoryOption;
+  isDroppable?: boolean;
+  style?: React.CSSProperties;
 };
 
-function NodeBaseWrapper({ id, data, option, children }: Props) {
+function NodeBaseWrapper({ id, data, option, children, isDroppable = false, style }: Props) {
   // check if have linked children
   const linkedNodes = useStudioFlowStore((state) => state.linkedNodes);
   const isHaveLinkedChildren = useMemo(() => {
@@ -33,6 +35,13 @@ function NodeBaseWrapper({ id, data, option, children }: Props) {
       id: data.id,
     } satisfies Omit<DraggableData, 'type'>;
   }, [id, option.idx, data.id]);
+
+  const styles = useMemo(() => {
+    return {
+      padding: '16px',
+      ...style,
+    };
+  }, [style]);
 
   if (option?.boxWrapper) {
     if (option.boxWrapper.render) {
@@ -52,22 +61,43 @@ function NodeBaseWrapper({ id, data, option, children }: Props) {
     }
   }
 
-  if (isHaveLinkedChildren) {
+  if (isDroppable) {
+    if (isHaveLinkedChildren) {
+      return (
+        <Package
+          id={data.id}
+          data={extendedData}
+          className={cs('node-base-wrapper', { 'node-base-wrapper--linked': isHaveLinkedChildren })}
+          style={styles}
+        >
+          <div className="node-base-wrapper__content">{children}</div>
+        </Package>
+      );
+    }
+
     return (
-      <Package
-        id={data.id}
-        data={extendedData}
-        className={cs('node-base-wrapper', { 'node-base-wrapper--linked': isHaveLinkedChildren })}
-      >
-        <div className="node-base-wrapper__content">{children}</div>
+      <Package id={data.id} data={extendedData} className="node-base-wrapper" style={styles}>
+        {children}
       </Package>
     );
   }
 
+  if (isHaveLinkedChildren) {
+    return (
+      <div
+        id={data.id}
+        className={cs('node-base-wrapper', { 'node-base-wrapper--linked': isHaveLinkedChildren })}
+        style={styles}
+      >
+        <div className="node-base-wrapper__content">{children}</div>
+      </div>
+    );
+  }
+
   return (
-    <Package id={data.id} data={extendedData} className="node-base-wrapper">
+    <div id={data.id} className="node-base-wrapper" style={styles}>
       {children}
-    </Package>
+    </div>
   );
 }
 

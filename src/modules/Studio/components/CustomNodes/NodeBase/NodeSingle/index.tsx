@@ -43,7 +43,7 @@ const NodeSingle = ({ data }: Props) => {
   );
 
   return (
-    <NodeBaseWrapper data={data} id={data.id} option={option}>
+    <NodeBaseWrapper data={data} id={data.id} option={option} isDroppable>
       <div className="node-base">
         <div className="node-base__single">
           <Product id={data.id} data={productData}>

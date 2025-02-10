@@ -401,7 +401,10 @@ function DndFlow({ children }: PropsWithChildren) {
         fromOption?.type !== StudioCategoryType.LINK
       ) {
         if (!fromData.belongsTo || !fromNode || !toNode) return;
-        sortPartOfPackage(fromNode, Number(toData.childIndex) + 1, fromData.childIndex);
+        const moveTo = Number(toData.childIndex) + 1;
+        const fromTo = Number(fromData.childIndex);
+        if (moveTo >= fromTo) return;
+        sortPartOfPackage(fromNode, moveTo, fromTo);
         updateNodes([fromNode]);
 
         return;

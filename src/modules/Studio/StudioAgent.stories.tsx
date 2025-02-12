@@ -502,6 +502,7 @@ const args = {
           'tooltip': '',
           'icon': 'https://storage.googleapis.com/eternal-ai/agent-studio-v2/ic_abilities_post.svg',
           'type': 'link',
+          isLinkPackage: true,
         },
         {
           'idx': 'mission_on_x_reply',

@@ -24,15 +24,15 @@ const EdgeBase = ({ id, source, target, markerEnd, style }: EdgeProps) => {
 
   const fromIdx = fromNode?.data.metadata.idx || '';
   const fromOption: StudioCategoryOptionMapValue | undefined = categoryOptionMap[fromIdx];
-  const fromCategory = Object.values(categoryMap).find((category) =>
-    category.options.some((option) => option.idx === fromIdx),
-  );
+  const fromCategory = useMemo(() => {
+    return Object.values(categoryMap).find((category) => category.options.some((option) => option.idx === fromIdx));
+  }, [categoryMap, fromIdx]);
 
   const toIdx = toNode?.data.metadata.idx || '';
   const toOption: StudioCategoryOptionMapValue | undefined = categoryOptionMap[toIdx];
-  const toCategory = Object.values(categoryMap).find((category) =>
-    category.options.some((option) => option.idx === toIdx),
-  );
+  const toCategory = useMemo(() => {
+    return Object.values(categoryMap).find((category) => category.options.some((option) => option.idx === toIdx));
+  }, [categoryMap, toIdx]);
 
   const { isSelected } = useEdgeSelected({ id });
 

@@ -7,6 +7,7 @@ import NodeBaseConnection from '../NodeBaseConnection';
 import NodeBaseWrapper from '../NodeBaseWrapper';
 import { NodeBaseProps } from '../types';
 
+import { StudioCategoryType } from '@/modules/Studio/enums';
 import useNodeSelected from '@/modules/Studio/hooks/useNodeSelected';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import { StudioCategoryOptionMapValue } from '@/modules/Studio/types/category';
@@ -24,7 +25,10 @@ const NodeSingle = ({ data }: Props) => {
 
   const idx = data.metadata.idx;
   const option: StudioCategoryOptionMapValue | undefined = categoryOptionMap[idx];
-  const category = Object.values(categoryMap).find((category) => category.options.some((option) => option.idx === idx));
+  const category = useMemo(() => {
+    return Object.values(categoryMap).find((category) => category.options.some((option) => option.idx === idx));
+  }, [categoryMap, idx]);
+
   const schemaData = option?.data;
 
   const productData: Omit<DraggableData, 'type'> = useMemo(
@@ -59,7 +63,11 @@ const NodeSingle = ({ data }: Props) => {
           </Product>
         </div>
 
-        <ProductPlaceholder id={data.id} data={productData} hidden={false} />
+        {((option.isLinkPackage && option.type === StudioCategoryType.LINK) ||
+          option.type !== StudioCategoryType.LINK) && (
+          <ProductPlaceholder id={data.id} data={productData} hidden={false} />
+        )}
+
         <NodeBaseConnection />
       </div>
     </NodeBaseWrapper>

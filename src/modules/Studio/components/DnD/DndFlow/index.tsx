@@ -186,7 +186,7 @@ function DndFlow({ children }: PropsWithChildren) {
         from === StudioZone.ZONE_PRODUCT_ADDON &&
         !isTheSameNode &&
         fromNode &&
-        fromOption?.type !== StudioCategoryType.LINK
+        (fromOption?.type !== StudioCategoryType.LINK || fromOption?.isLinkPackage)
       ) {
         if (!fromData.belongsTo) return;
 
@@ -264,8 +264,8 @@ function DndFlow({ children }: PropsWithChildren) {
       // Add
       if (
         from === StudioZone.ZONE_SOURCE &&
-        fromOption?.type !== StudioCategoryType.LINK &&
-        toOption?.type !== StudioCategoryType.LINK
+        (fromOption?.type !== StudioCategoryType.LINK || fromOption?.isLinkPackage) &&
+        (toOption?.type !== StudioCategoryType.LINK || toOption?.isLinkPackage)
       ) {
         const isValid =
           fromOption?.onAddValidate?.({
@@ -297,8 +297,8 @@ function DndFlow({ children }: PropsWithChildren) {
       if (
         from === StudioZone.ZONE_PRODUCT &&
         !isTheSameNode &&
-        toOption?.type !== StudioCategoryType.LINK &&
-        fromOption?.type !== StudioCategoryType.LINK
+        (toOption?.type !== StudioCategoryType.LINK || toOption?.isLinkPackage) &&
+        (fromOption?.type !== StudioCategoryType.LINK || fromOption?.isLinkPackage)
       ) {
         if (!fromData.belongsTo || !fromNode || !toNode) return;
 

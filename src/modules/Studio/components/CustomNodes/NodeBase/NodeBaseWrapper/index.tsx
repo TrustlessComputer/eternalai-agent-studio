@@ -5,6 +5,7 @@ import TextRender from '../../../Render/TextRender';
 import './NodeBaseWrapper.scss';
 
 import Package from '@/modules/Studio/components/DnD/Package';
+import { StudioCategoryType } from '@/modules/Studio/enums';
 import useStudioCategoryStore from '@/modules/Studio/stores/useStudioCategoryStore';
 import useStudioFlowStore from '@/modules/Studio/stores/useStudioFlowStore';
 import { StudioInternalDataNode } from '@/modules/Studio/types';
@@ -23,22 +24,24 @@ type Props = {
 function NodeBaseWrapper({ id, data, option, children, isDroppable = false, style }: Props) {
   // check if have linked children
   const linkedNodes = useStudioFlowStore((state) => state.linkedNodes);
+
+  const childrenLength = data?.metadata?.children?.length || 0;
   const isHaveLinkedChildren = useMemo(() => {
-    return !!data?.metadata?.children?.length && linkedNodes[id]?.length > 0;
-  }, [linkedNodes, id, data?.metadata?.children?.length]);
+    return !!childrenLength && linkedNodes[id]?.length > 0;
+  }, [linkedNodes, id, childrenLength]);
 
   const extendedData = useMemo(() => {
     return {
       belongsTo: id,
       optionKey: option.idx,
-      categoryKey: useStudioCategoryStore.getState().findCategoryByOptionKey(option.idx)?.idx,
+      categoryKey: useStudioCategoryStore.getState().categoryOptionMap[option.idx].parent?.idx,
       id: data.id,
     } satisfies Omit<DraggableData, 'type'>;
   }, [id, option.idx, data.id]);
 
   const styles = useMemo(() => {
     return {
-      padding: '16px',
+      padding: '12px',
       ...style,
     };
   }, [style]);
@@ -64,12 +67,7 @@ function NodeBaseWrapper({ id, data, option, children, isDroppable = false, styl
   if (isDroppable) {
     if (isHaveLinkedChildren) {
       return (
-        <Package
-          id={data.id}
-          data={extendedData}
-          className={cs('node-base-wrapper', { 'node-base-wrapper--linked': isHaveLinkedChildren })}
-          style={styles}
-        >
+        <Package id={data.id} data={extendedData} className={cs('node-base-wrapper')} style={styles}>
           <div className="node-base-wrapper__content">{children}</div>
         </Package>
       );
@@ -86,7 +84,10 @@ function NodeBaseWrapper({ id, data, option, children, isDroppable = false, styl
     return (
       <div
         id={data.id}
-        className={cs('node-base-wrapper', { 'node-base-wrapper--linked': isHaveLinkedChildren })}
+        className={cs('node-base-wrapper', {
+          'node-base-wrapper--linked':
+            isHaveLinkedChildren || (option.type === StudioCategoryType.LINK && childrenLength),
+        })}
         style={styles}
       >
         <div className="node-base-wrapper__content">{children}</div>

@@ -32,8 +32,6 @@ type Store = {
   usedKeyCollection: Record<string, string>;
   setUsedKeyCollection: (collection: Record<string, string>) => void;
 
-  findCategoryByOptionKey: (optionKey: string) => StudioCategory | null;
-
   clear: () => void;
   scanFromData: (data: StudioDataNode[]) => void;
 };
@@ -102,6 +100,7 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
               order: option.order ?? Number.MAX_SAFE_INTEGER,
               type: option.type ?? DEFAULT_CATEGORY_TYPE,
               multipleChoice: option.multipleChoice ?? true,
+              isLinkPackage: option.isLinkPackage ?? false,
               onLinkValidate: option.onLinkValidate || item.onLinkValidate,
               onSnapValidate: option.onSnapValidate || item.onSnapValidate,
               onSplitValidate: option.onSplitValidate || item.onSplitValidate,
@@ -225,12 +224,6 @@ const useStudioCategoryStore = create<Store>((set, get) => ({
     // set({ usedKeyCollection: { ...usedKeyCollection, ...collection } });
     // const { usedKeyCollection } = get();
     set({ usedKeyCollection: collection });
-  },
-
-  findCategoryByOptionKey: (optionKey: string) => {
-    const { categoryOptionMap } = get();
-
-    return categoryOptionMap[optionKey]?.parent;
   },
 
   clear: () => set(DEFAULT_VALUE),

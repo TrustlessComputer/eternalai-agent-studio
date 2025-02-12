@@ -138,6 +138,8 @@ export type StudioCategoryOption = BaseCategory &
   } & {
     type?: StudioCategoryType.LINK;
     customizeRenderLabel?: (props: StudioCategoryOptionCustomizeRender) => ReactNode;
+  } & {
+    isLinkPackage?: boolean; // apply for link package // default false
   };
 
 export type StudioCategory = Omit<BaseCategory, 'value' | 'data'> &

@@ -31,7 +31,9 @@ const NodeStacks = ({ data, ...rest }: Props) => {
 
   const idx = data.metadata.idx;
   const option: StudioCategoryOption | undefined = categoryOptionMap[idx];
-  const category = Object.values(categoryMap).find((category) => category.options.some((option) => option.idx === idx));
+  const category = useMemo(() => {
+    return Object.values(categoryMap).find((category) => category.options.some((option) => option.idx === idx));
+  }, [categoryMap, idx]);
   const schemaData = option?.data;
 
   const productData: Omit<DraggableData, 'type'> = useMemo(
